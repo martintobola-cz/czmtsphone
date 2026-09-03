@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cz.mts.base.views.MyTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/breadcrumb_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/breadcrumb_button_background"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/breadcrumbs_layout_height"
+    android:paddingVertical="@dimen/medium_margin"
+    android:paddingStart="0dp"
+    android:paddingEnd="@dimen/tiny_margin"
+    android:textSize="@dimen/normal_text_size"
+    tools:drawableStart="@drawable/ic_chevron_right_vector"
+    tools:text="1234567" />

@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+ <string name="callfilter_info">显示未知号码的评分（使用 callfilter.app、cz.mts.callfilter）</string>
+    <string name="more_info">更多信息</string>
+    <string name="tmobile_theme">T-Mobile</string>
+    <string name="kaktus_theme">Kaktus</string>
+    <string name="use_custom_sim_color">自定义 SIM 卡颜色</string>
+    <string name="customization_sim1_color_label">SIM1 颜色</string>
+    <string name="customization_sim2_color_label">SIM2 颜色</string>
+    <string name="use_dayofweek_in_time_format">显示星期</string>
+    <string name="invalid_target_for_import">请只选择一个目标（或不选择以新建自定义）！</string>
+    <string name="invalid_name_or_type">无效的姓名或类型！</string>
+    <string name="view_all_call_history">查看所有通话记录</string>
+    <string name="search_all_fields">搜索所有字段</string>
+    <string name="other">其他</string>
+    <string name="about">关于本应用</string>
+    <string name="customization_navbar_color_label">导航栏颜色</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="close">关闭</string>
+    <string name="back">返回</string>
+    <plurals name="files_saved">
+        <item quantity="other">文件保存成功‌</item>
+    </plurals>
+    <string name="invalid_file_format">无效的文件格式</string>
+    <string name="error">错误：%s</string>
+    <string name="no_app_found">没有找到有效应用</string>
+    <string name="copy_number_to_clipboard">复制号码到剪贴板</string>
+    <string name="value_copied_to_clipboard_show">数值已复制到剪贴板： \n%s</string>
+    <string name="unknown">未知</string>
+    <string name="previous">上一个</string>
+    <string name="next">下一个</string>
+    <string name="number">号码</string>
+    <string name="no_contacts_found">没有发现联系人</string>
+    <string name="zero">零</string>
+    <string name="one">一</string>
+    <string name="two">二</string>
+    <string name="three">三</string>
+    <string name="four">四</string>
+    <string name="five">五</string>
+    <string name="six">六</string>
+    <string name="seven">七</string>
+    <string name="eight">八</string>
+    <string name="nine">九</string>
+    <string name="value">数值</string>
+    <string name="create_new_contact">新建联系人</string>
+    <string name="disclaimer">免责声明</string>
+    <string name="choose_contact">选择联系人</string>
+    <string name="record_audio">录音</string>
+    <string name="record_video">录像</string>
+    <string name="phone_storage">手机存储</string>
+    <string name="phone_storage_hidden">手机存储空间 (其他程序不可访问)</string>
+    <string name="home">家庭</string>
+    <string name="work">工作</string>
+    <string name="mobile">手机</string>
+    <string name="main_number">主要</string>
+    <string name="work_fax">工作传真</string>
+    <string name="home_fax">家庭传真</string>
+    <string name="pager">传呼机</string>
+    <string name="change_view_type">更改视图类型</string>
+    <string name="grid">网格</string>
+    <string name="list">列表</string>
+    <string name="column_count">列数</string>
+    <plurals name="column_counts">
+        <item quantity="other">%d 列</item>
+    </plurals>
+    <plurals name="row_counts">
+        <item quantity="other">%d 行</item>
+    </plurals>
+    <string name="manage_blocked_numbers">⛔ 管理黑名单</string>
+    <string name="not_blocking_anyone">黑名单为空。</string>
+    <string name="add_a_blocked_number">添加号码到黑名单</string>
+    <string name="block_number">加入黑名单</string>
+    <string name="blocked_numbers">黑名单</string>
+    <string name="export_blocked_numbers">导出黑名单号码</string>
+    <string name="import_blocked_numbers">导入黑名单号码</string>
+    <string name="must_make_default_dialer">您必须将本应用设为默认的拨号程序来使用黑名单。</string>
+    <string name="set_as_default">设为默认</string>
+    <string name="block_confirmation">您确定要将“%s”添加到黑名单吗？</string>
+    <string name="block_unknown_calls">拦截来自未存储联系人的来电</string>
+    <string name="block_hidden_calls">拦截来自隐藏号码的电话</string>
+    <string name="block_unknown_messages">拦截来自未存储联系人的短信</string>
+    <string name="block_hidden_messages">拦截来自隐藏号码的短信</string>
+    <string name="add_blocked_number_helper_text">输入号码或者模式 (例如 *12345*、+1*8888) 以阻止来自匹配模式的号码的所有来电和短信。</string>
+    <string name="must_make_default_caller_id_app">要拦截未知号码，你必须将本应用设为默认的来电显示和骚扰电话屏蔽应用。</string>
+    <string name="block_contact">拦截联系人</string>
+    <string name="block_contact_success">已拦截联系人</string>
+    <string name="block_contact_fail">无法拦截联系人</string>
+    <string name="unblock_contact">取消拦截联系人</string>
+    <string name="unblock_contact_success">已取消拦截联系人</string>
+    <string name="unblock_contact_fail">无法取消拦截联系人</string>
+    <string name="favorites">收藏</string>
+    <string name="search">搜索</string>
+    <string name="search_contacts">搜索联系人</string>
+    <string name="filter">联系人来源</string>
+    <string name="no_items_found">没有找到任何项目。</string>
+    <string name="allow_notifications_incoming_calls">你必须允许应用展示通知，否则它无法显示来电。</string>
+    <string name="allow_full_screen_notifications_incoming_calls">你必须允许应用展示全屏通知，否则你可能错失某些来电。</string>
+    <string name="grant_permission">授予权限</string>
+    <string name="permission_required">需要权限</string>
+    <string name="filename_cannot_be_empty">文件名不能为空</string>
+    <string name="filename_invalid_characters">文件名包含无效字符</string>
+    <string name="prepend_filenames">文件名前添加文本</string>
+    <string name="append_filenames">文件名后添加文本</string>
+    <string name="simple_renaming">简单重命名</string>
+    <string name="pattern_renaming">格式</string>
+    <string name="string_to_add">要添加的文本</string>
+    <string name="rename_date_time_pattern">%Y - 年 \n%M - 月 \n%D - 日 \n%h - 时 \n%m - 分 \n%s - 秒 \n%i - 数字从 1 起计</string>
+    <string name="filename_without_txt">文件名 (不含 .txt)</string>
+    <string name="filename_without_json">文件名（不含扩展名）</string>
+    <string name="copy">复制</string>
+    <string name="please_select_destination">请选择目标</string>
+    <string name="could_not_create_folder">创建文件夹 %s 失败</string>
+    <string name="could_not_create_file">创建文件 %s 失败</string>
+    <string name="system_service_disabled">选择文件和文件夹的系统服务不可用</string>
+    <string name="folder">文件夹</string>
+    <string name="create_new_folder">新建文件夹</string>
+    <string name="name_taken">已存在同名文件夹或者文件</string>
+    <string name="invalid_name">名称包含无效字符</string>
+    <string name="empty_name">请输入名称</string>
+    <string name="unknown_error_occurred">发生不明错误</string>
+    <string name="file_already_exists">文件“%s”已存在</string>
+    <string name="file_already_exists_overwrite">文件“%s”已存在。是否覆盖？</string>
+    <string name="folder_already_exists">文件夹“%s”已存在</string>
+    <string name="merge">合并</string>
+    <string name="keep_both">同时保留两者</string>
+    <string name="overwrite">覆盖</string>
+    <string name="skip">跳过</string>
+    <string name="apply_to_all">应用到全部</string>
+    <string name="system_folder_restriction">系统不允许在此文件夹中进行此操作，请另选一个文件夹</string>
+    <string name="select_folder">选择文件夹</string>
+    <string name="select_file">选择文件</string>
+    <string name="confirm_storage_access_title">确认外部存储器访问权限</string>
+    <string name="confirm_folder_access_title">确认文件夹访问</string>
+    <string name="confirm_storage_access_text">请选择 SD 卡根目录并授予写入权限</string>
+    <string name="confirm_storage_access_text_sd">如果您没有找到 SD 卡目录，请尝试</string>
+    <string name="loading">正在加载…</string>
+    <plurals name="items">
+        <item quantity="other">%d 项</item>
+    </plurals>
+    <plurals name="delete_items">
+        <item quantity="other">%d 项</item>
+    </plurals>
+    <plurals name="deleting_items">
+        <item quantity="other">正在删除 %d 项</item>
+    </plurals>
+    <plurals name="delete_contacts">
+        <item quantity="other">%d 个联系人</item>
+    </plurals>
+    <string name="select_storage">选择存储器</string>
+    <string name="internal">内部存储器</string>
+    <string name="sd_card">SD 卡</string>
+    <string name="root">根目录</string>
+    <string name="wrong_root_selected">选择了错误的文件夹，请选择 SD 卡的主文件夹</string>
+    <string name="sd_card_usb_same">SD 卡和 USB 设备的路径不能相同</string>
+    <string name="wrong_folder_selected">选择了错误的文件夹，请选择路径“%s”</string>
+    <string name="path">路径</string>
+    <string name="background_color">背景色</string>
+    <string name="text_color">文字颜色</string>
+    <string name="primary_color">主色调</string>
+    <string name="accent_color_white">白色主题的重点色</string>
+    <string name="accent_color_black_and_white">黑/白色主题的重点色</string>
+    <string name="app_icon_color">应用图标颜色</string>
+    <string name="default_color">默认</string>
+    <string name="theme">主题</string>
+    <string name="changing_color_description">此处只能更改应用图标颜色，其他颜色更改将切换主题为自定义。</string>
+    <string name="save">保存</string>
+    <string name="discard">丢弃</string>
+    <string name="cannot_be_undone">此操作无法撤销。</string>
+    <string name="save_before_closing">您尚未保存更改，是否保存？</string>
+    <string name="app_icon_color_warning">注意：某些启动器无法正确处理自定义的应用图标。如图标消失，请尝试通过 Google Play 商店或者微件启动对应的应用。启动后请还原为默认的绿色图标色 #106D1F。在某些情形下你可能要重新安装应用。</string>
+    <string name="light_theme">浅色主题</string>
+    <string name="dark_theme">深色主题</string>
+    <string name="auto_light_dark_theme">自动切换浅色/深色主题</string>
+    <string name="dark_red">深红色</string>
+    <string name="white">白色</string>
+    <string name="black_white">黑白两色</string>
+    <string name="custom">自定义</string>
+    <string name="system_default">安卓系统</string>
+    <string name="whats_new_disclaimer">* 此处仅列举了重要的更新内容，更多改进请在使用中体验</string>
+    <string name="delete">删除</string>
+    <string name="remove">移除</string>
+    <string name="select_all">全选</string>
+    <string name="create_shortcut">创建快捷方式</string>
+    <string name="add_number_to_contact">将号码添加到联系人</string>
+    <string name="view_contact_details">查看联系人详情</string>
+    <string name="call_from_sim_1">使用 SIM 1 拨出</string>
+    <string name="call_from_sim_2">使用 SIM 2 拨出</string>
+    <string name="send_sms">发送短信</string>
+    <string name="call">通话</string>
+    <string name="unblock">取消屏蔽</string>
+    <string name="sort_by">排序方式</string>
+    <string name="date_created">创建日期</string>
+    <string name="date_taken">拍摄日期</string>
+    <string name="title">标题</string>
+    <string name="extension">扩展名</string>
+    <string name="ascending">升序</string>
+    <string name="descending">降序</string>
+    <string name="first_name">名字</string>
+    <string name="middle_name">中间名</string>
+    <string name="surname">姓氏</string>
+    <string name="full_name">全名</string>
+    <string name="more_options">更多选项</string>
+    <string name="proceed_with_deletion">您确定要继续删除吗？</string>
+    <string name="deletion_confirmation">您确定要删除 %s 吗？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <plurals name="delete_warning">
+        <item quantity="other">警告：您正在删除 %d 个文件夹</item>
+    </plurals>
+    <string name="pin">PIN 码</string>
+    <string name="pattern">图案</string>
+    <string name="go_to_settings">前往设置</string>
+    <string name="lock_folder_notice">此保护仅在本应用中有效，它不能取代真正的系统级文件夹加密。</string>
+    <string name="enter_password">请输入密码</string>
+    <string name="password">密码</string>
+    <string name="empty_password">请输入密码</string>
+    <string name="yesterday">昨天</string>
+    <string name="today">今天</string>
+    <string name="seconds_raw">秒</string>
+    <string name="minutes_raw">分钟</string>
+    <string name="hours_raw">小时</string>
+    <string name="days_raw">天</string>
+    <string name="seconds_letter">%d秒</string>
+    <string name="minutes_letter">%d分钟</string>
+    <string name="hours_letter">%d小时</string>
+    <string name="days_letter">%d天</string>
+    <plurals name="seconds">
+        <item quantity="other">%d 秒</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="other">%d 周</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="other">%d 个月</item>
+    </plurals>
+    <plurals name="years">
+        <item quantity="other">%d 年</item>
+    </plurals>
+    <plurals name="in_seconds">
+        <item quantity="other">%d 秒</item>
+    </plurals>
+    <plurals name="in_minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <plurals name="in_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="in_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="in_weeks">
+        <item quantity="other">%d 周</item>
+    </plurals>
+    <plurals name="in_months">
+        <item quantity="other">%d 个月</item>
+    </plurals>
+    <plurals name="in_years">
+        <item quantity="other">%d 年</item>
+    </plurals>
+    <plurals name="seconds_before">
+        <item quantity="other">%d 秒前</item>
+    </plurals>
+    <plurals name="minutes_before">
+        <item quantity="other">%d 分钟前</item>
+    </plurals>
+    <plurals name="hours_before">
+        <item quantity="other">%d 小时前</item>
+    </plurals>
+    <plurals name="days_before">
+        <item quantity="other">%d 天前</item>
+    </plurals>
+    <plurals name="weeks_before">
+        <item quantity="other">%d 周前</item>
+    </plurals>
+    <plurals name="months_before">
+        <item quantity="other">%d 个月前</item>
+    </plurals>
+    <plurals name="years_before">
+        <item quantity="other">%d 年前</item>
+    </plurals>
+    <plurals name="by_seconds">
+        <item quantity="other">%d 秒</item>
+    </plurals>
+    <plurals name="by_minutes">
+        <item quantity="other">%d 分钟</item>
+    </plurals>
+    <plurals name="by_hours">
+        <item quantity="other">%d 小时</item>
+    </plurals>
+    <plurals name="by_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="by_weeks">
+        <item quantity="other">%d 周</item>
+    </plurals>
+    <plurals name="by_months">
+        <item quantity="other">%d 个月</item>
+    </plurals>
+    <plurals name="by_years">
+        <item quantity="other">%d 年</item>
+    </plurals>
+    <string name="system_sounds">系统声音</string>
+    <string name="your_sounds">自定义声音</string>
+    <string name="settings">设置</string>
+    <string name="general_settings">常规</string>
+    <string name="color_customization">颜色自定义</string>
+    <string name="customize_colors">🎨 自定义颜色</string>
+    <string name="theme_and_colors">主题和颜色</string>
+    <string name="feature_locked">已锁定</string>
+    <string name="use_english_language">使用英语显示</string>
+    <string name="language">🗣️ 语言</string>
+    <string name="font_size">🅰️ 字体大小</string>
+    <string name="small">小</string>
+    <string name="medium">中</string>
+    <string name="large">大</string>
+    <string name="extra_large">超大</string>
+    <string name="use_24_hour_time_format">使用 24 小时制</string>
+    <string name="change_date_and_time_format">🕒 更改日期和时间格式</string>
+    <string name="export_settings">导出设置</string>
+    <string name="settings_exported_successfully">设置导出成功</string>
+    <string name="start_name_with_surname">姓氏在前</string>
+    <string name="show_call_confirmation_dialog">开始通话前显示通话确认框</string>
+    <string name="format_phone_numbers">调整电话号码格式</string>
+    <string name="show_only_contacts_with_numbers">仅显示有号码的联系人</string>
+    <string name="startup">启动</string>
+    <string name="migrating">迁移 📦</string>
+    <string name="manage_shown_tabs">🗂️ 管理显示的标签页</string>
+    <string name="default_tab_to_open">应用启动时打开的标签页</string>
+    <string name="contacts_tab">联系人</string>
+    <string name="favorites_tab">收藏</string>
+    <string name="call_history_tab">通话记录</string>
+    <string name="last_used_tab">上次使用的项目</string>
+    <plurals name="moving_items_into_bin">
+        <item quantity="other">正在将 %d 项移入回收站</item>
+    </plurals>
+    <string name="importing">正在导入…</string>
+    <string name="exporting">正在导出…</string>
+    <string name="importing_successful">导入成功</string>
+    <string name="exporting_successful">导出成功</string>
+    <string name="exporting_failed">导出失败</string>
+    <string name="no_entries_for_importing">没有找到要导入的条目</string>
+    <string name="no_entries_for_exporting">没有找到要导出的条目</string>
+    <string name="usb">USB</string>
+    <string name="confirm_usb_storage_access_text">请在下一个画面选择 USB 设备的根文件夹以授予访问权限</string>
+    <string name="wrong_root_selected_usb">选择了错误的文件夹，请选择该 USB 设备的根文件夹</string>
+    <string name="translation_english">英语</string>
+</resources>

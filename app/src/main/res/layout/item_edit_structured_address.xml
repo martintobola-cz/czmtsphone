@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_structured_address_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/activity_margin">
+
+    <!-- Tlačítko smazání celé adresy – zcela vpravo v horním řádku -->
+    <ImageView
+        android:id="@+id/contact_address_remove"
+    android:layout_width="22dp"
+    android:layout_height="22dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/contact_street"
+        android:layout_alignBottom="@+id/contact_street"
+        android:layout_marginStart="@dimen/small_margin"
+ android:padding="4dp"
+        app:srcCompat="@drawable/ic_minus_vector" />
+
+    <!-- Typ adresy – vlevo od tlačítka smazání -->
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/contact_structured_address_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/contact_street"
+        android:layout_alignBottom="@+id/contact_street"
+        android:layout_toStartOf="@+id/contact_address_remove"
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:text="@string/address"
+        android:textSize="@dimen/bigger_text_size" />
+
+    <!-- Ulice – vyplní zbytek do levého okraje type pickeru -->
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_street"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/contact_structured_address_type"
+        android:hint="@string/street"
+        android:inputType="textCapWords"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+    <!-- Čtvrť a P.O. Box -->
+    <LinearLayout
+        android:id="@+id/contact_neighborhood_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contact_street"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <cz.mts.base.views.MyEditText
+            android:id="@+id/contact_neighborhood"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/neighborhood"
+            android:inputType="textCapWords"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size" />
+
+        <cz.mts.base.views.MyEditText
+            android:id="@+id/contact_pobox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/pobox"
+            android:inputType="textCapWords"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size" />
+    </LinearLayout>
+
+    <!-- PSČ a Město -->
+    <LinearLayout
+        android:id="@+id/contact_city_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_neighborhood_holder"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <cz.mts.base.views.MyEditText
+            android:id="@+id/contact_postcode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/postcode"
+            android:inputType="textCapWords"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size" />
+
+        <cz.mts.base.views.MyEditText
+            android:id="@+id/contact_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/city"
+            android:inputType="textCapWords"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size" />
+    </LinearLayout>
+
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_region"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contact_city_holder"
+        android:hint="@string/region"
+        android:inputType="textCapWords"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contact_region"
+        android:hint="@string/country"
+        android:inputType="textCapWords"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+</RelativeLayout>

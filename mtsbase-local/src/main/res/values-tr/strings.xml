@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <string name="callfilter_info">Bilinmeyen numaralar için derecelendirmeleri göster (callfilter.app, cz.mts.callfilter kullanarak)</string>
+    <string name="more_info">Daha fazla bilgi</string>
+    <string name="tmobile_theme">T-Mobile</string>
+    <string name="kaktus_theme">Kaktus</string>
+    <string name="use_custom_sim_color">Özel SIM rengi</string>
+    <string name="customization_sim1_color_label">SIM1 rengi</string>
+    <string name="customization_sim2_color_label">SIM2 rengi</string>
+    <string name="use_dayofweek_in_time_format">Haftanın gününü görüntüle</string>
+    <string name="invalid_target_for_import">Yalnızca bir hedef seçin (veya özel oluşturmak için hiçbirini seçmeyin)!</string>
+    <string name="invalid_name_or_type">Geçersiz ad veya tür!</string>
+    <string name="view_all_call_history">Tüm geçmişi görüntüle</string>
+    <string name="search_all_fields">Tüm alanlarda ara</string>
+    <string name="other">Diğer</string>
+    <string name="about">Uygulama hakkında</string>
+    <string name="customization_navbar_color_label">Gezinme çubuğu rengi</string>
+    <string name="ok">Tamam</string>
+    <string name="cancel">İptal</string>
+    <string name="close">Kapat</string>
+    <string name="back">Geri</string>
+    <plurals name="files_saved">
+        <item quantity="one">Dosya başarıyla kaydedildi</item>
+        <item quantity="other">Dosyalar başarıyla kaydedildi</item>
+    </plurals>
+    <string name="invalid_file_format">Geçersiz dosya biçimi</string>
+    <string name="error">Hata: %s</string>
+    <string name="no_app_found">Geçerli bir uygulama bulunamadı</string>
+    <string name="copy_number_to_clipboard">Numarayı panoya kopyala</string>
+    <string name="value_copied_to_clipboard_show">Değer panoya kopyalandı:\n%s</string>
+    <string name="unknown">Bilinmeyen Çağrı</string>
+    <string name="previous">Önceki</string>
+    <string name="next">Sonraki</string>
+    <string name="number">Numara</string>
+    <string name="no_contacts_found">Kişi bulunamadı</string>
+    <string name="zero">Sıfır</string>
+    <string name="one">Bir</string>
+    <string name="two">İki</string>
+    <string name="three">Üç</string>
+    <string name="four">Dört</string>
+    <string name="five">Beş</string>
+    <string name="six">Altı</string>
+    <string name="seven">Yedi</string>
+    <string name="eight">Sekiz</string>
+    <string name="nine">Dokuz</string>
+    <string name="value">Değer</string>
+    <string name="create_new_contact">Yeni kişi oluştur</string>
+    <string name="disclaimer">Sorumluluk Reddi</string>
+    <string name="choose_contact">Kişi seç</string>
+    <string name="record_audio">Ses kaydet</string>
+    <string name="record_video">Video kaydet</string>
+    <string name="phone_storage">Telefon belleği</string>
+    <string name="phone_storage_hidden">Telefon belleği (diğer uygulamalar tarafından görülmez)</string>
+    <string name="home">Ev</string>
+    <string name="work">İş</string>
+    <string name="mobile">Cep</string>
+    <string name="main_number">Ana</string>
+    <string name="work_fax">İş Faksı</string>
+    <string name="home_fax">Ev Faksı</string>
+    <string name="pager">Çağrı Cihazı</string>
+    <string name="change_view_type">Görünüm türünü değiştir</string>
+    <string name="grid">Izgara</string>
+    <string name="list">Liste</string>
+    <string name="column_count">Sütun sayısı</string>
+    <plurals name="column_counts">
+        <item quantity="one">%d sütun</item>
+        <item quantity="other">%d sütun</item>
+    </plurals>
+    <plurals name="row_counts">
+        <item quantity="one">%d satır</item>
+        <item quantity="other">%d satır</item>
+    </plurals>
+    <string name="manage_blocked_numbers">⛔ Engellenen numaraları yönet</string>
+    <string name="not_blocking_anyone">Kimseyi engellemiyorsun.</string>
+    <string name="add_a_blocked_number">Engellenen numara ekle</string>
+    <string name="block_number">Numarayı engelle</string>
+    <string name="blocked_numbers">Engellenen numaralar</string>
+    <string name="export_blocked_numbers">Engellenen numaraları dışa aktar</string>
+    <string name="import_blocked_numbers">Engellenen numaraları içe aktar</string>
+    <string name="must_make_default_dialer">Engellenen numaraları kullanmak için bu uygulamayı öntanımlı çevirici uygulaması yapmalısınız.</string>
+    <string name="set_as_default">Öntanımlı olarak ayarla</string>
+    <string name="block_confirmation">\"%s\" gerçekten engellensin mi?</string>
+    <string name="block_unknown_calls">Kayıtlı olmayan kişilerden gelen aramaları engelle</string>
+    <string name="block_hidden_calls">Gizli numaralardan gelen aramaları engelle</string>
+    <string name="block_unknown_messages">Kayıtlı olmayan kişilerden gelen mesajları engelle</string>
+    <string name="block_hidden_messages">Gizli numaralardan gelen mesajları engelle</string>
+    <string name="add_blocked_number_helper_text">Eşleşen numaralardan gelen tüm aramaları ve mesajları engellemek için bir numara veya desen (örn. *12345*, +1*8888) girin.</string>
+    <string name="must_make_default_caller_id_app">Arayan kimliği izni olmadan bilinmeyen numaralar engellenemiyor.</string>
+    <string name="block_contact">Kişiyi engelle</string>
+    <string name="block_contact_success">Kişi engellendi</string>
+    <string name="block_contact_fail">Kişi engellenemedi</string>
+    <string name="unblock_contact">Kişinin engelini kaldır</string>
+    <string name="unblock_contact_success">Kişinin engeli kaldırıldı</string>
+    <string name="unblock_contact_fail">Kişinin engeli kaldırılamadı</string>
+    <string name="favorites">Favoriler</string>
+    <string name="search">Ara</string>
+    <string name="search_contacts">Kişileri ara</string>
+    <string name="filter">Kişi kaynakları</string>
+    <string name="no_items_found">Hiçbir öge bulunamadı.</string>
+    <string name="allow_notifications_incoming_calls">Uygulamanın bildirimleri göstermesine izin vermelisiniz, aksi halde gelen aramaları gösteremez.</string>
+    <string name="allow_full_screen_notifications_incoming_calls">Uygulamanın tam ekran bildirimleri görüntülemesine izin vermelisiniz, aksi takdirde bazı gelen aramaları kaçırabilirsiniz.</string>
+    <string name="grant_permission">İzin Ver</string>
+    <string name="permission_required">İzin Gerekli</string>
+    <string name="filename_cannot_be_empty">Dosya adı boş olamaz</string>
+    <string name="filename_invalid_characters">Dosya adı geçersiz karakterler içeriyor</string>
+    <string name="prepend_filenames">Dosya isimlerinden önce metin ekle</string>
+    <string name="append_filenames">Dosya adlarından sonra metin ekle</string>
+    <string name="simple_renaming">Basit yeniden adlandırma</string>
+    <string name="pattern_renaming">Desen</string>
+    <string name="string_to_add">Eklenecek metin</string>
+    <string name="rename_date_time_pattern">%Y - yıl\n%M - ay\n%D - gün\n%h - saat\n%m - dakika\n%s - saniye\n%i - 1\'den artan sayı</string>
+    <string name="filename_without_txt">Dosya adı (.txt olmadan)</string>
+    <string name="filename_without_json">Uzantısız dosya adı</string>
+    <string name="copy">Kopyala</string>
+    <string name="please_select_destination">Lütfen bir hedef seçin</string>
+    <string name="could_not_create_folder">%s klasörü oluşturulamıyor</string>
+    <string name="could_not_create_file">%s dosyası oluşturulamıyor</string>
+    <string name="system_service_disabled">Dosya ve klasörleri seçmek için sistem hizmeti kullanılamıyor</string>
+    <string name="folder">Klasör</string>
+    <string name="create_new_folder">Yeni klasör oluştur</string>
+    <string name="name_taken">Bu ada sahip bir dosya veya klasör zaten var</string>
+    <string name="invalid_name">Ad, geçersiz karakterler içeriyor</string>
+    <string name="empty_name">Lütfen yeni bir ad girin</string>
+    <string name="unknown_error_occurred">Bilinmeyen bir hata oluştu</string>
+    <string name="file_already_exists">\"%s\" dosyası zaten var</string>
+    <string name="file_already_exists_overwrite">\"%s\" dosyası zaten var. Üzerine yazılsın mı?</string>
+    <string name="folder_already_exists">\"%s\" klasörü zaten var</string>
+    <string name="merge">Birleştir</string>
+    <string name="keep_both">İkisini de sakla</string>
+    <string name="overwrite">Üzerine yaz</string>
+    <string name="skip">Atla</string>
+    <string name="apply_to_all">Tümüne uygula</string>
+    <string name="system_folder_restriction">Sistem bu klasörde işlem yapmaya izin vermiyor, lütfen başka bir tane seçin</string>
+    <string name="select_folder">Bir klasör seç</string>
+    <string name="select_file">Bir dosya seç</string>
+    <string name="confirm_storage_access_title">Harici depolama erişimini onayla</string>
+    <string name="confirm_folder_access_title">Klasör erişimini onayla</string>
+    <string name="confirm_storage_access_text">Yazma erişimi vermek için lütfen bir sonraki ekranda SD kartın kök klasörünü seçin</string>
+    <string name="confirm_storage_access_text_sd">SD kartı görmüyorsanız, bunu deneyin</string>
+    <string name="confirm_storage_access_android_text_specific">Lütfen bir sonraki ekranda \'<b>Bu klasörü kullan</b>\' seçeneğine basarak \'<b>%s</b>\' erişimine izin verin.</string>
+    <string name="confirm_create_doc_for_new_folder_text">Yeni klasörü oluşturmak için lütfen sonraki ekranın altındaki \'&lt;b&gt;Kaydet&lt;/b&gt;\' düğmesine basın.</string>
+    <string name="loading">Yükleniyor…</string>
+    <plurals name="items">
+        <item quantity="one">%d öge</item>
+        <item quantity="other">%d öge</item>
+    </plurals>
+    <plurals name="delete_items">
+        <item quantity="one">%d öge</item>
+        <item quantity="other">%d öge</item>
+    </plurals>
+    <plurals name="deleting_items">
+        <item quantity="one">%d öge siliniyor</item>
+        <item quantity="other">%d öge siliniyor</item>
+    </plurals>
+    <plurals name="delete_contacts">
+        <item quantity="one">%d kişi</item>
+        <item quantity="other">%d kişi</item>
+    </plurals>
+    <string name="select_storage">Depolama seç</string>
+    <string name="internal">Dahili</string>
+    <string name="sd_card">SD Kart</string>
+    <string name="root">Kök</string>
+    <string name="wrong_root_selected">Yanlış klasör seçildi, lütfen SD kartınızın kök klasörünü seçin</string>
+    <string name="sd_card_usb_same">SD kart ve USB aygıt yolları aynı olamaz</string>
+    <string name="wrong_folder_selected">Yanlış klasör seçildi, lütfen \'%s\' yolunu seçin</string>
+    <string name="path">Yol</string>
+    <string name="background_color">Arka plan rengi</string>
+    <string name="text_color">Metin rengi</string>
+    <string name="primary_color">Ana renk</string>
+    <string name="accent_color_white">Beyaz temanın vurgu rengi</string>
+    <string name="accent_color_black_and_white">Siyah &amp; Beyaz temanın aksan rengi</string>
+    <string name="app_icon_color">Uygulama simgesi rengi</string>
+    <string name="default_color">Öntanımlı</string>
+    <string name="theme">Tema</string>
+    <string name="changing_color_description">Yalnızca uygulama simgesi rengi burada değiştirilebilir. Diğer renk değişiklikleri temayı Özel\'e geçirecektir.</string>
+    <string name="save">Kaydet</string>
+    <string name="discard">Vazgeç</string>
+    <string name="cannot_be_undone">Bu eylem geri alınamaz.</string>
+    <string name="save_before_closing">Kaydedilmemiş değişiklikleriniz var. Çıkmadan önce kaydedilsin mi?</string>
+    <string name="app_icon_color_warning">Dikkat: Bazı başlatıcılar uygulama simgesi özelleştirmesini doğru şekilde yapamayabilir. Simge kaybolursa, uygulamayı Google Play veya erişilebiliyorsa bir widget aracılığıyla başlatmayı deneyin. Başlattıktan sonra, öntanımlı #106D1F yeşil simge rengini geri yükleyin. Aşırı durumlarda, uygulamanın yeniden kurulması gerekebilir.</string>
+    <string name="light_theme">Aydınlık</string>
+    <string name="dark_theme">Karanlık</string>
+    <string name="auto_light_dark_theme">Otomatik açık / koyu</string>
+    <string name="dark_red">Koyu Kırmızı</string>
+    <string name="white">Beyaz</string>
+    <string name="black_white">Siyah &amp; Beyaz</string>
+    <string name="custom">Özel</string>
+    <string name="system_default">Sistem Android</string>
+    <string name="whats_new_disclaimer">* yalnızca büyük güncellemeler burada listelenmiştir; daima bazı küçük geliştirmeler de vardır</string>
+    <string name="delete">Sil</string>
+    <string name="remove">Kaldır</string>
+    <string name="select_all">Tümünü seç</string>
+    <string name="create_shortcut">Kısayol oluştur</string>
+    <string name="add_number_to_contact">Kişiye numara ekle</string>
+    <string name="view_contact_details">İletişim bilgilerini görüntüle</string>
+    <string name="call_from_sim_1">SIM 1\'den ara</string>
+    <string name="call_from_sim_2">SIM 2\'den ara</string>
+    <string name="send_sms">SMS gönder</string>
+    <string name="call">Ara</string>
+    <string name="unblock">Engellemeyi kaldır</string>
+    <string name="sort_by">Sıralama ölçütü</string>
+    <string name="date_created">Oluşturma tarihi</string>
+    <string name="date_taken">Alınan tarih</string>
+    <string name="title">Başlık</string>
+    <string name="extension">Uzantı</string>
+    <string name="ascending">Artan</string>
+    <string name="descending">Azalan</string>
+    <string name="first_name">Adı</string>
+    <string name="middle_name">Göbek adı</string>
+    <string name="surname">Soyadı</string>
+    <string name="full_name">Tam adı</string>
+    <string name="more_options">Daha fazla seçenek</string>
+    <string name="proceed_with_deletion">Silme işlemine devam etmek istediğinizden emin misiniz?</string>
+    <string name="deletion_confirmation">%s gerçekten silinsin mi?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <plurals name="delete_warning">
+        <item quantity="one">UYARI: %d klasör siliyorsunuz</item>
+        <item quantity="other">UYARI: %d klasör siliyorsunuz</item>
+    </plurals>
+    <string name="pin">PIN</string>
+    <string name="pattern">Desen</string>
+    <string name="go_to_settings">Ayarlar\'a git</string>
+    <string name="lock_folder_notice">Bu koruma yalnızca bu uygulamada çalışır, gerçek bir sistem çapında klasör şifrelemesinin yerini almaz.</string>
+    <string name="enter_password">Parola gir</string>
+    <string name="password">Parola</string>
+    <string name="empty_password">Lütfen parolayı girin</string>
+    <string name="yesterday">Dün</string>
+    <string name="today">Bugün</string>
+    <string name="seconds_raw">saniye</string>
+    <string name="minutes_raw">dakika</string>
+    <string name="hours_raw">saat</string>
+    <string name="days_raw">gün</string>
+    <string name="seconds_letter">%dsn</string>
+    <string name="minutes_letter">%ddk</string>
+    <string name="hours_letter">%dsa</string>
+    <string name="days_letter">%dd</string>
+    <plurals name="seconds">
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="one">%d hafta</item>
+        <item quantity="other">%d hafta</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%d ay</item>
+        <item quantity="other">%d ay</item>
+    </plurals>
+    <plurals name="years">
+        <item quantity="one">%d yıl</item>
+        <item quantity="other">%d yıl</item>
+    </plurals>
+    <plurals name="in_seconds">
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
+    </plurals>
+    <plurals name="in_minutes">
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
+    <plurals name="in_hours">
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
+    </plurals>
+    <plurals name="in_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <plurals name="in_weeks">
+        <item quantity="one">%d hafta</item>
+        <item quantity="other">%d hafta</item>
+    </plurals>
+    <plurals name="in_months">
+        <item quantity="one">%d ay</item>
+        <item quantity="other">%d ay</item>
+    </plurals>
+    <plurals name="in_years">
+        <item quantity="one">%d yıl</item>
+        <item quantity="other">%d yıl</item>
+    </plurals>
+    <plurals name="seconds_before">
+        <item quantity="one">%d saniye önce</item>
+        <item quantity="other">%d saniye önce</item>
+    </plurals>
+    <plurals name="minutes_before">
+        <item quantity="one">%d dakika önce</item>
+        <item quantity="other">%d dakika önce</item>
+    </plurals>
+    <plurals name="hours_before">
+        <item quantity="one">%d saat önce</item>
+        <item quantity="other">%d saat önce</item>
+    </plurals>
+    <plurals name="days_before">
+        <item quantity="one">%d gün önce</item>
+        <item quantity="other">%d gün önce</item>
+    </plurals>
+    <plurals name="weeks_before">
+        <item quantity="one">%d hafta önce</item>
+        <item quantity="other">%d hafta önce</item>
+    </plurals>
+    <plurals name="months_before">
+        <item quantity="one">%d ay önce</item>
+        <item quantity="other">%d ay önce</item>
+    </plurals>
+    <plurals name="years_before">
+        <item quantity="one">%d yıl önce</item>
+        <item quantity="other">%d yıl önce</item>
+    </plurals>
+    <plurals name="by_seconds">
+        <item quantity="one">%d saniye</item>
+        <item quantity="other">%d saniye</item>
+    </plurals>
+    <plurals name="by_minutes">
+        <item quantity="one">%d dakika</item>
+        <item quantity="other">%d dakika</item>
+    </plurals>
+    <plurals name="by_hours">
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
+    </plurals>
+    <plurals name="by_days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <plurals name="by_weeks">
+        <item quantity="one">%d hafta</item>
+        <item quantity="other">%d hafta</item>
+    </plurals>
+    <plurals name="by_months">
+        <item quantity="one">%d ay</item>
+        <item quantity="other">%d ay</item>
+    </plurals>
+    <plurals name="by_years">
+        <item quantity="one">%d yıl</item>
+        <item quantity="other">%d yıl</item>
+    </plurals>
+    <string name="system_sounds">Sistem sesleri</string>
+    <string name="your_sounds">Sesleriniz</string>
+    <string name="settings">Ayarlar</string>
+    <string name="general_settings">Genel</string>
+    <string name="color_customization">Renk özelleştirme</string>
+    <string name="customize_colors">🎨 Renkleri özelleştir</string>
+    <string name="theme_and_colors">Tema ve renkler</string>
+    <string name="feature_locked">Kilitli</string>
+    <string name="use_english_language">İngilizce dilini kullan</string>
+    <string name="language">🗣️ Dil</string>
+    <string name="font_size">🅰️ Yazı tipi boyutu</string>
+    <string name="small">Küçük</string>
+    <string name="medium">Orta</string>
+    <string name="large">Büyük</string>
+    <string name="extra_large">Çok büyük</string>
+    <string name="use_24_hour_time_format">24 saat biçimini kullan</string>
+    <string name="change_date_and_time_format">🕒 Tarih ve saat biçimini değiştir</string>
+    <string name="export_settings">Ayarları dışa aktar</string>
+    <string name="settings_exported_successfully">Ayarlar başarıyla dışa aktarıldı</string>
+    <string name="start_name_with_surname">Soyadı ile başla</string>
+    <string name="show_call_confirmation_dialog">Arama başlatmadan önce arama onayı penceresi göster</string>
+    <string name="format_phone_numbers">Telefon numaralarını biçimlendir</string>
+    <string name="show_only_contacts_with_numbers">Yalnızca numaralı kişileri göster</string>
+    <string name="startup">Başlangıç</string>
+    <string name="migrating">Geçiş 📦</string>
+    <string name="manage_shown_tabs">🗂️ Gösterilen sekmeleri yönet</string>
+    <string name="default_tab_to_open">Uygulama başlatıldığında açılacak sekme</string>
+    <string name="contacts_tab">Kişiler</string>
+    <string name="favorites_tab">Favoriler</string>
+    <string name="call_history_tab">Arama Geçmişi</string>
+    <string name="last_used_tab">Son kullanılan</string>
+    <plurals name="moving_items_into_bin">
+        <item quantity="one">%d öge Geri Dönüşüm Kutusu\'na taşınıyor</item>
+        <item quantity="other">%d öge Geri Dönüşüm Kutusu\'na taşınıyor</item>
+    </plurals>
+    <string name="importing">İçe aktarılıyor…</string>
+    <string name="exporting">Dışa aktarılıyor…</string>
+    <string name="importing_successful">İçe aktarma başarılı</string>
+    <string name="exporting_successful">Dışa aktarma başarılı</string>
+    <string name="exporting_failed">Dışa aktarılamadı</string>
+    <string name="no_entries_for_importing">İçe aktarılacak öge bulunamadı</string>
+    <string name="no_entries_for_exporting">Dışa aktarılacak öge bulunamadı</string>
+    <string name="usb">USB</string>
+    <string name="confirm_usb_storage_access_text">Erişim vermek için lütfen bir sonraki ekranda USB aygıtının kök klasörünü seçin</string>
+    <string name="wrong_root_selected_usb">Yanlış klasör seçildi, lütfen USB aygıtınızın kök klasörünü seçin</string>
+    <string name="translation_english">İngilizce</string>
+</resources>

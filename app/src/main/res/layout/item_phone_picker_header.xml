@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cz.mts.base.views.MyTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contactName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/normal_margin"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:textStyle="bold"
+    android:textSize="@dimen/bigger_text_size"
+    android:ellipsize="end"
+    android:maxLines="1"/>

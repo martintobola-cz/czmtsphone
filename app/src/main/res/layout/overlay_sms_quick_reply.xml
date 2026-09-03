@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overlayRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CC000000"
+    android:clickable="true">
+
+    <LinearLayout
+        android:id="@+id/overlayContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="24dp"
+        android:background="@drawable/rounded_overlay_bg"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <!-- Řádek: tlačítko vlevo + popisek vpravo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnDeclineSms"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_call_decline_sms" />
+
+            <TextView
+                android:id="@+id/tvOverlayTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/decline_with_sms"
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Oddělovač -->
+        <View
+            android:id="@+id/viewTitleDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="#33FFFFFF" />
+
+        <!-- SMS template picker -->
+       <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="280dp">
+
+    <!-- Center highlight – pozadí aktivního/centrálního řádku -->
+    <View
+        android:id="@+id/viewCenterHighlight"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:background="@drawable/selected_item_bg" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSmsTemplates"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:clipToPadding="false"
+        android:paddingTop="112dp"
+        android:paddingBottom="112dp"
+        android:overScrollMode="never" />
+
+    <!-- Fade top — 2 položky = 112dp -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_gravity="top"
+        android:background="@drawable/fade_top_gradient"
+        android:elevation="2dp" />
+
+    <!-- Fade bottom — 2 položky = 112dp -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/fade_bottom_gradient"
+        android:elevation="2dp" />
+
+</FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>

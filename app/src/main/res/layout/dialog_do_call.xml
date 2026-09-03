@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="12dp">
+
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textStyle="bold"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/spamRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="21sp"
+        android:gravity="end" />
+</LinearLayout>
+
+<TextView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:layout_marginBottom="12dp" />
+    <TextView
+        android:id="@+id/phoneNumberMezera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textSize="5sp"
+        android:layout_marginBottom="12dp" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top">
+
+<!-- Avatar + ikony -->
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="72dp"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:clipChildren="false"
+    android:layout_marginTop="6dp"
+    android:clipToPadding="false">
+
+    <!-- Velký kruhový avatar -->
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        android:background="@drawable/circle_background" />
+
+    <!-- Horizontální layout pro pin a sim ikonku -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/pinIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical" />
+
+        <ImageView
+            android:id="@+id/simIconCustom"
+            android:layout_width="23dp"
+            android:layout_height="24dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_sim1"
+            android:visibility="gone"
+            android:layout_marginStart="0dp"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+</LinearLayout>
+
+        <!-- Textová část vpravo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp">
+
+            <!-- Typ čísla -->
+            <TextView
+                android:id="@+id/specificType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="?attr/colorAccent"
+                android:visibility="gone" />
+
+            <!-- Jméno -->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:singleLine="false"
+                android:ellipsize="end" 
+                android:layout_marginTop="4dp"/>
+
+<View
+    android:id="@+id/spacerBeforeSim1"
+    android:layout_width="match_parent"
+    android:layout_height="13dp"
+    android:visibility="gone"/>
+
+<LinearLayout
+    android:id="@+id/sim1InfoLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginTop="4dp">
+
+    <ImageView
+        android:id="@+id/sim1Icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_sim1"
+        android:layout_marginEnd="0dp" 
+        android:translationX="-1mm" />
+
+    <TextView
+        android:id="@+id/sim1Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"/>
+</LinearLayout>
+
+<View
+    android:id="@+id/spacerAfterSim1"
+    android:layout_width="match_parent"
+    android:layout_height="15dp" />
+
+<LinearLayout
+    android:id="@+id/sim2InfoLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginTop="4dp">
+
+    <ImageView
+        android:id="@+id/sim2Icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_sim2"
+        android:layout_marginEnd="0dp" 
+        android:translationX="-1mm" />
+
+    <TextView
+        android:id="@+id/sim2Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"/>
+</LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+ <string name="callfilter_info">Ismeretlen számok értékelésének megjelenítése (callfilter.app, cz.mts.callfilter használatával)</string>
+    <string name="more_info">További információk</string>
+    <string name="tmobile_theme">T-Mobile</string>
+    <string name="kaktus_theme">Kaktus</string>
+    <string name="use_custom_sim_color">Egyéni SIM-szín</string>
+    <string name="customization_sim1_color_label">SIM1 szín</string>
+    <string name="customization_sim2_color_label">SIM2 szín</string>
+    <string name="use_dayofweek_in_time_format">A hét napjának megjelenítése</string>
+    <string name="invalid_target_for_import">Csak egy célt válasszon ki (vagy egyet se, ha egyénit akar létrehozni)!</string>
+    <string name="invalid_name_or_type">Érvénytelen név vagy típus!</string>
+    <string name="view_all_call_history">Teljes előzmény megtekintése</string>
+    <string name="search_all_fields">Speciális keresés</string>
+    <string name="other">Egyéb</string>
+    <string name="about">Az alkalmazásról</string>
+    <string name="customization_navbar_color_label">NavBar szín</string>
+    <string name="ok">Rendben</string>
+    <string name="cancel">Mégse</string>
+    <string name="close">Bezárás</string>
+    <string name="back">Vissza</string>
+    <plurals name="files_saved">
+        <item quantity="one">Fájl mentése sikeres</item>
+        <item quantity="other">Fájlok mentése sikeres</item>
+    </plurals>
+    <string name="invalid_file_format">Érvénytelen fájlformátum</string>
+    <string name="error">Hiba: %s</string>
+    <string name="no_app_found">Nem található érvényes alkalmazás</string>
+    <string name="copy_number_to_clipboard">Szám másolása a vágólapra</string>
+    <string name="value_copied_to_clipboard_show">Érték a vágólapra másolva:\n%s</string>
+    <string name="unknown">Ismeretlen</string>
+    <string name="previous">Előző</string>
+    <string name="next">Következő</string>
+    <string name="number">Telefonszám</string>
+    <string name="no_contacts_found">Nem található névjegy</string>
+    <string name="zero">Nulla</string>
+    <string name="one">Egy</string>
+    <string name="two">Kettő</string>
+    <string name="three">Három</string>
+    <string name="four">Négy</string>
+    <string name="five">Öt</string>
+    <string name="six">Hat</string>
+    <string name="seven">Hét</string>
+    <string name="eight">Nyolc</string>
+    <string name="nine">Kilenc</string>
+    <string name="value">Érték</string>
+    <string name="create_new_contact">Új névjegy hozzáadása</string>
+    <string name="disclaimer">Nyilatkozat</string>
+    <string name="choose_contact">Névjegy kiválasztása</string>
+    <string name="record_audio">Hang felvétele</string>
+    <string name="record_video">Videó felvétele</string>
+    <string name="phone_storage">Telefon tárhelye</string>
+    <string name="phone_storage_hidden">Telefon tárhelye (többi alkalmazás számára nem látható)</string>
+    <string name="home">Otthon</string>
+    <string name="work">Munkahely</string>
+    <string name="mobile">Mobil</string>
+    <string name="main_number">Elsődleges telefonszám</string>
+    <string name="work_fax">Munkahelyi fax</string>
+    <string name="home_fax">Otthoni fax</string>
+    <string name="pager">Csipogó</string>
+    <string name="change_view_type">Nézettípus módosítása</string>
+    <string name="grid">Rács</string>
+    <string name="list">Lista</string>
+    <string name="column_count">Oszlopszám</string>
+    <plurals name="column_counts">
+        <item quantity="one">%d oszlop</item>
+        <item quantity="other">%d oszlop</item>
+    </plurals>
+    <plurals name="row_counts">
+        <item quantity="one">%d sor</item>
+        <item quantity="other">%d sorok</item>
+    </plurals>
+    <string name="manage_blocked_numbers">⛔ Letiltott telefonszámok kezelése</string>
+    <string name="not_blocking_anyone">Még senkit sem tiltott le.</string>
+    <string name="add_a_blocked_number">Letiltott telefonszám hozzáadása</string>
+    <string name="block_number">Telefonszám letiltása</string>
+    <string name="blocked_numbers">Letiltott telefonszámok</string>
+    <string name="export_blocked_numbers">Letiltott számok exportálása</string>
+    <string name="import_blocked_numbers">Letiltott számok importálása</string>
+    <string name="must_make_default_dialer">A letiltott telefonszámok használatához be kell állítani, hogy ez az alkalmazás legyen az alapértelmezett tárcsázó.</string>
+    <string name="set_as_default">Beállítás alapértelmezettként</string>
+    <string name="block_confirmation">Biztos, hogy letiltja a következőt: „%s”?</string>
+    <string name="block_unknown_calls">Nem tárolt névjegyektől érkező hívások tiltása</string>
+    <string name="block_hidden_calls">Rejtett számokról érkező hívások tiltása</string>
+    <string name="block_unknown_messages">Nem tárolt névjegyektől érkező üzenetek tiltása</string>
+    <string name="block_hidden_messages">Rejtett számok üzeneteinek tiltása</string>
+    <string name="add_blocked_number_helper_text">Adjon meg egy számot vagy egy mintát (például *12345*, +1*8888) a mintának megfelelő számokról érkező összes hívás és üzenet tiltásához.</string>
+    <string name="must_make_default_caller_id_app">Hívásazonosítási engedély nélkül nem lehet letiltani az ismeretlen számokat.</string>
+    <string name="block_contact">Névjegy tiltása</string>
+    <string name="block_contact_success">Névjegy letiltva</string>
+    <string name="block_contact_fail">A névjegy letiltása nem sikerült</string>
+    <string name="unblock_contact">Névjegy letiltásának feloldása</string>
+    <string name="unblock_contact_success">Névjegy letiltása feloldva</string>
+    <string name="unblock_contact_fail">A névjegy letiltásának feloldása nem sikerült</string>
+    <string name="favorites">Kedvencek</string>
+    <string name="search">Keresés</string>
+    <string name="search_contacts">Névjegyek keresése</string>
+    <string name="filter">Névjegy forrásai</string>
+    <string name="no_items_found">Nem található elem.</string>
+    <string name="allow_notifications_incoming_calls">Engedélyeznie kell, hogy az alkalmazás megjelenítse az értesítéseket, különben nem tudja megjeleníteni a bejövő hívásokat.</string>
+    <string name="allow_full_screen_notifications_incoming_calls">Engedélyeznie kell, hogy az alkalmazás teljes képernyős értesítéseket jelenítsen meg, különben lemaradhat egyes bejövő hívásokról.</string>
+    <string name="grant_permission">Engedély megadása</string>
+    <string name="permission_required">Engedély szükséges</string>
+    <string name="filename_cannot_be_empty">A fájlnév nem lehet üres</string>
+    <string name="filename_invalid_characters">A fájlnév érvénytelen karaktereket tartalmaz</string>
+    <string name="prepend_filenames">Szöveg hozzáadása a fájlnevek elé</string>
+    <string name="append_filenames">Szöveg hozzáadása a fájlnevek után</string>
+    <string name="simple_renaming">Egyszerű átnevezés</string>
+    <string name="pattern_renaming">Minta</string>
+    <string name="string_to_add">Hozzáadandó szöveg</string>
+    <string name="rename_date_time_pattern">%Y – év
+\n%M – hónap
+\n%D – nap
+\n%h – óra
+\n%m – perc
+\n%s – másodperc
+\n%i – 1-től induló számláló</string>
+    <string name="filename_without_txt">Fájlnév (.txt nélkül)</string>
+    <string name="filename_without_json">Fájlnév (.json nélkül)</string>
+    <string name="copy">Másolás</string>
+    <string name="please_select_destination">Válasszon célt</string>
+    <string name="could_not_create_folder">Nem lehet létrehozni a(z) %s mappát</string>
+    <string name="could_not_create_file">Nem lehet létrehozni a(z) %s fájlt</string>
+    <string name="system_service_disabled">A fájlok és mappák kiválasztásához szükséges rendszerszolgáltatás nem érhető el</string>
+    <string name="folder">Mappa</string>
+    <string name="create_new_folder">Új mappa létrehozása</string>
+    <string name="name_taken">Már létezik ilyen nevű fájl vagy mappa</string>
+    <string name="invalid_name">A név érvénytelen karaktereket tartalmaz</string>
+    <string name="empty_name">Írjon be egy nevet</string>
+    <string name="unknown_error_occurred">Ismeretlen hiba történt</string>
+    <string name="file_already_exists">A(z) „%s” fájl már létezik</string>
+    <string name="file_already_exists_overwrite">A(z) „%s” fájl már létezik. Felülírja?</string>
+    <string name="folder_already_exists">A(z) „%s” mappa már létezik</string>
+    <string name="merge">Összevonás</string>
+    <string name="keep_both">Mindkettő megtartása</string>
+    <string name="overwrite">Felülírás</string>
+    <string name="skip">Kihagyás</string>
+    <string name="apply_to_all">Alkalmaz az összesre</string>
+    <string name="system_folder_restriction">A rendszer nem engedélyezi a műveletet ebben a mappában, válasszon másikat</string>
+    <string name="select_folder">Válasszon egy mappát</string>
+    <string name="select_file">Válasszon egy fájlt</string>
+    <string name="confirm_storage_access_title">Ellenőrizze a külső tároló hozzáférést</string>
+    <string name="confirm_folder_access_title">Mappaelérés megerősítése</string>
+    <string name="confirm_storage_access_text">Válassza ki az SD-kártya gyökérmappáját a következő képernyőn, hogy írási hozzáférést adjon</string>
+    <string name="confirm_storage_access_text_sd">Ha nem látja az SD-kártyát, próbálja meg ezt</string>
+    <string name="confirm_storage_access_android_text_specific">Engedélyezze a(z) „</string>
+    <string name="confirm_create_doc_for_new_folder_text">A mappa létrehozásához kattintson a következő képernyőn alján lévő „</string>
+    <string name="loading">Betöltés…</string>
+    <plurals name="items">
+        <item quantity="one">%d elem</item>
+        <item quantity="other">%d elem</item>
+    </plurals>
+    <plurals name="delete_items">
+        <item quantity="one">%d elem</item>
+        <item quantity="other">%d elem</item>
+    </plurals>
+    <plurals name="deleting_items">
+        <item quantity="one">%d elem törlése</item>
+        <item quantity="other">%d elem törlése</item>
+    </plurals>
+    <plurals name="delete_contacts">
+        <item quantity="one">%d névjegy</item>
+        <item quantity="other">%d névjegy</item>
+    </plurals>
+    <string name="select_storage">Válasszon tárolót</string>
+    <string name="internal">Belső</string>
+    <string name="sd_card">SD-kártya</string>
+    <string name="root">Gyökér</string>
+    <string name="wrong_root_selected">Hibás mappát választott ki, válassza ki az SD-kártya gyökérmappáját</string>
+    <string name="sd_card_usb_same">Az SD-kártya és az USB-s eszköz elérési útvonala nem lehet azonos</string>
+    <string name="wrong_folder_selected">Hibás mappát választott ki, válassza ezt az útvonalat: „%s”</string>
+    <string name="path">Elérési útvonal</string>
+    <string name="background_color">Háttérszín</string>
+    <string name="text_color">Szöveg színe</string>
+    <string name="primary_color">Elsődleges szín</string>
+    <string name="accent_color_white">A fehér téma kiemelő színe</string>
+    <string name="accent_color_black_and_white">A fekete-fehér téma kiemelő színe</string>
+    <string name="app_icon_color">Alkalmazásikon színe</string>
+    <string name="default_color">Alapértelmezett</string>
+    <string name="theme">Téma</string>
+    <string name="changing_color_description">Csak az alkalmazásikon színe módosítható itt. Bármely más szín módosítása Egyéni témára vált.</string>
+    <string name="save">Mentés</string>
+    <string name="discard">Elvetés</string>
+    <string name="cannot_be_undone">Ez a művelet nem vonható vissza.</string>
+    <string name="save_before_closing">Nem mentette a változtatásokat. Menti a kilépés előtt?</string>
+    <string name="app_icon_color_warning">Figyelem: egyes indítók lehet, hogy nem helyesen kezelik az ikonok testreszábását. Ha az ikon eltűnik, próbálja a Google Playen vagy egy modulon keresztül elindítani, ha elérhető. Indítás után állítsa vissza az alapértelmezett zöld (#106D1F) ikonszínt. Extrém esetekben az alkalmazás újratelepítése is szükséges lehet.</string>
+    <string name="light_theme">Világos</string>
+    <string name="dark_theme">Sötét</string>
+    <string name="auto_light_dark_theme">Automatikus világos/sötét</string>
+    <string name="dark_red">Sötétvörös</string>
+    <string name="white">Fehér</string>
+    <string name="black_white">Fekete-fehér</string>
+    <string name="custom">Egyéni</string>
+    <string name="system_default">Android rendszer</string>
+    <string name="whats_new_disclaimer">* itt csak a nagyobb frissítések vannak felsorolva, de mindig vannak kisebb javítások is</string>
+    <string name="delete">Törlés</string>
+    <string name="remove">Eltávolítás</string>
+    <string name="select_all">Összes kiválasztása</string>
+    <string name="create_shortcut">Parancsikon létrehozása</string>
+    <string name="add_number_to_contact">Szám hozzáadása névjegyhez</string>
+    <string name="view_contact_details">Névjegy részleteinek megtekintése</string>
+    <string name="call_from_sim_1">Hívás az 1. SIM-ről</string>
+    <string name="call_from_sim_2">Hívás a 2. SIM-ről</string>
+    <string name="send_sms">SMS küldése</string>
+    <string name="call">Hívás</string>
+    <string name="unblock">Tiltás feloldása</string>
+    <string name="sort_by">Rendezés</string>
+    <string name="date_created">Létrehozás dátuma</string>
+    <string name="date_taken">Készítés dátuma</string>
+    <string name="title">Cím</string>
+    <string name="extension">Kiterjesztés</string>
+    <string name="ascending">Növekvő</string>
+    <string name="descending">Csökkenő</string>
+    <string name="first_name">Utónév</string>
+    <string name="middle_name">Középső név</string>
+    <string name="surname">Vezetéknév</string>
+    <string name="full_name">Teljes név</string>
+    <string name="more_options">További lehetőségek</string>
+    <string name="proceed_with_deletion">Biztos, hogy folytatja a törlést\?</string>
+    <string name="deletion_confirmation">Biztos, hogy törli ezt: %s\?</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+    <plurals name="delete_warning">
+        <item quantity="one">FIGYELMEZTETÉS: %d mappát töröl</item>
+        <item quantity="other">FIGYELMEZTETÉS: %d mappát töröl</item>
+    </plurals>
+    <string name="pin">PIN-kód</string>
+    <string name="pattern">Minta</string>
+    <string name="go_to_settings">Ugrás a Beállításokhoz</string>
+    <string name="lock_folder_notice">Ez a védelem csak ezen az alkalmazáson belül működik, nem célja egy valódi rendszerszintű mappatitkosítás helyettesítése.</string>
+    <string name="enter_password">Adja meg a jelszót</string>
+    <string name="password">Jelszó</string>
+    <string name="empty_password">Adja meg a jelszót</string>
+    <string name="yesterday">Tegnap</string>
+    <string name="today">Ma</string>
+    <string name="seconds_raw">másodperc</string>
+    <string name="minutes_raw">perc</string>
+    <string name="hours_raw">óra</string>
+    <string name="days_raw">nap</string>
+    <string name="seconds_letter">%dmp</string>
+    <string name="minutes_letter">%dp</string>
+    <string name="hours_letter">%dó</string>
+    <string name="days_letter">%dn</string>
+    <plurals name="seconds">
+        <item quantity="one">%d másodperc</item>
+        <item quantity="other">%d másodperc</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d perc</item>
+        <item quantity="other">%d perc</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d óra</item>
+        <item quantity="other">%d óra</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d nap</item>
+        <item quantity="other">%d nap</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="one">%d hét</item>
+        <item quantity="other">%d hét</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%d hónap</item>
+        <item quantity="other">%d hónap</item>
+    </plurals>
+    <plurals name="years">
+        <item quantity="one">%d év</item>
+        <item quantity="other">%d év</item>
+    </plurals>
+    <plurals name="in_seconds">
+        <item quantity="one">%d másodperc</item>
+        <item quantity="other">%d másodperc</item>
+    </plurals>
+    <plurals name="in_minutes">
+        <item quantity="one">%d perc</item>
+        <item quantity="other">%d perc</item>
+    </plurals>
+    <plurals name="in_hours">
+        <item quantity="one">%d óra</item>
+        <item quantity="other">%d óra</item>
+    </plurals>
+    <plurals name="in_days">
+        <item quantity="one">%d nap</item>
+        <item quantity="other">%d nap</item>
+    </plurals>
+    <plurals name="in_weeks">
+        <item quantity="one">%d hét</item>
+        <item quantity="other">%d hét</item>
+    </plurals>
+    <plurals name="in_months">
+        <item quantity="one">%d hónap</item>
+        <item quantity="other">%d hónap</item>
+    </plurals>
+    <plurals name="in_years">
+        <item quantity="one">%d év</item>
+        <item quantity="other">%d év</item>
+    </plurals>
+    <plurals name="seconds_before">
+        <item quantity="one">%d másodperccel korábban</item>
+        <item quantity="other">%d másodperccel korábban</item>
+    </plurals>
+    <plurals name="minutes_before">
+        <item quantity="one">%d perccel korábban</item>
+        <item quantity="other">%d perccel korábban</item>
+    </plurals>
+    <plurals name="hours_before">
+        <item quantity="one">%d órával korábban</item>
+        <item quantity="other">%d órával korábban</item>
+    </plurals>
+    <plurals name="days_before">
+        <item quantity="one">%d nappal korábban</item>
+        <item quantity="other">%d nappal korábban</item>
+    </plurals>
+    <plurals name="weeks_before">
+        <item quantity="one">%d héttel korábban</item>
+        <item quantity="other">%d héttel korábban</item>
+    </plurals>
+    <plurals name="months_before">
+        <item quantity="one">%d hónappal korábban</item>
+        <item quantity="other">%d hónappal korábban</item>
+    </plurals>
+    <plurals name="years_before">
+        <item quantity="one">%d évvel korábban</item>
+        <item quantity="other">%d évvel korábban</item>
+    </plurals>
+    <plurals name="by_seconds">
+        <item quantity="one">%d másodperc</item>
+        <item quantity="other">%d másodperc</item>
+    </plurals>
+    <plurals name="by_minutes">
+        <item quantity="one">%d perc</item>
+        <item quantity="other">%d perc</item>
+    </plurals>
+    <plurals name="by_hours">
+        <item quantity="one">%d óra</item>
+        <item quantity="other">%d óra</item>
+    </plurals>
+    <plurals name="by_days">
+        <item quantity="one">%d nap</item>
+        <item quantity="other">%d nap</item>
+    </plurals>
+    <plurals name="by_weeks">
+        <item quantity="one">%d hét</item>
+        <item quantity="other">%d hét</item>
+    </plurals>
+    <plurals name="by_months">
+        <item quantity="one">%d hónap</item>
+        <item quantity="other">%d hónap</item>
+    </plurals>
+    <plurals name="by_years">
+        <item quantity="one">%d év</item>
+        <item quantity="other">%d év</item>
+    </plurals>
+    <string name="system_sounds">Rendszerhangok</string>
+    <string name="your_sounds">Saját hangok</string>
+    <string name="settings">Beállítások</string>
+    <string name="general_settings">Általános</string>
+    <string name="color_customization">Színek testreszabása</string>
+    <string name="customize_colors">🎨 Színek testreszabása</string>
+    <string name="theme_and_colors">Téma és színek</string>
+    <string name="feature_locked">Zárolt</string>
+    <string name="use_english_language">Angol nyelv használata</string>
+    <string name="language">🗣️ Nyelv</string>
+    <string name="font_size">🅰️ Betűméret</string>
+    <string name="small">Kicsi</string>
+    <string name="medium">Közepes</string>
+    <string name="large">Nagy</string>
+    <string name="extra_large">Extra nagy</string>
+    <string name="use_24_hour_time_format">24 órás idő formátum használata</string>
+    <string name="change_date_and_time_format">🕒 Dátum- és időformátum módosítása</string>
+    <string name="export_settings">Beállítások exportálása</string>
+    <string name="settings_exported_successfully">A beállítások exportálása sikeres</string>
+    <string name="start_name_with_surname">Kezdés a vezetéknévvel</string>
+    <string name="show_call_confirmation_dialog">Megerősítő párbeszédablak megjelenítése hívásindítás előtt</string>
+    <string name="format_phone_numbers">Telefonszámok formázása</string>
+    <string name="show_only_contacts_with_numbers">Csak telefonszámmal rendelkező névjegyek megjelenítése</string>
+    <string name="startup">Indítás</string>
+    <string name="migrating">Átköltöztetés 📦</string>
+    <string name="manage_shown_tabs">🗂️ Megjelenített lapok kezelése</string>
+    <string name="default_tab_to_open">Alkalmazás indításakor megjelenítendő lap</string>
+    <string name="contacts_tab">Névjegyek</string>
+    <string name="favorites_tab">Kedvencek</string>
+    <string name="call_history_tab">Hívásnapló</string>
+    <string name="last_used_tab">Utoljára használt</string>
+    <plurals name="moving_items_into_bin">
+        <item quantity="one">%d elem áthelyezése a Lomtárba</item>
+        <item quantity="other">%d elem áthelyezése a Lomtárba</item>
+    </plurals>
+    <string name="importing">Importálás…</string>
+    <string name="exporting">Exportálás…</string>
+    <string name="importing_successful">Sikeres importálás</string>
+    <string name="exporting_successful">Sikeres exportálás</string>
+    <string name="exporting_failed">Sikertelen exportálás</string>
+    <string name="no_entries_for_importing">Az importáláshoz nem találhatók bejegyzések</string>
+    <string name="no_entries_for_exporting">Az exportáláshoz nem találhatók bejegyzések</string>
+    <string name="usb">USB</string>
+    <string name="confirm_usb_storage_access_text">Válassza ki az USB-s eszköz gyökérmappáját a következő képernyőn, hogy hozzáférést biztosítson</string>
+    <string name="wrong_root_selected_usb">Hibás mappát választott ki, válassza ki az USB-s eszköz gyökérmappáját</string>
+    <string name="translation_english">Angol</string>
+</resources>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+<string name="app_launcher_name">Phone</string>
+
+<string name="last_update_info">🐞 Fixes for possible application crashes in call history</string>
+
+<string name="last_update_info897">⌚ From now on, the caller\'s name will also be displayed on your smartwatch. Another new feature is the ability to tap on the number that is calling you and if you have spam testing turned on, a website with reviews of that number will open. Please support the app by rating it in the store, it costs nothing and you will help others with their choice. Every ⭐ counts!</string>
+
+
+<string name="last_update_info894">🐞 Fixed an issue where the call history was not displaying fully on certain phone models. Please support the app by rating it in the store, it costs nothing and helps others make their choice. Every ⭐ counts!</string>
+
+<string name="last_update_info885">In this new version, the graphical appearance of notifications has been completely redesigned. If you have multiple SIMs, you will also see a SIM note in the notification.</string>
+
+<string name="last_update_info853">In this new version you have the option to connect to applications that check unknown numbers for spam. Thanks to the emoji 🎣🤖🗣️🥊💰🛒🏢📓 displayed right next to the number, you will know if it is spam! More info on my website...</string>
+
+<string name="update_done">Updated to v</string>
+<string name="not_permissions_info">The application does not have the necessary permissions and may not function properly.</string>
+<string name="edit_sms_templates"> 🔤 Edit SMS templates</string>
+<string name="sms_edit_hint_double_tap">Tap twice or long to edit</string>
+<string name="sms_add_new_template">+ Add new template</string>
+<string name="could_not_send_sms">You have the function to reject a call with SMS enabled, but the application does not have the right to send SMS...</string>
+<string name="show_decline_and_sms_button">Enable Decline and send SMS button</string>
+<string name="decline_with_sms">Decline and sned SMS</string>
+<string name="contacts_duplicity">It appears that you have contacts from multiple sources enabled because duplicate numbers were found...</string>
+
+<string name="import_perfs">Import settings</string>
+<string name="export_perfs">Export settings</string>
+
+
+<string name="mts_active_call">Active call</string>
+<string name="shake_call_effect">Shake effect for confirm outgoing call</string>
+<string name="mts_none"> </string>
+<string name="change_photo">Change photo</string>
+<string name="toggle_favorite">Toggle favorite</string>
+<string name="prefix">Prefix</string>
+<string name="nickname">Nickname</string>
+<string name="suffix">Suffix</string>
+<string name="pobox">P.O. Box</string>
+<string name="neighborhood">Neighborhood</string>
+<string name="address">Address</string>
+<string name="street">Street</string>
+<string name="skype">Skype</string>
+<string name="im">IM</string>
+<string name="no_groups">No groups</string>
+<string name="email">E-mail</string>
+<string name="job_position">Job position</string>
+<string name="company">Company</string>
+<string name="notes">Notes</string>
+<string name="postcode">Postcode</string>
+<string name="city">City</string>
+<string name="region">Region</string>
+<string name="country">Country</string>
+<string name="website">Website</string>
+<string name="birthday">Birthday</string>
+<string name="anniversary">Anniversary</string>
+<string name="aim">AIM</string>
+<string name="windows_live">Windows Live</string>
+<string name="yahoo">Yahoo</string>
+<string name="qq">QQ</string>
+<string name="hangouts">Hangouts</string>
+<string name="icq">ICQ</string>
+<string name="jabber">Jabber</string>
+<string name="fields_empty">No fields filled in</string>
+<string name="contact_date_events"> add date...</string>
+
+<string name="import_target_name">Name</string>
+<string name="import_target_type">Type</string>
+<string name="filter_only_contacts_without_numbers">Without numbers only</string>
+<string name="tap_to_view_missed_calls">Tap to view missed calls</string>
+<string name="tap_to_view_next">Tap to view older calls...</string>
+<string name="speed_dial">Speed dial</string>
+<string name="dialer">Dialer</string>
+ <string name="fast_dial_mts">Fast dialing</string>
+ <string name="blocked_numbers_mts">Blocking &amp; spam</string>
+<string name="error_autoremoveperm_mts">You have automatic permission removal enabled for this application. Turn this option off.</string>
+ <string name="perm_mts">Check premissions</string>
+ <string name="speaker_mts">Built-in loud speaker</string>
+ <string name="ear_mts">Built-in speaker</string>
+<string name="select_audio_mts">Select a device</string>
+<string name="cancel_mts">Cancel</string>
+<string name="missed_call1_mts">Missed calls</string>
+<string name="missed_call2_mts">Missed call</string>
+<string name="missed_call3_mts">missed calls</string>
+<string name="number_type1_mts">hand-typed</string>
+<string name="number_type2_mts">unsaved number</string>
+<string name="number_type3_mts">blocked!</string>
+<string name="number_type4_mts">primary number</string>
+<string name="number_type5_mts">hidden number</string>
+<string name="number_type6_mts">last dialed number</string>
+<string name="call_type1_mts">incoming call</string>
+<string name="call_type2_mts">outgoing call</string>
+<string name="call_type3_mts">missed call</string>
+<string name="call_type4_mts">voicemail</string>
+<string name="call_type5_mts">rejected call</string>
+<string name="call_type6_mts">blocked call</string>
+<string name="call_type7_mts">received on another device</string>
+<string name="call_type8_mts">unknown type</string>
+<string name="save_custom_sim1_mts">for number</string>
+<string name="save_custom_sim2_mts">was saved</string>
+<string name="delete_custom_sim1_mts">Default SIM for number</string>
+<string name="delete_custom_sim2_mts">was removed</string>
+<string name="call_now_mts_a">To start the call</string>
+<string name="call_now_mts_b">tap here</string>
+<string name="none_sim_mts">no (e)SIM</string>
+<string name="none_simslot_mts">No account/SIM available for calls !</string>
+<string name="none_simslot2_mts">No SIM slot available!</string>
+<string name="call_error1_text_mts">is on the blocked numbers list. The call cannot be made until you unblock the number.</string>
+<string name="call_error1_title_mts">Blocked number</string>
+<string name="call_error1_number_mts">Number</string>
+<string name="call_empty_string_mts">is empty string !</string>
+<string name="dialog_back">Back</string>
+<string name="dialog_ok">OK</string>
+<string name="dialog_close">Close</string>
+<string name="dialog_call">Call</string>
+<string name="dialog_sms">SMS</string>
+<string name="call_from_sim_mts">calling from SIM </string>
+<string name="about_mts">About</string>
+<string name="error_default_dialer_mts">Please set this app as your default dialer. On some phones, you need to do this manually in the Android system settings!</string>
+<string name="error_default_app_mts">Please set the app as the default app as default for caller and spam identification. On some phones, you need to do this manually in the Android system settings!</string>
+<string name="error_allok_mts">All necessary permissions are correctly assigned</string>
+    <string name="default_phone_app_prompt">Please make this app the default Phone app. On some phones, you need to do this manually in the Android system settings!</string>
+    <string name="allow_displaying_over_other_apps">Please allow displaying over other apps for reliable behaviour</string>
+
+    
+    <string name="could_not_access_contacts">Could not access your contacts</string>
+
+    
+    <string name="no_previous_calls">No previous calls have been found</string>
+    <string name="could_not_access_the_call_history">Could not access the call history</string>
+    <string name="request_access">Request access</string>
+    <string name="remove_confirmation">Are you sure you want to remove the selected items from the Call History?</string>
+    <string name="clear_history_confirmation">Are you sure you want to remove everything from the Call History?</string>
+    <string name="clear_call_history">Clear call history</string>
+    <string name="show_call_details">Show call details</string>
+
+    
+    <string name="dialpad">Dialpad</string>
+    <string name="asterisk">Asterisk</string>
+    <string name="hashtag">Hashtag</string>
+    <string name="call_number">Call number</string>
+    <string name="dialpad_beeps">Enable beeps on dialpad button clicks</string>
+    <string name="dialpad_t9">Enable T9 searching</string>
+    <string name="dialpad_vibrations">Enable vibrations on dialpad button clicks</string>
+
+    
+    <string name="accept">Accept</string>
+    <string name="accept_call">Accept call</string>
+    <string name="decline">Decline</string>
+    <string name="decline_call">Decline call</string>
+    <string name="unknown_caller">Unknown Caller</string>
+    <string name="is_calling">Calling…</string>
+    <string name="dialing">Dialing…</string>
+    <string name="call_ended">Call Ended</string>
+    <string name="call_ending">Call Ending</string>
+    <string name="ongoing_call">Outgoing Call</string>
+    <string name="select_sim">Select a SIM for this call</string>
+    <string name="always_use_this_sim">Always use this SIM for this number</string>
+    <string name="unset_default_sim">Unset default SIM</string>
+    <string name="calls">Calls</string>
+    <string name="turn_microphone_on">Turn microphone on</string>
+    <string name="turn_microphone_off">Turn microphone off</string>
+    <string name="turn_speaker_on">Turn speaker on</string>
+    <string name="show_dialpad">Show dialpad</string>
+    <string name="hide_dialpad">Hide dialpad</string>
+    <string name="end_call">End call</string>
+    <string name="hold_call">Hold call</string>
+    <string name="resume_call">Resume call</string>
+    <string name="call_on_hold">On Hold</string>
+    <string name="call_swap">Swap calls</string>
+    <string name="call_merge">Merge calls</string>
+    <string name="call_split">Split call</string>
+    <string name="call_add">Add call</string>
+    <string name="conference_manage">Manage conference call</string>
+    <string name="conference">Conference</string>
+    <string name="audio_route_speaker">Speaker</string>
+    <string name="audio_route_earpiece">Earpiece</string>
+    <string name="audio_route_bluetooth">Bluetooth</string>
+    <string name="audio_route_wired_headset">Wired Headset</string>
+    <string name="audio_route_wired_or_earpiece">Wired or Earpiece</string>
+    <string name="calling_blocked_number">The number you are calling is blocked</string>
+    <string name="call_is_being_connected">Your call is being connected…</string>
+    <string name="call_notification_channel">Call status</string>
+    <string name="call_notification_channel_high_priority">Call status (high priority)</string>
+    <string name="other_info_notification_channel">Update and others info</string>
+
+    
+    <string name="manage_speed_dial">Manage speed dial</string>
+    <string name="speed_dial_label">Click on a number to assign a contact to it. You can then quickly call the given contact by long pressing the given number at the dialer.</string>
+
+    
+    <string name="group_subsequent_calls">Group subsequent calls with the same number at the call log</string>
+    <string name="open_dialpad_by_default">Open the dialpad by default when the app opens</string>
+    <string name="disable_proximity_sensor">Disable proximity sensor during calls</string>
+    <string name="disable_swipe_to_answer">Replace swiping at responding to incoming calls with clicking</string>
+    <string name="show_blur_incoming_calls_full_screen">Blur efect on Android 16+ lock screen</string>
+    <string name="show_incoming_calls_full_screen">Always display incoming calls on full screen</string>
+    <string name="hide_dialpad_numbers">Hide dialpad numbers</string>
+    <string name="export_call_history">Export call history</string>
+    <string name="import_call_history">Import call history</string>
+    <string name="export_contacts">Export contacts (.vcf)</string>
+    <string name="import_contacts">Import contacts (.vcf)</string>
+    <string name="calling_accounts">Calling accounts</string>
+</resources>

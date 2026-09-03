@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+
+    <!-- Arrow down (grey) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M810.667,704V106.667H725.333V704H597.333L768,917.333L938.667,704Z" />
+
+    <!-- AZ letters (blue) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M358.4,366.933H245.333L221.867,430.933H147.2L268.8,106.667H330.667L452.267,430.933H384L358.4,366.933ZM260.267,309.333H341.333L300.8,187.733L260.267,309.333ZM264.533,864H426.667V917.333H179.2V876.8L341.333,646.4H179.2V593.067H422.4V629.333L264.533,864Z" />
+
+</vector>

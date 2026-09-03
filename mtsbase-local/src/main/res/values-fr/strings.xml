@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <string name="callfilter_info">Afficher les notes des numéros inconnus (via callfilter.app, cz.mts.callfilter)</string>
+    <string name="more_info">Plus d\'informations</string>
+    <string name="tmobile_theme">T-Mobile</string>
+    <string name="kaktus_theme">Kaktus</string>
+    <string name="use_custom_sim_color">Couleur SIM personnalisée</string>
+    <string name="customization_sim1_color_label">Couleur SIM1</string>
+    <string name="customization_sim2_color_label">Couleur SIM2</string>
+    <string name="use_dayofweek_in_time_format">Afficher le jour de la semaine</string>
+    <string name="invalid_target_for_import">Sélectionnez une seule cible (ou aucune pour créer un personnalisé) !</string>
+    <string name="invalid_name_or_type">Nom ou type invalide !</string>
+    <string name="view_all_call_history">Voir tout l\'historique</string>
+    <string name="search_all_fields">Recherche avancée</string>
+    <string name="other">Autre</string>
+    <string name="about">À propos de l\'application</string>
+    <string name="customization_navbar_color_label">Couleur de la barre de navigation</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="close">Fermer</string>
+    <string name="back">Retour</string>
+    <plurals name="files_saved">
+        <item quantity="one">Fichier enregistré avec succès</item>
+        <item quantity="other">Fichiers enregistrés avec succès</item>
+    </plurals>
+    <string name="invalid_file_format">Format de fichier non valide</string>
+    <string name="error">Erreur : %s</string>
+    <string name="no_app_found">Aucune application valide n\'a été trouvée</string>
+    <string name="copy_number_to_clipboard">Copier le numéro dans le presse-papiers</string>
+    <string name="value_copied_to_clipboard_show">Valeur copiée dans le presse-papiers :\n%s</string>
+    <string name="unknown">Inconnu</string>
+    <string name="previous">Précédent</string>
+    <string name="next">Suivant</string>
+    <string name="number">Numéro</string>
+    <string name="no_contacts_found">Aucun contact n\'a été trouvé</string>
+    <string name="zero">Zéro</string>
+    <string name="one">Un</string>
+    <string name="two">Deux</string>
+    <string name="three">Trois</string>
+    <string name="four">Quatre</string>
+    <string name="five">Cinq</string>
+    <string name="six">Six</string>
+    <string name="seven">Sept</string>
+    <string name="eight">Huit</string>
+    <string name="nine">Neuf</string>
+    <string name="value">Valeur</string>
+    <string name="create_new_contact">Créer un nouveau contact</string>
+    <string name="disclaimer">Clause de non-responsabilité</string>
+    <string name="choose_contact">Choisir un contact</string>
+    <string name="record_audio">Enregistrer un audio</string>
+    <string name="record_video">Enregistrer une vidéo</string>
+    <string name="phone_storage">Stockage du téléphone</string>
+    <string name="phone_storage_hidden">Stockage du téléphone (non visible par les autres applications)</string>
+    <string name="home">Domicile</string>
+    <string name="work">Travail</string>
+    <string name="mobile">Mobile</string>
+    <string name="main_number">Principal</string>
+    <string name="work_fax">Télécopieur professionnel</string>
+    <string name="home_fax">Télécopieur domicile</string>
+    <string name="pager">Téléavertisseur</string>
+    <string name="change_view_type">Modifier le mode d\'affichage</string>
+    <string name="grid">Grille</string>
+    <string name="list">Liste</string>
+    <string name="column_count">Nombre de colonnes</string>
+    <plurals name="column_counts">
+        <item quantity="one">%d colonne</item>
+        <item quantity="many">%d colonnes</item>
+        <item quantity="other">%d colonnes</item>
+    </plurals>
+    <plurals name="row_counts">
+        <item quantity="one">%d ligne</item>
+        <item quantity="many">%d lignes</item>
+        <item quantity="other">%d lignes</item>
+    </plurals>
+
+    <string name="manage_blocked_numbers">⛔ Gérer les numéros bloqués</string>
+    <string name="not_blocking_anyone">Vous n\'avez bloqué personne.</string>
+    <string name="add_a_blocked_number">Ajouter un numéro bloqué</string>
+    <string name="block_number">Bloquer le numéro</string>
+    <string name="blocked_numbers">Numéros bloqués</string>
+    <string name="export_blocked_numbers">Exporter les numéros bloqués</string>
+    <string name="import_blocked_numbers">Importer des numéros bloqués</string>
+    <string name="must_make_default_dialer">Vous devez définir cette application comme application de numérotation par défaut afin de pouvoir utiliser les numéros bloqués.</string>
+    <string name="set_as_default">Définir par défaut</string>
+    <string name="block_confirmation">Voulez-vous vraiment bloquer \"%s\" ?</string>
+    <string name="block_unknown_calls">Bloquer les appels des contacts non enregistrés</string>
+    <string name="block_hidden_calls">Bloquer les appels des numéros masqués</string>
+    <string name="block_unknown_messages">Bloquer les messages des contacts non enregistrés</string>
+    <string name="block_hidden_messages">Bloquer les messages des numéros masqués</string>
+    <string name="add_blocked_number_helper_text">Saisissez un numéro ou un modèle (par exemple, *12345*, +1*8888) pour bloquer tous les appels et messages provenant de numéros correspondant au modèle.</string>
+    <string name="must_make_default_caller_id_app">Il est impossible de bloquer des numéros inconnus sans avoir autorisé préalablement l\'identification de l\'appelant.</string>
+    <string name="block_contact">Bloquer ce contact</string>
+    <string name="block_contact_success">Contact bloqué</string>
+    <string name="block_contact_fail">Impossible de bloquer ce contact</string>
+    <string name="unblock_contact">Débloquer ce contact</string>
+    <string name="unblock_contact_success">Contact débloqué</string>
+    <string name="unblock_contact_fail">Impossible de débloquer ce contact</string>
+
+    <string name="favorites">Favoris</string>
+    <string name="search">Rechercher</string>
+    <string name="search_contacts">Recherche de contacts</string>
+    <string name="filter">Source des contacts</string>
+    <string name="no_items_found">Aucun élément n\'a été trouvé.</string>
+    <string name="allow_notifications_incoming_calls">Vous devez autoriser l\'application à afficher des notifications, sinon elle ne pourra pas afficher les appels entrants.</string>
+    <string name="allow_full_screen_notifications_incoming_calls">Vous devez autoriser l\'application à afficher des notifications en plein écran, sinon vous risquez de manquer certains appels entrants.</string>
+    <string name="grant_permission">Accorder l\'autorisation</string>
+    <string name="permission_required">Autorisation nécessaire</string>
+
+    <string name="filename_cannot_be_empty">Le nom de fichier ne peut pas être vide</string>
+    <string name="filename_invalid_characters">Le nom de fichier contient des caractères non autorisés</string>
+    <string name="prepend_filenames">Ajouter du texte avant les noms de fichiers</string>
+    <string name="append_filenames">Ajouter du texte après les noms de fichiers</string>
+    <string name="simple_renaming">Renommer simplement</string>
+    <string name="pattern_renaming">Modèle</string>
+    <string name="string_to_add">Texte à ajouter</string>
+    <string name="rename_date_time_pattern">%Y - année\n%M - mois\n%D - jour\n%h - heure\n%m - minute\n%s - seconde\n%i - l\'incrémentation débute à 1</string>
+    <string name="filename_without_txt">Nom de fichier (sans .txt)</string>
+    <string name="filename_without_json">Nom de fichier sans extension</string>
+    <string name="copy">Copier</string>
+    <string name="please_select_destination">Veuillez sélectionner une destination</string>
+    <string name="could_not_create_folder">Impossible de créer le dossier \"%s\"</string>
+    <string name="could_not_create_file">Impossible de créer le fichier \"%s\"</string>
+    <string name="system_service_disabled">Le service système de sélection des fichiers et dossiers est indisponible</string>
+
+    <string name="folder">Dossier</string>
+    <string name="create_new_folder">Créer un nouveau dossier</string>
+    <string name="name_taken">Un fichier ou dossier portant ce nom existe déjà</string>
+    <string name="invalid_name">Le nom contient des caractères non autorisés</string>
+    <string name="empty_name">Veuillez saisir un nom</string>
+    <string name="unknown_error_occurred">Une erreur inconnue s\'est produite</string>
+
+    <string name="file_already_exists">Le fichier \"%s\" existe déjà</string>
+    <string name="file_already_exists_overwrite">Le fichier \"%s\" existe déjà. Voulez-vous l\'écraser \?</string>
+    <string name="folder_already_exists">Le dossier \"%s\" existe déjà</string>
+    <string name="merge">Fusionner</string>
+    <string name="keep_both">Conserver les deux</string>
+    <string name="overwrite">Écraser</string>
+    <string name="skip">Ignorer</string>
+    <string name="apply_to_all">Appliquer à tous</string>
+    <string name="system_folder_restriction">Le système n\'autorise pas l\'opération dans ce dossier. Veuillez sélectionner un autre dossier</string>
+    <string name="select_folder">Sélectionner un dossier</string>
+    <string name="select_file">Sélectionner un fichier</string>
+    <string name="confirm_storage_access_title">Veuillez confirmer l\'accès au stockage externe</string>
+    <string name="confirm_folder_access_title">Veuillez confirmer l\'accès au dossier</string>
+    <string name="confirm_storage_access_text">Veuillez sélectionner le dossier racine de la carte SD sur le prochain écran, pour accorder les droits en écriture</string>
+    <string name="confirm_storage_access_text_sd">Si vous n\'apercevez pas la carte SD, essayez ceci</string>
+    <string name="confirm_storage_access_android_text_specific">Veuillez autoriser l\'accès à \'<b>%s</b>\' sur l\'écran suivant en appuyant sur \'<b>Utiliser ce dossier</b>\' en bas de l\'écran.</string>
+    <string name="confirm_create_doc_for_new_folder_text">Veuillez appuyer sur \"<b>Enregistrer</b>\" en bas de l\'écran suivant pour créer le nouveau dossier.</string>
+    <string name="loading">Chargement…</string>
+    <plurals name="items">
+        <item quantity="one">%d élément</item>
+        <item quantity="many">%d éléments</item>
+        <item quantity="other">%d éléments</item>
+    </plurals>
+
+    <plurals name="delete_items">
+        <item quantity="one">%d élément</item>
+        <item quantity="many">%d éléments</item>
+        <item quantity="other">%d éléments</item>
+    </plurals>
+
+    <plurals name="deleting_items">
+        <item quantity="one">Suppression %d élément</item>
+        <item quantity="many">Suppression de %d éléments</item>
+        <item quantity="other">Suppression de %d éléments</item>
+    </plurals>
+
+    <plurals name="delete_contacts">
+        <item quantity="one">%d contact</item>
+        <item quantity="many">%d contacts</item>
+        <item quantity="other">%d contacts</item>
+    </plurals>
+
+    <string name="select_storage">Sélectionner un espace de stockage</string>
+    <string name="internal">Interne</string>
+    <string name="sd_card">Carte SD</string>
+    <string name="root">Racine</string>
+    <string name="wrong_root_selected">Mauvais dossier sélectionné. Veuillez sélectionner le dossier racine de votre carte SD</string>
+    <string name="sd_card_usb_same">Les emplacements de la carte SD et du périphérique USB ne peuvent pas être identiques</string>
+    <string name="wrong_folder_selected">Mauvais dossier sélectionné. Veuillez sélectionner l\'emplacement \"%s\"</string>
+
+    <string name="path">Emplacement</string>
+    <string name="background_color">Couleur de l\'arrière-plan</string>
+    <string name="text_color">Couleur du texte</string>
+    <string name="primary_color">Couleur principale</string>
+    <string name="accent_color_white">Accentuation de la couleur du thème blanc</string>
+    <string name="accent_color_black_and_white">Accentuation de la couleur du thème noir et blanc</string>
+    <string name="app_icon_color">Couleur de l\'icône de l\'application</string>
+    <string name="default_color">Par défaut</string>
+    <string name="theme">Thème</string>
+    <string name="changing_color_description">Avec ce thème, seule la modification de l\'icône de l\'application est autorisée, toute autre modification vous obligera à passer à votre thème PERSONNALISÉ.</string>
+    <string name="save">Enregistrer</string>
+    <string name="discard">Abandonner</string>
+    <string name="cannot_be_undone">Cette action ne peut pas être annulée.</string>
+    <string name="save_before_closing">Certaines modifications ne sont pas enregistrées. Voulez-vous les enregistrer avant de quitter \?</string>
+    <string name="app_icon_color_warning">Attention : Certains lanceurs peuvent ne pas manipuler correctement la personnalisation de l\'icône d\'application. Si l\'icône disparaît, essayez de lancer l\'application via Google Play ou un widget, si accessible. Après le lancement, restaurer la couleur d\'icône verte par défaut #106D1F. Dans les cas extrêmes, réinstaller l\'application peut être nécessaire.</string>
+    <string name="light_theme">Clair</string>
+    <string name="dark_theme">Sombre</string>
+    <string name="auto_light_dark_theme">Clair/Sombre automatique</string>
+    <string name="dark_red">Rouge sombre</string>
+    <string name="white">Blanc</string>
+    <string name="black_white">Noir et blanc</string>
+    <string name="custom">Personnalisé</string>
+    <string name="system_default">Système Androïde</string>
+
+    <string name="whats_new_disclaimer">* seules les mises à jour majeures sont présentement listées. Les améliorations mineures ne sont pas détaillées</string>
+
+    <string name="delete">Supprimer</string>
+    <string name="remove">Retirer</string>
+    <string name="select_all">Tout sélectionner</string>
+    <string name="create_shortcut">Créer un raccourci</string>
+    <string name="add_number_to_contact">Ajouter un numéro au contact</string>
+    <string name="view_contact_details">Afficher les détails du contact</string>
+    <string name="call_from_sim_1">Appeler depuis la carte SIM 1</string>
+    <string name="call_from_sim_2">Appeler depuis la carte SIM 2</string>
+    <string name="send_sms">Envoyer un SMS</string>
+    <string name="call">Appeler</string>
+    <string name="unblock">Débloquer</string>
+
+    <string name="sort_by">Trier par</string>
+    <string name="date_created">Date de création</string>
+    <string name="date_taken">Date de prise de vue</string>
+    <string name="title">Titre</string>
+    <string name="extension">Extension</string>
+    <string name="ascending">Croissant</string>
+    <string name="descending">Décroissant</string>
+    <string name="first_name">Prénom</string>
+    <string name="middle_name">Deuxième prénom</string>
+    <string name="surname">Nom de famille</string>
+    <string name="full_name">Nom complet</string>
+    <string name="more_options">Plus d\'options</string>
+    <string name="proceed_with_deletion">Voulez-vous vraiment procéder à la suppression \?</string>
+    <string name="deletion_confirmation">Voulez-vous vraiment supprimer %s \?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <plurals name="delete_warning">
+        <item quantity="one">ATTENTION : vous supprimez %d dossier</item>
+        <item quantity="many">ATTENTION : vous supprimez %d dossiers</item>
+        <item quantity="other">ATTENTION : vous supprimez %d dossiers</item>
+    </plurals>
+
+    <string name="pin">Code PIN</string>
+    <string name="pattern">Schéma</string>
+    <string name="go_to_settings">Ouvrir les paramètres</string>
+    <string name="lock_folder_notice">Le verrouillage ne fonctionne que dans cette application. Cette protection ne remplace pas un véritable chiffrage système.</string>
+    <string name="enter_password">Saisir le mot de passe</string>
+    <string name="password">Mot de passe</string>
+    <string name="empty_password">Veuillez saisir le mot de passe</string>
+    <string name="yesterday">Hier</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="seconds_raw">secondes</string>
+    <string name="minutes_raw">minutes</string>
+    <string name="hours_raw">heures</string>
+    <string name="days_raw">jours</string>
+    <string name="seconds_letter">%ds</string>
+    <string name="minutes_letter">%dmin</string>
+    <string name="hours_letter">%dh</string>
+    <string name="days_letter">%dj</string>
+    <plurals name="seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="many">%d secondes</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d heure</item>
+        <item quantity="many">%d heures</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="one">%d semaine</item>
+        <item quantity="many">%d semaines</item>
+        <item quantity="other">%d semaines</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%d mois</item>
+        <item quantity="many">%d mois</item>
+        <item quantity="other">%d mois</item>
+    </plurals>
+    <plurals name="years">
+        <item quantity="one">%d an</item>
+        <item quantity="many">%d ans</item>
+        <item quantity="other">%d ans</item>
+    </plurals>
+
+    <plurals name="in_seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="many">%d secondes</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <plurals name="in_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="in_hours">
+        <item quantity="one">%d heure</item>
+        <item quantity="many">%d heures</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
+    <plurals name="in_days">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <plurals name="in_weeks">
+        <item quantity="one">%d semaine</item>
+        <item quantity="many">%d semaines</item>
+        <item quantity="other">%d semaines</item>
+    </plurals>
+    <plurals name="in_months">
+        <item quantity="one">%d mois</item>
+        <item quantity="many">%d mois</item>
+        <item quantity="other">%d mois</item>
+    </plurals>
+    <plurals name="in_years">
+        <item quantity="one">%d an</item>
+        <item quantity="many">%d ans</item>
+        <item quantity="other">%d ans</item>
+    </plurals>
+
+    <plurals name="seconds_before">
+        <item quantity="one">%d seconde avant</item>
+        <item quantity="many">%d secondes avant</item>
+        <item quantity="other">%d secondes avant</item>
+    </plurals>
+    <plurals name="minutes_before">
+        <item quantity="one">%d minute avant</item>
+        <item quantity="many">%d minutes avant</item>
+        <item quantity="other">%d minutes avant</item>
+    </plurals>
+    <plurals name="hours_before">
+        <item quantity="one">%d heure avant</item>
+        <item quantity="many">%d heures avant</item>
+        <item quantity="other">%d heures avant</item>
+    </plurals>
+    <plurals name="days_before">
+        <item quantity="one">%d jour avant</item>
+        <item quantity="many">%d jours avant</item>
+        <item quantity="other">%d jours avant</item>
+    </plurals>
+    <plurals name="weeks_before">
+        <item quantity="one">%d semaine avant</item>
+        <item quantity="many">%d semaines avant</item>
+        <item quantity="other">%d semaines avant</item>
+    </plurals>
+    <plurals name="months_before">
+        <item quantity="one">%d mois avant</item>
+        <item quantity="many">%d mois avant</item>
+        <item quantity="other">%d mois avant</item>
+    </plurals>
+    <plurals name="years_before">
+        <item quantity="one">%d an avant</item>
+        <item quantity="many">%d ans avant</item>
+        <item quantity="other">%d ans avant</item>
+    </plurals>
+
+    <plurals name="by_seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="many">%d secondes</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <plurals name="by_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="by_hours">
+        <item quantity="one">%d heure</item>
+        <item quantity="many">%d heures</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
+    <plurals name="by_days">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <plurals name="by_weeks">
+        <item quantity="one">%d semaine</item>
+        <item quantity="many">%d semaines</item>
+        <item quantity="other">%d semaines</item>
+    </plurals>
+    <plurals name="by_months">
+        <item quantity="one">%d mois</item>
+        <item quantity="many">%d mois</item>
+        <item quantity="other">%d mois</item>
+    </plurals>
+    <plurals name="by_years">
+        <item quantity="one">%d an</item>
+        <item quantity="many">%d ans</item>
+        <item quantity="other">%d ans</item>
+    </plurals>
+
+    <string name="system_sounds">Sonneries du système</string>
+    <string name="your_sounds">Vos sonneries</string>
+    <string name="settings">Paramètres</string>
+    <string name="general_settings">Général</string>
+    <string name="color_customization">Personnalisation des couleurs</string>
+    <string name="customize_colors">🎨 Personnaliser les couleurs</string>
+    <string name="theme_and_colors">Thème et couleurs</string>
+    <string name="feature_locked">Verrouillé</string>
+    <string name="use_english_language">Utiliser la langue anglaise</string>
+    <string name="language">🗣️ Langue</string>
+    <string name="font_size">🅰️ Taille des caractères</string>
+    <string name="small">Petite</string>
+    <string name="medium">Moyenne</string>
+    <string name="large">Grande</string>
+    <string name="extra_large">Très grande</string>
+    <string name="use_24_hour_time_format">Utiliser le format horaire 24 heures</string>
+    <string name="change_date_and_time_format">🕒 Modifier le format de la date et de l\'heure</string>
+    <string name="export_settings">Exporter les paramètres</string>
+    <string name="settings_exported_successfully">Exportation des paramètres réussie</string>
+    <string name="start_name_with_surname">Afficher le nom de famille en premier</string>
+    <string name="show_call_confirmation_dialog">Afficher une fenêtre de confirmation d\'appel avant de lancer un appel</string>
+    <string name="format_phone_numbers">Formater les numéros de téléphone</string>
+    <string name="show_only_contacts_with_numbers">Afficher uniquement les contacts avec des numéros</string>
+    <string name="startup">Démarrage</string>
+    <string name="migrating">Migration 📦</string>
+    <string name="manage_shown_tabs">🗂️ Gérer les onglets affichés</string>
+    <string name="default_tab_to_open">Onglet à ouvrir au démarrage de l\'application</string>
+    <string name="contacts_tab">Contacts</string>
+    <string name="favorites_tab">Favoris</string>
+    <string name="call_history_tab">Historique d\'appels</string>
+    <string name="last_used_tab">Le dernier utilisé</string>
+    <plurals name="moving_items_into_bin">
+        <item quantity="one">Déplacement d\'%d élément vers la corbeille</item>
+        <item quantity="many">Déplacement de %d éléments vers la corbeille</item>
+        <item quantity="other">Déplacement de %d éléments vers la corbeille</item>
+    </plurals>
+
+    <string name="importing">Importation en cours…</string>
+    <string name="exporting">Exportation en cours…</string>
+    <string name="importing_successful">Importation réussie</string>
+    <string name="exporting_successful">Exportation réussie</string>
+    <string name="exporting_failed">L\'exportation a échoué</string>
+    <string name="no_entries_for_importing">Aucun élément pouvant être importé n\'a été trouvé</string>
+    <string name="no_entries_for_exporting">Aucun élément pouvant être exporté n\'a été trouvé</string>
+    <string name="usb">USB</string>
+    <string name="confirm_usb_storage_access_text">Veuillez sélectionner le dossier racine du périphérique USB, sur l\'écran suivant, pour en accorder l\'accès</string>
+    <string name="wrong_root_selected_usb">Mauvais dossier sélectionné. Veuillez sélectionner le dossier racine du périphérique USB</string>
+
+    <string name="translation_english">Anglais</string>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contact_source_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/activity_margin">
+
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:hint=""
+        android:inputType="none"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+</RelativeLayout>

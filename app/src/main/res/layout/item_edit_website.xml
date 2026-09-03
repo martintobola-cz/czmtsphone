@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_website_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/activity_margin">
+
+    <ImageView
+    android:id="@+id/contact_website_remove"
+    android:layout_width="22dp"
+    android:layout_height="22dp"
+    android:layout_alignParentEnd="true"
+    android:layout_alignTop="@+id/contact_website"
+    android:layout_alignBottom="@+id/contact_website"
+    android:layout_marginStart="@dimen/small_margin"
+    android:padding="4dp"
+    app:srcCompat="@drawable/ic_minus_vector" />
+
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/contact_website_remove"
+        android:hint="@string/website"
+        android:inputType="textWebEditText"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+</RelativeLayout>

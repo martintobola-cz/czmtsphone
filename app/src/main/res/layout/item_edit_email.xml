@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_email_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/activity_margin">
+
+    <ImageView
+        android:id="@+id/contact_email_remove"
+ android:layout_width="22dp"
+    android:layout_height="22dp"   
+ android:padding="4dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/contact_email"
+        android:layout_alignBottom="@+id/contact_email"
+        android:layout_marginStart="@dimen/small_margin"
+        app:srcCompat="@drawable/ic_minus_vector" />
+
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/contact_email_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/contact_email"
+        android:layout_alignBottom="@+id/contact_email"
+        android:layout_toStartOf="@+id/contact_email_remove"
+        android:layout_centerVertical="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:minWidth="60dp"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:text="@string/home"
+        android:textSize="@dimen/bigger_text_size" />
+
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/contact_email_type"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+</RelativeLayout>

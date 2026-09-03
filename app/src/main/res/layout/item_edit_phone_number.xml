@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_number_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/activity_margin">
+
+    <!-- Tlačítko smazání – zcela vpravo -->
+    <ImageView
+        android:id="@+id/contact_number_remove"
+ android:layout_width="22dp"
+    android:layout_height="22dp"   
+ android:padding="4dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/contact_number"
+        android:layout_alignBottom="@+id/contact_number"
+        android:layout_marginStart="@dimen/small_margin"
+        app:srcCompat="@drawable/ic_minus_vector" />
+
+    <!-- Typ čísla – napravo od hvězdičky primárního čísla -->
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/contact_number_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/contact_number"
+        android:layout_alignBottom="@+id/contact_number"
+        android:layout_toStartOf="@+id/contact_number_remove"
+        android:layout_centerVertical="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical|end"
+        android:minWidth="60dp"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:textSize="@dimen/bigger_text_size" />
+
+    <!-- Hvězdička primárního čísla – nalevo od type pickeru -->
+    <ImageView
+        android:id="@+id/default_toggle_icon"
+ android:layout_width="30dp"
+    android:layout_height="30dp"   
+ android:padding="4dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/contact_number_type"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_star_outline_vector" />
+
+    <!-- Samotné číslo – vyplní zbylý prostor vlevo -->
+    <cz.mts.base.views.MyEditText
+        android:id="@+id/contact_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/default_toggle_icon"
+        android:hint="@string/number"
+        android:inputType="phone"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/bigger_text_size" />
+
+</RelativeLayout>

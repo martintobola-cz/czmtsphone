@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cz.mts.base.views.MyTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/speed_dial_label"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:background="?attr/selectableItemBackground"
+    android:ellipsize="end"
+    android:foreground="@drawable/selector"
+    android:maxLines="2"
+    android:padding="@dimen/activity_margin"
+    android:textDirection="firstStrongLtr"
+    android:textSize="@dimen/bigger_text_size" />

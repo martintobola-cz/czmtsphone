@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/sms_template_item_height"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/normal_margin"
+    android:paddingEnd="@dimen/small_margin">
+
+    <!-- Normální zobrazení textu -->
+    <TextView
+        android:id="@+id/tvSmsTemplate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingEnd="@dimen/small_margin"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <!--
+        EditText – skrytý dokud není aktivní editace.
+        isSingleLine + horizontalScroll → text se posouvá horizontálně,
+        výška řádku se nemění (overlay zůstane kompaktní).
+    -->
+    <EditText
+        android:id="@+id/etSmsTemplate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        android:inputType="text|textNoSuggestions"
+        android:paddingEnd="@dimen/small_margin"
+        android:textColor="@android:color/white"
+        android:background="@android:color/transparent" />
+
+    <!-- Koš – výchozí stav (skryto pokud není centrální položka) -->
+    <ImageView
+        android:id="@+id/ivDeleteTemplate"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/button_background"
+        android:contentDescription="@null"
+        android:padding="4dp"
+        android:src="@drawable/ic_minus_vector"
+        android:visibility="invisible" />
+
+    <!-- Uložit – viditelné jen při editaci -->
+    <ImageView
+        android:id="@+id/ivSaveTemplate"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_background"
+        android:contentDescription="@null"
+        android:padding="4dp"
+        android:src="@drawable/ic_check_vector"
+        android:visibility="gone" />
+
+</LinearLayout>

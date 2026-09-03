@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Položka pro CALL mód (pouze čtení, žádné editační prvky).
+    Id tvTemplate zachováno pro zpětnou kompatibilitu se standalone SmsTemplateAdapter.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+    <TextView
+        android:id="@+id/tvTemplate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:paddingHorizontal="12dp"
+        android:ellipsize="end"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+</FrameLayout>
