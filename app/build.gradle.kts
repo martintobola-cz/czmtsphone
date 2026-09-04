@@ -42,6 +42,10 @@ android {
                 keyPassword = keystoreProperties.getProperty("keyPassword")
                 storeFile = file(keystoreProperties.getProperty("storeFile"))
                 storePassword = keystoreProperties.getProperty("storePassword")
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+
             }
         } else if (hasSigningVars()) {
             register("release") {
@@ -49,6 +53,10 @@ android {
                 keyPassword = providers.environmentVariable("SIGNING_KEY_PASSWORD").get()
                 storeFile = file(providers.environmentVariable("SIGNING_STORE_FILE").get())
                 storePassword = providers.environmentVariable("SIGNING_STORE_PASSWORD").get()
+
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
             }
         } else {
             logger.warn("Warning: No signing config found. Build will be unsigned.")
