@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 911,
-      "versionName": "9.1.1",
-      "outputFile": "phone-911-core-release.apk"
+      "versionCode": 912,
+      "versionName": "9.1.2",
+      "outputFile": "phone-912-core-release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/phone-911-core-release.dm"
+        "baselineProfiles/1/phone-912-core-release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/phone-911-core-release.dm"
+        "baselineProfiles/0/phone-912-core-release.dm"
       ]
     }
   ],
