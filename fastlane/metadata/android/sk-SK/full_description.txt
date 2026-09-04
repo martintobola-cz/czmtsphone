@@ -1,0 +1,48 @@
+Hľadáte bezpečnú, jednoduchú a spoľahlivú aplikáciu na volanie, ktorá Vás nebude obťažovať reklamami ani zbierať vaše dáta? 📱✨
+Práve ste ju našli.
+
+
+Prečo si aplikáciu zamilujete? ❤️
+
+🎨 Ľubovoľné farby:
+môžete si nastaviť farbičky presne podľa svojho gusta
+
+💸 100% zadarmo:
+žiadne poplatky, žiadne obmedzenia, všetky funkcie dostupné
+
+🔒 Maximálne súkromie:
+- aplikácia nezbiera žiadne Vaše dáta
+- dovoľuje uložiť kontakty do svojho vlastného skrytého úložiska neviditeľné pre všetky ostatné aplikácie
+
+📡 Bez internetu:
+nič sa nikam neodosiela ani nesťahuje
+
+🚫 Bez reklám:
+nič na Vás nevyskakuje, nič Vás neobťažuje
+
+🧭 Jednoduché ovládanie:
+logické, intuitívne, zvládne to naozaj každý, dokonca môžete hľadať kontakty aj priamo cez číselník pomocou T9
+
+👨‍👩‍👧 Koniec nevyžiadaným hovorom:
+aktivujte jediný checkbox a dovolajú sa Vám len čísla z uložených kontaktov (spam, podvody a otravné call centrá majú smolu), perfektné pre 👶 deti a 👵 seniorov
+
+💻 Open-source (GNU/GPL v3)
+kód si môžete kedykoľvek stiahnuť z môjho webu (https://mts.speccy.cz/mtsphone.htm) alebo githubu (https://github.com/martintobola-cz/czmtsphone) a prekontrolovať
+
+
+
+Príbeh aplikácie 🛠️
+
+Pôvodnú aplikáciu vytvoril slovenský autor Tibor Kaputa (Simple Mobile Tools). Bohužiaľ ju predal a nová izraelská spoločnosť ihneď nasadila predražené predplatné a reklamy.
+
+Logicky na to vznikol nový smer, najprv indický fork Fossify a následne aj tento môj český fork, ktorý vracia aplikáciu späť do správnych koľají a pružne reaguje na Vaše pripomienky 💪
+
+
+
+Pomôžte aplikácii rast 🚀
+
+Budem rád za každú recenziu aj nápad na vylepšenie. Len prosím 🙏 myslite na hlavnú myšlienku: jednoduchosť a funkčnosť!
+
+Pokiaľ sa Vám aplikácia páči a chcete podporiť jej ďalší vývoj, môžete prispieť ľubovoľnou čiastkou.
+🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj
+(z bankového účtu napr. cez Anycoin.sk)
