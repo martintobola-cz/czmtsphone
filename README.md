@@ -33,13 +33,13 @@ Logical and intuitive—anyone can use it. You can even search for contacts dire
 Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors.
   
 💻 Open-source (GNU/GPL v3):  
-You can download the code from my website (https://mts.speccy.cz/mtsphone.htm) or github (https://github.com/martintobola-cz/czmtsphone) and review it at any time.
+You can download the code from this site and review it at any time.
   
 
    \
 The app's story 🛠️  
   
-The original app was created by Slovak developer Tibor Kaputa (Simple Mobile Tools). Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch—first the Indian fork "Fossify," and subsequently this Czech 🇨🇿 fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪
+The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch—first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪
   
   \
 Help the app grow 🚀  
