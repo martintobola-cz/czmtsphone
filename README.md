@@ -1,0 +1,58 @@
+# cz.mts.phone
+<img alt="Logo" src="fastlane/metadata/android/cs-CZ/images/icon.png" width="15%"/>
+
+<a href='https://play.google.com/store/apps/details?id=cz.mts.phone'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=80/></a> <a href="https://f-droid.org/packages/cz.mts.phone/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a> 
+
+Phone app (calling, blocking, contacts) that you’ll love !
+  
+Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
+You’ve just found it.
+  
+Why you’ll love this app: ❤️
+  
+🎨 Customizable colors:  
+Set the colors exactly to your liking.
+  
+💸 100% free:  
+No fees, no limits—all features are available.
+  
+🔒 Maximum privacy:  
+- The app collects no data about you.  
+- It allows you to save contacts to its own hidden storage, invisible to all other apps.  
+  
+📡 Works offline:  
+Nothing is sent or downloaded anywhere.  
+  
+🚫 Ad-free:  
+No pop-ups, no annoyances.  
+  
+🧭 Simple controls:  
+Logical and intuitive—anyone can use it. You can even search for contacts directly via the dialer using T9.
+  
+👨‍👩‍👧 No more unwanted calls:  
+Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors.
+  
+💻 Open-source (GNU/GPL v3):  
+You can download the code from my website (https://mts.speccy.cz/mtsphone.htm) or github (https://github.com/martintobola-cz/czmtsphone) and review it at any time.
+  
+
+   \
+The app's story 🛠️  
+  
+The original app was created by Slovak developer Tibor Kaputa (Simple Mobile Tools). Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch—first the Indian fork "Fossify," and subsequently this Czech 🇨🇿 fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪
+  
+  \
+Help the app grow 🚀  
+  
+I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!
+
+   \
+If you like the app and want to support its continued development, you can contribute any amount.  
+🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj  
+
+  .
+<div align="center">
+<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="20%">
+<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="20%">
+<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="20%">
+</div>
