@@ -51,8 +51,6 @@ If you like the app and want to support its continued development, you can contr
 🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj  
 
   .
-<div align="center">
-<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="20%">
-<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="20%">
-<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="20%">
+<div>
+<img alt="App image" src="https://mts.speccy.cz/pictures/mtsphonesnap.gif" width="30%">
 </div>
