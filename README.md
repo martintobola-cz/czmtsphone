@@ -3,7 +3,7 @@
 
 <a href='https://mts.speccy.cz/mtsphone-news.htm'>Release history</a><br>
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
-
+Translations: (if you need another language, let me know and I'll add it)
 🇨🇿 CZ - cs-CZ  
 🇸🇰 SK - sk-SK  
 🇵🇱 PL - pl-PL  
