@@ -67,6 +67,7 @@ I would appreciate any reviews or ideas for improvement. Just please 🙏 keep t
 If you like the app and want to support its continued development, you can contribute any amount.  
 🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__
 
+  
 <div>
 <img alt="App image" src="https://mts.speccy.cz/pictures/mtsphonesnap.gif" width="27%">
 </div>
