@@ -10,22 +10,22 @@ You’ve just found it.
   
 __Translations:__ (if you need another language, let me know and I'll add it)
   
-🇨🇿 CZ - cs-CZ  
-🇸🇰 SK - sk-SK  
-🇵🇱 PL - pl-PL  
-🇩🇪 DE - de-DE  
-🇫🇷 FR - fr-FR  
-🇬🇧 GB - en-GB  
-🇺🇸 US - en-US  
-🇪🇸 ES - es-ES  
-🇭🇺 HU - hu-HU  
-🇷🇴 RO - ro-RO  
-🇹🇷 TR - tr-TR  
-🇷🇺 RU - ru-RU  
-🇺🇦 UA - uk-UA  
-🇨🇳 CN - zh-CN  
-🇭🇰 HK - zh-HK  
-🇹🇼 TW - zh-TW
+🇨🇿 CZ (cs-CZ)  
+🇸🇰 SK (sk-SK)  
+🇵🇱 PL (pl-PL)  
+🇩🇪 DE (de-DE)  
+🇫🇷 FR (fr-FR)  
+🇬🇧 GB (en-GB)  
+🇺🇸 US (en-US)  
+🇪🇸 ES (es-ES)  
+🇭🇺 HU (hu-HU)  
+🇷🇴 RO (ro-RO)  
+🇹🇷 TR (tr-TR)  
+🇷🇺 RU (ru-RU)  
+🇺🇦 UA (uk-UA)  
+🇨🇳 CN (zh-CN)  
+🇭🇰 HK (zh-HK)  
+🇹🇼 TW (zh-TW)
 
 <a href='https://play.google.com/store/apps/details?id=cz.mts.phone'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="80"/></a> <a href="https://f-droid.org/packages/cz.mts.phone/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height="80"/></a>
   
@@ -65,9 +65,9 @@ __Help the app grow 🚀__
 I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!
 
 If you like the app and want to support its continued development, you can contribute any amount.  
-🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__  
-
+🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__
   
 <div>
+  
 <img alt="App image" src="https://mts.speccy.cz/pictures/mtsphonesnap.gif" width="27%">
 </div>
