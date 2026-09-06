@@ -67,6 +67,7 @@ I would appreciate any reviews or ideas for improvement. Just please 🙏 keep t
   
   
 <img alt="Logo" src="https://mts.speccy.cz/pictures/donate3.png" width="20%">
+  
 If you like the app and want to support its continued development, you can contribute any amount.  
 🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__  
 .
