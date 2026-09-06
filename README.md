@@ -9,7 +9,8 @@ You’ve just found it.
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
   
 __Translations:__ (if you need another language, let me know and I'll add it)
-  
+
+```
 🇨🇿 CZ (cs-CZ)  
 🇸🇰 SK (sk-SK)  
 🇵🇱 PL (pl-PL)  
@@ -26,7 +27,7 @@ __Translations:__ (if you need another language, let me know and I'll add it)
 🇨🇳 CN (zh-CN)  
 🇭🇰 HK (zh-HK)  
 🇹🇼 TW (zh-TW)
-
+```
 <a href='https://play.google.com/store/apps/details?id=cz.mts.phone'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="80"/></a> <a href="https://f-droid.org/packages/cz.mts.phone/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height="80"/></a>
   
 __Why you’ll love this app: ❤️__
