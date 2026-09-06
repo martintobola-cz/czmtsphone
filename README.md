@@ -65,7 +65,7 @@ __Help the app grow 🚀__
 I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!
 
 If you like the app and want to support its continued development, you can contribute any amount.  
-🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__
+🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__  
 
   
 <div>
