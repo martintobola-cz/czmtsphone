@@ -35,7 +35,7 @@ __Why you’ll love this app: ❤️__
 Set the colors exactly to your liking.
 
 💸 100% free:  
-No fees, no limits—all features are available.
+No fees, no limits - all features are available.
 
 🔒 Maximum privacy:  
 - The app collects no data about you.
@@ -48,7 +48,7 @@ Nothing is sent or downloaded anywhere.
 No pop-ups, no annoyances.
 
 🧭 Simple controls:  
-Logical and intuitive—anyone can use it. You can even search for contacts directly via the dialer using T9.
+Logical and intuitive - anyone can use it. You can even search for contacts directly via the dialer using T9.
 
 👨‍👩‍👧 No more unwanted calls:  
 Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors.
@@ -58,7 +58,7 @@ You can download the code from this site and review it at any time.
 
 __The app's story 🛠️__
 
-The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch—first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪
+The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪
 
 __Help the app grow 🚀__
 
@@ -66,7 +66,7 @@ I would appreciate any reviews or ideas for improvement. Just please 🙏 keep t
 
 If you like the app and want to support its continued development, you can contribute any amount.  
 🪙 BTC: __14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj__
-  
+\  
 <div>
   
 <img alt="App image" src="https://mts.speccy.cz/pictures/mtsphonesnap.gif" width="27%">
