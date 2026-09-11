@@ -765,8 +765,10 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupAllPerfsExport() {
         binding.settingsExportPerfsHolder.setOnClickListener {
-        exportPrefsLauncher.launch("mts_prefs_backup.json")
-    }
+            ExportCallHistoryDialog(this, 2) { filename ->
+                exportPrefsLauncher.launch("$filename.json")
+            }
+        }
     }
 
     private fun setupAllPerfsImport() {

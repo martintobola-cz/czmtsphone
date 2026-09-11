@@ -2,18 +2,12 @@ package cz.mts.base.models.contacts
 
 import android.graphics.Bitmap
 import android.provider.ContactsContract
+import cz.mts.base.extensions.normalizeString
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
+import cz.mts.base.models.PhoneNumber
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import cz.mts.base.extensions.normalizeString
-import cz.mts.base.helpers.PhoneNumberHelper
-import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
-import cz.mts.base.helpers.MTS_PHONE
-import cz.mts.base.helpers.SORT_BY_FIRST_NAME
-import cz.mts.base.helpers.SORT_BY_FULL_NAME
-import cz.mts.base.helpers.SORT_BY_MIDDLE_NAME
-import cz.mts.base.helpers.SORT_BY_SURNAME
-import cz.mts.base.helpers.SORT_DESCENDING
-import cz.mts.base.models.PhoneNumber
 import java.util.Locale
 
 @Serializable
@@ -229,8 +223,6 @@ data class Contact(
 
         return "??? temporary"
     }
-
-
 
     fun getStringToCompare(): String {
         val photoToUse = if (isPrivate()) null else photo

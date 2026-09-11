@@ -398,5 +398,4 @@
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Válassza ki az USB-s eszköz gyökérmappáját a következő képernyőn, hogy hozzáférést biztosítson</string>
     <string name="wrong_root_selected_usb">Hibás mappát választott ki, válassza ki az USB-s eszköz gyökérmappáját</string>
-    <string name="translation_english">Angol</string>
 </resources>

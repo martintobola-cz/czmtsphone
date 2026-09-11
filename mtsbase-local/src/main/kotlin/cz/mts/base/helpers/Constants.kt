@@ -1,18 +1,14 @@
 package cz.mts.base.helpers
 
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Looper
 import android.provider.ContactsContract
-import android.util.Log
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.StringRes
 import cz.mts.base.R
 import cz.mts.base.extensions.normalizeString
 import cz.mts.base.models.contacts.LocalContact
 import cz.mts.base.overloads.times
-
 
 // default tabs
 const val TAB_LAST_USED = 0
@@ -65,19 +61,13 @@ const val APP_ID = "app_id"
 const val APP_LAUNCHER_NAME = "app_launcher_name"
 const val BLOCKED_NUMBERS_EXPORT_DELIMITER = ","
 const val BLOCKED_NUMBERS_EXPORT_EXTENSION = ".txt"
-const val NOMEDIA = ".nomedia"
 const val SAVE_DISCARD_PROMPT_INTERVAL = 1000L
 const val SD_OTG_PATTERN = "^/storage/[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val SD_OTG_SHORT = "^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val KEY_PHONE = "phone"
-const val KEY_MAILTO = "mailto"
 const val MTS_PHONE = "CZ_PHONE_MTS" // used at the contact source of local contacts hidden from other apps
 const val MTS_NONE = "MTS_NONE" // pro vytvoření nového zdroje uživatelem
 const val FIRST_GROUP_ID = 10000L
-const val MD5 = "MD5"
-const val SHA1 = "SHA-1"
-const val SHA256 = "SHA-256"
-const val SHORT_ANIMATION_DURATION = 150L
 val DARK_GREY = 0xFF333333.toInt()
 
 const val LOWER_ALPHA = 0.25f
@@ -86,16 +76,11 @@ const val HIGHER_ALPHA = 0.75f
 
 // alpha values on a scale 0 - 255
 const val LOWER_ALPHA_INT = 30
-const val MEDIUM_ALPHA_INT = 90
 
 const val WCAG_AA_NORMAL = 4.5
-const val WCAG_AA_LARGE = 3.0
 
 const val HOUR_MINUTES = 60
 const val DAY_MINUTES = 24 * HOUR_MINUTES
-const val WEEK_MINUTES = DAY_MINUTES * 7
-const val MONTH_MINUTES = DAY_MINUTES * 30
-const val YEAR_MINUTES = DAY_MINUTES * 365
 
 const val MINUTE_SECONDS = 60
 const val HOUR_SECONDS = HOUR_MINUTES * 60
@@ -210,7 +195,6 @@ const val HANGOUTS = "Hangouts"
 const val QQ = "QQ"
 const val JABBER = "Jabber"
 
-
 // global intents
 
 const val REQUEST_CODE_SET_DEFAULT_DIALER = 1007
@@ -221,34 +205,21 @@ const val SORT_ORDER = "sort_order"
 const val SORT_BY_NAME = 1
 const val SORT_BY_DATE_MODIFIED = 2
 const val SORT_BY_SIZE = 4
-const val SORT_BY_DATE_TAKEN = 8
 const val SORT_BY_EXTENSION = 16
-const val SORT_BY_PATH = 32
-const val SORT_BY_NUMBER = 64
 const val SORT_BY_FIRST_NAME = 128
 const val SORT_BY_MIDDLE_NAME = 256
 const val SORT_BY_SURNAME = 512
 const val SORT_DESCENDING = 1024
-const val SORT_BY_TITLE = 2048
-const val SORT_BY_ARTIST = 4096
-const val SORT_BY_DURATION = 8192
-const val SORT_BY_RANDOM = 16384
 const val SORT_USE_NUMERIC_VALUE = 32768
 const val SORT_BY_FULL_NAME = 65536
 const val SORT_BY_CUSTOM = 131072
 const val SORT_BY_DATE_CREATED = 262144
-const val SORT_BY_COUNT = 524288
 
 // security
 const val PROTECTION_NONE = -1
-const val PROTECTION_PATTERN = 0
-const val PROTECTION_PIN = 1
-const val PROTECTION_FINGERPRINT = 2
 
 // renaming
 const val RENAME_SIMPLE = 0
-const val RENAME_PATTERN = 1
-
 
 // permissions
 const val PERMISSION_READ_STORAGE = 1
@@ -278,24 +249,12 @@ const val PERMISSION_READ_SYNC_SETTINGS = 24
 
 // conflict resolving
 const val CONFLICT_SKIP = 1
-const val CONFLICT_OVERWRITE = 2
-const val CONFLICT_MERGE = 3
-const val CONFLICT_KEEP_BOTH = 4
 
 // font sizes
 const val FONT_SIZE_SMALL = 0
 const val FONT_SIZE_MEDIUM = 1
 const val FONT_SIZE_LARGE = 2
 const val FONT_SIZE_EXTRA_LARGE = 3
-
-const val MONDAY_BIT = 1
-const val TUESDAY_BIT = 2
-const val WEDNESDAY_BIT = 4
-const val THURSDAY_BIT = 8
-const val FRIDAY_BIT = 16
-const val SATURDAY_BIT = 32
-const val SUNDAY_BIT = 64
-
 
 val photoExtensions: Array<String>
     get() = arrayOf(
@@ -323,39 +282,6 @@ val videoExtensions: Array<String>
         ".3gpp"
     )
 
-val audioExtensions: Array<String>
-    get() = arrayOf(
-        ".mp3",
-        ".wav",
-        ".wma",
-        ".ogg",
-        ".m4a",
-        ".opus",
-        ".flac",
-        ".aac",
-        ".m4b"
-    )
-
-val rawExtensions: Array<String>
-    get() = arrayOf(
-        ".dng",
-        ".orf",
-        ".nef",
-        ".arw",
-        ".rw2",
-        ".cr2",
-        ".cr3"
-    )
-
-val extensionsSupportingEXIF: Array<String>
-    get() = arrayOf(
-        ".jpg",
-        ".jpeg",
-        ".png",
-        ".webp",
-        ".dng"
-    )
-
 const val DATE_FORMAT_ONE = "dd.MM.yyyy"
 const val DATE_FORMAT_TWO = "dd/MM/yyyy"
 const val DATE_FORMAT_THREE = "MM/dd/yyyy"
@@ -364,19 +290,13 @@ const val DATE_FORMAT_FIVE = "d MMMM yyyy"
 const val DATE_FORMAT_SIX = "MMMM d yyyy"
 const val DATE_FORMAT_SEVEN = "MM-dd-yyyy"
 const val DATE_FORMAT_EIGHT = "dd-MM-yyyy"
-const val DATE_FORMAT_NINE = "yyyyMMdd"
-const val DATE_FORMAT_TEN = "yyyy.MM.dd"
-const val DATE_FORMAT_ELEVEN = "yy-MM-dd"
-const val DATE_FORMAT_TWELVE = "yyMMdd"
-const val DATE_FORMAT_THIRTEEN = "yy.MM.dd"
-const val DATE_FORMAT_FOURTEEN = "yy/MM/dd"
 const val DATE_FORMAT_MTS = "dd. MM. yyyy"
 const val DATE_FORMAT_MTSLONG = "d. MMMM yyyy"
 const val TIME_FORMAT_12 = "hh:mm a"
 const val TIME_FORMAT_24 = "HH:mm"
 
 // possible icons at the top left corner
-enum class NavigationIcon(@StringRes val accessibilityResId: Int) {
+enum class NavigationIcon(@param:StringRes val accessibilityResId: Int) {
     Cross(R.string.close),
     Arrow(R.string.back),
     None(0)
@@ -422,7 +342,6 @@ val letterBackgroundColors = arrayListOf(
 // view types
 const val VIEW_TYPE_GRID = 1
 const val VIEW_TYPE_LIST = 2
-const val VIEW_TYPE_UNEVEN_GRID = 3
 
 fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
@@ -447,9 +366,6 @@ fun isOreoPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O_MR1)
 fun isOreoMr1Plus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
-
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
-fun isPiePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
 fun isQPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
@@ -481,34 +397,10 @@ fun getDateFormats() = arrayListOf(
     "MM.dd"
 )
 
-fun getDateFormatsWithYear() = arrayListOf(
-    DATE_FORMAT_FOUR,
-    DATE_FORMAT_NINE,
-    DATE_FORMAT_TEN,
-    DATE_FORMAT_ELEVEN,
-    DATE_FORMAT_TWELVE,
-    DATE_FORMAT_THIRTEEN,
-    DATE_FORMAT_FOURTEEN,
-)
-
 val normalizeRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
-fun getConflictResolution(resolutions: LinkedHashMap<String, Int>, path: String): Int {
-    return if (resolutions.size == 1 && resolutions.containsKey("")) {
-        resolutions[""]!!
-    } else if (resolutions.containsKey(path)) {
-        resolutions[path]!!
-    } else {
-        CONFLICT_SKIP
-    }
-}
-
-val proPackages = arrayListOf<String>()
-
-fun mydebug(message: String) = Log.e("DEBUG", message)
-
 fun getQuestionMarks(size: Int) = ("?," * size).trimEnd(',')
-
+/**
 fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {
     val fileDrawables = HashMap<String, Drawable>()
     hashMapOf<String, Int>().apply {
@@ -560,19 +452,16 @@ fun getFilePlaceholderDrawables(context: Context): HashMap<String, Drawable> {
     }
     return fileDrawables
 }
+ **/
 
 const val FIRST_CONTACT_ID = 1000000
-const val DEFAULT_FILE_NAME = "contacts.vcf"
 
 const val DEFAULT_EMAIL_TYPE = ContactsContract.CommonDataKinds.Email.TYPE_HOME
 const val DEFAULT_PHONE_NUMBER_TYPE = ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
 const val DEFAULT_ADDRESS_TYPE = ContactsContract.CommonDataKinds.StructuredPostal.TYPE_HOME
 const val DEFAULT_EVENT_TYPE = ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY
-const val DEFAULT_ORGANIZATION_TYPE = ContactsContract.CommonDataKinds.Organization.TYPE_WORK
-const val DEFAULT_WEBSITE_TYPE = ContactsContract.CommonDataKinds.Website.TYPE_HOMEPAGE
 const val DEFAULT_IM_TYPE = ContactsContract.CommonDataKinds.Im.PROTOCOL_SKYPE
 const val DEFAULT_MIMETYPE = ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-
 
 // apps with special handling
 const val TELEGRAM_PACKAGE = "org.telegram.messenger"
@@ -580,7 +469,6 @@ const val SIGNAL_PACKAGE = "org.thoughtcrime.securesms"
 const val WHATSAPP_PACKAGE = "com.whatsapp"
 const val VIBER_PACKAGE = "com.viber.voip"
 const val THREEMA_PACKAGE = "ch.threema.app"
-
 
 fun getEmptyLocalContact() = LocalContact(
     0,
@@ -611,4 +499,3 @@ fun getProperText(text: String, shouldNormalize: Boolean) =
         shouldNormalize -> text.normalizeString()
         else -> text
     }
-

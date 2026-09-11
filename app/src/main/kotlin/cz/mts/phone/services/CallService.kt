@@ -382,7 +382,7 @@ class CallService : InCallService(), CallManagerListener {
         }
     }
 
-
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onCallAudioStateChanged(audioState: CallAudioState?) {
         super.onCallAudioStateChanged(audioState)
         audioState?.let { CallManager.onAudioStateChanged(it) }

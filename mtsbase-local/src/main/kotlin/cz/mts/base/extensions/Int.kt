@@ -3,16 +3,11 @@ package cz.mts.base.extensions
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.media.ExifInterface
-import android.os.Handler
-import android.os.Looper
 import androidx.core.graphics.ColorUtils
-import androidx.core.os.postDelayed
 import cz.mts.base.helpers.DARK_GREY
 import cz.mts.base.helpers.WCAG_AA_NORMAL
 import java.text.DecimalFormat
 import java.util.Locale
-import java.util.Random
 
 fun Int.getContrastColor(): Int {
     val luminance = ColorUtils.calculateLuminance(this)
@@ -72,30 +67,7 @@ fun Int.formatDateOrTime(context: Context, hideTimeAtOtherDays: Boolean, showYea
     return (this * 1000L).formatDateOrTime(context, hideTimeAtOtherDays, showYearEvenIfCurrent)
 }
 
-@Deprecated(
-    message = "Broken due to the Year 2038 problem. Use Long.isThisYear() instead (but note that it uses milliseconds, not seconds).",
-    replaceWith = ReplaceWith("(this * 1000L).isThisYear()")
-)
-fun Int.isThisYear(): Boolean {
-    return (this * 1000L).isThisYear()
-}
-
-fun Int.addBitIf(add: Boolean, bit: Int) =
-    if (add) {
-        addBit(bit)
-    } else {
-        removeBit(bit)
-    }
-
 // TODO: how to do "bits & ~bit" in kotlin?
-fun Int.removeBit(bit: Int) = addBit(bit) - bit
-
-fun Int.addBit(bit: Int) = this or bit
-
-fun Int.flipBit(bit: Int) = if (this and bit == 0) addBit(bit) else removeBit(bit)
-
-fun ClosedRange<Int>.random() = Random().nextInt(endInclusive - start) + start
-
 
 fun Int.isNearBlackBlack(): Boolean {
     val r = Color.red(this)
@@ -109,7 +81,6 @@ fun Int.isNearBlackBlack(): Boolean {
     return isVeryDark
 }
 
-
 fun Int.adjustColor(factor: Int = 8, dialog: Boolean = false): Int {
 
     val iColor = this
@@ -117,7 +88,6 @@ fun Int.adjustColor(factor: Int = 8, dialog: Boolean = false): Int {
     if (iColor.isNearBlackBlack()) return Color.parseColor("#1D1D1D")
     if (dialog) return iColor
     if (iColor == Color.WHITE) return Color.parseColor("#F5F5F5")
-
 
     var hsv = FloatArray(3)
     Color.colorToHSV(iColor, hsv)
@@ -198,28 +168,6 @@ private fun hsv2hsl(hsv: FloatArray): FloatArray {
     return floatArrayOf(hue, newSat, newHue / 2f)
 }
 
-fun Int.orientationFromDegrees() = when (this) {
-    270 -> ExifInterface.ORIENTATION_ROTATE_270
-    180 -> ExifInterface.ORIENTATION_ROTATE_180
-    90 -> ExifInterface.ORIENTATION_ROTATE_90
-    else -> ExifInterface.ORIENTATION_NORMAL
-}.toString()
-
-fun Int.degreesFromOrientation() = when (this) {
-    ExifInterface.ORIENTATION_ROTATE_270 -> 270
-    ExifInterface.ORIENTATION_ROTATE_180 -> 180
-    ExifInterface.ORIENTATION_ROTATE_90 -> 90
-    else -> 0
-}
-
-fun Int.ensureTwoDigits(): String {
-    return if (toString().length == 1) {
-        "0$this"
-    } else {
-        toString()
-    }
-}
-
 fun Int.getColorStateList(): ColorStateList {
     val states = arrayOf(
         intArrayOf(android.R.attr.state_enabled),
@@ -229,17 +177,6 @@ fun Int.getColorStateList(): ColorStateList {
     )
     val colors = intArrayOf(this, this, this, this)
     return ColorStateList(states, colors)
-}
-
-fun Int.countdown(intervalMillis: Long, callback: (count: Int) -> Unit) {
-    callback(this)
-    if (this == 0) {
-        return
-    }
-
-    Handler(Looper.getMainLooper()).postDelayed(intervalMillis) {
-        (this - 1).countdown(intervalMillis, callback)
-    }
 }
 
 fun Int.adjustForContrast(

@@ -7,16 +7,8 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
-import androidx.core.view.marginTop
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
+import androidx.core.view.*
 import cz.mts.base.R
-import cz.mts.base.helpers.SHORT_ANIMATION_DURATION
-
-fun View.beInvisibleIf(beInvisible: Boolean) = if (beInvisible) beInvisible() else beVisible()
 
 fun View.beVisibleIf(beVisible: Boolean) = if (beVisible) beVisible() else beGone()
 
@@ -47,19 +39,9 @@ fun View.onGlobalLayout(callback: () -> Unit) {
 
 fun View.isVisible() = visibility == View.VISIBLE
 
-fun View.isInvisible() = visibility == View.INVISIBLE
-
 fun View.isGone() = visibility == View.GONE
 
 fun View.performHapticFeedback() = performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING)
-
-fun View.fadeIn(duration: Long = SHORT_ANIMATION_DURATION) {
-    animate().alpha(1f).setDuration(duration).withStartAction { beVisible() }.start()
-}
-
-fun View.fadeOut(duration: Long = SHORT_ANIMATION_DURATION) {
-    animate().alpha(0f).setDuration(duration).withEndAction { beGone() }.start()
-}
 
 fun View.setupViewBackground(context: Context) {
     val drawableRes = if (context.isDynamicTheme()) {
@@ -73,19 +55,6 @@ fun View.setupViewBackground(context: Context) {
 /**
  * Sets a click listener that prevents quick repeated clicks.
  */
-fun View.setDebouncedClickListener(
-    debounceInterval: Long = 500,
-    onClick: (View) -> Unit
-) {
-    var lastClickTime = 0L
-    setOnClickListener {
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastClickTime >= debounceInterval) {
-            lastClickTime = currentTime
-            onClick(it)
-        }
-    }
-}
 
 fun View.ensureBasePadding(): IntArray {
     val key = R.id.tag_base_padding

@@ -432,7 +432,5 @@
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Please choose the top folder of the USB device on the next screen, to grant access</string>
     <string name="wrong_root_selected_usb">Wrong folder selected, please select the main folder of your USB device</string>
-
-    
     <string name="translation_english">English</string>
     </resources>

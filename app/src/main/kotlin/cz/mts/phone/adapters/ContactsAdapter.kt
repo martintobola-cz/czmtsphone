@@ -430,7 +430,7 @@ class ContactsAdapter(
     private fun viewContactRecentCalls() {
         val contact = getSelectedItems().firstOrNull() ?: return
         val mainActivity = activity as? MainActivity ?: return
-        mainActivity.showContactCallHistory(contact.getNameToDisplay())
+        mainActivity.showContactCallHistory(contact.getNameToDisplay(), contact.photoUri)
         finishActMode()
 
     }

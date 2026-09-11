@@ -3,7 +3,6 @@ package cz.mts.base.models
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.compose.runtime.Immutable
 import com.bumptech.glide.signature.ObjectKey
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
@@ -115,34 +114,3 @@ open class FileDirItem(
         return Uri.withAppendedPath(uri, mediaStoreId.toString())
     }
 }
-
-fun FileDirItem.asReadOnly() = FileDirItemReadOnly(
-    path = path,
-    name = name,
-    isDirectory = isDirectory,
-    children = children,
-    size = size,
-    modified = modified,
-    mediaStoreId = mediaStoreId
-)
-
-fun FileDirItemReadOnly.asFileDirItem() = FileDirItem(
-    path = path,
-    name = name,
-    isDirectory = isDirectory,
-    children = children,
-    size = size,
-    modified = modified,
-    mediaStoreId = mediaStoreId
-)
-
-@Immutable
-class FileDirItemReadOnly(
-    path: String,
-    name: String = "",
-    isDirectory: Boolean = false,
-    children: Int = 0,
-    size: Long = 0L,
-    modified: Long = 0L,
-    mediaStoreId: Long = 0L
-) : FileDirItem(path, name, isDirectory, children, size, modified, mediaStoreId)

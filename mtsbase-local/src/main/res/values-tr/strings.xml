@@ -392,5 +392,4 @@
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Erişim vermek için lütfen bir sonraki ekranda USB aygıtının kök klasörünü seçin</string>
     <string name="wrong_root_selected_usb">Yanlış klasör seçildi, lütfen USB aygıtınızın kök klasörünü seçin</string>
-    <string name="translation_english">İngilizce</string>
 </resources>

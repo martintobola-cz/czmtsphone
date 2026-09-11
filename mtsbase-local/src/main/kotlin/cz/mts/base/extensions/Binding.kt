@@ -8,4 +8,3 @@ inline fun <T : ViewBinding> Activity.viewBinding(crossinline bindingInflater: (
     lazy(LazyThreadSafetyMode.NONE) {
         bindingInflater.invoke(layoutInflater)
     }
-

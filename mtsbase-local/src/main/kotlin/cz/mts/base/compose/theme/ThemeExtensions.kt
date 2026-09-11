@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import cz.mts.base.compose.theme.model.Theme.Companion.systemDefaultMaterialYou
 
-
 @Composable
 fun getCurrentTheme() = getTheme(LocalContext.current, systemDefaultMaterialYou())
 

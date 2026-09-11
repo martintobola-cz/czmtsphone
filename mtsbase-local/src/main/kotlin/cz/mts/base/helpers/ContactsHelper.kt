@@ -2,7 +2,9 @@ package cz.mts.base.helpers
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.content.*
+import android.content.ContentProviderOperation
+import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -405,7 +407,6 @@ class ContactsHelper(val context: Context) {
         return emails
     }
 
-
     private fun getAddresses(contactId: Int? = null): SparseArray<ArrayList<Address>> {
         val addresses = SparseArray<ArrayList<Address>>()
         val uri = CommonDataKinds.StructuredPostal.CONTENT_URI
@@ -554,7 +555,6 @@ class ContactsHelper(val context: Context) {
 
         return ims
     }
-
 
     private fun getEvents(contactId: Int? = null): SparseArray<ArrayList<Event>> {
         val events = SparseArray<ArrayList<Event>>()
@@ -772,8 +772,6 @@ class ContactsHelper(val context: Context) {
         return groups
     }
 
-
-
     fun getContactSources(callback: (ArrayList<ContactSource>) -> Unit) {
         ensureBackgroundThread {
             callback(getContactSourcesSync())
@@ -787,7 +785,6 @@ class ContactsHelper(val context: Context) {
         }
         return ArrayList(sources)
     }
-
 
     fun getDeviceContactSources(): LinkedHashSet<ContactSource> {
         val sources = LinkedHashSet<ContactSource>()
@@ -878,7 +875,6 @@ class ContactsHelper(val context: Context) {
         }
     }
 
-
     fun addContactsToGroup(contacts: ArrayList<Contact>, groupId: Long) {
         try {
             val operations = ArrayList<ContentProviderOperation>()
@@ -923,8 +919,5 @@ class ContactsHelper(val context: Context) {
             context.showErrorToast(e)
         }
     }
-
-
-
 
 }

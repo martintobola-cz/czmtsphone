@@ -8,14 +8,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import cz.mts.base.R
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.databinding.MenuSearchBinding
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.hideKeyboard
-import cz.mts.base.extensions.onTextChangeListener
-import cz.mts.base.extensions.showKeyboard
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.LOWER_ALPHA
 import cz.mts.base.helpers.MEDIUM_ALPHA
 

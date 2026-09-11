@@ -1,15 +1,9 @@
 package cz.mts.base.helpers
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.ContactsContract.CommonDataKinds.Organization
@@ -29,14 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import cz.mts.base.R
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.baseConfig
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getIntValue
-import cz.mts.base.extensions.getNameLetter
-import cz.mts.base.extensions.getStringValue
-import cz.mts.base.extensions.hasPermission
-import cz.mts.base.extensions.queryCursor
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.models.PhoneNumber
 import cz.mts.base.models.SimpleContact
@@ -197,7 +184,6 @@ class SimpleContactsHelper(val context: Context) {
                 ?: cursor.getStringValue(Phone.NUMBER)?.let { normalizeDigitsOnly(it) }
                 ?: return@queryCursor
 
-
             val rawId = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val contactId = cursor.getIntValue(Data.CONTACT_ID)
             val type = cursor.getIntValue(Phone.TYPE)
@@ -287,7 +273,6 @@ class SimpleContactsHelper(val context: Context) {
         return ""
     }
 
-
     fun loadContactImage(
         path: String,
         imageView: ImageView,
@@ -344,14 +329,12 @@ class SimpleContactsHelper(val context: Context) {
         return bitmap
     }
 
-
     fun getCircularBitmapFromRID(@DrawableRes resId: Int): Bitmap {
         val drawable = requireNotNull(ContextCompat.getDrawable(context, resId)) {
             "Drawable resource $resId not found"
         }
         return getCircularBitmapFromDrawable(drawable)
     }
-
 
     fun getCircularBitmapFromDrawable(drawable: Drawable): Bitmap {
         val bitmap = if (drawable is BitmapDrawable) {
@@ -383,12 +366,12 @@ class SimpleContactsHelper(val context: Context) {
         return output
     }
 
-    fun getColoredGroupIcon(title: String): Drawable {
-        val icon = context.resources.getDrawable(R.drawable.ic_group_circle_bg)
-        val bgColor = letterBackgroundColors[Math.abs(title.hashCode()) % letterBackgroundColors.size].toInt()
-        (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background).applyColorFilter(bgColor)
-        return icon
-    }
+//    fun getColoredGroupIcon(title: String): Drawable {
+//        val icon = context.resources.getDrawable(R.drawable.ic_group_circle_bg)
+//        val bgColor = letterBackgroundColors[Math.abs(title.hashCode()) % letterBackgroundColors.size].toInt()
+//        (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background).applyColorFilter(bgColor)
+//        return icon
+//    }
 
     fun getContactLookupKey(contactId: String): String {
         val uri = Data.CONTENT_URI

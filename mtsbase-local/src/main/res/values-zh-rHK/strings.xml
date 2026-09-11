@@ -353,5 +353,4 @@
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">請在下一個畫面選擇 USB 設備的根文件夾以授予訪問權限</string>
     <string name="wrong_root_selected_usb">選擇了錯誤的文件夾，請選擇該 USB 設備的根文件夾</string>
-    <string name="translation_english">英語</string>
 </resources>

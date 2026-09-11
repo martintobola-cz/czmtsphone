@@ -12,6 +12,7 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -107,7 +108,7 @@ class RecentCallsAdapter(
     private lateinit var incomingMissedCallIcon: Drawable
     var fontSize: Float = activity.getTextSize()
     private val areMultipleSIMsAvailable = activity.areMultipleSIMsAvailable()
-    private var missedCallColor = resources.getColor(R.color.color_missed_call)
+    private var missedCallColor = ResourcesCompat.getColor(resources, R.color.color_missed_call, null)
     private var secondaryTextColor = textColor.adjustAlpha(0.6f)
     private var textToHighlight = ""
     private var durationPadding = resources.getDimension(R.dimen.normal_margin).toInt()
@@ -181,7 +182,7 @@ class RecentCallsAdapter(
         val sNameOrNumber = if (recentCall.isUnknownNumber) recentCall.name
                             else contact?.getNameToDisplay() ?: recentCall.phoneNumber
         val mainActivity = activity as? MainActivity ?: return
-        if (contact != null) mainActivity.showContactCallHistory(sNameOrNumber) //jméno
+        if (contact != null) mainActivity.showContactCallHistory(sNameOrNumber, contact.photoUri) //jméno
         else mainActivity.viewContactInRecents(sNameOrNumber) //číslo
     }
 

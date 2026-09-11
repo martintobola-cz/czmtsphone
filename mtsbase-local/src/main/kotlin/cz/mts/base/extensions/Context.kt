@@ -6,13 +6,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.NotificationManager
 import android.app.role.RoleManager
-import android.content.ActivityNotFoundException
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.ContentValues
-import android.content.Context
-import android.content.ContextWrapper
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.content.pm.ShortcutManager
@@ -29,7 +23,6 @@ import android.provider.OpenableColumns
 import android.provider.Settings
 import android.telecom.TelecomManager
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,52 +30,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import cz.mts.base.R
-import cz.mts.base.helpers.AppLockManager
-import cz.mts.base.helpers.BaseConfig
-import cz.mts.base.helpers.ContactsHelper
-import cz.mts.base.helpers.DAY_SECONDS
-import cz.mts.base.helpers.FONT_SIZE_LARGE
-import cz.mts.base.helpers.FONT_SIZE_MEDIUM
-import cz.mts.base.helpers.FONT_SIZE_SMALL
-import cz.mts.base.helpers.HOUR_SECONDS
-import cz.mts.base.helpers.KEY_MAILTO
-import cz.mts.base.helpers.MINUTE_SECONDS
-import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
-import cz.mts.base.helpers.PERMISSION_ACCESS_COARSE_LOCATION
-import cz.mts.base.helpers.PERMISSION_ACCESS_FINE_LOCATION
-import cz.mts.base.helpers.PERMISSION_CALL_PHONE
-import cz.mts.base.helpers.PERMISSION_CAMERA
-import cz.mts.base.helpers.PERMISSION_GET_ACCOUNTS
-import cz.mts.base.helpers.PERMISSION_MEDIA_LOCATION
-import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
-import cz.mts.base.helpers.PERMISSION_READ_CALENDAR
-import cz.mts.base.helpers.PERMISSION_READ_CALL_LOG
-import cz.mts.base.helpers.PERMISSION_READ_CONTACTS
-import cz.mts.base.helpers.PERMISSION_READ_MEDIA_AUDIO
-import cz.mts.base.helpers.PERMISSION_READ_MEDIA_IMAGES
-import cz.mts.base.helpers.PERMISSION_READ_MEDIA_VIDEO
-import cz.mts.base.helpers.PERMISSION_READ_MEDIA_VISUAL_USER_SELECTED
-import cz.mts.base.helpers.PERMISSION_READ_PHONE_STATE
-import cz.mts.base.helpers.PERMISSION_READ_SMS
-import cz.mts.base.helpers.PERMISSION_READ_STORAGE
-import cz.mts.base.helpers.PERMISSION_READ_SYNC_SETTINGS
-import cz.mts.base.helpers.PERMISSION_RECORD_AUDIO
-import cz.mts.base.helpers.PERMISSION_SEND_SMS
-import cz.mts.base.helpers.PERMISSION_WRITE_CALENDAR
-import cz.mts.base.helpers.PERMISSION_WRITE_CALL_LOG
-import cz.mts.base.helpers.PERMISSION_WRITE_CONTACTS
-import cz.mts.base.helpers.PERMISSION_WRITE_STORAGE
-import cz.mts.base.helpers.PREFS_KEY
+import cz.mts.base.helpers.*
 import cz.mts.base.helpers.PhoneNumberHelper.isPhoneNumber
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeNumberE164
-import cz.mts.base.helpers.TIME_FORMAT_12
-import cz.mts.base.helpers.TIME_FORMAT_24
-import cz.mts.base.helpers.ensureBackgroundThread
-import cz.mts.base.helpers.isNougatPlus
-import cz.mts.base.helpers.isOnMainThread
-import cz.mts.base.helpers.isQPlus
-import cz.mts.base.helpers.isUpsideDownCakePlus
 import cz.mts.base.models.BlockedNumber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -97,13 +48,6 @@ val Context.areSystemAnimationsEnabled: Boolean get() = Settings.Global.getFloat
 
 val Context.appLockManager
     get() = AppLockManager.getInstance(applicationContext as Application)
-
-fun Context.sendEmailIntent(recipient: String) {
-    Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.fromParts(KEY_MAILTO, recipient, null)
-        launchActivityIntent(this)
-    }
-}
 
 fun Context.toast(id: Int, length: Int = Toast.LENGTH_SHORT) {
     toast(getString(id), length)
@@ -211,7 +155,6 @@ fun Context.queryCursor(
     }
 }
 
-
 fun Context.queryCursor(
     uri: Uri,
     projection: Array<String>,
@@ -234,7 +177,6 @@ fun Context.queryCursor(
         }
     }
 }
-
 
 fun Context.getSizeFromContentUri(uri: Uri): Long {
     val projection = arrayOf(OpenableColumns.SIZE)
@@ -265,11 +207,9 @@ fun Context.updateSDCardPath() {
     }
 }
 
-
 fun Context.isOrWasThankYouInstalled(allowPretend: Boolean = true): Boolean {
     return true
 }
-
 
 fun Context.addLockedLabelIfNeeded(stringId: Int): String {
     return if (isOrWasThankYouInstalled()) {
@@ -278,7 +218,6 @@ fun Context.addLockedLabelIfNeeded(stringId: Int): String {
         "${getString(stringId)} (${getString(R.string.feature_locked)})"
     }
 }
-
 
 fun Context.formatSecondsToShortTimeString(totalSeconds: Int): String {
     if (totalSeconds <= 0) return ""
@@ -309,8 +248,6 @@ fun Context.formatSecondsToShortTimeString(totalSeconds: Int): String {
 
 fun Context.getTimeFormat() = if (baseConfig.use24HourFormat) TIME_FORMAT_24 else TIME_FORMAT_12
 
-
-
 fun Context.getFontSizeText() = getString(
     when (baseConfig.fontSize) {
         FONT_SIZE_SMALL -> R.string.small
@@ -328,10 +265,8 @@ fun Context.getTextSize() = when (baseConfig.fontSize) {
 }
 
 val Context.telecomManager: TelecomManager get() = getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 val Context.notificationManager: NotificationManager get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 val Context.shortcutManager: ShortcutManager get() = getSystemService(ShortcutManager::class.java) as ShortcutManager
-
 
 fun Context.isDefaultDialer(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -590,9 +525,4 @@ fun Context.isAppInstalled(packageName: String): Boolean {
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
-}
-fun Context.findActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
 }

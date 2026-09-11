@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import cz.mts.base.extensions.adjustAlpha
 import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.helpers.MEDIUM_ALPHA
 
 open class MyEditText : AppCompatEditText {
     constructor(context: Context) : super(context)

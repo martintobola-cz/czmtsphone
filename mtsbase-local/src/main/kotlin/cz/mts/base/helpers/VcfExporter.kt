@@ -7,29 +7,18 @@ import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.MediaStore
-import ezvcard.Ezvcard
-import ezvcard.VCard
-import ezvcard.VCardVersion
-import ezvcard.parameter.ImageType
-import ezvcard.property.Address
-import ezvcard.property.Anniversary
-import ezvcard.property.Birthday
-import ezvcard.property.Categories
-import ezvcard.property.Email
-import ezvcard.property.FormattedName
-import ezvcard.property.Impp
-import ezvcard.property.Organization
-import ezvcard.property.Photo
-import ezvcard.property.StructuredName
-import ezvcard.property.Telephone
-import ezvcard.property.Title
-import ezvcard.util.PartialDate
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getByteArray
 import cz.mts.base.extensions.getDateTimeFromDateString
 import cz.mts.base.extensions.toast
 import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.models.contacts.Contact
+import ezvcard.Ezvcard
+import ezvcard.VCard
+import ezvcard.VCardVersion
+import ezvcard.parameter.ImageType
+import ezvcard.property.*
+import ezvcard.util.PartialDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.OutputStream
@@ -246,7 +235,6 @@ class VcfExporter {
              else                  -> ExportResult.EXPORT_OK
          }
      }
-
 
     // =========================
     // HELPERS

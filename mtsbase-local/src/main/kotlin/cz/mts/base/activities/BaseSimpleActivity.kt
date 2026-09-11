@@ -5,11 +5,7 @@ import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.BitmapFactory
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -30,27 +26,8 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.get
 import androidx.core.view.size
 import cz.mts.base.R
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.baseConfig
-import cz.mts.base.extensions.getAppIconColors
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getPermissionString
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperStatusBarColor
-import cz.mts.base.extensions.getThemeId
-import cz.mts.base.extensions.hasPermission
-import cz.mts.base.extensions.hideKeyboard
-import cz.mts.base.extensions.openDeviceSettings
-import cz.mts.base.extensions.showErrorToast
-import cz.mts.base.helpers.APP_ICON_IDS
-import cz.mts.base.helpers.APP_LAUNCHER_NAME
-import cz.mts.base.helpers.MEDIUM_ALPHA
-import cz.mts.base.helpers.MyContextWrapper
-import cz.mts.base.helpers.NavigationIcon
-import cz.mts.base.helpers.isQPlus
-import cz.mts.base.helpers.isTiramisuPlus
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
 import cz.mts.base.views.MyAppBarLayout
 
 abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
@@ -60,7 +37,6 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
     var isAskingPermissions = false
 
     private lateinit var backCallback: OnBackPressedCallback
-
 
     private val setDefaultDialerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -193,10 +169,8 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
                 background?.setColorFilter(contrastColor, PorterDuff.Mode.MULTIPLY)
             }
 
-
         }
     }
-
 
     fun updateRecentsAppIcon() {
         if (!baseConfig.isUsingModifiedAppIcon) return
@@ -271,7 +245,6 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
         callback(true)
         return false
     }
-
 
     fun handlePermission(permissionId: Int, callback: (granted: Boolean) -> Unit) {
         actionOnPermission = null

@@ -1,6 +1,5 @@
 package cz.mts.base.extensions
 
-
 import android.graphics.Color
 import kotlin.math.pow
 
@@ -17,7 +16,6 @@ fun getContrastingColor(color: Int): Int {
     // Pokud je tmavá → vrať bílou
     return if (brightness > 186) Color.BLACK else Color.WHITE
 }
-
 
 data class RGB(val r: Int, val g: Int, val b: Int)
 

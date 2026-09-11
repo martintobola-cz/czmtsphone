@@ -1,5 +1,9 @@
 package cz.mts.base.helpers
 
+//import ezvcard.parameter.ImppType
+
+//import ezvcard.property.Organization as VcfOrganization
+
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.graphics.Bitmap
@@ -14,30 +18,28 @@ import cz.mts.base.extensions.contactsDB
 import cz.mts.base.extensions.toast
 import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.models.PhoneNumber
-import cz.mts.base.models.contacts.Address as MtsAddress
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.models.contacts.Email
-import cz.mts.base.models.contacts.Event as MtsEvent
-import cz.mts.base.models.contacts.IM as MtsIM
 import cz.mts.base.models.contacts.Organization
 import ezvcard.Ezvcard
 import ezvcard.VCard
-//import ezvcard.parameter.ImppType
-import ezvcard.property.*
+import ezvcard.property.Address
+import ezvcard.property.Impp
+import ezvcard.property.Telephone
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-
-import ezvcard.property.StructuredName as VcfStructuredName
-//import ezvcard.property.Organization as VcfOrganization
-import ezvcard.property.Email as VcfEmail
-
-import android.provider.ContactsContract.CommonDataKinds.StructuredName as AndroidStructuredName
+import android.provider.ContactsContract.CommonDataKinds.Email as AndroidEmail
+import android.provider.ContactsContract.CommonDataKinds.Nickname as AndroidNickname
+import android.provider.ContactsContract.CommonDataKinds.Note as AndroidNote
 import android.provider.ContactsContract.CommonDataKinds.Organization as AndroidOrganization
 import android.provider.ContactsContract.CommonDataKinds.Photo as AndroidPhoto
-import android.provider.ContactsContract.CommonDataKinds.Email as AndroidEmail
-import android.provider.ContactsContract.CommonDataKinds.Note as AndroidNote
-import android.provider.ContactsContract.CommonDataKinds.Nickname as AndroidNickname
+import android.provider.ContactsContract.CommonDataKinds.StructuredName as AndroidStructuredName
+import cz.mts.base.models.contacts.Address as MtsAddress
+import cz.mts.base.models.contacts.Event as MtsEvent
+import cz.mts.base.models.contacts.IM as MtsIM
+import ezvcard.property.Email as VcfEmail
+import ezvcard.property.StructuredName as VcfStructuredName
 
 object VcfImporter {
 

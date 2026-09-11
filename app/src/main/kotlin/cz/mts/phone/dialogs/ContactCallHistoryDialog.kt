@@ -2,12 +2,14 @@ package cz.mts.phone.dialogs
 
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.provider.CallLog.Calls
 import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.mts.base.extensions.adjustColor
 import cz.mts.base.extensions.baseConfig as config
+import cz.mts.base.extensions.getColoredDrawableWithColor
 import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.extensions.getProperPrimaryColor
 import cz.mts.base.extensions.getProperTextColor
@@ -24,10 +26,6 @@ import cz.mts.phone.databinding.DialogContactCallHistoryBinding
 import cz.mts.phone.fragments.RecentsFragment
 
 /**
- * Overlay dialog (nikoliv fullscreen - stejný princip jako u ostatních AlertDialogů
- * v appce, obrazovka pod ním zůstává vidět/ztmavená) s kompletní negroupovanou
- * historií hovorů jednoho kontaktu.
- *
  * Zdrojem dat je běžící RecentsFragment: dialog si na startu vezme aktuální
  * (třeba jen částečně načtený) seznam a zaregistruje se na
  * [RecentsFragment.onKnownContactCallsChanged], takže se řádky doplňují postupně
@@ -36,7 +34,8 @@ import cz.mts.phone.fragments.RecentsFragment
 class ContactCallHistoryDialog(
     private val activity: SimpleActivity,
     private val recentsFragment: RecentsFragment,
-    private val contactName: String
+    private val contactName: String,
+    private val sUri : String?
 ) {
 
     private val binding = DialogContactCallHistoryBinding.inflate(LayoutInflater.from(activity))
@@ -47,17 +46,13 @@ class ContactCallHistoryDialog(
         binding.contactHistoryList.layoutManager = LinearLayoutManager(activity)
         binding.contactHistoryList.adapter = adapter
 
-        // Necháváme seznam jen "vysoký na dialog" (ne celoobrazovkový) - viz požadavek
-   //     binding.contactHistoryList.layoutParams = binding.contactHistoryList.layoutParams.apply {
-   //         height = (activity.resources.displayMetrics.heightPixels * 0.55f).toInt()
-   //     }
-
         binding.contactHistoryName.apply {
             text = contactName
             setTextColor(activity.getProperTextColor())
             setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.getTextSize() * 1.1f)
         }
 
+        setupStatsIcons()
         refreshList()
 
         recentsFragment.onKnownContactCallsChanged = { activity.runOnUiThread { refreshList() } }
@@ -93,15 +88,48 @@ class ContactCallHistoryDialog(
     private fun refreshList() {
         val calls = recentsFragment.getCallsForContact(contactName)
         adapter.submitList(calls)
+        updateStats(calls)
 
-        // Avatar natáhneme, jakmile dorazí první záznam (dřív nemáme photoUri k dispozici)
         if (!headerFilled) {
-            val photoUri = calls.firstOrNull()?.photoUri.orEmpty()
-            if (photoUri.isNotEmpty() || calls.isNotEmpty()) {
-                fillAvatar(photoUri)
-                headerFilled = true
+            val photoUri = sUri?: calls.firstOrNull()?.photoUri.orEmpty()
+            fillAvatar(photoUri)
+            headerFilled = true
+        }
+    }
+
+    private fun setupStatsIcons() {
+        val res = activity.resources
+        val theme = activity.theme
+        binding.contactHistoryIncomingIcon.setImageDrawable(
+            res.getColoredDrawableWithColor(R.drawable.ic_call_received_vector, res.getColor(R.color.color_incoming_call, theme))
+        )
+        binding.contactHistoryOutgoingIcon.setImageDrawable(
+            res.getColoredDrawableWithColor(R.drawable.ic_call_made_vector, res.getColor(R.color.color_outgoing_call, theme))
+        )
+        binding.contactHistoryMissedIcon.setImageDrawable(
+            res.getColoredDrawableWithColor(R.drawable.ic_call_missed_vector, res.getColor(R.color.color_missed_call, theme))
+        )
+    }
+
+    // Počty se přepočítávají při každém refreshList(), takže se doplňují postupně s tím, jak recents dobíhá.
+    private fun updateStats(calls: List<cz.mts.phone.models.RecentCall>) {
+        var outgoing = 0
+        var missed = 0
+        var incoming = 0
+        calls.forEach {
+            when (it.type) {
+                Calls.OUTGOING_TYPE -> outgoing++
+                Calls.MISSED_TYPE -> missed++
+                else -> incoming++
             }
         }
+        val textColor = activity.getProperTextColor()
+        binding.contactHistoryIncomingCount.text = incoming.toString()
+        binding.contactHistoryIncomingCount.setTextColor(textColor)
+        binding.contactHistoryOutgoingCount.text = outgoing.toString()
+        binding.contactHistoryOutgoingCount.setTextColor(textColor)
+        binding.contactHistoryMissedCount.text = missed.toString()
+        binding.contactHistoryMissedCount.setTextColor(textColor)
     }
 
     private fun fillAvatar(photoUri: String) {
@@ -119,8 +147,7 @@ class ContactCallHistoryDialog(
         }
 
         // photoUri prázdné => loadContactImage sám spadne na fallback ikonu (viz SimpleContactsHelper)
-        SimpleContactsHelper(activity).loadContactImage(
-            photoUri, binding.contactHistoryAvatar, contactName, null, false
+        SimpleContactsHelper(activity).loadContactImage(photoUri, binding.contactHistoryAvatar, contactName, null, false
         )
     }
 }

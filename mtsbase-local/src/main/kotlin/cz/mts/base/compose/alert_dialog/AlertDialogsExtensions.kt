@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.android.awaitFrame
 import cz.mts.base.R
 import cz.mts.base.compose.theme.LocalTheme
 import cz.mts.base.compose.theme.Shapes
@@ -24,6 +23,7 @@ import cz.mts.base.compose.theme.light_grey_stroke
 import cz.mts.base.compose.theme.model.Theme
 import cz.mts.base.extensions.baseConfig
 import cz.mts.base.helpers.isSPlus
+import kotlinx.coroutines.android.awaitFrame
 
 val dialogContainerColor
     @ReadOnlyComposable

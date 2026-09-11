@@ -1,13 +1,13 @@
 package cz.mts.base.helpers
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
+//import android.graphics.Bitmap
+//import android.graphics.BitmapFactory
+//import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds.Event
-import android.provider.MediaStore
+//import android.provider.MediaStore
 import cz.mts.base.extensions.contactsDB
-import cz.mts.base.extensions.getByteArray
+//import cz.mts.base.extensions.getByteArray
 import cz.mts.base.extensions.getEmptyContact
 import cz.mts.base.models.SimpleContact
 import cz.mts.base.models.contacts.Contact
@@ -19,7 +19,7 @@ class LocalContactsHelper(val context: Context) {
     fun getAllContacts(favoritesOnly: Boolean = false): ArrayList<Contact> {
         val contacts = if (favoritesOnly) context.contactsDB.getFavoriteContacts() else context.contactsDB.getContacts()
         val storedGroups = ContactsHelper(context).getStoredGroupsSync()
-        return (contacts.map { convertLocalContactToContact(it, storedGroups) }.toMutableList() as? ArrayList<Contact>) ?: arrayListOf()
+        return contacts.mapNotNullTo(ArrayList()) { convertLocalContactToContact(it, storedGroups) }
     }
 
     fun getContactWithId(id: Int): Contact? {
@@ -27,24 +27,24 @@ class LocalContactsHelper(val context: Context) {
         return convertLocalContactToContact(context.contactsDB.getContactWithId(id), storedGroups)
     }
 
+    fun insertOrUpdateContact(contact: Contact): Boolean {
+        val localContact = convertContactToLocalContact(contact)
+        return context.contactsDB.insertOrUpdate(localContact) > 0
+    }
+/**
     fun getPhotoContactWithId(id: Int): Bitmap? {
         val contactPhoto = context.contactsDB.getPhotoContactWithId(id)
         return if (contactPhoto == null) {
             null
         } else {
             try {
-                BitmapFactory.decodeByteArray(contactPhoto, 0, contactPhoto!!.size)
+                BitmapFactory.decodeByteArray(contactPhoto, 0, contactPhoto.size)
             } catch (e: OutOfMemoryError) {
                 null
             }
         }
     }
 
-
-    fun insertOrUpdateContact(contact: Contact): Boolean {
-        val localContact = convertContactToLocalContact(contact)
-        return context.contactsDB.insertOrUpdate(localContact) > 0
-    }
 
     fun addContactsToGroup(contacts: ArrayList<Contact>, groupId: Long) {
         contacts.forEach {
@@ -98,20 +98,16 @@ class LocalContactsHelper(val context: Context) {
         return fullSizePhotoData
     }
 
+
+    fun getPrivateSimpleContactsSync(favoritesOnly: Boolean, withPhoneNumbersOnly: Boolean) = getAllContacts(favoritesOnly).mapNotNull {
+        convertContactToSimpleContact(it, withPhoneNumbersOnly)
+    }
+**/
+
     private fun convertLocalContactToContact(localContact: LocalContact?, storedGroups: ArrayList<Group>): Contact? {
         if (localContact == null) {
             return null
         }
-
-     //   val contactPhoto = if (localContact.photo == null) {
-     //       null
-     //   } else {
-     //       try {
-     //           BitmapFactory.decodeByteArray(localContact.photo, 0, localContact.photo!!.size)
-     //       } catch (e: OutOfMemoryError) {
-     //           null
-     //       }
-     //   }
 
         return context.getEmptyContact().apply {
             id = localContact.id!!
@@ -132,7 +128,7 @@ class LocalContactsHelper(val context: Context) {
             photo = null
             photoUri = localContact.photoUri
             notes = localContact.notes
-            groups = storedGroups.filter { localContact.groups.contains(it.id) } as ArrayList<Group>
+            groups = storedGroups.filterTo(ArrayList()) { localContact.groups.contains(it.id) }
             organization = Organization(localContact.company, localContact.jobPosition)
             websites = localContact.websites
             IMs = localContact.IMs
@@ -141,13 +137,7 @@ class LocalContactsHelper(val context: Context) {
         }
     }
 
-    public fun convertContactToLocalContact(contact: Contact): LocalContact {
-       // val photoByteArray = if (contact.photoUri.isNotEmpty()) {
-       //     getPhotoByteArray(contact.photoUri)
-       // } else {
-       //     contact.photo?.getByteArray()
-       // }
-
+    fun convertContactToLocalContact(contact: Contact): LocalContact {
         return getEmptyLocalContact().apply {
             id = if (contact.id <= FIRST_CONTACT_ID) null else contact.id
             prefix = contact.prefix
@@ -164,7 +154,7 @@ class LocalContactsHelper(val context: Context) {
             starred = contact.starred
             addresses = contact.addresses
             notes = contact.notes
-            groups = contact.groups.map { it.id }.toMutableList() as ArrayList<Long>
+            groups = contact.groups.mapNotNullTo(ArrayList()) { it.id }
             company = contact.organization.company
             jobPosition = contact.organization.jobPosition
             websites = contact.websites
@@ -173,17 +163,14 @@ class LocalContactsHelper(val context: Context) {
         }
     }
 
-    fun getPrivateSimpleContactsSync(favoritesOnly: Boolean, withPhoneNumbersOnly: Boolean) = getAllContacts(favoritesOnly).mapNotNull {
-        convertContactToSimpleContact(it, withPhoneNumbersOnly)
-    }
 
     companion object {
         fun convertContactToSimpleContact(contact: Contact?, withPhoneNumbersOnly: Boolean): SimpleContact? {
             return if (contact == null || (withPhoneNumbersOnly && contact.phoneNumbers.isEmpty())) {
                 null
             } else {
-                val birthdays = contact.events.filter { it.type == Event.TYPE_BIRTHDAY }.map { it.value }.toMutableList() as ArrayList<String>
-                val anniversaries = contact.events.filter { it.type == Event.TYPE_ANNIVERSARY }.map { it.value }.toMutableList() as ArrayList<String>
+                val birthdays = contact.events.mapNotNullTo(ArrayList()) { if (it.type == Event.TYPE_BIRTHDAY) it.value else null }
+                val anniversaries = contact.events.mapNotNullTo(ArrayList()) { if (it.type == Event.TYPE_ANNIVERSARY) it.value else null }
                 SimpleContact(contact.id, contact.id, contact.getNameToDisplay(), contact.photoUri, contact.phoneNumbers, birthdays, anniversaries)
             }
         }

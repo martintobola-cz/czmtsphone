@@ -2,6 +2,7 @@ package cz.mts.base.views
 
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -17,8 +18,7 @@ open class MyRecyclerView : RecyclerView {
     private var isDragSelectionEnabled = false
     private var zoomListener: MyZoomListener? = null
     private var dragListener: MyDragListener? = null
-    private var autoScrollHandler = Handler()
-
+    private var autoScrollHandler = Handler(Looper.getMainLooper())
     private var scaleDetector: ScaleGestureDetector
 
     private var dragSelectActive = false
@@ -229,7 +229,7 @@ open class MyRecyclerView : RecyclerView {
         }
 
         val holder = v.tag as ViewHolder
-        return holder.adapterPosition
+        return holder.bindingAdapterPosition
     }
 
     override fun onScrollStateChanged(state: Int) {

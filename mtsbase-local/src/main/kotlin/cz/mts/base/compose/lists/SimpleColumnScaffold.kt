@@ -69,7 +69,6 @@ fun SimpleColumnScaffold(
     }
 }
 
-
 @MyDevices
 @Composable
 private fun SimpleColumnScaffoldPreview() {

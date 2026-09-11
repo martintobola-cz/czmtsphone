@@ -39,15 +39,14 @@ private const val PRIMARY_COLORS_COUNT = 19
 private const val DEFAULT_PRIMARY_COLOR_INDEX = 5
 private const val DEFAULT_SECONDARY_COLOR_INDEX = 8
 
-
 // ---------------------------------------------------------------------------
 // View-based implementace
 // ---------------------------------------------------------------------------
 class LineColorPickerDialog(
     private val activity: BaseSimpleActivity,
-    @ColorInt private val color: Int,
+    @param:ColorInt private val color: Int,
     private val isPrimaryColorPicker: Boolean,
-    @ArrayRes private val primaryColors: Int = R.array.md_primary_colors,
+    @param:ArrayRes private val primaryColors: Int = R.array.md_primary_colors,
     private val appIconIDs: ArrayList<Int>? = null,
     private val appBar: MyAppBarLayout? = null,
     private val callback: (wasPositivePressed: Boolean, color: Int) -> Unit,
@@ -61,7 +60,6 @@ class LineColorPickerDialog(
         setupView()
         buildDialog()
     }
-
 
     fun getSpecificColor(): Int = view.secondaryLineColorPicker.getCurrentColor()
 

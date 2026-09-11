@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ContentCopy
@@ -26,26 +27,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.onLongClick
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import cz.mts.base.R
 import cz.mts.base.compose.components.SimpleDropDownMenuItem
-import cz.mts.base.compose.extensions.*
+import cz.mts.base.compose.extensions.BooleanPreviewParameterProvider
+import cz.mts.base.compose.extensions.MyDevices
+import cz.mts.base.compose.extensions.ifTrue
+import cz.mts.base.compose.extensions.rememberMutableInteractionSource
 import cz.mts.base.compose.lists.*
 import cz.mts.base.compose.menus.ActionItem
 import cz.mts.base.compose.menus.ActionMenu
@@ -58,6 +54,10 @@ import cz.mts.base.compose.theme.model.Theme
 import cz.mts.base.extensions.darkenColor
 import cz.mts.base.extensions.getContrastColor
 import cz.mts.base.models.BlockedNumber
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 private const val CLICK_RESET_TIME = 250L
 private const val RESET_IMMEDIATELY = 1L
@@ -189,21 +189,6 @@ internal fun ManageBlockedNumbersScreen(
         }
         LazyColumn(
             state = state,
-            modifier = Modifier.ifFalse(blockedNumbers.isNullOrEmpty()) {
-                listDragHandlerLongKey(
-                    isScrollingUp = state.isScrollingUp(),
-                    lazyListState = state,
-                    haptics = hapticFeedback,
-                    selectedIds = selectedIds,
-                    autoScrollSpeed = autoScrollSpeed,
-                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() },
-                    dragUpdate = { isDraggingStarted ->
-                        hasDraggingStarted = isDraggingStarted
-                        triggerReset = RESET_IMMEDIATELY
-                    },
-                    ids = blockedNumbers?.map { blockedNumber -> blockedNumber.id }.orEmpty()
-                )
-            },
             verticalArrangement = Arrangement.spacedBy(SimpleTheme.dimens.padding.extraSmall),
             contentPadding = PaddingValues(bottom = paddingValues.calculateBottomPadding())
         ) {
@@ -224,24 +209,10 @@ internal fun ManageBlockedNumbersScreen(
                         BlockedNumber(
                             modifier = Modifier
                                 .animateItem()
-                                .semantics {
-                                    if (!isInActionMode) {
-                                        onLongClick(ON_LONG_CLICK_LABEL) {
-                                            selectedIds.value += blockedNumber.id
-                                            true
-                                        }
-                                    }
-                                }
                                 .ifTrue(!isInActionMode) {
-                                    combinedClickable(onLongClick = {
-                                        val selectable = longPressSelectableValue(lastClickedValue, blockedNumber, triggerReset) { bNumber1, bNumber2 ->
-                                            updateSelectedIndices(blockedNumbers, bNumber1, bNumber2, selectedIds)
-                                        }
-                                        lastClickedValue = selectable.first
-                                        triggerReset = selectable.second
-                                    }, onClick = {
+                                    clickable {
                                         onEdit(blockedNumber)
-                                    })
+                                    }
                                 }
                                 .ifTrue(isInActionMode) {
                                     combinedClickable(
@@ -258,7 +229,6 @@ internal fun ManageBlockedNumbersScreen(
                                                         .subList(indexOfLastValueInSelection, index)
                                                         .map { number -> number.id }
                                                 }
-
                                                 else -> {
                                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                                     selectedIds.value += blockedNumbers
@@ -332,16 +302,21 @@ private fun BlockedNumber(
     val hasContactName = blockedNumber.contactName != null
     val contactNameContent = remember {
         movableContentOf {
-            Text(
-                text = blockedNumber.contactName.toString(),
-            )
+            DisableSelection {
+                Text(
+                    text = blockedNumber.contactName.toString(),
+                )
+            }
         }
     }
     val blockedNumberContent = remember {
         movableContentOf {
-            BlockedNumberHeadlineContent(blockedNumber = blockedNumber, hasContactName = hasContactName)
+            DisableSelection {
+                BlockedNumberHeadlineContent(blockedNumber = blockedNumber, hasContactName = hasContactName)
+            }
         }
     }
+
     ListItem(
         modifier = modifier,
         headlineContent = {
@@ -384,7 +359,6 @@ private fun blockedNumberListItemColors(
     },
     trailingIconColor = iconsColor
 )
-
 
 @Composable
 private fun BlockedNumberHeadlineContent(modifier: Modifier = Modifier, blockedNumber: BlockedNumber, hasContactName: Boolean) {
@@ -498,7 +472,6 @@ private fun ActionModeToolbar(
     )
 }
 
-
 @Composable
 @ReadOnlyComposable
 private fun actionModeBgColor(): Color =
@@ -507,7 +480,6 @@ private fun actionModeBgColor(): Color =
     } else {
         actionModeColor
     }
-
 
 @Composable
 private fun BlockedNumberActionMenu(

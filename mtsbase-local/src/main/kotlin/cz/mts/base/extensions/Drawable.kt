@@ -2,11 +2,18 @@ package cz.mts.base.extensions
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 
-fun Drawable.applyColorFilter(color: Int) = mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN)
+fun Drawable.applyColorFilter(color: Int) {
+    mutate().colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+        color,
+        BlendModeCompat.SRC_IN
+    )
+}
+//fun Drawable.applyColorFilter(color: Int) = mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN)
 
 fun Drawable.convertToBitmap(): Bitmap {
     val bitmap = if (intrinsicWidth <= 0 || intrinsicHeight <= 0) {

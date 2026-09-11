@@ -17,11 +17,17 @@ class ExportCallHistoryDialog(
     callback: (filename: String) -> Unit
 ) {
     init {
-        val sTitle = if (iType == 0) R.string.export_call_history
-                     else            R.string.export_contacts
+        val sTitle = when (iType) {
+            0 -> R.string.export_call_history
+            1 -> R.string.export_contacts
+            else -> R.string.export_settings
+        }
 
-        val sFileName = if (iType == 0) "call_history_${activity.getCurrentFormattedDateTime()}"
-                        else            "contacts_${activity.getCurrentFormattedDateTime()}"
+        val sFileName = when (iType) {
+            0 -> "call_history_${activity.getCurrentFormattedDateTime()}"
+            1 -> "contacts_${activity.getCurrentFormattedDateTime()}"
+            else -> "mts_prefs_backup_${activity.getCurrentFormattedDateTime()}"
+        }
 
         val binding = DialogExportCallHistoryBinding.inflate(activity.layoutInflater).apply {
             exportCallHistoryFilename.setText(sFileName)

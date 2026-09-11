@@ -73,7 +73,7 @@ fun Activity.startContactDetailsIntentID(longID: Long, source: String) {
 fun Activity.startContactDetailsIntentY(recent: RecentCall) {
     if (recent.isUnknownNumber) return
 
-    val sNumber = recent.specificNumber?.takeIf { it.isNotBlank() }
+    val sNumber = recent.specificNumber.takeIf { it.isNotBlank() }
         ?: recent.phoneNumber
 
     val weakSelf = WeakReference(this)

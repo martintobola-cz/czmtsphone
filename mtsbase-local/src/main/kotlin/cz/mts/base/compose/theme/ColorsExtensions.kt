@@ -26,7 +26,6 @@ val iconsColor
         Color.Black
     }
 
-
 @Composable
 @ReadOnlyComposable
 fun preferenceValueColor(isEnabled: Boolean) =

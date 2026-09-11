@@ -1,7 +1,5 @@
 package cz.mts.base.dialogs
 
-import android.app.Activity
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -14,32 +12,6 @@ import cz.mts.base.R
 import cz.mts.base.compose.alert_dialog.*
 import cz.mts.base.compose.extensions.MyDevices
 import cz.mts.base.compose.theme.AppThemeSurface
-import cz.mts.base.databinding.DialogMessageBinding
-import cz.mts.base.extensions.getAlertDialogBuilder
-import cz.mts.base.extensions.setupDialogStuff
-
-class PermissionRequiredDialog(
-    val activity: Activity,
-    textId: Int,
-    private val positiveActionCallback: () -> Unit,
-    private val negativeActionCallback: (() -> Unit)? = null
-) {
-    private var dialog: AlertDialog? = null
-
-    init {
-        val view = DialogMessageBinding.inflate(activity.layoutInflater, null, false)
-        view.message.text = activity.getString(textId)
-
-        activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.grant_permission) { _, _ -> positiveActionCallback() }
-            .setNegativeButton(R.string.cancel) { _, _ -> negativeActionCallback?.invoke() }.apply {
-                val title = activity.getString(R.string.permission_required)
-                activity.setupDialogStuff(view.root, this, titleText = title) { alertDialog ->
-                    dialog = alertDialog
-                }
-            }
-    }
-}
 
 @Composable
 fun PermissionRequiredAlertDialog(

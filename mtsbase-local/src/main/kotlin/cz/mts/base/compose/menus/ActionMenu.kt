@@ -23,8 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import cz.mts.base.R
 import cz.mts.base.compose.alert_dialog.dialogBorder
 import cz.mts.base.compose.alert_dialog.dialogContainerColor
@@ -34,6 +32,8 @@ import cz.mts.base.compose.extensions.rememberMutableInteractionSource
 import cz.mts.base.compose.theme.AppThemeSurface
 import cz.mts.base.compose.theme.Shapes
 import cz.mts.base.compose.theme.SimpleTheme
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 /**
  * Essentially a wrapper around a lambda function to give it a name and icon
@@ -45,7 +45,7 @@ import cz.mts.base.compose.theme.SimpleTheme
  */
 @Immutable
 data class ActionItem(
-    @StringRes
+    @param:StringRes
     val nameRes: Int,
     val icon: ImageVector? = null,
     val overflowMode: OverflowMode = OverflowMode.IF_NECESSARY,
@@ -92,8 +92,10 @@ fun ActionMenu(
                     else -> LocalContentColor.current
                 }
                 TooltipBox(
-                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(spacingBetweenTooltipAndAnchor = 18.dp),
-                    tooltip = {
+                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                        positioning = TooltipAnchorPosition.Above,
+                        spacingBetweenTooltipAndAnchor = 18.dp
+                    ),                    tooltip = {
                         PlainTooltip(shape = Shapes.extraLarge) {
                             Text(
                                 text = name,
@@ -132,8 +134,10 @@ fun ActionMenu(
                 }
             },
             state = rememberTooltipState(),
-            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(spacingBetweenTooltipAndAnchor = 18.dp),
-        ) {
+            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                positioning = TooltipAnchorPosition.Above,
+                spacingBetweenTooltipAndAnchor = 18.dp
+            ),        ) {
             ActionIconButton(
                 onClick = { onMenuToggle(true) },
                 contentColor = iconsColor ?: LocalContentColor.current,

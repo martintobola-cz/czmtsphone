@@ -21,7 +21,6 @@ interface ContactsDao {
     @Query("SELECT photo FROM contacts WHERE id = :id")
     fun getPhotoContactWithId(id: Int): ByteArray?
 
-
     @Query("SELECT * FROM contacts WHERE phone_numbers LIKE :number")
     fun getContactWithNumber(number: String): LocalContact?
 

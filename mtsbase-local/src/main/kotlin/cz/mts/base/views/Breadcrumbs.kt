@@ -16,14 +16,7 @@ import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
 import cz.mts.base.R
 import cz.mts.base.databinding.ItemBreadcrumbBinding
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.getBasePath
-import cz.mts.base.extensions.getDialogBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.humanizePath
-import cz.mts.base.extensions.onGlobalLayout
-import cz.mts.base.extensions.setDrawablesRelativeWithIntrinsicBounds
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.MEDIUM_ALPHA
 import cz.mts.base.models.FileDirItem
 

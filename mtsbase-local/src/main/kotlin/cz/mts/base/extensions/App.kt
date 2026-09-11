@@ -4,7 +4,6 @@ import android.app.Application
 import cz.mts.base.helpers.isNougatPlus
 import java.util.Locale
 
-
 fun Application.checkUseEnglish() {
     if (baseConfig.useEnglish && !isNougatPlus()) {
         val conf = resources.configuration

@@ -398,7 +398,7 @@ object mtsGlobalAll {
 
         listPhoneNumber = contact.phoneNumbers
             .sortedWith(compareByDescending<PhoneNumber> { it.isPrimary }
-                .thenBy { it.type ?: "" })
+                .thenBy { it.type })
 
         //jméno je u kontaktů o řádek v mtsGlobalAll.sSaveNumber jen proto aby se to dalo v dialogu níže a nebyla tam mezera...
         mtsGlobalAll.sSaveName = contact.getNameToDisplay()
@@ -513,7 +513,7 @@ object mtsGlobalAll {
             mtsGlobalAll.sSaveFormattedNumber = listPhoneNumber
                     ?.filterNotNull() // vyhodí null položky
                     ?.joinToString(separator = "\n") { phone ->
-                        val number = phone.value ?: "" //normalizedNumber ?: ""
+                        val number = phone.value  //normalizedNumber ?: ""
                         val formatted = numberForRecents(number, formatPhoneNumbers)
                         val label = getNumberTypeLabel2(activity, phone.type)
                         "$formatted ($label)"
@@ -531,7 +531,7 @@ object mtsGlobalAll {
                 ?.filterNotNull()
                 ?.map {
                     val number = it.value
-                    val formatted = numberForRecents(number,  formatPhoneNumbers) ?: ""
+                    val formatted = numberForRecents(number,  formatPhoneNumbers)
                     val label = getNumberTypeLabel2(activity, it.type)
                     formatted to label
                 } ?: emptyList()

@@ -139,7 +139,7 @@ class ContactCallHistoryAdapter(
                 historyRowDuration.apply {
                     beVisibleIf(shouldShowDuration)
 
-                    text = if (!iBlocked) "⏲ " + activity.formatSecondsToShortTimeString(call.duration)
+                    text = if (!iBlocked) activity.formatSecondsToShortTimeString(call.duration)
                            else activity.getString(R.string.number_type3_mts)
                     setTextColor(textColor)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize2)

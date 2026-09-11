@@ -1,23 +1,23 @@
 package cz.mts.base.helpers
 
+//import android.telecom.PhoneAccountHandle
+//import cz.mts.phone.extensions.getPhoneAccountHandleModel
+//import cz.mts.phone.extensions.putPhoneAccountHandle
+//import cz.mts.base.helpers.PhoneNumberHelper
 import android.content.Context
 import android.content.res.Configuration
 import android.text.format.DateFormat
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
 import cz.mts.base.R
 import cz.mts.base.extensions.getInternalStoragePath
 import cz.mts.base.extensions.getSDCardPath
 import cz.mts.base.extensions.getSharedPrefs
 import cz.mts.base.extensions.sharedPreferencesCallback
 import cz.mts.base.models.SpeedDial
-//import android.telecom.PhoneAccountHandle
-//import cz.mts.phone.extensions.getPhoneAccountHandleModel
-//import cz.mts.phone.extensions.putPhoneAccountHandle
-//import cz.mts.base.helpers.PhoneNumberHelper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import java.text.SimpleDateFormat
 import java.util.LinkedList
 import kotlin.reflect.KProperty0
@@ -551,7 +551,7 @@ open class BaseConfig(val context: Context) {
         set(value) = prefs.edit().putString(LAST_OUTGOING_CALL_NUMBER, value).apply()
 
     var lastOutgoingCallNumberSim: Int
-        get() = prefs.getInt(LAST_OUTGOING_CALL_NUMBER_SIM, 0)!!
+        get() = prefs.getInt(LAST_OUTGOING_CALL_NUMBER_SIM, 0)
         set(value) = prefs.edit().putInt(LAST_OUTGOING_CALL_NUMBER_SIM, value).apply()
 
     var hadThankYouInstalled: Boolean

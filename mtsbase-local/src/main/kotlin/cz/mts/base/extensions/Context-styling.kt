@@ -1,6 +1,5 @@
 package cz.mts.base.extensions
 
-import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
@@ -11,18 +10,7 @@ import com.google.android.material.color.MaterialColors
 import cz.mts.base.R
 import cz.mts.base.helpers.appIconColorStrings
 import cz.mts.base.helpers.isSPlus
-import cz.mts.base.views.MyAppCompatCheckbox
-import cz.mts.base.views.MyAppCompatSpinner
-import cz.mts.base.views.MyAutoCompleteTextView
-import cz.mts.base.views.MyButton
-import cz.mts.base.views.MyCompatRadioButton
-import cz.mts.base.views.MyEditText
-import cz.mts.base.views.MyFloatingActionButton
-import cz.mts.base.views.MyMaterialSwitch
-import cz.mts.base.views.MySeekBar
-import cz.mts.base.views.MyTextInputLayout
-import cz.mts.base.views.MyTextView
-
+import cz.mts.base.views.*
 
 
 fun Context.isBlackAndWhiteTheme() = baseConfig.themeIdSaved == 4
@@ -33,7 +21,30 @@ fun Context.isDynamicTheme() = isSPlus() && baseConfig.themeIdSaved == 7
 fun Context.isWhiteTheme() = baseConfig.themeIdSaved == 6
     //baseConfig.textColor == DARK_GREY && baseConfig.primaryColor == Color.WHITE && baseConfig.backgroundColor == Color.WHITE
 
-fun Context.isSystemInDarkMode() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
+fun Context.isSystemInDarkModeOLD() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
+
+fun Context.isSystemInDarkMode(): Boolean {
+    val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+    return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+}
+
+fun Context.getDynamicTextColors(): Int {
+    return if (isSPlus()) {
+        R.color.you_neutral_text_color
+    } else {
+        val isDarkTheme = isSystemInDarkMode()
+        if (isDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color
+    }
+}
+
+fun Context.getDynamicBackgroundColors(): Int {
+    return if (isSPlus()) {
+        R.color.you_background_color
+    } else {
+        val isDarkTheme = isSystemInDarkMode()
+        if (isDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color
+    }
+}
 
 fun Context.isAutoTheme() = !isSPlus() && baseConfig.themeIdSaved == 7
 
@@ -119,7 +130,6 @@ fun Context.density(): Float =
 fun Context.dpToPx(dp: Int): Int =
     (dp * resources.displayMetrics.density).toInt()
 
-
 fun Context.checkAppIconColor() {
     val appId = baseConfig.appId
     if (appId.isNotEmpty() && baseConfig.lastIconColor != baseConfig.appIconColor) {
@@ -171,16 +181,16 @@ fun Context.toggleAppIconColor(appId: String, colorIndex: Int, color: Int, enabl
 
 fun Context.getAppIconColors() = resources.getIntArray(R.array.md_app_icon_colors).toCollection(ArrayList())
 
-@SuppressLint("NewApi")
-fun Context.getBottomNavigationBackgroundColor(): Int {
-    val baseColor = baseConfig.backgroundColor
-    val bottomColor = when {
-        isDynamicTheme() -> resources.getColor(R.color.you_status_bar_color, theme)
-        baseColor == Color.WHITE -> resources.getColor(R.color.bottom_tabs_light_background)
-        else -> baseConfig.backgroundColor.lightenColor(4)
-    }
-    return baseColor  //MTSX bottomColor
-}
+//@SuppressLint("NewApi")
+//fun Context.getBottomNavigationBackgroundColor(): Int {
+//    val baseColor = baseConfig.backgroundColor
+//    val bottomColor = when {
+//        isDynamicTheme() -> resources.getColor(R.color.you_status_bar_color, theme)
+//        baseColor == Color.WHITE -> resources.getColor(R.color.bottom_tabs_light_background)
+//        else -> baseConfig.backgroundColor.lightenColor(4)
+//    }
+//    return baseColor  //MTSX bottomColor
+//}
 
 fun Context.getDialogBackgroundColor(): Int {
     return when {

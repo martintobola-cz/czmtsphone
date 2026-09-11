@@ -10,4 +10,3 @@ data class PhoneNumber(
     var normalizedNumber: String,
     var isPrimary: Boolean = false
 )
-

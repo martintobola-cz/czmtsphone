@@ -1,10 +1,10 @@
 package cz.mts.base.helpers
 
+import android.util.LruCache
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
-import android.util.LruCache
 import cz.mts.base.helpers.FastPhoneNumberFormatter.format
 import java.util.Locale
 
@@ -18,7 +18,6 @@ object PhoneNumberHelper {
     private const val NONE = "\u0000"
     private val locationCache = LruCache<String, String>(200)
     private val phoneCache = LruCache<String, String>(100)
-
 
     private fun parseNumber(number: String?, region: String? = null): Phonenumber.PhoneNumber? {
         if (number.isNullOrBlank()) return null
@@ -40,7 +39,6 @@ object PhoneNumberHelper {
         if (parsed != null) parseCache.put(key, parsed)
         return parsed
     }
-
 
     /** 1) Geolokace + vlajka */
     fun getCountryWithFlag(number: String?): String {
@@ -120,7 +118,6 @@ object PhoneNumberHelper {
         return result
     }
 
-
     /** 4) Bezpečná geolokace pro UI */
 
     fun getLocationSafeForUI(number: String?, simIndex: Int): String {
@@ -155,7 +152,6 @@ object PhoneNumberHelper {
         locationCache.put(cacheKey, description)
         return description
     }
-
 
     /** Rychlá shoda čísel (EXACT/NSN) */
     fun areSamePhoneNumber(a: String?, b: String?): Boolean {

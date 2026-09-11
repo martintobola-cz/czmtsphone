@@ -6,7 +6,6 @@ import android.text.SpannableString
 import android.text.TextPaint
 import android.text.style.URLSpan
 import android.widget.TextView
-import androidx.annotation.StringRes
 
 val TextView.value: String get() = text.toString().trim()
 
@@ -26,29 +25,6 @@ fun TextView.removeUnderlines() {
     }
     text = spannable
 }
-
-fun TextView.setTextOrBeGone(@StringRes textRes: Int?) {
-    if (textRes != null) {
-        beVisible()
-        this.text = context.getString(textRes)
-    } else {
-        beGone()
-    }
-}
-
-fun TextView.setDrawables(
-    start: Drawable? = null,
-    top: Drawable? = null,
-    end: Drawable? = null,
-    bottom: Drawable? = null,
-) = setCompoundDrawables(start, top, end, bottom)
-
-fun TextView.setDrawablesRelative(
-    start: Drawable? = null,
-    top: Drawable? = null,
-    end: Drawable? = null,
-    bottom: Drawable? = null
-) = setCompoundDrawablesRelative(start, top, end, bottom)
 
 fun TextView.setDrawablesRelativeWithIntrinsicBounds(
     start: Drawable? = null,

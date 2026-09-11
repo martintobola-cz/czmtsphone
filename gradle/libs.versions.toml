@@ -1,10 +1,10 @@
 [versions]
 
 # JetBrains / Kotlin
-kotlin = "2.4.10"
+kotlin = "2.3.20"
 kotlin-immutable-collections = "0.5.1"
 kotlinxSerializationJson = "1.11.0"
-ksp = "2.3.2"
+ksp = "2.3.7"
 
 # Detekt
 detekt = "1.23.8"
@@ -27,7 +27,8 @@ material = "1.14.0"
 # Helpers / libs
 # patternLockView = "a90b0d4bf0"
 # reprint = "2cb206415d"
-recyclerviewFastscroller = "5a95285b1f"
+# recyclerviewFastscroller = "5a95285b1f"
+recyclerviewFastscroller = "1.0.0"
 rtlViewpager = "2.0.2"
 
 # Compose

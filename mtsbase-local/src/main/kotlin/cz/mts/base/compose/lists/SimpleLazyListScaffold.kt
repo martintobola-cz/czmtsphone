@@ -3,7 +3,10 @@ package cz.mts.base.compose.lists
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
@@ -83,7 +86,6 @@ fun SimpleLazyListScaffold(
     }
 }
 
-
 @Composable
 fun SimpleScaffold(
     modifier: Modifier = Modifier,
@@ -113,7 +115,6 @@ fun SimpleScaffold(
         }
     }
 }
-
 
 @MyDevices
 @Composable

@@ -15,7 +15,7 @@ class CallContactAvatarHelper(private val context: Context) {
     fun getCallContactAvatar(callContact: CallContact?, circle: Boolean = true): Bitmap? {
         if (callContact?.photoUri.isNullOrEmpty()) return null
 
-        val photoUri = Uri.parse(callContact!!.photoUri)
+        val photoUri = Uri.parse(callContact.photoUri)
         return try {
             val bitmap: Bitmap? = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {

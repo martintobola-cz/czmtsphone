@@ -5,12 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import cz.mts.base.compose.extensions.config
 import cz.mts.base.compose.theme.model.Theme
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.isAutoTheme
-import cz.mts.base.extensions.isBlackAndWhiteTheme
-import cz.mts.base.extensions.isDynamicTheme
-import cz.mts.base.extensions.isWhiteTheme
-
+import cz.mts.base.extensions.*
 
 fun getTheme(context: Context, materialYouTheme: Theme.SystemDefaultMaterialYou): Theme {
     val baseConfig = context.config

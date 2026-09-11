@@ -76,7 +76,6 @@ fun SimpleDropDownMenuItem(
         text()
     }
 
-
 @MyDevices
 @Composable
 private fun SimpleDropDownMenuItemPreview() {

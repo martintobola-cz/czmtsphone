@@ -5,29 +5,13 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ScrollingView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import androidx.core.view.WindowInsetsCompat.Type
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.R
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getColoredMaterialStatusBarColor
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.onApplyWindowInsets
-import cz.mts.base.extensions.setSystemBarsAppearance
-import cz.mts.base.extensions.updateMarginWithBase
-import cz.mts.base.extensions.updatePaddingWithBase
+import cz.mts.base.extensions.*
 import cz.mts.base.views.MyAppBarLayout
-import cz.mts.base.extensions.ensureBasePadding
-import cz.mts.base.extensions.ensureBaseMargin
 
 abstract class EdgeToEdgeActivity : AppCompatActivity() {
 

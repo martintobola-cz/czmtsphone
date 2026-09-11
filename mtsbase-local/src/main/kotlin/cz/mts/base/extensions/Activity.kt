@@ -61,9 +61,7 @@ fun Activity.appLaunched(appId: String) {
         }
     }
 
-
 }
-
 
 fun Activity.launchViewContactIntent(uri: Uri) {
     Intent().apply {
@@ -79,7 +77,6 @@ fun Activity.launchSendSMSIntent(recipient: String) {
         launchActivityIntent(this)
     }
 }
-
 
 fun Activity.hideKeyboard() {
     if (isOnMainThread()) {

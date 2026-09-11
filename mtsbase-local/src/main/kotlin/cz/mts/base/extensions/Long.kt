@@ -1,16 +1,16 @@
 package cz.mts.base.extensions
 
 import android.content.Context
-import java.time.*
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 import java.text.DecimalFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
+import java.util.Locale
 
 private val zone get() = ZoneId.systemDefault()
-
-private fun Long.toZoned(): ZonedDateTime =
-    Instant.ofEpochMilli(this).atZone(zone)
 
 private fun Long.toLocalDate(): LocalDate =
     Instant.ofEpochMilli(this).atZone(zone).toLocalDate()
@@ -51,10 +51,6 @@ fun Long.formatDate(
 
 fun Long.formatTime(context: Context): String {
     return toLocalDateTime().format(context.timeFormatter())
-}
-
-fun Long.isThisYear(): Boolean {
-    return toLocalDate().year == LocalDate.now().year
 }
 
 fun LocalDate.toDayCode(format: String = "ddMMyy"): String {
@@ -114,4 +110,3 @@ fun Long.formatDateOrTime(
     return if (showDayOfWeek) dayShort() + ", " +  dt.format(formatter)
     else dt.format(formatter)
 }
-

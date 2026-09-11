@@ -23,8 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import cz.mts.base.R
 import cz.mts.base.compose.alert_dialog.AlertDialogState
 import cz.mts.base.compose.alert_dialog.DialogSurface
@@ -40,6 +38,8 @@ import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.onGlobalLayout
 import cz.mts.base.extensions.setupDialogStuff
 import cz.mts.base.models.RadioItem
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 class RadioGroupDialog(
     private val activity: Activity,
@@ -134,7 +134,6 @@ class RadioGroupDialog(
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

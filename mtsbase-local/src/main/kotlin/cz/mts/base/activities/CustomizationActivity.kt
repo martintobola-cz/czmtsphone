@@ -8,30 +8,9 @@ import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import cz.mts.base.R
 import cz.mts.base.databinding.ActivityCustomizationBinding
-import cz.mts.base.dialogs.ColorPickerDialog
-import cz.mts.base.dialogs.ConfirmationAdvancedDialog
-import cz.mts.base.dialogs.ConfirmationDialog
-import cz.mts.base.dialogs.LineColorPickerDialog
-import cz.mts.base.dialogs.RadioGroupDialog
-import cz.mts.base.extensions.adjustColor
-import cz.mts.base.extensions.baseConfig
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.checkAppIconColor
-import cz.mts.base.extensions.getColoredMaterialStatusBarColor
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.getThemeId
-import cz.mts.base.extensions.isDynamicTheme
-import cz.mts.base.extensions.isSystemInDarkMode
-import cz.mts.base.extensions.setFillWithStroke
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.helpers.APP_ICON_IDS
-import cz.mts.base.helpers.APP_LAUNCHER_NAME
-import cz.mts.base.helpers.NavigationIcon
-import cz.mts.base.helpers.SAVE_DISCARD_PROMPT_INTERVAL
-import cz.mts.base.helpers.isSPlus
+import cz.mts.base.dialogs.*
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
 import cz.mts.base.models.MyTheme
 import cz.mts.base.models.RadioItem
 import kotlin.math.abs
@@ -149,35 +128,16 @@ class CustomizationActivity : BaseSimpleActivity() {
         predefinedThemes.apply {
             put(
                 THEME_SYSTEM, //private const val THEME_SYSTEM = 7
-                if (isSPlus()) {
+
                     MyTheme(
                         labelId = R.string.system_default,
-                        textColorId = R.color.theme_dark_text_color,
-                        backgroundColorId = R.color.theme_dark_background_color,
+                        textColorId = getDynamicTextColors(),
+                        backgroundColorId = getDynamicBackgroundColors(),
                         primaryColorId = R.color.color_primary,
                         appIconColorId = R.color.color_primary,
-                        navBarColorId = R.color.theme_dark_background_color
+                        navBarColorId = getDynamicBackgroundColors()
                     )
-                }
-                else {
-                    val isDarkTheme = isSystemInDarkMode()
-                    val textColor = if (isDarkTheme) R.color.theme_dark_text_color
-                    else R.color.theme_light_text_color
-
-                    val backgroundColor = if (isDarkTheme) R.color.theme_dark_background_color
-                    else R.color.theme_light_background_color
-
-                    MyTheme(
-                        labelId = R.string.auto_light_dark_theme,
-                        textColorId = textColor,
-                        backgroundColorId = backgroundColor,
-                        primaryColorId = R.color.color_primary,
-                        appIconColorId = R.color.color_primary,
-                        navBarColorId = backgroundColor
-                    )
-                }
             )
-
             put(
                 THEME_LIGHT,
                 MyTheme(
@@ -389,8 +349,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
     }
 
-
-
     private fun updateColorTheme(useStored: Boolean = false) {
         binding.customizationTheme.text = getThemeText()
 
@@ -454,8 +412,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateNavBarVisibility()
         updateSIM12ColorVisibility()
     }
-
-
 
     private fun getThemeText(): String {
         val label = predefinedThemes[notSavedThemeId]?.labelId ?: R.string.custom
@@ -568,7 +524,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         binding.customizationSim1Color.setFillWithStroke(curSIM1Color, backgroundColor)
         binding.customizationSim2Color.setFillWithStroke(curSIM2Color, backgroundColor)
 
-
         binding.customizationTextColorHolder.setOnClickListener { pickTextColor() }
         binding.customizationBackgroundColorHolder.setOnClickListener { pickBackgroundColor() }
         binding.customizationPrimaryColorHolder.setOnClickListener { pickPrimaryColor() }
@@ -576,7 +531,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         binding.customizationNavbarColorHolder.setOnClickListener { pickNavBarColor() }
         binding.customizationSim1ColorHolder.setOnClickListener { pickSIM1Color() }
         binding.customizationSim2ColorHolder.setOnClickListener { pickSIM2Color() }
-
 
         handleAccentColorLayout()
         binding.customizationAppIconColorHolder.setOnClickListener {
@@ -632,7 +586,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         setupCustomizeSimColors()
     }
 
-
     private fun handleAccentColorLayout() {
         binding.customizationAccentColorHolder.beVisibleIf(
             beVisible = notSavedThemeId == THEME_WHITE
@@ -672,7 +625,6 @@ class CustomizationActivity : BaseSimpleActivity() {
             }
         }
     }
-
 
     private fun pickSIM1Color() {
         ColorPickerDialog(this, curSIM1Color) { wasPositivePressed, color ->

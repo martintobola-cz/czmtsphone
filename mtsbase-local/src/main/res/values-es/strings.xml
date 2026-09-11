@@ -429,5 +429,4 @@
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Elija la carpeta raíz del dispositivo USB en la siguiente pantalla para otorgar acceso</string>
     <string name="wrong_root_selected_usb">Carpeta incorrecta, seleccione la carpeta raíz de su dispositivo USB</string>
-    <string name="translation_english">Inglés</string>
 </resources>

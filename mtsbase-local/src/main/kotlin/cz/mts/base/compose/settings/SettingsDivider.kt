@@ -19,7 +19,6 @@ fun SettingsHorizontalDivider(
     HorizontalDivider(modifier = modifier, color = color, thickness = thickness)
 }
 
-
 @Composable
 @MyDevices
 private fun SettingsHorizontalDividerPreview() {

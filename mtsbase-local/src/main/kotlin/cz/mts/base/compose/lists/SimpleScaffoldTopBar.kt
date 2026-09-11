@@ -189,7 +189,6 @@ fun SimpleBackIcon(iconColor: Color?) {
     }
 }
 
-
 @Composable
 @MyDevices
 private fun SimpleScaffoldTopBarPreview() {

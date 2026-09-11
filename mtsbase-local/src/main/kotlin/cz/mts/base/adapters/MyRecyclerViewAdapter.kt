@@ -1,5 +1,6 @@
 package cz.mts.base.adapters
 
+import android.graphics.drawable.ColorDrawable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -9,7 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.R
 import cz.mts.base.activities.BaseSimpleActivity
@@ -35,6 +37,10 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
 
     private var actBarTextView: TextView? = null
     private var lastLongPressedItem = -1
+
+    // API 35+ is edge-to-edge, so statusBarColor cannot be used to restore the
+    // status bar. We only preserve the status bar icon appearance.
+    private var lightStatusBarBeforeActionMode: Boolean? = null
 
     abstract fun getActionMenuId(): Int
 
@@ -101,6 +107,29 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                         backArrow?.applyColorFilter(bgColor.getContrastColor())
                     }
                 }
+
+                /*
+                 * Android 15+ (target SDK 35+) enforces edge-to-edge. AppCompat's
+                 * ActionMode still creates its old "status guard" view, which is
+                 * normally black or white. That view is what causes the status-bar
+                 * area to suddenly become black/white.
+                 *
+                 * Do not use Window.statusBarColor here. On Android 15+ that API
+                 * is disabled. Instead, make AppCompat's guard transparent so the
+                 * view that was already drawing underneath the status bar remains
+                 * visible.
+                 */
+                makeActionModeStatusGuardTransparent()
+
+                // ActionMode may also change the status-bar icon appearance.
+                // Restore the state that existed before ActionMode was started.
+                lightStatusBarBeforeActionMode?.let {
+                    WindowCompat.getInsetsController(
+                        activity.window,
+                        activity.window.decorView
+                    ).isAppearanceLightStatusBars = it
+                }
+
                 return true
             }
 
@@ -110,7 +139,6 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
             }
 
             override fun onDestroyActionMode(actionMode: ActionMode) {
-
                 val animator = recyclerView.itemAnimator
                 recyclerView.itemAnimator = null
 
@@ -131,8 +159,105 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                 actMode = null
                 lastLongPressedItem = -1
                 onActionModeDestroyed()
+
+                // Restore only the icon appearance. The status-bar background is
+                // supplied by the app's edge-to-edge content, not Window.statusBarColor.
+                lightStatusBarBeforeActionMode?.let {
+                    WindowCompat.getInsetsController(
+                        activity.window,
+                        activity.window.decorView
+                    ).isAppearanceLightStatusBars = it
+                }
+
+                lightStatusBarBeforeActionMode = null
             }
         }
+    }
+
+    /**
+     * AppCompat's ActionMode uses an internal statusGuard view. On Android 15+
+     * that guard is still inserted even though statusBarColor is no longer
+     * effective. Its default black/white background therefore becomes visible
+     * over the app's edge-to-edge content.
+     *
+     * Make only that guard transparent. The actual status-bar area then shows
+     * whatever View in the app was already drawing underneath it.
+     *
+     * This is intentionally kept in the adapter because this adapter is the
+     * place where ActionMode is created.
+     */
+    private fun makeActionModeStatusGuardTransparent() {
+        val decorView = activity.window.decorView
+
+        // AppCompat may add the guard during the same traversal in which the
+        // ActionMode is created, so wait until the decor hierarchy has settled.
+        decorView.post {
+            val statusBarHeight = getStatusBarInsetHeight()
+
+            if (statusBarHeight > 0) {
+                findAndClearStatusGuard(
+                    decorView as ViewGroup,
+                    statusBarHeight
+                )
+            }
+        }
+    }
+
+    private fun getStatusBarInsetHeight(): Int {
+        val insets = androidx.core.view.ViewCompat.getRootWindowInsets(activity.window.decorView)
+        return insets?.getInsets(
+            androidx.core.view.WindowInsetsCompat.Type.statusBars()
+        )?.top ?: 0
+    }
+
+    private fun findAndClearStatusGuard(parent: ViewGroup, statusBarHeight: Int): Boolean {
+        val darkGuardColor = try {
+            ContextCompat.getColor(activity, androidx.appcompat.R.color.abc_decor_view_status_guard)
+        } catch (_: Exception) {
+            null
+        }
+
+        val lightGuardColor = try {
+            ContextCompat.getColor(activity, androidx.appcompat.R.color.abc_decor_view_status_guard_light)
+        } catch (_: Exception) {
+            null
+        }
+
+        for (index in 0 until parent.childCount) {
+            val child = parent.getChildAt(index)
+
+            if (isStatusGuard(child, statusBarHeight, darkGuardColor, lightGuardColor)) {
+                child.background = ColorDrawable(android.graphics.Color.TRANSPARENT)
+                return true
+            }
+
+            if (child is ViewGroup && findAndClearStatusGuard(child, statusBarHeight)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun isStatusGuard(
+        view: View,
+        statusBarHeight: Int,
+        darkGuardColor: Int?,
+        lightGuardColor: Int?
+    ): Boolean {
+        if (view.height != statusBarHeight || view.width <= 0) {
+            return false
+        }
+
+        val background = view.background as? ColorDrawable ?: return false
+        val color = background.color
+
+        // These are the exact colors AppCompat uses for its statusGuard.
+        if (color == darkGuardColor || color == lightGuardColor) {
+            return true
+        }
+
+        return false
     }
 
     protected fun toggleItemSelection(select: Boolean, pos: Int, updateTitle: Boolean = true) {
@@ -278,19 +403,6 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
         recyclerView.setupZoomListener(zoomListener)
     }
 
-    fun addVerticalDividers(add: Boolean) {
-        if (recyclerView.itemDecorationCount > 0) {
-            recyclerView.removeItemDecorationAt(0)
-        }
-
-        if (add) {
-            DividerItemDecoration(activity, DividerItemDecoration.VERTICAL).apply {
-                setDrawable(resources.getDrawable(R.drawable.divider))
-                recyclerView.addItemDecoration(this)
-            }
-        }
-    }
-
     fun finishActMode() {
         actMode?.finish()
     }
@@ -332,7 +444,7 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
     open inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(any: Any, allowSingleClick: Boolean, allowLongClick: Boolean, callback: (itemView: View, adapterPosition: Int) -> Unit): View {
             return itemView.apply {
-                callback(this, adapterPosition)
+                callback(this, bindingAdapterPosition)
 
                 if (allowSingleClick) {
                     setOnClickListener { viewClicked(any) }
@@ -346,7 +458,7 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
 
         fun viewClicked(any: Any) {
             if (actModeCallback.isSelectable) {
-                val currentPosition = adapterPosition - positionOffset
+                val currentPosition = bindingAdapterPosition - positionOffset
                 val isSelected = selectedKeys.contains(getItemSelectionKey(currentPosition))
                 toggleItemSelection(!isSelected, currentPosition, true)
             } else {
@@ -356,8 +468,14 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
         }
 
         fun viewLongClicked() {
-            val currentPosition = adapterPosition - positionOffset
+            val currentPosition = bindingAdapterPosition - positionOffset
             if (!actModeCallback.isSelectable) {
+                val insetsController = WindowCompat.getInsetsController(
+                    activity.window,
+                    activity.window.decorView
+                )
+                lightStatusBarBeforeActionMode = insetsController.isAppearanceLightStatusBars
+
                 (activity as AppCompatActivity).startSupportActionMode(actModeCallback)
             }
 

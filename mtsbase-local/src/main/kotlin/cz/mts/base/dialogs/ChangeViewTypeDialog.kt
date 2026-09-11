@@ -1,5 +1,6 @@
 package cz.mts.base.dialogs
 
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import cz.mts.base.R
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.compose.alert_dialog.AlertDialogState
@@ -29,7 +28,8 @@ import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.setupDialogStuff
 import cz.mts.base.helpers.VIEW_TYPE_GRID
 import cz.mts.base.helpers.VIEW_TYPE_LIST
-import androidx.appcompat.app.AlertDialog
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 class ChangeViewTypeDialog(val activity: BaseSimpleActivity, val callback: () -> Unit) {
     private var view: DialogChangeViewTypeBinding

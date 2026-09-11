@@ -888,10 +888,10 @@ class MainActivity : SimpleActivity() {
         binding.mainMenu.binding.topToolbarSearch.setText(contactName)
     }
 
-    fun showContactCallHistory(contactName: String) {
+    fun showContactCallHistory(contactName: String, sUri : String? = null) {
         if (config.showTabs and TAB_CALL_HISTORY == 0) return
         val fragment = getRecentsFragment() ?: return
-        ContactCallHistoryDialog(this, fragment, contactName)
+        ContactCallHistoryDialog(this, fragment, contactName, sUri)
     }
 
     private fun getAllFragments(): ArrayList<MyViewPagerFragment<*>?> {

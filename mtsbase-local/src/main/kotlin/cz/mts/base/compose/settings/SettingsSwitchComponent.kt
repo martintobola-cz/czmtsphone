@@ -10,7 +10,10 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import cz.mts.base.R
 import cz.mts.base.compose.extensions.BooleanPreviewParameterProvider
 import cz.mts.base.compose.extensions.MyDevices
 import cz.mts.base.compose.extensions.rememberMutableInteractionSource
@@ -18,9 +21,6 @@ import cz.mts.base.compose.theme.AppThemeSurface
 import cz.mts.base.compose.theme.SimpleTheme
 import cz.mts.base.compose.theme.preferenceLabelColor
 import cz.mts.base.compose.theme.preferenceValueColor
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.dimensionResource
-import cz.mts.base.R
 
 @Composable
 fun SettingsSwitchComponent(

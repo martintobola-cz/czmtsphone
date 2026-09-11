@@ -1,6 +1,6 @@
 package cz.mts.base.activities
 
-import  android.app.Application
+import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -15,14 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import cz.mts.base.R
 import cz.mts.base.compose.alert_dialog.rememberAlertDialogState
 import cz.mts.base.compose.extensions.enableEdgeToEdgeSimple
@@ -34,6 +26,14 @@ import cz.mts.base.dialogs.ExportBlockedNumbersDialog
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.models.BlockedNumber
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.FileOutputStream
 import java.io.OutputStream
 
@@ -280,13 +280,9 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
     // ─── Export ───────────────────────────────────────────────────────────────
 
     private fun tryExportBlockedNumbers() {
-        ExportBlockedNumbersDialog(
-            activity = this,
-            path = baseConfig.lastBlockedNumbersExportPath,
-            hidePath = true,
-        ) { file ->
+        ExportBlockedNumbersDialog(this) { filename ->
             try {
-                createDocument.launch(file.name)
+                createDocument.launch("$filename$BLOCKED_NUMBERS_EXPORT_EXTENSION")
             } catch (_: ActivityNotFoundException) {
                 toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
             } catch (e: Exception) {

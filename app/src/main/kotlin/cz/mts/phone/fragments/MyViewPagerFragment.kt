@@ -45,7 +45,7 @@ abstract class MyViewPagerFragment<BINDING : MyViewPagerFragment.InnerBinding>(
         val currentActivity = activity ?: return
 
         if (this is RecentsFragment) {
-            (innerBinding.recentsList?.adapter as? RecentCallsAdapter)?.apply {
+            (innerBinding.recentsList.adapter as? RecentCallsAdapter)?.apply {
                 fontSize = currentActivity.getTextSize()
                 notifyDataSetChanged()
             }

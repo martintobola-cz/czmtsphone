@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import kotlinx.collections.immutable.toImmutableList
 import cz.mts.base.R
 import cz.mts.base.compose.alert_dialog.AlertDialogState
 import cz.mts.base.compose.alert_dialog.DialogSurface
@@ -36,6 +35,7 @@ import cz.mts.base.extensions.baseConfig
 import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.setupDialogStuff
 import cz.mts.base.helpers.*
+import kotlinx.collections.immutable.toImmutableList
 import java.util.Calendar
 import java.util.Locale
 
@@ -54,7 +54,6 @@ class ChangeDateTimeFormatDialog(val activity: Activity, val callback: () -> Uni
             changeDateTimeDialogRadioEight.text = formatDateSample(DATE_FORMAT_EIGHT)
             changeDateTimeDialogRadioMts.text = formatDateSample(DATE_FORMAT_MTS)
             changeDateTimeDialogRadioMtsLong.text = formatDateSample(DATE_FORMAT_MTSLONG)
-
 
             changeDateTimeDialog24Hour.isChecked = activity.baseConfig.use24HourFormat
             changeDateTimeDialogDayofweek.isChecked = activity.baseConfig.useDayOfWeekInTimeFormat
@@ -107,7 +106,6 @@ class ChangeDateTimeFormatDialog(val activity: Activity, val callback: () -> Uni
         return DateFormat.format(format, cal).toString()
     }
 }
-
 
 @Composable
 fun ChangeDateTimeFormatAlertDialog(
@@ -199,7 +197,6 @@ fun ChangeDateTimeFormatAlertDialog(
         }
     }
 }
-
 
 private val timeSample: Long
     get() = System.currentTimeMillis()

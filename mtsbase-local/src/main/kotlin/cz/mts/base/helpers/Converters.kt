@@ -4,11 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import cz.mts.base.models.PhoneNumber
-import cz.mts.base.models.contacts.Address
-import cz.mts.base.models.contacts.Email
-import cz.mts.base.models.contacts.Event
-import cz.mts.base.models.contacts.IM
-import cz.mts.base.models.contacts.PhoneNumberConverter
+import cz.mts.base.models.contacts.*
 
 class Converters {
     private val gson = Gson()

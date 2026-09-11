@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import cz.mts.base.activities.BaseSimpleActivity
 
-
 object Clipboard {
 
 fun copyTextToClipboard(activity: BaseSimpleActivity, label: String, text: String) {

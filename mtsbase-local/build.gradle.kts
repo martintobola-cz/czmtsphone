@@ -1,19 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-//plugins {
- //   alias(libs.plugins.library)
-  //  alias(libs.plugins.kotlinAndroid)
-  //  alias(libs.plugins.ksp)
-  //  alias(libs.plugins.kotlinSerialization)
- //   alias(libs.plugins.compose.compiler)
- //   alias(libs.plugins.parcelize)
- //   alias(libs.plugins.detekt)
- //   `maven-publish`
-//}
 plugins {
-
-
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
     id("com.android.library")
@@ -77,7 +65,6 @@ tasks.withType<KotlinCompile> {
         listOf(
             "-opt-in=kotlin.RequiresOptIn",
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
             "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
             "-opt-in=com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi",
             "-Xcontext-parameters"   // ← změna zde, místo "-Xcontext-receivers"
@@ -123,8 +110,8 @@ dependencies {
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.exifinterface)
-    implementation("com.googlecode.libphonenumber:libphonenumber:9.0.36")
-    implementation("com.googlecode.libphonenumber:geocoder:3.36")
+    implementation("com.googlecode.libphonenumber:libphonenumber:9.0.38")
+    implementation("com.googlecode.libphonenumber:geocoder:3.38")
     //implementation(libs.androidx.biometric.ktx)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.ez.vcard)

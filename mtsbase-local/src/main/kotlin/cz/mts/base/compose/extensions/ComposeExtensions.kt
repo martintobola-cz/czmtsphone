@@ -12,9 +12,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -24,11 +22,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LifecycleStartEffect
-import cz.mts.base.R
 import cz.mts.base.compose.system_ui_controller.rememberSystemUiController
 import cz.mts.base.compose.theme.SimpleTheme
 import cz.mts.base.compose.theme.isLitWell
 import cz.mts.base.extensions.darkenColor
+
 //import cz.mts.base.extensions.launchViewIntent
 
 fun Context.getActivity(): Activity {
@@ -38,8 +36,6 @@ fun Context.getActivity(): Activity {
         else -> getActivity()
     }
 }
-
-fun Context.getComponentActivity(): ComponentActivity = getActivity() as ComponentActivity
 
 @Composable
 fun rememberMutableInteractionSource() = remember { MutableInteractionSource() }
@@ -93,7 +89,6 @@ fun <T : Any> onResumeEventValue(vararg keys: Any?, onPauseOrDispose: (Lifecycle
     return rememberedValue
 }
 
-
 @Composable
 operator fun PaddingValues.plus(otherPaddingValues: PaddingValues): PaddingValues {
     val layoutDirection = LocalLayoutDirection.current
@@ -137,7 +132,6 @@ private fun Array<out PaddingValues>.sumOfDps(aggregator: PaddingValues.() -> Dp
         paddingValues.aggregator()
     }.sumOfDps()
 
-
 private fun Sequence<Dp>.sumOfDps(): Dp {
     var sum = 0.dp
     for (element in this) {
@@ -162,4 +156,3 @@ internal fun TransparentSystemBars(darkIcons: Boolean = !isSystemInDarkTheme()) 
         onDispose { }
     }
 }
-

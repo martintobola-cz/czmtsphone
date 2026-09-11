@@ -5,13 +5,8 @@ import android.content.Context
 import android.os.Build
 import cz.mts.base.R
 import cz.mts.base.databases.ContactsDatabase
-import cz.mts.base.helpers.ContactsHelper
-import cz.mts.base.helpers.DEFAULT_MIMETYPE
-import cz.mts.base.helpers.PERMISSION_READ_CONTACTS
-import cz.mts.base.helpers.PERMISSION_WRITE_CONTACTS
+import cz.mts.base.helpers.*
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeNumberE164
-import cz.mts.base.helpers.MTS_PHONE
-import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.base.interfaces.ContactsDao
 import cz.mts.base.interfaces.GroupsDao
 import cz.mts.base.models.contacts.Contact
@@ -31,7 +26,6 @@ fun Context.getEmptyContact(): Contact {
     )
 }
 
-
 fun Context.hasContactPermissions() = hasPermission(PERMISSION_READ_CONTACTS) && hasPermission(PERMISSION_WRITE_CONTACTS)
 
 fun Context.getVisibleContactSources(): ArrayList<String> {
@@ -49,7 +43,6 @@ fun Context.getAllContactSources(): ArrayList<ContactSource> {
     }
     return ArrayList(sources) // převedeme na ArrayList
 }
-
 
 fun Context.getPrivateContactSource() = ContactSource(MTS_PHONE, MTS_PHONE, getString(R.string.phone_storage_hidden))
 

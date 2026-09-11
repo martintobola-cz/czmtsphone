@@ -428,5 +428,4 @@
     <string name="usb">USB</string>
     <string name="confirm_usb_storage_access_text">Vă rugăm să alegeți dosarul rădăcină al dispozitivului USB în ecranul următor, pentru a acorda acces</string>
     <string name="wrong_root_selected_usb">Ați selectat un folder greșit, selectați folderul principal al dispozitivului USB</string>
-    <string name="translation_english">Engleză</string>
 </resources>

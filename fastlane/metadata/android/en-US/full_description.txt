@@ -13,8 +13,8 @@ No fees, no limits—all features are available.
 - The app collects no data about you.
 - It allows you to save contacts to its own hidden storage, invisible to all other apps.
 
-📡 Works offline:
-Nothing is sent or downloaded anywhere.
+📡 No internet connection is required:
+Internet permission is not declared, the application runs offline, nothing is sent or downloaded anywhere !
 
 🚫 Ad-free:
 No pop-ups, no annoyances.

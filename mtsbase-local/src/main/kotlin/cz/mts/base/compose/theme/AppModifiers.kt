@@ -44,4 +44,3 @@ private fun Context.getAppIconColors() = resources.getIntArray(R.array.md_app_ic
 private fun Context.getAppIconIds(): List<Int> = getActivity().getAppIconIds()
 
 private fun Context.getAppLauncherName(): String = getActivity().getAppLauncherName()
-

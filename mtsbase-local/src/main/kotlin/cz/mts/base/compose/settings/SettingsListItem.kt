@@ -93,7 +93,6 @@ fun SettingsListItem(
     )
 }
 
-
 @Composable
 fun SettingsListItem(
     modifier: Modifier = Modifier,
@@ -146,7 +145,6 @@ fun SettingsListItem(
             .clickable(enabled = click != null) { click?.invoke() }
     )
 }
-
 
 @MyDevices
 @Composable
