@@ -9,22 +9,13 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.formatDateOrTime
-import cz.mts.base.extensions.formatSecondsToShortTimeString
-import cz.mts.base.extensions.formatTime
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.getTextSize
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.databinding.ItemContactCallHistoryBinding
 import cz.mts.phone.models.RecentCall
+import cz.mts.base.extensions.baseConfig as config
 
 /**
  * Jednoduchý, needitovatelný adaptér pro zobrazení kompletní (negroupované) historie

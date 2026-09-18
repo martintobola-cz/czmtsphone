@@ -5,16 +5,10 @@ import cz.mts.base.extensions.beGoneIf
 import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.setupDialogStuff
 import cz.mts.base.extensions.viewBinding
+import cz.mts.base.helpers.*
 import cz.mts.phone.R
 import cz.mts.phone.databinding.DialogChangeSortingBinding
 import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.helpers.SORT_BY_CUSTOM
-import cz.mts.base.helpers.SORT_BY_DATE_CREATED
-import cz.mts.base.helpers.SORT_BY_FIRST_NAME
-import cz.mts.base.helpers.SORT_BY_FULL_NAME
-import cz.mts.base.helpers.SORT_BY_MIDDLE_NAME
-import cz.mts.base.helpers.SORT_BY_SURNAME
-import cz.mts.base.helpers.SORT_DESCENDING
 
 class ChangeSortingDialog(
     activity: BaseSimpleActivity,

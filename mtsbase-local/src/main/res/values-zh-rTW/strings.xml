@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
- <string name="callfilter_info">顯示未知號碼的評分（使用 callfilter.app、cz.mts.callfilter）</string>
+<string name="theme_restart_required">「確定」按鈕會關閉應用程式。這是讓您剛才進行的顏色變更生效所必需的。</string>
+<string name="customization_popup_menu_background_color_label">彈出式選單背景顏色</string>
+<string name="customization_popup_menu_text_color_label">彈出式選單文字顏色</string>
+
+<string name="callfilter_info">顯示未知號碼的評價（使用 callfilter.app、cz.mts.callfilter）</string>
     <string name="more_info">更多資訊</string>
     <string name="tmobile_theme">T-Mobile</string>
     <string name="kaktus_theme">Kaktus</string>

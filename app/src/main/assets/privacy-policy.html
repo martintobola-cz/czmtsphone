@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy / Zásady ochrany soukromí – cz.mts.phone</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5a5a5a;
+    --accent: #2b6cb0;
+    --accent-bg: #eaf2fb;
+    --border: #e2e2e2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14161a;
+      --fg: #e8e8e8;
+      --muted: #a0a0a0;
+      --accent: #6ea8e0;
+      --accent-bg: #1d2a3a;
+      --border: #2c2f36;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14161a;
+    --fg: #e8e8e8;
+    --muted: #a0a0a0;
+    --accent: #6ea8e0;
+    --accent-bg: #1d2a3a;
+    --border: #2c2f36;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", "Noto Sans SC", "Noto Sans TC", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  h1.app-title {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  p.app-sub {
+    text-align: center;
+    color: var(--muted);
+    margin-top: 0;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+  }
+
+  /* Language chooser */
+  .lang-picker {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .lang-btn {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .lang-btn:hover {
+    transform: translateY(-1px);
+    background: var(--accent);
+    color: white;
+  }
+
+  .lang-btn:active {
+    transform: translateY(0);
+  }
+
+  hr.sep {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  section.policy {
+    display: none;
+    animation: fadein 0.25s ease;
+  }
+
+  section.policy.active {
+    display: block;
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  section.policy h2.doc-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+
+  section.policy p.updated {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+
+  section.policy h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+
+  section.policy ul {
+    padding-left: 22px;
+    margin: 0 0 16px;
+  }
+
+  section.policy li {
+    margin-bottom: 8px;
+  }
+
+  section.policy p {
+    margin: 0 0 16px;
+  }
+
+  .contact {
+    margin-top: 8px;
+  }
+
+  .contact strong {
+    display: block;
+  }
+
+  .back-to-top {
+    display: inline-block;
+    margin-top: 36px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 999px;
+  }
+
+  .back-to-top:hover {
+    background: var(--accent-bg);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1 class="app-title">MTS Dialer / Telefon / MTS 拨号器 / MTS 撥號器</h1>
+  <p class="app-sub">Privacy Policy / Zásady ochrany soukromí / 隐私政策 / 私隱政策</p>
+
+  <div class="lang-picker" id="top">
+    <button class="lang-btn" data-target="en">EN / US</button>
+    <button class="lang-btn" data-target="cz">CZ / CS</button>
+    <button class="lang-btn" data-target="cn">CN (简体)</button>
+    <button class="lang-btn" data-target="cnhk">CN / HK (繁體)</button>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ENGLISH -->
+  <section class="policy" id="en">
+    <h2 class="doc-title">PRIVACY POLICY - MTS dialer (cz.mts.phone)</h2>
+    <p class="updated">Last updated: 16.09.2026</p>
+
+    <p>This application serves as the default phone application (dialer). We respect user privacy and handle sensitive data only to the extent necessary to provide basic calling functionality.</p>
+
+    <h3>What permissions and data does the application use?</h3>
+    <p>The application requires the following Android system permissions, because they are necessary for its core function as a phone dialer:</p>
+    <ul>
+      <li><strong>Contacts (READ_CONTACTS)</strong> – to display contact names and allow calling them.</li>
+      <li><strong>Phone / calls (CALL_PHONE, READ_CALL_LOG, READ_PHONE_STATE)</strong> – to make calls and display call history.</li>
+      <li><strong>Device phone number</strong> – only if required by system functions (e.g. setting the default calling app).</li>
+      <li><strong>Sending SMS (SEND_SMS)</strong> – only if the user declines an incoming call with the option to send the caller an automatic SMS message.</li>
+    </ul>
+    <p>None of this data is collected or stored by the application outside the user's device.</p>
+
+    <h3>How do we handle data?</h3>
+    <p>The application:</p>
+    <ul>
+      <li>does not store any data on external servers,</li>
+      <li>does not share any data with third parties,</li>
+      <li>does not send any information outside the device,</li>
+      <li>does not contain analytics tools or advertising,</li>
+      <li>works only with data stored on the device and only within the scope of providing calling functions.</li>
+    </ul>
+    <p>All data the application has access to remains exclusively on the user's device and is removed from it upon uninstallation of the application.</p>
+
+    <h3>Security</h3>
+    <p>The application does not transmit any data outside the device, so no leak can occur through the application itself. The security of data stored on the device is handled by the Android system.</p>
+
+    <h3>Children</h3>
+    <p>The application does not collect, store, or transmit any personal data outside the device, and is therefore also suitable for younger users. The application is not specifically targeted at children, but since it does not process any data outside the device, it poses no risk in terms of children's privacy protection.</p>
+
+    <h3>Changes to this policy</h3>
+    <p>If changes to the application's functions occur that would require handling data in a different way, this policy will be updated and the new version will be published on this page, stating the date of the last update.</p>
+
+    <h3>Contact</h3>
+    <p class="contact">
+      <strong>Ing. Martin Tobola</strong>
+      martin.tobola@gmail.com
+    </p>
+
+    <a class="back-to-top" href="#top">↑ Choose another language</a>
+  </section>
+
+  <!-- CZECH -->
+  <section class="policy" id="cz">
+    <h2 class="doc-title">ZÁSADY OCHRANY SOUKROMÍ - cz.mts.phone</h2>
+    <p class="updated">Poslední aktualizace: 16.09.2026</p>
+
+    <p>Tato aplikace slouží jako výchozí telefonní aplikace (dialer). Respektujeme soukromí uživatelů a s citlivými údaji zacházíme pouze v rozsahu nezbytném pro poskytování základních funkcí volání.</p>
+
+    <h3>Jaká oprávnění a údaje aplikace využívá?</h3>
+    <p>Aplikace vyžaduje následující oprávnění systému Android, protože jsou nutná pro její základní funkci telefonního dialeru:</p>
+    <ul>
+      <li><strong>Kontakty (READ_CONTACTS)</strong> – pro zobrazení jmen ke kontaktům a možnost jim volat.</li>
+      <li><strong>Telefon / hovory (CALL_PHONE, READ_CALL_LOG, READ_PHONE_STATE)</strong> – pro uskutečňování hovorů a zobrazení historie hovorů.</li>
+      <li><strong>Telefonní číslo zařízení</strong> – pouze pokud to vyžadují systémové funkce (např. nastavení výchozí aplikace pro volání).</li>
+      <li><strong>Odesílání SMS (SEND_SMS)</strong> – pouze pokud uživatel odmítne příchozí hovor s možností odeslat volajícímu automatickou SMS zprávu.</li>
+    </ul>
+    <p>Žádné z těchto údajů aplikace neshromažďuje ani neukládá mimo zařízení uživatele.</p>
+
+    <h3>Jak s údaji nakládáme?</h3>
+    <p>Aplikace:</p>
+    <ul>
+      <li>neukládá žádné údaje na externí servery,</li>
+      <li>nesdílí žádné údaje s třetími stranami,</li>
+      <li>neodesílá žádné informace mimo zařízení,</li>
+      <li>neobsahuje analytické nástroje ani reklamy,</li>
+      <li>pracuje pouze s daty uloženými v zařízení a pouze v rámci poskytování funkcí volání.</li>
+    </ul>
+    <p>Veškeré údaje, ke kterým má aplikace přístup, zůstávají výhradně na zařízení uživatele a jsou z něj odstraněny při odinstalaci aplikace.</p>
+
+    <h3>Bezpečnost</h3>
+    <p>Aplikace nepřenáší žádná data mimo zařízení, a proto nemůže dojít k jejich úniku prostřednictvím aplikace samotné. O bezpečnost dat uložených v zařízení se stará systém Android.</p>
+
+    <h3>Děti</h3>
+    <p>Aplikace neshromažďuje, neukládá ani nepředává žádné osobní údaje mimo zařízení, a proto je vhodná i pro mladší uživatele. Aplikace není cíleně zaměřena na děti, ale vzhledem k tomu, že nezpracovává žádná data mimo zařízení, nepředstavuje z hlediska ochrany soukromí dětí žádné riziko.</p>
+
+    <h3>Změny těchto zásad</h3>
+    <p>V případě, že dojde ke změnám funkcí aplikace, které by vyžadovaly práci s daty jiným způsobem, budou tyto zásady aktualizovány a nová verze bude zveřejněna na této stránce s uvedením data poslední aktualizace.</p>
+
+    <h3>Kontakt</h3>
+    <p class="contact">
+      <strong>Ing. Martin Tobola</strong>
+      martin.tobola@gmail.com
+    </p>
+
+    <a class="back-to-top" href="#top">↑ Vybrat jiný jazyk</a>
+  </section>
+
+  <!-- SIMPLIFIED CHINESE -->
+  <section class="policy" id="cn" lang="zh-Hans">
+    <h2 class="doc-title">隐私政策 - MTS 拨号器 (cz.mts.phone)</h2>
+    <p class="updated">最后更新日期:2026年09月16日</p>
+
+    <p>本应用程序作为默认电话应用程序(拨号器)使用。我们尊重用户隐私,仅在提供基本通话功能所必需的范围内处理敏感数据。</p>
+
+    <h3>应用程序使用哪些权限和数据?</h3>
+    <p>本应用程序需要以下 Android 系统权限,因为这些权限是其作为电话拨号器核心功能所必需的:</p>
+    <ul>
+      <li><strong>通讯录(READ_CONTACTS)</strong> – 用于显示联系人姓名并拨打电话。</li>
+      <li><strong>电话/通话(CALL_PHONE、READ_CALL_LOG、READ_PHONE_STATE)</strong> – 用于拨打电话和显示通话记录。</li>
+      <li><strong>设备电话号码</strong> – 仅在系统功能需要时使用(例如设置默认通话应用程序)。</li>
+      <li><strong>发送短信(SEND_SMS)</strong> – 仅当用户拒接来电并选择向来电者发送自动短信时使用。</li>
+    </ul>
+    <p>应用程序不会在用户设备之外收集或存储上述任何数据。</p>
+
+    <h3>我们如何处理数据?</h3>
+    <p>本应用程序:</p>
+    <ul>
+      <li>不会将任何数据存储在外部服务器上,</li>
+      <li>不会与第三方共享任何数据,</li>
+      <li>不会将任何信息发送到设备之外,</li>
+      <li>不包含分析工具或广告,</li>
+      <li>仅处理存储在设备上的数据,且仅在提供通话功能的范围内使用。</li>
+    </ul>
+    <p>应用程序可访问的所有数据均仅保留在用户设备上,并在卸载应用程序时从设备中删除。</p>
+
+    <h3>安全性</h3>
+    <p>本应用程序不会将任何数据传输到设备之外,因此不会通过应用程序本身发生数据泄露。设备上存储数据的安全性由 Android 系统负责。</p>
+
+    <h3>儿童</h3>
+    <p>本应用程序不会收集、存储或向设备之外传输任何个人数据,因此也适合较年轻的用户使用。本应用程序并非专门针对儿童设计,但由于其不处理设备之外的任何数据,因此在儿童隐私保护方面不构成任何风险。</p>
+
+    <h3>政策变更</h3>
+    <p>如果应用程序的功能发生变化,需要以不同方式处理数据,本政策将会更新,新版本将发布在本页面上,并注明最后更新日期。</p>
+
+    <h3>联系方式</h3>
+    <p class="contact">
+      <strong>Ing. Martin Tobola</strong>
+      martin.tobola@gmail.com
+    </p>
+
+    <a class="back-to-top" href="#top">↑ 选择其他语言</a>
+  </section>
+
+  <!-- TRADITIONAL CHINESE (HK) -->
+  <section class="policy" id="cnhk" lang="zh-Hant-HK">
+    <h2 class="doc-title">私隱政策 - MTS 撥號器 (cz.mts.phone)</h2>
+    <p class="updated">最後更新日期:2026年09月16日</p>
+
+    <p>本應用程式作為預設電話應用程式(撥號器)使用。我們尊重用戶私隱,僅在提供基本通話功能所必需的範圍內處理敏感資料。</p>
+
+    <h3>應用程式使用哪些權限和資料?</h3>
+    <p>本應用程式需要以下 Android 系統權限,因為這些權限是其作為電話撥號器核心功能所必需的:</p>
+    <ul>
+      <li><strong>聯絡人(READ_CONTACTS)</strong> – 用於顯示聯絡人姓名並致電。</li>
+      <li><strong>電話/通話(CALL_PHONE、READ_CALL_LOG、READ_PHONE_STATE)</strong> – 用於撥打電話及顯示通話記錄。</li>
+      <li><strong>裝置電話號碼</strong> – 僅在系統功能需要時使用(例如設定預設通話應用程式)。</li>
+      <li><strong>傳送短訊(SEND_SMS)</strong> – 僅當用戶拒接來電並選擇向來電者傳送自動短訊時使用。</li>
+    </ul>
+    <p>應用程式不會在用戶裝置之外收集或儲存上述任何資料。</p>
+
+    <h3>我們如何處理資料?</h3>
+    <p>本應用程式:</p>
+    <ul>
+      <li>不會將任何資料儲存在外部伺服器上,</li>
+      <li>不會與第三方分享任何資料,</li>
+      <li>不會將任何資訊傳送到裝置之外,</li>
+      <li>不包含分析工具或廣告,</li>
+      <li>僅處理儲存在裝置上的資料,且僅在提供通話功能的範圍內使用。</li>
+    </ul>
+    <p>應用程式可存取的所有資料均只保留在用戶裝置上,並在解除安裝應用程式時從裝置中刪除。</p>
+
+    <h3>安全性</h3>
+    <p>本應用程式不會將任何資料傳輸到裝置之外,因此不會透過應用程式本身發生資料外洩。裝置上儲存資料的安全性由 Android 系統負責。</p>
+
+    <h3>兒童</h3>
+    <p>本應用程式不會收集、儲存或向裝置之外傳輸任何個人資料,因此亦適合較年輕的用戶使用。本應用程式並非專門針對兒童設計,但由於其不處理裝置之外的任何資料,因此在兒童私隱保護方面不構成任何風險。</p>
+
+    <h3>政策變更</h3>
+    <p>如應用程式的功能發生變化,需要以不同方式處理資料,本政策將會更新,新版本將發佈在本頁面上,並註明最後更新日期。</p>
+
+    <h3>聯絡方式</h3>
+    <p class="contact">
+      <strong>Ing. Martin Tobola</strong>
+      martin.tobola@gmail.com
+    </p>
+
+    <a class="back-to-top" href="#top">↑ 選擇其他語言</a>
+  </section>
+
+</div>
+
+<script>
+  var buttons = document.querySelectorAll('.lang-btn');
+  var sections = document.querySelectorAll('.policy');
+
+  function showLang(id) {
+    sections.forEach(function(s) {
+      s.classList.toggle('active', s.id === id);
+    });
+    var target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      showLang(btn.getAttribute('data-target'));
+    });
+  });
+</script>
+
+</body>
+</html>

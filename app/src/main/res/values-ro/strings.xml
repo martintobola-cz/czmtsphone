@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="send_message">Trimite mesaj</string>
+<string name="hide_number_for_saved_contact">Nu afișa numărul de telefon în timpul unui apel dacă este un contact salvat</string>
+<string name="privacy_acknowledge">Confirm că am luat la cunoștință</string>
+<string name="block_confirmation">Sigur doriți să blocați "%s"?</string>
+<string name="block_unknown_calls">Blochează apelurile de la numere care nu se află în contacte</string>
+<string name="block_hidden_calls">Blochează apelurile de la numere ascunse</string>
+<string name="block_unknown_messages">Blochează mesajele de la numere care nu se află în contacte</string>
+<string name="block_hidden_messages">Blochează mesajele de la numere ascunse</string>
+<string name="add_blocked_number_helper_text">Introduceți un număr exact sau un model cu * sau ? (de ex. *333*, +1*8888, +42?777*) pentru a bloca toate apelurile de la numere care corespund modelului. Un asterisc reprezintă orice număr de caractere, în timp ce semnul întrebării reprezintă exact un caracter.</string>
+<string name="must_make_default_caller_id_app">Numerele necunoscute nu pot fi blocate fără permisiunea de identificare a apelantului.</string>
+<string name="block_contact">Blochează contactul</string>
+<string name="block_contact_success">Contact blocat</string>
+<string name="block_contact_fail">Contactul nu a putut fi blocat</string>
+<string name="unblock_contact">Deblochează contactul</string>
+<string name="unblock_contact_success">Contact deblocat</string>
+<string name="unblock_contact_fail">Contactul nu a putut fi deblocat</string>
+<string name="block_error_string_value">Sunt permise doar cifrele și ? *</string>
+
 <string name="edit_sms_templates"> ✍️ Editați șabloanele SMS</string>
 <string name="sms_edit_hint_double_tap">Apăsare lungă sau atingere dublă pentru a edita textul</string>
 <string name="sms_add_new_template">+ Adăugați text nou</string>

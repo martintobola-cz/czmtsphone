@@ -2,7 +2,28 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
-<string name="last_update_info">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
+<string name="send_message">Poslat zprávu</string>
+<string name="hide_number_for_saved_contact">Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt</string>
+<string name="privacy_acknowledge">Beru na vědomí</string>
+    <string name="block_confirmation">Opravdu chcete zablokovat "%s"?</string>
+    <string name="block_unknown_calls">Blokovat volání z neznámých čísel (volat tedy mohou pouze uložené kontakty)</string>
+    <string name="block_hidden_calls">Blokovat volání ze skrytých čísel</string>
+    <string name="block_unknown_messages">Blokovat zprávy z neznámých čísel</string>
+    <string name="block_hidden_messages">Blokovat zprávy ze skrytých čísel</string>
+    <string name="add_blocked_number_helper_text">Zadáním přesného čísla nebo vzoru s použitím znaků * nebo ? (např. *333*, +1*8888, +42?777*) můžete zablokovat daná čísla. Hvězdička značí libovolný počet znaků, otazník pro právě jeden znak.</string>
+    <string name="must_make_default_caller_id_app">Nelze blokovat neznámá čísla pokud aplikace není nastavena jako výchozí telefonní aplikace a zároveň jako výchozí aplikace pro identifikací volajícího.</string>
+    <string name="block_contact">Zablokovat kontakt</string>
+    <string name="block_contact_success">Kontakt zablokován</string>
+    <string name="block_contact_fail">Kontakt se nepodařilo zablokovat</string>
+    <string name="unblock_contact">Odblokovat kontakt</string>
+    <string name="unblock_contact_success">Kontakt odblokován</string>
+    <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
+<string name="block_error_string_value">Jsou dovolena pouze čísla a zbaky ? *</string>
+
+
+<string name="last_update_info">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
+
+<string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
 
 <string name="last_update_info897">⌚ Odteď se i na vašich chytrých hodinkách bude ukazovat jméno volajícího. Další novinkou je možnost klepnout na číslo, které vám volá a pokud máte zapnuto testování na spam, otevře se Vám web stránka s recenzemi toho čísla. Prosím podpořte aplikaci svým hodnocením v obchodě, nic to nestojí a ostatním pomůžete s výběrem. Každá ⭐ se počítá !</string>
     

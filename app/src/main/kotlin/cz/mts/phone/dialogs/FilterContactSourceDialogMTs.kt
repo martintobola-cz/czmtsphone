@@ -1,7 +1,13 @@
 package cz.mts.phone.dialogs
 
 import androidx.appcompat.app.AlertDialog
+import cz.mts.base.extensions.getAlertDialogBuilder
+import cz.mts.base.extensions.getVisibleContactSources
+import cz.mts.base.extensions.setupDialogStuff
+import cz.mts.base.extensions.viewBinding
 import cz.mts.base.helpers.ContactsHelper
+import cz.mts.base.helpers.MTS_NONE
+import cz.mts.base.helpers.VcfImportSource
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.models.contacts.ContactSource
 import cz.mts.phone.R
@@ -9,12 +15,6 @@ import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.adapters.FilterContactSourcesAdapter
 import cz.mts.phone.databinding.DialogFilterContactSourcesBinding
 import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.extensions.getVisibleContactSources
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.extensions.getAlertDialogBuilder
-import cz.mts.base.extensions.setupDialogStuff
-import cz.mts.base.helpers.MTS_NONE
-import cz.mts.base.helpers.VcfImportSource
 
 class FilterContactSourceDialogMTs(
     private val activity: SimpleActivity,

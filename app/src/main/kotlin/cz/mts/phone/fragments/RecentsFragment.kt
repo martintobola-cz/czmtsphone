@@ -13,12 +13,7 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cz.mts.base.extensions.beGone
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.density
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.hasPermission
-import cz.mts.base.extensions.normalizeString
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.PERMISSION_READ_CALL_LOG
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.phone.R
@@ -26,7 +21,6 @@ import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.activities.mtsGlobalAll
 import cz.mts.phone.adapters.RecentCallsAdapter
 import cz.mts.phone.databinding.FragmentRecentsBinding
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.phone.extensions.startContactDetailsIntentY
 import cz.mts.phone.helpers.RecentsHelper
 import cz.mts.phone.helpers.RecentsQueryLimits
@@ -35,6 +29,7 @@ import cz.mts.phone.models.RecentCall
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import cz.mts.base.extensions.baseConfig as config
 
 class RecentsFragment(
     context: Context,

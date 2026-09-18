@@ -1,73 +1,45 @@
 package cz.mts.phone.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.Menu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
-import cz.mts.phone.databinding.ActivitySettingsBinding
-import cz.mts.phone.dialogs.ExportCallHistoryDialog
-import cz.mts.phone.dialogs.ManageVisibleTabsDialog
-import cz.mts.phone.extensions.canLaunchAccountsConfiguration
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.phone.extensions.launchAccountsConfiguration
-import cz.mts.phone.helpers.RecentsHelper
-import cz.mts.phone.models.RecentCall
-import cz.mts.phone.R
-import java.util.Locale
-import kotlin.system.exitProcess
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.SerializationException
-import cz.mts.base.activities.ManageBlockedNumbersActivity
 import cz.mts.base.dialogs.ChangeDateTimeFormatDialog
+import cz.mts.base.dialogs.ExportFileDialog
 import cz.mts.base.dialogs.RadioGroupDialog
-import cz.mts.base.extensions.addLockedLabelIfNeeded
-import cz.mts.base.extensions.beGone
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.getFontSizeText
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.showErrorToast
-import cz.mts.base.extensions.toast
-import cz.mts.base.extensions.updateTextColors
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.helpers.ContactsHelper
-import cz.mts.base.helpers.FONT_SIZE_EXTRA_LARGE
-import cz.mts.base.helpers.FONT_SIZE_LARGE
-import cz.mts.base.helpers.FONT_SIZE_MEDIUM
-import cz.mts.base.helpers.FONT_SIZE_SMALL
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.FastPhoneNumberFormatter.invalidateRegionCache
-import cz.mts.base.helpers.MTS_NONE
-import cz.mts.base.helpers.MTS_PHONE
-import cz.mts.base.helpers.isNougatPlus
-import cz.mts.base.helpers.isQPlus
-import cz.mts.base.helpers.isTiramisuPlus
-import cz.mts.base.helpers.NavigationIcon
-import cz.mts.base.helpers.TAB_CALL_HISTORY
-import cz.mts.base.helpers.TAB_CONTACTS
-import cz.mts.base.helpers.TAB_FAVORITES
-import cz.mts.base.helpers.TAB_LAST_USED
-import cz.mts.base.helpers.VcfExporter
-import cz.mts.base.helpers.VcfImportSource
-import cz.mts.base.helpers.VcfImporter
 import cz.mts.base.models.RadioItem
+import cz.mts.phone.R
+import cz.mts.phone.databinding.ActivitySettingsBinding
 import cz.mts.phone.dialogs.FilterContactSourceDialogMTs
+import cz.mts.phone.dialogs.ManageVisibleTabsDialog
 import cz.mts.phone.dialogs.NameTypeDialog
+import cz.mts.phone.extensions.canLaunchAccountsConfiguration
+import cz.mts.phone.extensions.launchAccountsConfiguration
+import cz.mts.phone.helpers.BlockedNumbersImportExportHelper
+import cz.mts.phone.helpers.OverlayColors
+import cz.mts.phone.helpers.RecentsHelper
+import cz.mts.phone.helpers.SmsQuickReplyOverlay
+import cz.mts.phone.models.RecentCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 import java.io.OutputStream
-import android.Manifest
-import android.content.pm.PackageManager
-import android.provider.Settings
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getSharedPrefs
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.phone.helpers.OverlayColors
-import cz.mts.phone.helpers.SmsQuickReplyOverlay
+import java.util.Locale
+import kotlin.system.exitProcess
+import cz.mts.base.extensions.baseConfig as config
 
 
 class SettingsActivity : SimpleActivity() {
@@ -91,6 +63,8 @@ class SettingsActivity : SimpleActivity() {
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
 
     // ── Activity Result launchery – deklarovány před onCreate ────────────────
+
+    private val importExportHelper = BlockedNumbersImportExportHelper(this)
 
     private val importCallHistoryLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -219,8 +193,7 @@ class SettingsActivity : SimpleActivity() {
             settingsLanguage.text = Locale.getDefault().displayLanguage
             settingsLanguageHolder.beVisibleIf(isTiramisuPlus())
 
-            settingsManageBlockedNumbersLabel.text =
-                addLockedLabelIfNeeded(R.string.manage_blocked_numbers)
+            settingsManageBlockedNumbersLabel.text =getString(R.string.manage_blocked_numbers)
             settingsManageBlockedNumbersHolder.beVisibleIf(isNougatPlus())
 
             settingsFontSize.text = getFontSizeText()
@@ -241,6 +214,7 @@ class SettingsActivity : SimpleActivity() {
             settingsAlwaysShowFullscreen.isChecked = config.alwaysShowFullscreen
             settingsSwhowDeclineAndSmsButton.isChecked = config.swhowDeclineAndSMSbutton
             settingsShakeCallEffect.isChecked = config.shakeEffectConfirmingCall
+            settingsHideNumberForSavedContact.isChecked = config.hideNumberForSavedContact
         }
     }
 
@@ -271,6 +245,7 @@ class SettingsActivity : SimpleActivity() {
         setupAlwaysShowFullscreen()
         setupSwhowDeclineAndSMSbutton()
         setupShakeEffect()
+        setupHideNumberForSavedContact()
         setupCallsExport()
         setupCallsImport()
         setupContactsExport()
@@ -285,7 +260,7 @@ class SettingsActivity : SimpleActivity() {
     private fun setupCustomizeColors() {
         binding.settingsColorCustomizationHolder.setOnClickListener {
             config.easterEggMode = false
-            mtsGlobalAll.iSaveDebugMode = 0
+            if (iSaveDebugMode == 2) iSaveDebugMode = 0
             startCustomizationActivity()
         }
     }
@@ -593,9 +568,20 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
+    private fun setupHideNumberForSavedContact() {
+        binding.settingsHideNumberForSavedContactHolder.setOnClickListener {
+            binding.settingsHideNumberForSavedContact.toggle()
+            config.hideNumberForSavedContact = binding.settingsHideNumberForSavedContact.isChecked
+        }
+    }
+
     private fun setupCallsExport() {
         binding.settingsExportCallsHolder.setOnClickListener {
-            ExportCallHistoryDialog(this, 0) { filename ->
+            ExportFileDialog(
+                activity = this,
+                titleRes = R.string.export_call_history,
+                defaultFilename = "call_history_${getCurrentFormattedDateTime()}",
+            ) { filename ->
                 exportCallHistoryLauncher.launch("$filename.json")
             }
         }
@@ -609,7 +595,11 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupContactsExport() {
         binding.settingsExportContactsHolder.setOnClickListener {
-            ExportCallHistoryDialog(this, 1) { filename ->
+            ExportFileDialog(
+                activity = this,
+                titleRes = R.string.export_contacts,
+                defaultFilename = "contacts_${getCurrentFormattedDateTime()}",
+            ) { filename ->
                 exportContactsLauncher.launch("$filename.vcf")
             }
         }
@@ -753,26 +743,30 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupBlockedNumbersExport() {
         binding.settingsExportBlockedNumbersHolder.setOnClickListener {
-            startActivity(ManageBlockedNumbersActivity.createExportIntent(this))
+            importExportHelper.tryExportBlockedNumbers()
         }
     }
 
     private fun setupBlockedNumbersImport() {
         binding.settingsImportBlockedNumbersHolder.setOnClickListener {
-            startActivity(ManageBlockedNumbersActivity.createImportIntent(this))
+            importExportHelper.tryImportBlockedNumbers()
         }
     }
 
     private fun setupAllPerfsExport() {
         binding.settingsExportPerfsHolder.setOnClickListener {
-            ExportCallHistoryDialog(this, 2) { filename ->
+            ExportFileDialog(
+                activity = this,
+                titleRes = R.string.export_settings,
+                defaultFilename = "mts_prefs_backup_${getCurrentFormattedDateTime()}",
+            ) { filename ->
                 exportPrefsLauncher.launch("$filename.json")
             }
         }
     }
 
     private fun setupAllPerfsImport() {
-        if (mtsGlobalAll.iSaveDebugMode == 1) {
+        if (iSaveDebugMode == 1) {
             binding.settingsImportPerfsHolder.setOnClickListener {
                 importPrefsLauncher.launch(arrayOf("application/json"))
             }

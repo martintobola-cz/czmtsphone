@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="send_message">Üzenet küldése</string>
+<string name="hide_number_for_saved_contact">Ne jelenítse meg a telefonszámot hívás közben, ha a szám mentett névjegyhez tartozik</string>
+<string name="privacy_acknowledge">Tudomásul veszem</string>
+<string name="block_confirmation">Biztosan le szeretné tiltani a következőt: "%s"?</string>
+<string name="block_unknown_calls">A névjegyek között nem szereplő számokról érkező hívások letiltása</string>
+<string name="block_hidden_calls">Rejtett számokról érkező hívások letiltása</string>
+<string name="block_unknown_messages">A névjegyek között nem szereplő számokról érkező üzenetek letiltása</string>
+<string name="block_hidden_messages">Rejtett számokról érkező üzenetek letiltása</string>
+<string name="add_blocked_number_helper_text">Adjon meg egy pontos számot vagy * vagy ? jelet tartalmazó mintát (pl. *333*, +1*8888, +42?777*) az egyező számokról érkező összes hívás letiltásához. A csillag tetszőleges számú karaktert, a kérdőjel pedig pontosan egy karaktert helyettesít.</string>
+<string name="must_make_default_caller_id_app">Ismeretlen számok nem tilthatók le hívóazonosítási engedély nélkül.</string>
+<string name="block_contact">Névjegy letiltása</string>
+<string name="block_contact_success">Névjegy letiltva</string>
+<string name="block_contact_fail">A névjegyet nem sikerült letiltani</string>
+<string name="unblock_contact">Névjegy tiltásának feloldása</string>
+<string name="unblock_contact_success">Névjegy tiltása feloldva</string>
+<string name="unblock_contact_fail">A névjegy tiltását nem sikerült feloldani</string>
+<string name="block_error_string_value">Csak számok és ? * használhatók</string>
+
 <string name="edit_sms_templates"> ✍️ SMS-sablonok szerkesztése</string>
 <string name="sms_edit_hint_double_tap">Hosszú érintés vagy dupla koppintás a szöveg szerkesztéséhez</string>
 <string name="sms_add_new_template">+ Új szöveg hozzáadása</string>

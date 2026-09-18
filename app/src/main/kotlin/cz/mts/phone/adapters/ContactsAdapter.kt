@@ -23,59 +23,28 @@ import cz.mts.base.adapters.MyRecyclerViewAdapter
 import cz.mts.base.databinding.ItemContactWithoutNumberBinding
 import cz.mts.base.databinding.ItemContactWithoutNumberGridBinding
 import cz.mts.base.dialogs.ConfirmationDialog
-import cz.mts.base.extensions.addLockedLabelIfNeeded
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.extensions.beGone
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.blockContact
-import cz.mts.base.extensions.contactsDB
-import cz.mts.base.extensions.getPhoneNumberTypeText
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getTextSize
-import cz.mts.base.extensions.highlightTextPart
-import cz.mts.base.extensions.isContactBlocked
-import cz.mts.base.extensions.launchSendSMSIntent
-import cz.mts.base.extensions.normalizeString
-import cz.mts.base.extensions.setupViewBackground
-import cz.mts.base.extensions.shortcutManager
-import cz.mts.base.extensions.toast
-import cz.mts.base.extensions.unblockContact
-import cz.mts.base.helpers.CONTACTS_GRID_MAX_COLUMNS_COUNT
-import cz.mts.base.helpers.FONT_SIZE_EXTRA_LARGE
-import cz.mts.base.helpers.FONT_SIZE_LARGE
-import cz.mts.base.helpers.FONT_SIZE_MEDIUM
-import cz.mts.base.helpers.FONT_SIZE_SMALL
-import cz.mts.base.helpers.LocalContactPhotoStorage
-import cz.mts.base.helpers.MTS_PHONE
-import cz.mts.base.helpers.isNougatPlus
-import cz.mts.base.helpers.isOreoPlus
-import cz.mts.base.helpers.PERMISSION_CALL_PHONE
-import cz.mts.base.helpers.PERMISSION_WRITE_CONTACTS
-import cz.mts.base.helpers.SimpleContactsHelper
-import cz.mts.base.helpers.VIEW_TYPE_GRID
-import cz.mts.base.helpers.VIEW_TYPE_LIST
-import cz.mts.base.helpers.ensureBackgroundThread
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.PopupMenuColorizer.setOneTitleColor
 import cz.mts.base.interfaces.ItemMoveCallback
 import cz.mts.base.interfaces.ItemTouchHelperContract
 import cz.mts.base.interfaces.StartReorderDragListener
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.views.MyRecyclerView
-import cz.mts.phone.activities.mtsGlobalAll
-import cz.mts.phone.activities.SimpleActivity
-import cz.mts.phone.extensions.areMultipleSIMsAvailable
-import cz.mts.phone.interfaces.RefreshItemsListener
 import cz.mts.phone.R
 import cz.mts.phone.activities.MainActivity
+import cz.mts.phone.activities.SimpleActivity
+import cz.mts.phone.activities.mtsGlobalAll
+import cz.mts.phone.extensions.areMultipleSIMsAvailable
 import cz.mts.phone.extensions.startContactDetailsIntentID
 import cz.mts.phone.helpers.CacheContacts
 import cz.mts.phone.helpers.RecentsQueryLimits
+import cz.mts.phone.interfaces.RefreshItemsListener
 import cz.mts.phone.models.PhonePickerItem
 import cz.mts.phone.models.PhoneTypeUi
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger
+import cz.mts.base.extensions.baseConfig as config
 
 class ContactsAdapter(
     activity: SimpleActivity,
@@ -123,25 +92,38 @@ class ContactsAdapter(
     override fun prepareActionMode(menu: Menu) {
         val hasMultipleSIMs = activity.areMultipleSIMsAvailable()
         val isOneItemSelected = isOneItemSelected()
-        val selectedNumber = getSelectedPhoneNumber().orEmpty()
+       // val selectedNumber = getSelectedPhoneNumber().orEmpty()
+        val showBlockUnblock = isOneItemSelected && isNougatPlus()
+        val colorizerEnabled = activity.config.usePopupMenuColorizer && !activity.isDynamicTheme()
+
 
         menu.apply {
             findItem(R.id.cab_call_sim_1).isVisible = hasMultipleSIMs && isOneItemSelected
             findItem(R.id.cab_call_sim_2).isVisible = hasMultipleSIMs && isOneItemSelected
             findItem(R.id.cab_remove_default_sim).isVisible = false //isOneItemSelected && (activity.config.getCustomSIM(selectedNumber) ?: "") != ""
             findItem(R.id.cab_delete).isVisible = showDeleteButton
-            findItem(R.id.cab_create_shortcut).title = activity.addLockedLabelIfNeeded(R.string.create_shortcut)
             findItem(R.id.cab_create_shortcut).isVisible = isOneItemSelected && isOreoPlus()
             findItem(R.id.cab_view_details).isVisible = isOneItemSelected
             findItem(R.id.cab_view_recents).isVisible = isOneItemSelected
-            findItem(R.id.cab_block_unblock_contact).isVisible = isOneItemSelected && isNougatPlus()
-            getCabBlockContactTitle { title ->
-                findItem(R.id.cab_block_unblock_contact).title = title
-            }
+            findItem(R.id.cab_block_unblock_contact).isVisible = showBlockUnblock
+            findItem(R.id.cab_copy_number).isVisible = true
+            if (showBlockUnblock)
+                getCabBlockContactTitle {
+                    title -> findItem(R.id.cab_block_unblock_contact).setOneTitleColor(
+                    title,
+                    if (colorizerEnabled) activity.config.popupMenuTextColor else null
+                    )
+                }
         }
     }
 
     override fun actionItemPressed(id: Int) {
+
+        if (id == R.id.cab_select_all) {
+            toggleSelectAll()
+            return
+        }
+
         if (selectedKeys.isEmpty()) {
             return
         }
@@ -156,7 +138,8 @@ class ContactsAdapter(
             R.id.cab_view_details -> viewContactDetails()
             R.id.cab_create_shortcut -> createShortcut()
             R.id.cab_view_recents -> viewContactRecentCalls()
-            R.id.cab_select_all -> selectAll()
+            R.id.cab_select_all -> toggleSelectAll()
+            R.id.cab_copy_number -> copyNumber()
         }
     }
 
@@ -202,16 +185,19 @@ class ContactsAdapter(
 
     private fun getCabBlockContactTitle(callback: (String) -> Unit) {
         val contact = getSelectedItems().firstOrNull() ?: return callback("")
-
         activity.isContactBlocked(contact) { blocked ->
-            val cabItemTitleRes = if (blocked) {
-                R.string.unblock_contact
-            } else {
-                R.string.block_contact
-            }
-
-            callback(activity.addLockedLabelIfNeeded(cabItemTitleRes))
+            callback(activity.getString(if (blocked) R.string.unblock_contact else R.string.block_contact))
         }
+    }
+
+    private fun copyNumber() {
+        val selectedItems = getSelectedItems()
+        if (selectedItems.isEmpty()) {
+            return
+        }
+        val numbers = selectedItems.joinToString("\n") { it.getNameToDisplay() }
+        activity.copyToClipboard(numbers)
+        //finishActMode()
     }
 
     private fun tryBlockingUnblocking() {
@@ -219,36 +205,16 @@ class ContactsAdapter(
 
         activity.isContactBlocked(contact) { blocked ->
             if (blocked) {
-                tryUnblocking(contact)
+                val contactUnblocked = activity.unblockContact(contact)
+                activity.toast(if (contactUnblocked) R.string.unblock_contact_success else R.string.unblock_contact_fail)
+                finishActMode()
             } else {
-                tryBlocking(contact)
+                askConfirmBlock(contact) { contactBlocked ->
+                    activity.toast(if (contactBlocked) R.string.block_contact_success else R.string.block_contact_fail)
+                    finishActMode()
+                }
             }
         }
-    }
-
-    private fun tryBlocking(contact: Contact) {
-        askConfirmBlock(contact) { contactBlocked ->
-            val resultMsg = if (contactBlocked) {
-                R.string.block_contact_success
-            } else {
-                R.string.block_contact_fail
-            }
-
-            activity.toast(resultMsg)
-            finishActMode()
-        }
-    }
-
-    private fun tryUnblocking(contact: Contact) {
-        val contactUnblocked = activity.unblockContact(contact)
-        val resultMsg = if (contactUnblocked) {
-            R.string.unblock_contact_success
-        } else {
-            R.string.unblock_contact_fail
-        }
-
-        activity.toast(resultMsg)
-        finishActMode()
     }
 
     private fun askConfirmBlock(contact: Contact, callback: (Boolean) -> Unit) {

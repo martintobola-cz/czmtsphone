@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import cz.mts.base.helpers.ACCEPT_CALL
 import cz.mts.base.helpers.CALLUUID
-import cz.mts.phone.helpers.CallManager
 import cz.mts.base.helpers.DECLINE_CALL
+import cz.mts.phone.helpers.CallManager
 
 class CallActionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

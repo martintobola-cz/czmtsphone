@@ -2,6 +2,24 @@
 <resources>
 <string name="app_launcher_name">Telefon</string>
 
+<string name="send_message">Wyślij wiadomość</string>
+<string name="hide_number_for_saved_contact">Nie wyświetlaj numeru telefonu podczas połączenia, jeśli jest to zapisany kontakt</string>
+<string name="privacy_acknowledge">Przyjmuję to do wiadomości</string>
+<string name="block_confirmation">Czy na pewno chcesz zablokować "%s"?</string>
+<string name="block_unknown_calls">Blokuj połączenia z numerów, których nie ma w kontaktach</string>
+<string name="block_hidden_calls">Blokuj połączenia z numerów zastrzeżonych</string>
+<string name="block_unknown_messages">Blokuj wiadomości z numerów, których nie ma w kontaktach</string>
+<string name="block_hidden_messages">Blokuj wiadomości z numerów zastrzeżonych</string>
+<string name="add_blocked_number_helper_text">Wprowadź dokładny numer lub wzorzec zawierający * lub ? (np. *333*, +1*8888, +42?777*), aby blokować wszystkie połączenia z numerów pasujących do wzorca. Gwiazdka oznacza dowolną liczbę znaków, a znak zapytania oznacza dokładnie jeden znak.</string>
+<string name="must_make_default_caller_id_app">Nie można blokować nieznanych numerów bez uprawnienia do identyfikacji dzwoniącego.</string>
+<string name="block_contact">Zablokuj kontakt</string>
+<string name="block_contact_success">Kontakt zablokowany</string>
+<string name="block_contact_fail">Nie udało się zablokować kontaktu</string>
+<string name="unblock_contact">Odblokuj kontakt</string>
+<string name="unblock_contact_success">Kontakt odblokowany</string>
+<string name="unblock_contact_fail">Nie udało się odblokować kontaktu</string>
+<string name="block_error_string_value">Dozwolone są tylko cyfry oraz ? *</string>
+
 <string name="edit_sms_templates"> ✍️ Edytuj szablony SMS</string>
 <string name="sms_edit_hint_double_tap">Przytrzymaj lub dotknij dwukrotnie, aby edytować tekst</string>
 <string name="sms_add_new_template">+ Dodaj nowy tekst</string>

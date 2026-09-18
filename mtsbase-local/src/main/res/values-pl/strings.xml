@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="callfilter_info">Pokaż oceny nieznanych numerów (używając callfilter.app, cz.mts.callfilter)</string>
+<string name="theme_restart_required">Przycisk OK zamyka aplikację. Jest to konieczne, aby wprowadzone przed chwilą zmiany kolorów zaczęły obowiązywać.</string>
+<string name="customization_popup_menu_background_color_label">Kolor tła menu podręcznego</string>
+<string name="customization_popup_menu_text_color_label">Kolor tekstu menu podręcznego</string>
+
+<string name="callfilter_info">Pokazuj oceny nieznanych numerów (za pomocą callfilter.app, cz.mts.callfilter)</string>
     <string name="show_only_contacts_with_numbers">Pokazuj tylko kontakty z numerami</string>
     <string name="customization_navbar_color_label">Kolor nawigacji</string>
     <string name="search_all_fields">Rozszerzone wyszukiwanie</string>

@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Telefón</string>
 
+<string name="send_message">Poslať správu</string>
+<string name="hide_number_for_saved_contact">Počas hovoru nezobrazovať telefónne číslo, ak ide o uložený kontakt</string>
+<string name="privacy_acknowledge">Beriem na vedomie</string>
+<string name="block_confirmation">Naozaj chcete zablokovať "%s"?</string>
+<string name="block_unknown_calls">Blokovať hovory z neznámych čísel (volať teda môžu iba uložené kontakty)</string>
+<string name="block_hidden_calls">Blokovať hovory zo skrytých čísel</string>
+<string name="block_unknown_messages">Blokovať správy z neznámych čísel</string>
+<string name="block_hidden_messages">Blokovať správy zo skrytých čísel</string>
+<string name="add_blocked_number_helper_text">Zadaním presného čísla alebo vzoru s použitím znakov * alebo ? (napr. *333*, +1*8888, +42?777*) môžete zablokovať dané čísla. Hviezdička označuje ľubovoľný počet znakov, otáznik označuje práve jeden znak.</string>
+<string name="must_make_default_caller_id_app">Nie je možné blokovať neznáme čísla, ak aplikácia nie je nastavená ako predvolená telefónna aplikácia a zároveň ako predvolená aplikácia na identifikáciu volajúceho.</string>
+<string name="block_contact">Zablokovať kontakt</string>
+<string name="block_contact_success">Kontakt zablokovaný</string>
+<string name="block_contact_fail">Kontakt sa nepodarilo zablokovať</string>
+<string name="unblock_contact">Odblokovať kontakt</string>
+<string name="unblock_contact_success">Kontakt odblokovaný</string>
+<string name="unblock_contact_fail">Kontakt sa nepodarilo odblokovať</string>
+<string name="block_error_string_value">Povolené sú iba čísla a znaky ? *</string>
+
 <string name="edit_sms_templates"> ✍️ Upraviť SMS texty</string>
 <string name="sms_edit_hint_double_tap">Dlhým stlačením alebo dvojitým ťuknutím vyvoláte úpravu textu</string>
 <string name="sms_add_new_template">+ Pridať nový text</string>

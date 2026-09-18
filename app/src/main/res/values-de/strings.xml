@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="send_message">SMS senden</string>
+<string name="hide_number_for_saved_contact">Telefonnummer während eines Anrufs nicht anzeigen, wenn es sich um einen gespeicherten Kontakt handelt</string>
+<string name="privacy_acknowledge">Ich bestätige dies</string>
+<string name="block_confirmation">Möchten Sie "%s" wirklich blockieren?</string>
+<string name="block_unknown_calls">Anrufe von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>
+<string name="block_hidden_calls">Anrufe von unterdrückten Nummern blockieren</string>
+<string name="block_unknown_messages">Nachrichten von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>
+<string name="block_hidden_messages">Nachrichten von unterdrückten Nummern blockieren</string>
+<string name="add_blocked_number_helper_text">Geben Sie eine genaue Nummer oder ein Muster mit * oder ? ein (z. B. *333*, +1*8888, +42?777*), um alle Anrufe von Nummern zu blockieren, die dem Muster entsprechen. Ein Sternchen steht für eine beliebige Anzahl von Zeichen, während ein Fragezeichen genau ein Zeichen darstellt.</string>
+<string name="must_make_default_caller_id_app">Unbekannte Nummern können ohne die Berechtigung zur Anrufererkennung nicht blockiert werden.</string>
+<string name="block_contact">Kontakt blockieren</string>
+<string name="block_contact_success">Kontakt blockiert</string>
+<string name="block_contact_fail">Kontakt konnte nicht blockiert werden</string>
+<string name="unblock_contact">Blockierung des Kontakts aufheben</string>
+<string name="unblock_contact_success">Blockierung des Kontakts aufgehoben</string>
+<string name="unblock_contact_fail">Blockierung des Kontakts konnte nicht aufgehoben werden</string>
+<string name="block_error_string_value">Nur Zahlen und ? * sind zulässig</string>
+
 <string name="edit_sms_templates"> ✍️ SMS-Vorlagen bearbeiten</string>
 <string name="sms_edit_hint_double_tap">Langer Druck oder Doppeltippen öffnet die Textbearbeitung</string>
 <string name="sms_add_new_template">+ Neuen Text hinzufügen</string>

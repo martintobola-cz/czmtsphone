@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+<item
+        android:id="@+id/send_message"
+        android:icon="@drawable/ic_sms_vector"
+        android:title="@string/send_message"
+        app:showAsAction="always" />
+    
+<item
         android:id="@+id/add_number_to_contact"
         android:icon="@drawable/ic_add_person_vector"
         android:title="@string/add_number_to_contact"

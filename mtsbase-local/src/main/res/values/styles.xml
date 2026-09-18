@@ -349,10 +349,11 @@
         <item name="android:visibility">invisible</item>
     </style>
 
-    <style name="AppTheme.YouPopupMenuStyle" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:popupMenuStyle">@style/AppTheme.YouPopupMenu</item>
-        <item name="android:itemTextAppearance">@style/AppTheme.YouItemTextStyle</item>
-    </style>
+<style name="AppTheme.YouPopupMenuStyle" parent="ThemeOverlay.AppCompat.Dark">
+    <item name="android:popupMenuStyle">@style/AppTheme.YouPopupMenu</item>
+    <item name="popupMenuStyle">@style/AppTheme.YouPopupMenu</item>
+    <item name="android:itemTextAppearance">@style/AppTheme.YouItemTextStyle</item>
+</style>
 
     <style name="AppTheme.YouItemTextStyle" parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Small">
         <item name="android:textColor">@color/you_neutral_text_color</item>
@@ -363,18 +364,21 @@
         <item name="android:popupElevation">@dimen/popup_menu_elevation</item>
     </style>
 
-    <style name="AppTheme.PopupMenuDarkStyle" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:popupMenuStyle">@style/AppTheme.PopupMenuDark</item>
-    </style>
+<style name="AppTheme.PopupMenuDarkStyle" parent="ThemeOverlay.AppCompat.Dark">
+    <item name="android:popupMenuStyle">@style/AppTheme.PopupMenuDark</item>
+    <item name="popupMenuStyle">@style/AppTheme.PopupMenuDark</item>
+</style>
+
+<style name="AppTheme.PopupMenuLightStyle" parent="ThemeOverlay.AppCompat.Light">
+    <item name="android:popupMenuStyle">@style/AppTheme.PopupMenuLight</item>
+    <item name="popupMenuStyle">@style/AppTheme.PopupMenuLight</item>
+</style>
 
     <style name="AppTheme.PopupMenuDark" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@drawable/top_popup_menu_bg_dark</item>
         <item name="android:popupElevation">@dimen/popup_menu_elevation</item>
     </style>
 
-    <style name="AppTheme.PopupMenuLightStyle" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:popupMenuStyle">@style/AppTheme.PopupMenuLight</item>
-    </style>
 
     <style name="AppTheme.PopupMenuLight" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@drawable/top_popup_menu_bg_light</item>
@@ -421,13 +425,11 @@
         <item name="android:layout_marginStart">@dimen/label_start_margin</item>
         <item name="android:paddingTop">@dimen/big_margin</item>
         <item name="android:paddingBottom">@dimen/medium_margin</item>
-        <item name="android:textSize">@dimen/normal_text_size</item>
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <style name="MaterialListTextStyle">
         <item name="android:layout_marginStart">@dimen/label_start_margin</item>
-        <item name="android:textSize">@dimen/normal_text_size</item>
         <item name="android:paddingEnd">@dimen/bigger_margin</item>
     </style>
 
@@ -436,23 +438,19 @@
         <item name="android:clickable">false</item>
         <item name="android:layoutDirection">rtl</item>
         <item name="android:paddingStart">@dimen/medium_margin</item>
-        <item name="android:textSize">@dimen/normal_text_size</item>
     </style>
 
     <style name="SettingsSwitchStyle">
         <item name="android:background">@null</item>
         <item name="android:clickable">false</item>
-        <item name="android:textSize">@dimen/normal_text_size</item>
     </style>
 
     <style name="SettingsTextLabelStyle">
-        <item name="android:textSize">@dimen/normal_text_size</item>
     </style>
 
     <style name="SettingsTextValueStyle">
         <item name="android:alpha">0.6</item>
         <item name="android:textFontWeight">300</item>
-        <item name="android:textSize">@dimen/normal_text_size</item>
     </style>
 
     <style name="SettingsHolderCheckboxStyle">

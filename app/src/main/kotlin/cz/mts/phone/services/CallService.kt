@@ -5,38 +5,16 @@ import android.content.Context
 import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
-import android.telecom.Call
-import android.telecom.CallAudioState
-import android.telecom.InCallService
-import android.telecom.PhoneAccount
-import android.telecom.DisconnectCause
+import android.telecom.*
 import android.telephony.SubscriptionManager
-import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.extensions.hasPermission
 import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
+import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.phone.R
-import cz.mts.phone.extensions.audioManager
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.phone.extensions.getStateCompat
-import cz.mts.phone.extensions.isDndActive
-import cz.mts.phone.extensions.isIncoming
-import cz.mts.phone.extensions.isOutgoing
-import cz.mts.phone.extensions.keyguardManager
-import cz.mts.phone.extensions.powerManager
-import cz.mts.phone.extensions.subscriptionManager
-import cz.mts.phone.extensions.telecomManager
-import cz.mts.phone.helpers.CallActivityUI
-import cz.mts.phone.helpers.CallActivityUIstart
-import cz.mts.phone.helpers.CallFilterResult
-import cz.mts.phone.helpers.CallManager
-import cz.mts.phone.helpers.CallManagerListener
-import cz.mts.phone.helpers.CallNotificationManagerMTs2
-import cz.mts.phone.helpers.MissedCallManager
-import cz.mts.phone.helpers.PauseWaiter
-import cz.mts.phone.helpers.RecentsQueryLimits
-import cz.mts.phone.helpers.getCallContact
+import cz.mts.phone.extensions.*
+import cz.mts.phone.helpers.*
 import cz.mts.phone.models.AudioRoute
-import kotlin.collections.set
+import cz.mts.base.extensions.baseConfig as config
 
 class CallService : InCallService(), CallManagerListener {
 

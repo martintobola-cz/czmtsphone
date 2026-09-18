@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="callfilter_info">Bewertungen für unbekannte Nummern anzeigen (mit callfilter.app, cz.mts.callfilter)</string>
+
+<string name="theme_restart_required">Die OK-Schaltfläche schließt die Anwendung. Dies ist erforderlich, damit die gerade vorgenommenen Farbänderungen wirksam werden.</string>
+<string name="customization_popup_menu_background_color_label">Hintergrundfarbe des Popup-Menüs</string>
+<string name="customization_popup_menu_text_color_label">Textfarbe des Popup-Menüs</string>
+<string name="callfilter_info">Bewertungen für unbekannte Nummern anzeigen (mit callfilter.app, cz.mts.callfilter)</string>
+
     <string name="customization_navbar_color_label">Farbe der Navigationsleiste</string>
     <string name="use_custom_sim_color">Benutzerdefinierte SIM-Farbe</string>
     <string name="customization_sim1_color_label">Farbe SIM1</string>

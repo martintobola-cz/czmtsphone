@@ -106,6 +106,14 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getInt(ACCENT_COLOR, ContextCompat.getColor(context, R.color.default_accent_color))
         set(accentColor) = prefs.edit().putInt(ACCENT_COLOR, accentColor).apply()
 
+    var popupMenuTextColor: Int
+        get() = prefs.getInt(POPUPMENU_TEXT_COLOR, ContextCompat.getColor(context, R.color.default_text_color))
+        set(popupMenuTextColor) = prefs.edit().putInt(POPUPMENU_TEXT_COLOR, popupMenuTextColor).apply()
+
+    var popupMenuBackgroundColor: Int
+        get() = prefs.getInt(POPUPMENU_BACKGROUND_COLOR, ContextCompat.getColor(context, R.color.default_background_color))
+        set(popupMenuBackgroundColor) = prefs.edit().putInt(POPUPMENU_BACKGROUND_COLOR, popupMenuBackgroundColor).apply()
+
     var lastHandledShortcutColor: Int
         get() = prefs.getInt(LAST_HANDLED_SHORTCUT_COLOR, 1)
         set(lastHandledShortcutColor) = prefs.edit().putInt(LAST_HANDLED_SHORTCUT_COLOR, lastHandledShortcutColor).apply()
@@ -140,17 +148,20 @@ open class BaseConfig(val context: Context) {
         set(customBackgroundColor) = prefs.edit().putInt(CUSTOM_BACKGROUND_COLOR, customBackgroundColor).apply()
 
     var easterEggMode: Boolean
-        get() = prefs.getBoolean("Easter_egg_mode", false)
+        get() = prefs.getBoolean(EASTER_EGG_MODE, false)
         set(easterEggMode) {
-            prefs.edit().putBoolean("Easter_egg_mode", easterEggMode).commit()
+            prefs.edit().putBoolean(EASTER_EGG_MODE, easterEggMode).commit()
         }
 
     var showNews: Int
-        get() = prefs.getInt("showNews_mts", 0)
+        get() = prefs.getInt(SHOWNEWS_MTS, 0)
         set(showNews) {
-            prefs.edit().putInt("showNews_mts", showNews).apply()
+            prefs.edit().putInt(SHOWNEWS_MTS, showNews).apply()
         }
 
+    var hideNumberForSavedContact: Boolean
+        get() = prefs.getBoolean(HIDE_NUMBER_FOR_SAVED_CONTACT, false)
+        set(hideNumberForSavedContact) = prefs.edit().putBoolean(HIDE_NUMBER_FOR_SAVED_CONTACT, hideNumberForSavedContact).apply()
     var customPrimaryColor: Int
         get() = prefs.getInt(CUSTOM_PRIMARY_COLOR, primaryColor)
         set(customPrimaryColor) = prefs.edit().putInt(CUSTOM_PRIMARY_COLOR, customPrimaryColor).apply()
@@ -167,6 +178,14 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getInt(CUSTOM_NAVBAR_COLOR, navBarColor)
         set(customNavBarColor) = prefs.edit().putInt(CUSTOM_NAVBAR_COLOR, customNavBarColor).apply()
 
+    var customPopupMenuTextColor: Int
+        get() = prefs.getInt(CUSTOM_POPUPMENU_TEXT_COLOR, ContextCompat.getColor(context, R.color.default_text_color))
+        set(v) = prefs.edit().putInt(CUSTOM_POPUPMENU_TEXT_COLOR, v).apply()
+
+    var customPopupMenuBackgroundColor: Int
+        get() = prefs.getInt(CUSTOM_POPUPMENU_BACKGROUND_COLOR, ContextCompat.getColor(context, R.color.default_background_color))
+        set(v) = prefs.edit().putInt(CUSTOM_POPUPMENU_BACKGROUND_COLOR, v).apply()
+
     var customSIM1Color: Int
         get() = prefs.getInt(CUSTOM_SIM1_COLOR, primaryColor)
         set(customSIM1Color) = prefs.edit().putInt(CUSTOM_SIM1_COLOR, customSIM1Color).apply()
@@ -176,9 +195,12 @@ open class BaseConfig(val context: Context) {
         set(customSIM2Color) = prefs.edit().putInt(CUSTOM_SIM2_COLOR, customSIM2Color).apply()
 
     var themeIdSaved: Int
-        get() = prefs.getInt(BASE_THEME, 1) //DARK THEME default
+        get() = prefs.getInt(BASE_THEME, 7) //Automat systém android
         set(themeIdSaved) = prefs.edit().putInt(BASE_THEME, themeIdSaved).apply()
 
+    var usePopupMenuColorizer: Boolean
+        get() = prefs.getBoolean(USE_POPUPMENU_COLORIZER, true)
+        set(v) = prefs.edit().putBoolean(USE_POPUPMENU_COLORIZER, v).apply()
     var themeChanged: Boolean
         get() = prefs.getBoolean(THEME_CHANGED, false)
         set(themeChanged) = prefs.edit().putBoolean(THEME_CHANGED, themeChanged).apply()
@@ -199,16 +221,6 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getLong(UNLOCK_TIMEOUT_DURATION_MS, DEFAULT_UNLOCK_TIMEOUT_DURATION)
         set(value) = prefs.edit().putLong(UNLOCK_TIMEOUT_DURATION_MS, value).apply()
 
-    fun getFolderProtectionType(path: String) = prefs.getInt("$PROTECTED_FOLDER_TYPE$path", PROTECTION_NONE)
-
-    var lastCopyPath: String
-        get() = prefs.getString(LAST_COPY_PATH, "")!!
-        set(lastCopyPath) = prefs.edit().putString(LAST_COPY_PATH, lastCopyPath).apply()
-
-    var keepLastModified: Boolean
-        get() = prefs.getBoolean(KEEP_LAST_MODIFIED, true)
-        set(keepLastModified) = prefs.edit().putBoolean(KEEP_LAST_MODIFIED, keepLastModified).apply()
-
     var useEnglish: Boolean
         get() = prefs.getBoolean(USE_ENGLISH, false)
         set(useEnglish) {
@@ -219,27 +231,6 @@ open class BaseConfig(val context: Context) {
     var wasUseEnglishToggled: Boolean
         get() = prefs.getBoolean(WAS_USE_ENGLISH_TOGGLED, false)
         set(wasUseEnglishToggled) = prefs.edit().putBoolean(WAS_USE_ENGLISH_TOGGLED, wasUseEnglishToggled).apply()
-
-    var isGlobalThemeEnabled: Boolean
-        get() = prefs.getBoolean(IS_GLOBAL_THEME_ENABLED, false)
-        set(isGlobalThemeEnabled) = prefs.edit().putBoolean(IS_GLOBAL_THEME_ENABLED, isGlobalThemeEnabled).apply()
-
-    //var isSystemThemeEnabled: Boolean
-    //    get() = prefs.getBoolean(IS_SYSTEM_THEME_ENABLED, isSPlus())
-    //    set(isSystemThemeEnabled) = prefs.edit().putBoolean(IS_SYSTEM_THEME_ENABLED, isSystemThemeEnabled).apply()
-
-    var wasCustomThemeSwitchDescriptionShown: Boolean
-        get() = prefs.getBoolean(WAS_CUSTOM_THEME_SWITCH_DESCRIPTION_SHOWN, true)
-        set(wasCustomThemeSwitchDescriptionShown) = prefs.edit().putBoolean(WAS_CUSTOM_THEME_SWITCH_DESCRIPTION_SHOWN, true)
-            .apply()
-
-    var lastConflictApplyToAll: Boolean
-        get() = prefs.getBoolean(LAST_CONFLICT_APPLY_TO_ALL, true)
-        set(lastConflictApplyToAll) = prefs.edit().putBoolean(LAST_CONFLICT_APPLY_TO_ALL, lastConflictApplyToAll).apply()
-
-    var lastConflictResolution: Int
-        get() = prefs.getInt(LAST_CONFLICT_RESOLUTION, CONFLICT_SKIP)
-        set(lastConflictResolution) = prefs.edit().putInt(LAST_CONFLICT_RESOLUTION, lastConflictResolution).apply()
 
     var sorting: Int
         get() = prefs.getInt(SORT_ORDER, context.resources.getInteger(R.integer.default_sorting))
@@ -293,14 +284,6 @@ open class BaseConfig(val context: Context) {
             else -> DATE_FORMAT_FIVE
         }
     }
-
-    var wasFolderLockingNoticeShown: Boolean
-        get() = prefs.getBoolean(WAS_FOLDER_LOCKING_NOTICE_SHOWN, false)
-        set(wasFolderLockingNoticeShown) = prefs.edit().putBoolean(WAS_FOLDER_LOCKING_NOTICE_SHOWN, wasFolderLockingNoticeShown).apply()
-
-    var lastRenameUsed: Int
-        get() = prefs.getInt(LAST_RENAME_USED, RENAME_SIMPLE)
-        set(lastRenameUsed) = prefs.edit().putInt(LAST_RENAME_USED, lastRenameUsed).apply()
 
     var lastExportedSettingsFolder: String
         get() = prefs.getString(LAST_EXPORTED_SETTINGS_FOLDER, "")!!

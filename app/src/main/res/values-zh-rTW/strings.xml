@@ -1,6 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_launcher_name">電話</string>
+    <string name="app_launcher_name">MTS 撥號器</string>
+
+<string name="send_message">傳送訊息</string>
+<string name="hide_number_for_saved_contact">如果是已儲存的聯絡人，通話期間不顯示電話號碼</string>
+<string name="privacy_acknowledge">我已知悉</string>
+<string name="block_confirmation">確定要封鎖「%s」嗎？</string>
+<string name="block_unknown_calls">封鎖來自未知號碼的來電（因此只有已儲存的聯絡人可以來電）</string>
+<string name="block_hidden_calls">封鎖來自隱藏號碼的來電</string>
+<string name="block_unknown_messages">封鎖來自未知號碼的訊息</string>
+<string name="block_hidden_messages">封鎖來自隱藏號碼的訊息</string>
+<string name="add_blocked_number_helper_text">輸入完整號碼或使用 * 或 ? 的模式（例如 *333*、+1*8888、+42?777*）即可封鎖符合條件的號碼。星號表示任意數量的字元，問號表示恰好一個字元。</string>
+<string name="must_make_default_caller_id_app">如果應用程式未設定為預設電話應用程式，同時未設定為預設來電識別應用程式，則無法封鎖未知號碼。</string>
+<string name="block_contact">封鎖聯絡人</string>
+<string name="block_contact_success">聯絡人已封鎖</string>
+<string name="block_contact_fail">無法封鎖聯絡人</string>
+<string name="unblock_contact">解除封鎖聯絡人</string>
+<string name="unblock_contact_success">聯絡人已解除封鎖</string>
+<string name="unblock_contact_fail">無法解除封鎖聯絡人</string>
+<string name="block_error_string_value">只允許使用數字和 ? * 字元</string>
 
 <string name="edit_sms_templates"> ✍️ 編輯簡訊範本</string>
 <string name="sms_edit_hint_double_tap">長按或雙擊以編輯文字</string>

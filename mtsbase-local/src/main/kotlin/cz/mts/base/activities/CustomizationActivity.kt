@@ -39,6 +39,8 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var curPrimaryColor = 0
     private var curAccentColor = 0
     private var curAppIconColor = 0
+    private var curPopupMenuTextColor = 0
+    private var curPopupMenuBackgroundColor = 0
     private var curUseCustomSimColor = false
     private var savedThemeId = 0
     private var notSavedThemeId = 0
@@ -135,7 +137,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                         backgroundColorId = getDynamicBackgroundColors(),
                         primaryColorId = R.color.color_primary,
                         appIconColorId = R.color.color_primary,
-                        navBarColorId = getDynamicBackgroundColors()
+                        navBarColorId = getDynamicBackgroundColors(),
+                        popupMenuTextColorId = R.color.you_neutral_text_color,
+                        popupMenuBackgroundColorId = R.color.you_dialog_background_color
                     )
             )
             put(
@@ -146,7 +150,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = R.color.theme_light_background_color,
                     primaryColorId = R.color.color_primary,
                     appIconColorId = R.color.color_primary,
-                    navBarColorId = R.color.theme_light_background_color
+                    navBarColorId = R.color.theme_light_background_color,
+                    popupMenuTextColorId = R.color.theme_light_text_color,
+                    popupMenuBackgroundColorId = R.color.theme_light_background_color
                 )
             )
             put(
@@ -157,7 +163,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = R.color.theme_dark_background_color,
                     primaryColorId = R.color.color_primary,
                     appIconColorId = R.color.color_primary,
-                    navBarColorId = R.color.theme_dark_background_color
+                    navBarColorId = R.color.theme_dark_background_color,
+                    popupMenuTextColorId = R.color.theme_dark_text_color,
+                    popupMenuBackgroundColorId = R.color.theme_dark_background_color
                 )
             )
             put(
@@ -168,7 +176,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = R.color.theme_dark_background_color,
                     primaryColorId = R.color.theme_dark_red_primary_color,
                     appIconColorId = R.color.md_red_700,
-                    navBarColorId = R.color.theme_dark_background_color
+                    navBarColorId = R.color.theme_dark_background_color,
+                    popupMenuTextColorId = R.color.theme_dark_text_color,
+                    popupMenuBackgroundColorId = R.color.theme_dark_background_color
                 )
             )
             put(
@@ -179,7 +189,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = android.R.color.white,
                     primaryColorId = android.R.color.white,
                     appIconColorId = R.color.color_primary,
-                    navBarColorId = android.R.color.white
+                    navBarColorId = android.R.color.white,
+                    popupMenuTextColorId = R.color.dark_grey,
+                    popupMenuBackgroundColorId = android.R.color.white
                 )
             )
             put(
@@ -190,7 +202,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = android.R.color.black,
                     primaryColorId = android.R.color.black,
                     appIconColorId = R.color.md_grey_black,
-                    navBarColorId = android.R.color.black
+                    navBarColorId = android.R.color.black,
+                    popupMenuTextColorId = android.R.color.white,
+                    popupMenuBackgroundColorId = android.R.color.black
                 )
             )
             put(
@@ -201,7 +215,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = android.R.color.black,
                     primaryColorId = R.color.md_pink_600,
                     appIconColorId = R.color.md_pink_600,
-                    navBarColorId = R.color.md_pink_600
+                    navBarColorId = R.color.md_pink_600,
+                    popupMenuTextColorId = android.R.color.white,
+                    popupMenuBackgroundColorId = android.R.color.black
                 )
             )
             put(
@@ -212,7 +228,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = android.R.color.white,
                     primaryColorId = R.color.md_green_900,
                     appIconColorId = R.color.md_green_900,
-                    navBarColorId = R.color.md_yellow_500_dark
+                    navBarColorId = R.color.md_yellow_500_dark,
+                    popupMenuTextColorId = android.R.color.black,
+                    popupMenuBackgroundColorId = android.R.color.white
                 )
             )
             put(
@@ -223,7 +241,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     backgroundColorId = 0,
                     primaryColorId =0,
                     appIconColorId = R.color.color_primary,
-                    navBarColorId = 0
+                    navBarColorId = 0,
+                    popupMenuTextColorId = 0,
+                    popupMenuBackgroundColorId = 0
                 )
             )
         }
@@ -240,6 +260,8 @@ class CustomizationActivity : BaseSimpleActivity() {
         val defaultAppIcon = Color.parseColor("#2196F3")
         val defaultSIM1 = Color.parseColor("#F57C00")
         val defaultSIM2 = Color.parseColor("#FFF9EB")
+        val defaultPopupMenuText = Color.parseColor("#FFFFFF")
+        val defaultPopupMenuBackground = Color.parseColor("#2C0000")
 
         if (forceAll) {
             // Explicitní volba CUSTOM – nastav vše natvrdo
@@ -253,6 +275,8 @@ class CustomizationActivity : BaseSimpleActivity() {
             baseConfig.customAppIconColor = defaultAppIcon
             baseConfig.customThemeInitialized = true
             baseConfig.useCustomSimColor = false
+            baseConfig.customPopupMenuTextColor = defaultPopupMenuText
+            baseConfig.customPopupMenuBackgroundColor = defaultPopupMenuBackground
         } else {
             // CUSTOM byl vynucen – doplň jen chybějící hodnoty
             if (!baseConfig.customThemeInitialized) {
@@ -265,6 +289,8 @@ class CustomizationActivity : BaseSimpleActivity() {
                 baseConfig.customSIM1Color = curSIM1Color
                 baseConfig.customSIM2Color = curSIM2Color
                 baseConfig.useCustomSimColor = curUseCustomSimColor
+                baseConfig.customPopupMenuTextColor = curPopupMenuTextColor
+                baseConfig.customPopupMenuBackgroundColor = curPopupMenuBackgroundColor
                 baseConfig.customThemeInitialized = true
             }
 
@@ -284,6 +310,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateAutoThemeFields()
         handleAccentColorLayout()
         updateNavBarVisibility()
+        updatePopupMenuColorVisibility()
         updateSIM12ColorVisibility()
         binding.customizationThemeHolder.setOnClickListener {
             if (baseConfig.wasAppIconCustomizationWarningShown) {
@@ -360,6 +387,8 @@ class CustomizationActivity : BaseSimpleActivity() {
                 curAccentColor = baseConfig.customAccentColor
                 curAppIconColor = baseConfig.customAppIconColor
                 curNavBarColor = baseConfig.customNavBarColor
+                curPopupMenuTextColor = baseConfig.customPopupMenuTextColor
+                curPopupMenuBackgroundColor = baseConfig.customPopupMenuBackgroundColor
                 curSIM1Color = baseConfig.customSIM1Color
                 curSIM2Color = baseConfig.customSIM2Color
                 curUseCustomSimColor = baseConfig.useCustomSimColor
@@ -373,6 +402,8 @@ class CustomizationActivity : BaseSimpleActivity() {
                 baseConfig.customBackgroundColor = curBackgroundColor
                 baseConfig.customTextColor = curTextColor
                 baseConfig.customAppIconColor = curAppIconColor
+                baseConfig.customPopupMenuTextColor = curPopupMenuTextColor
+                baseConfig.customPopupMenuBackgroundColor = curPopupMenuBackgroundColor
                 baseConfig.customNavBarColor = curNavBarColor
                 baseConfig.customSIM1Color = curSIM1Color
                 baseConfig.customSIM2Color = curSIM2Color
@@ -384,6 +415,8 @@ class CustomizationActivity : BaseSimpleActivity() {
             curTextColor = getColor(theme.textColorId)
             curBackgroundColor = getColor(theme.backgroundColorId)
             curNavBarColor = getColor(theme.navBarColorId)
+            curPopupMenuTextColor = getColor(theme.popupMenuTextColorId)
+            curPopupMenuBackgroundColor = getColor(theme.popupMenuBackgroundColorId)
 
             if (notSavedThemeId != THEME_SYSTEM) {
                 curPrimaryColor = getColor(theme.primaryColorId)
@@ -410,6 +443,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateAutoThemeFields()
         handleAccentColorLayout()
         updateNavBarVisibility()
+        updatePopupMenuColorVisibility()
         updateSIM12ColorVisibility()
     }
 
@@ -455,14 +489,28 @@ class CustomizationActivity : BaseSimpleActivity() {
             setDefaultCustomColors(forceAll = false)
         }
     }
-    private fun saveChanges() {
 
+    private fun saveChanges() {
+        ConfirmationDialog(
+            activity = this,
+            message = "",
+            messageId = R.string.theme_restart_required,
+            positive = R.string.ok,
+            negative = R.string.cancel
+        ) {
+            applyThemeAndRestart()
+        }
+    }
+
+    private fun applyThemeAndRestart() {
         baseConfig.apply {
             textColor = curTextColor
             backgroundColor = curBackgroundColor
             primaryColor = curPrimaryColor
             accentColor = curAccentColor
             appIconColor = curAppIconColor
+            popupMenuTextColor = curPopupMenuTextColor
+            popupMenuBackgroundColor = curPopupMenuBackgroundColor
             navBarColor = if (notSavedThemeId == THEME_CUSTOM) curNavBarColor
             else curBackgroundColor
             useCustomSimColor = curUseCustomSimColor
@@ -473,7 +521,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         savedThemeId = notSavedThemeId
         if (curAppIconColor != originalAppIconColor) checkAppIconColor()
         hasUnsavedChanges = false
-        finish() //MTSX
+        finishAffinity()
     }
 
     private fun resetColors() {
@@ -487,6 +535,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateLabelColors(getCurrentTextColor())
         updateHeaderColors(getCurrentAccentOrPrimaryColor())
         updateNavBarVisibility()
+        updatePopupMenuColorVisibility()
         updateAutoThemeFields()
         updateSIM12ColorVisibility()
     }
@@ -498,6 +547,8 @@ class CustomizationActivity : BaseSimpleActivity() {
         curAccentColor = baseConfig.accentColor
         curAppIconColor = baseConfig.appIconColor
         curUseCustomSimColor = baseConfig.useCustomSimColor
+        curPopupMenuTextColor = baseConfig.popupMenuTextColor
+        curPopupMenuBackgroundColor = baseConfig.popupMenuBackgroundColor
 
         curNavBarColor = if (savedThemeId == THEME_CUSTOM) baseConfig.navBarColor
         else curBackgroundColor
@@ -523,6 +574,8 @@ class CustomizationActivity : BaseSimpleActivity() {
         binding.customizationNavbarColor.setFillWithStroke(curNavBarColor, backgroundColor)
         binding.customizationSim1Color.setFillWithStroke(curSIM1Color, backgroundColor)
         binding.customizationSim2Color.setFillWithStroke(curSIM2Color, backgroundColor)
+        binding.customizationPopupMenuBackgroundColor.setFillWithStroke(curPopupMenuBackgroundColor, backgroundColor)
+        binding.customizationPopupMenuTextColor.setFillWithStroke(curPopupMenuTextColor, backgroundColor)
 
         binding.customizationTextColorHolder.setOnClickListener { pickTextColor() }
         binding.customizationBackgroundColorHolder.setOnClickListener { pickBackgroundColor() }
@@ -531,6 +584,8 @@ class CustomizationActivity : BaseSimpleActivity() {
         binding.customizationNavbarColorHolder.setOnClickListener { pickNavBarColor() }
         binding.customizationSim1ColorHolder.setOnClickListener { pickSIM1Color() }
         binding.customizationSim2ColorHolder.setOnClickListener { pickSIM2Color() }
+        binding.customizationPopupMenuBackgroundColorHolder.setOnClickListener { pickPopupMenuBackgroundColor() }
+        binding.customizationPopupMenuTextColorHolder.setOnClickListener { pickPopupMenuTextColor() }
 
         handleAccentColorLayout()
         binding.customizationAppIconColorHolder.setOnClickListener {
@@ -548,6 +603,14 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     private fun setCurrentNavBarColor(color: Int) {
         curNavBarColor = color
+    }
+
+    private fun setCurrentPopupMenuBackgroundColor(color: Int) {
+        curPopupMenuBackgroundColor = color
+    }
+
+    private fun setCurrentPopupMenuTextColor(color: Int) {
+        curPopupMenuTextColor = color
     }
 
     private fun setCurrentTextColor(color: Int) {
@@ -576,6 +639,13 @@ class CustomizationActivity : BaseSimpleActivity() {
     private fun updateNavBarVisibility() {
         binding.customizationNavbarColorHolder.beVisibleIf(notSavedThemeId == THEME_CUSTOM)
         binding.customizationNavbarColorLabel.text = getString(R.string.customization_navbar_color_label)
+    }
+
+    private fun updatePopupMenuColorVisibility() {
+        binding.customizationPopupMenuBackgroundColorHolder.beVisibleIf(notSavedThemeId == THEME_CUSTOM)
+        binding.customizationPopupMenuTextColorHolder.beVisibleIf(notSavedThemeId == THEME_CUSTOM)
+        binding.customizationPopupMenuBackgroundColorLabel.text = getString(R.string.customization_popup_menu_background_color_label)
+        binding.customizationPopupMenuTextColorLabel.text = getString(R.string.customization_popup_menu_text_color_label)
     }
 
     private fun updateSIM12ColorVisibility() {
@@ -704,6 +774,28 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
     }
 
+    private fun pickPopupMenuBackgroundColor() {
+        ColorPickerDialog(this, curPopupMenuBackgroundColor) { wasPositivePressed, color ->
+            if (wasPositivePressed) {
+                if (hasColorChanged(curPopupMenuBackgroundColor, color)) {
+                    setCurrentPopupMenuBackgroundColor(color)
+                    colorChanged()
+                }
+            }
+        }
+    }
+
+    private fun pickPopupMenuTextColor() {
+        ColorPickerDialog(this, curPopupMenuTextColor) { wasPositivePressed, color ->
+            if (wasPositivePressed) {
+                if (hasColorChanged(curPopupMenuTextColor, color)) {
+                    setCurrentPopupMenuTextColor(color)
+                    colorChanged()
+                }
+            }
+        }
+    }
+
     private fun pickAccentColor() {
         ColorPickerDialog(this, curAccentColor) { wasPositivePressed, color ->
             if (wasPositivePressed) {
@@ -747,6 +839,8 @@ class CustomizationActivity : BaseSimpleActivity() {
             binding.customizationNavbarColorLabel,
             binding.customizationSim1ColorLabel,
             binding.customizationSim2ColorLabel,
+            binding.customizationPopupMenuBackgroundColorLabel,
+            binding.customizationPopupMenuTextColorLabel,
             binding.settingsUseCustomSimColor
         ).forEach {
             it.setTextColor(textColor)

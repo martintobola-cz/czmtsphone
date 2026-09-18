@@ -207,17 +207,17 @@ fun Context.updateSDCardPath() {
     }
 }
 
-fun Context.isOrWasThankYouInstalled(allowPretend: Boolean = true): Boolean {
-    return true
-}
+//fun Context.isOrWasThankYouInstalled(allowPretend: Boolean = true): Boolean {
+//    return true
+//}
 
-fun Context.addLockedLabelIfNeeded(stringId: Int): String {
-    return if (isOrWasThankYouInstalled()) {
-        getString(stringId)
-    } else {
-        "${getString(stringId)} (${getString(R.string.feature_locked)})"
-    }
-}
+//fun Context.addLockedLabelIfNeeded(stringId: Int): String {
+//    return if (isOrWasThankYouInstalled()) {
+//        getString(stringId)
+//    } else {
+//        "${getString(stringId)} (${getString(R.string.feature_locked)})"
+//    }
+//}
 
 fun Context.formatSecondsToShortTimeString(totalSeconds: Int): String {
     if (totalSeconds <= 0) return ""
@@ -356,11 +356,29 @@ fun Context.getBlockedNumbers(): ArrayList<BlockedNumber> {
 
 @TargetApi(Build.VERSION_CODES.N)
 fun Context.addBlockedNumber(number: String): Boolean {
+    val isPattern = number.isBlockedNumberPattern() || '*' in number || '?' in number
+    return addBlockedNumber(number, isPattern)
+}
+
+@TargetApi(Build.VERSION_CODES.N)
+fun Context.addBlockedNumber(number: String, isPattern: Boolean): Boolean {
+    val value = number.trim()
+    if (value.isEmpty()) return false
+
     ContentValues().apply {
-        put(BlockedNumbers.COLUMN_ORIGINAL_NUMBER, normalizeDigitsOnly(number))
-        if (isPhoneNumber(number)) {
-            put(BlockedNumbers.COLUMN_E164_NUMBER, normalizeNumberE164(number, null, false))
+        if (isPattern) {
+            // Masku musíme uložit přesně. normalizeDigitsOnly() by odstranilo * / ? / +.
+            put(BlockedNumbers.COLUMN_ORIGINAL_NUMBER, value)
+        } else {
+            val normalizedOriginal = normalizeDigitsOnly(value)
+            if (normalizedOriginal.isEmpty()) return false
+
+            put(BlockedNumbers.COLUMN_ORIGINAL_NUMBER, normalizedOriginal)
+            if (isPhoneNumber(value)) {
+                put(BlockedNumbers.COLUMN_E164_NUMBER, normalizeNumberE164(value, null, false))
+            }
         }
+
         try {
             contentResolver.insert(BlockedNumbers.CONTENT_URI, this)
         } catch (e: Exception) {
@@ -400,18 +418,46 @@ fun Context.isNumberBlocked(number: String, blockedNumbers: ArrayList<BlockedNum
     } || isNumberBlockedByPattern(number, blockedNumbers)
 }
 
-fun Context.isNumberBlockedByPattern(number: String, blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()): Boolean {
+fun Context.isNumberBlockedByPattern(
+    number: String,
+    blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers(),
+): Boolean {
+    if (number.isBlank()) return false
+
+    // Zkusíme původní Caller ID i normalizované varianty. Maska s + tak funguje
+    // proti E.164, maska bez + zase proti čistým číslicím.
+    val candidates = LinkedHashSet<String>().apply {
+        add(number)
+        normalizeDigitsOnly(number).takeIf { it.isNotEmpty() }?.let(::add)
+        normalizeNumberE164(number, null, false).takeIf { it.isNotEmpty() }?.let(::add)
+    }
+
     for (blockedNumber in blockedNumbers) {
-        val num = blockedNumber.number
-        if (num.isBlockedNumberPattern()) {
-            val pattern = num.replace("+", "\\+").replace("*", ".*")
-            if (number.matches(pattern.toRegex())) {
+        val mask = blockedNumber.number
+        if (mask.isBlockedNumberPattern() || '*' in mask || '?' in mask) {
+            val regex = blockedNumberMaskToRegex(mask)
+            if (candidates.any(regex::matches)) {
                 return true
             }
         }
     }
     return false
 }
+    private fun blockedNumberMaskToRegex(mask: String): Regex {
+        val regex = buildString {
+            append('^')
+            mask.forEach { char ->
+                when (char) {
+                    '*' -> append(".*") // libovolný počet znaků
+                    '?' -> append('.')  // právě jeden znak
+                    else -> append(Regex.escape(char.toString()))
+                }
+            }
+            append('$')
+        }
+        return regex.toRegex()
+    }
+
 
 fun Context.copyToClipboard(text: String) {
     val clip = ClipData.newPlainText(MY_APP_NAME_GOOGLE_ID, text)

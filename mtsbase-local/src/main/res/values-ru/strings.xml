@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="callfilter_info">Показать рейтинги для неизвестных номеров (с использованием callfilter.app, cz.mts.callfilter)</string>
+<string name="theme_restart_required">Кнопка OK закрывает приложение. Это необходимо, чтобы применить только что внесённые изменения цвета.</string>
+<string name="customization_popup_menu_background_color_label">Цвет фона всплывающего меню</string>
+<string name="customization_popup_menu_text_color_label">Цвет текста всплывающего меню</string>
+
+<string name="callfilter_info">Показывать оценки неизвестных номеров (с помощью callfilter.app, cz.mts.callfilter)</string>
     <string name="cancel">Отмена</string>
     <string name="close">Закрыть</string>
     <string name="back">Назад</string>

@@ -26,88 +26,39 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
-import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.dialogs.ChangeViewTypeDialog
+import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.dialogs.RadioGroupDialog
-import cz.mts.base.extensions.adjustColor
-import cz.mts.base.extensions.appLaunched
-import cz.mts.base.extensions.beGone
-import cz.mts.base.extensions.beGoneIf
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.canUseFullScreenIntent
-import cz.mts.base.extensions.convertToBitmap
-import cz.mts.base.extensions.copyToClipboard
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.hideKeyboard
-import cz.mts.base.extensions.isAppInstalled
-import cz.mts.base.extensions.isDefaultDialer
-import cz.mts.base.extensions.onGlobalLayout
-import cz.mts.base.extensions.onTabSelectionChanged
-import cz.mts.base.extensions.openFullScreenIntentSettings
-import cz.mts.base.extensions.openNotificationSettings
-import cz.mts.base.extensions.shortcutManager
-import cz.mts.base.extensions.toast
-import cz.mts.base.extensions.updateBottomTabItemColors
-import cz.mts.base.extensions.updateTextColors
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.helpers.CONTACTS_GRID_MAX_COLUMNS_COUNT
-import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
-import cz.mts.base.helpers.PERMISSION_READ_CONTACTS
-import cz.mts.base.helpers.REQUEST_CODE_SET_DEFAULT_CALLER_ID
-import cz.mts.base.helpers.TAB_CALL_HISTORY
-import cz.mts.base.helpers.TAB_CONTACTS
-import cz.mts.base.helpers.TAB_FAVORITES
-import cz.mts.base.helpers.TAB_LAST_USED
-import cz.mts.base.helpers.VIEW_TYPE_GRID
-import cz.mts.base.helpers.isNougatMR1Plus
-import cz.mts.base.helpers.isQPlus
-import cz.mts.base.helpers.isTiramisuPlus
-import cz.mts.base.models.contacts.Contact
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.PopupMenuColorizer.setOneTitleColor
 import cz.mts.base.models.RadioItem
+import cz.mts.base.models.contacts.Contact
+import cz.mts.phone.R
 import cz.mts.phone.adapters.ViewPagerAdapter
 import cz.mts.phone.databinding.ActivityMainBinding
-import cz.mts.phone.dialogs.FilterContactSourceDialogMTs
 import cz.mts.phone.dialogs.ChangeSortingDialog
-import cz.mts.phone.extensions.clearMissedCalls
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.phone.extensions.launchAccountsConfiguration
-import cz.mts.phone.extensions.launchCreateNewContactIntent
+import cz.mts.phone.dialogs.ContactCallHistoryDialog
+import cz.mts.phone.dialogs.FilterContactSourceDialogMTs
+import cz.mts.phone.extensions.*
 import cz.mts.phone.fragments.ContactsFragment
 import cz.mts.phone.fragments.FavoritesFragment
 import cz.mts.phone.fragments.MyViewPagerFragment
 import cz.mts.phone.fragments.RecentsFragment
-import cz.mts.phone.helpers.MissedCallManager
-import cz.mts.base.helpers.OPEN_DIAL_PAD_AT_LAUNCH
-import cz.mts.phone.helpers.RecentsHelper
-import cz.mts.base.helpers.tabsList
-import cz.mts.phone.R
-import cz.mts.phone.extensions.appOpsManager
-import cz.mts.phone.extensions.appVersionCode
-import cz.mts.base.extensions.areColorsTooSimilarInt
-import cz.mts.base.extensions.getContrastingColor
-import cz.mts.phone.extensions.isDefaultCallScreeningApp
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.base.helpers.FONT_SIZE_LARGE
-import cz.mts.base.helpers.FONT_SIZE_MEDIUM
-import cz.mts.base.helpers.FONT_SIZE_SMALL
-import cz.mts.phone.dialogs.ContactCallHistoryDialog
-import cz.mts.phone.helpers.AppUpdateNotificationManager
-import cz.mts.phone.helpers.CacheContacts
-import cz.mts.phone.helpers.RecentsQueryLimits
+import cz.mts.phone.helpers.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.grantland.widget.AutofitHelper
 import java.util.Locale
+import cz.mts.base.extensions.baseConfig as config
+
 
 class MainActivity : SimpleActivity() {
     override var isSearchBarEnabled = true
@@ -134,6 +85,8 @@ class MainActivity : SimpleActivity() {
     private var bSnackBarOn = false
     private var bCheckContactDuplicityIsRunning = false
 
+    val colorizerEnabled: Boolean
+        get() = config.usePopupMenuColorizer && !isDynamicTheme()
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -152,9 +105,7 @@ class MainActivity : SimpleActivity() {
         handleStartIntent(intent)
         setContentView(binding.root)
 
-        if (config.easterEggMode) {
-            mtsGlobalAll.iSaveDebugMode = 2
-        }
+        if (config.easterEggMode) iSaveDebugMode = 2
         storedSorting = config.sorting
         storedFontSize = config.fontSize
         storedGroupingCalls = config.groupSubsequentCalls
@@ -229,7 +180,7 @@ class MainActivity : SimpleActivity() {
                 clickAction = AppUpdateNotificationManager.ClickAction.OPEN_APP_MISSED_PERM
             )
         } else {
-            if ((config.showNews < versionCode) || (mtsGlobalAll.iSaveDebugMode == 1)) {
+            if ((config.showNews < versionCode) || (iSaveDebugMode == 1)) {
                     mtsGlobalAll.newsnotify(this)
                 config.showNews = versionCode
             }
@@ -388,7 +339,6 @@ class MainActivity : SimpleActivity() {
 
     private fun refreshMenuItems() {
         binding.mainMenu.requireToolbar().menu.apply {
-
             val isCallHistory = currentTabType == TAB_CALL_HISTORY
             val isContacts = currentTabType == TAB_CONTACTS
             val isFavorites = currentTabType == TAB_FAVORITES
@@ -399,19 +349,21 @@ class MainActivity : SimpleActivity() {
             findItem(R.id.filter).isVisible = true
             findItem(R.id.filter_only_contacts_without_numbers).isVisible = isContacts && !config.showOnlyContactsWithNumbers
 
-            findItem(R.id.filter_only_contacts_without_numbers)?.setTitle(
-                if (bFilterOnlyContactsWithoutNumbers)
-                    getString(R.string.filter_only_contacts_without_numbers)  + "  \u2713"
-                else
-                    getString(R.string.filter_only_contacts_without_numbers)  + " "
+
+            findItem(R.id.filter_only_contacts_without_numbers)?.setOneTitleColor(
+                if (bFilterOnlyContactsWithoutNumbers) getString(R.string.filter_only_contacts_without_numbers) + "  \u2713"
+                else getString(R.string.filter_only_contacts_without_numbers) + " ",
+                if (colorizerEnabled) config.popupMenuTextColor else null   // ← podmíněně
             )
 
-            findItem(R.id.search_all_fields)?.setTitle(
+
+            findItem(R.id.search_all_fields)?.setOneTitleColor(
                 if (config.searchInAllContactFields)
                     getString(R.string.search_all_fields)  + "  \u2713"
                 else
                     getString(R.string.search_all_fields)  + " "
-            )
+                , if (colorizerEnabled) config.popupMenuTextColor else null )
+
             findItem(R.id.search_all_fields).isVisible = isContacts
 
             findItem(R.id.create_new_contact).isVisible = isContacts
@@ -421,11 +373,23 @@ class MainActivity : SimpleActivity() {
         updateChangeViewTypeIcon()
     }
 
-
     private fun setupOptionsMenu() {
         binding.mainMenu.apply {
             requireToolbar().inflateMenu(R.menu.menu)
             setupMenu()
+
+            if (colorizerEnabled) {
+                PopupMenuColorizer.colorizeTitles(requireToolbar().menu, config.popupMenuTextColor)
+
+                PopupMenuColorizer.attachOverflowColorHook(
+                toolbar = requireToolbar(),
+                context = this@MainActivity,
+                getTextColor = { config.popupMenuTextColor },
+                getBackgroundColor = { config.popupMenuBackgroundColor },
+                isColoringEnabled = { colorizerEnabled },
+                isDebugEnabled = { iSaveDebugMode == 1 }
+               )
+            }
 
             onSearchClosedListener = {
                 getAllFragments().forEach {
@@ -449,7 +413,7 @@ class MainActivity : SimpleActivity() {
                     R.id.settings -> launchSettings()
                     R.id.settings2 -> launchAccountsConfiguration()
                     R.id.settings3 -> manageSpeedDial()
-                    R.id.settingsBlocked -> mtsGlobalAll.launchBlockedManagement(this@MainActivity)
+                    R.id.settingsBlocked -> manageBlockNumbers()
                     R.id.change_view_type -> changeViewType()
                     R.id.column_count -> changeColumnCount()
                     R.id.permissions -> checkPerm(true, false, true)
@@ -467,12 +431,12 @@ class MainActivity : SimpleActivity() {
         bFilterOnlyContactsWithoutNumbers = !bFilterOnlyContactsWithoutNumbers
 
         binding.mainMenu.requireToolbar().menu.apply {
-            findItem(R.id.filter_only_contacts_without_numbers)?.setTitle(
+            findItem(R.id.filter_only_contacts_without_numbers)?.setOneTitleColor(
                 if (bFilterOnlyContactsWithoutNumbers)
                     getString(R.string.filter_only_contacts_without_numbers)  + "  \u2713"
                 else
                     getString(R.string.filter_only_contacts_without_numbers)  + " "
-            )
+            , if (colorizerEnabled) config.popupMenuTextColor else null)
         }
 
         if (bFilterOnlyContactsWithoutNumbers) refreshSearch(true)
@@ -484,12 +448,12 @@ class MainActivity : SimpleActivity() {
         config.searchInAllContactFields = !bSearchAllFields
 
         binding.mainMenu.requireToolbar().menu.apply {
-            findItem(R.id.search_all_fields)?.setTitle(
+            findItem(R.id.search_all_fields)?.setOneTitleColor(
                 if (config.searchInAllContactFields)
                     getString(R.string.search_all_fields)  + "  \u2713"
                 else
                     getString(R.string.search_all_fields)  + " "
-            )
+            , if (colorizerEnabled) config.popupMenuTextColor else null )
         }
     }
 
@@ -976,6 +940,12 @@ class MainActivity : SimpleActivity() {
     Intent(this, ManageSpeedDialActivity::class.java).apply {
         startActivity(this)
     }
+    }
+
+    private fun manageBlockNumbers() {
+        Intent(this, ManageBlockedNumbersActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     private fun setNavbar() {

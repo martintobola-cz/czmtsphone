@@ -10,26 +10,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telecom.Call
+import android.view.View
 import android.widget.RemoteViews
+import cz.mts.base.extensions.hasPermission
 import cz.mts.base.extensions.notificationManager
 import cz.mts.base.extensions.setText
-import cz.mts.base.extensions.hasPermission
-import cz.mts.base.helpers.ACCEPT_CALL
-import cz.mts.base.helpers.CALLUUID
-import cz.mts.base.helpers.DECLINE_CALL
-import cz.mts.base.helpers.NOTIFICATION_SOURCE
-import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
-import cz.mts.phone.R
-import cz.mts.phone.receivers.CallActionReceiver
-import cz.mts.phone.receivers.NotificationDismissedReceiver
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
-import cz.mts.base.helpers.SOURCE_CALL
-import cz.mts.base.helpers.SimpleContactsHelper
-import cz.mts.phone.activities.mtsGlobalAll
+import cz.mts.phone.R
 import cz.mts.phone.activities.mtsGlobalAll.fakeAvatar
 import cz.mts.phone.extensions.getStateCompat
 import cz.mts.phone.models.CallContact
-import android.view.View
+import cz.mts.phone.receivers.CallActionReceiver
+import cz.mts.phone.receivers.NotificationDismissedReceiver
 
 class CallNotificationManagerMTs2(private val context: Context) {
 
@@ -464,7 +458,7 @@ class CallNotificationManagerMTs2(private val context: Context) {
             )
 
             val callContactAvatar = if (isConfenerce) fakeAvatar(context, R.drawable.conferenceavatar)
-                                    else if (mtsGlobalAll.iSaveDebugMode == 2) fakeAvatar(context, R.drawable.karlavatar)
+                                    else if (iSaveDebugMode == 2) fakeAvatar(context, R.drawable.karlavatar)
                                     else if (isUnknown) fakeAvatar(context, R.drawable.anonymousavatar)
                                     else callContactAvatarHelper.getCallContactAvatar(callContact, false) ?: fakeAvatar(context, R.drawable.fakeavatar)
             setImageViewBitmap(

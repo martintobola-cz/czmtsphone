@@ -10,15 +10,15 @@ import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import cz.mts.base.extensions.launchActivityIntent
 import cz.mts.base.extensions.launchViewContactIntent
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.MTS_PHONE
 import cz.mts.base.helpers.PERMISSION_READ_PHONE_STATE
+import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.SimpleContactsHelper
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.phone.activities.DialpadActivity
-import cz.mts.phone.activities.SimpleActivity
-import cz.mts.base.helpers.MTS_PHONE
-import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.phone.activities.EditLocalContactActivity
-import cz.mts.phone.activities.mtsGlobalAll
+import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.helpers.getCallContact
 import cz.mts.phone.models.RecentCall
 import java.lang.ref.WeakReference
@@ -46,7 +46,7 @@ fun Activity.startContactDetailsIntentID(longID: Long, source: String) {
         }
 
         // Debug mode
-        mtsGlobalAll.iSaveDebugMode == 1 -> {
+        iSaveDebugMode == 1 -> {
             val intent = Intent(this, EditLocalContactActivity::class.java).apply {
                 putExtra(EditLocalContactActivity.CONTACT_ID, id)
                 putExtra(EditLocalContactActivity.CONTACT_SOURCE, 0)

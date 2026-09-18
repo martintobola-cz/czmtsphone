@@ -1,8 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-<string name="app_launcher_name">Phone</string>
+<string name="app_launcher_name">MTS Dialer</string>
 
-<string name="last_update_info">🐞 Fixes for possible application crashes in call history</string>
+<string name="send_message">Send message</string>
+<string name="hide_number_for_saved_contact">Do not display phone number during a call if it is a saved contact</string>
+<string name="privacy_acknowledge">I acknowledge this</string>
+    <string name="block_confirmation">Are you sure you want to block \"%s\"?</string>
+    <string name="block_unknown_calls">Block calls from numbers not in contacts</string>
+    <string name="block_hidden_calls">Block calls from hidden numbers</string>
+    <string name="block_unknown_messages">Block messages from numbers not in contacts</string>
+    <string name="block_hidden_messages">Block messages from hidden numbers</string>
+    <string name="add_blocked_number_helper_text">Enter a exact number or a pattern with * or ? (e.g. *333*, +1*8888, +42?777*) to block all calls from numbers matching. An asterisk represents any number of characters, while a question mark represents exactly one character.</string>
+    <string name="must_make_default_caller_id_app">Can\'t block unknown numbers without caller ID permission.</string>
+    <string name="block_contact">Block contact</string>
+    <string name="block_contact_success">Contact blocked</string>
+    <string name="block_contact_fail">Contact could not be blocked</string>
+    <string name="unblock_contact">Unblock contact</string>
+    <string name="unblock_contact_success">Contact unblocked</string>
+    <string name="unblock_contact_fail">Contact could not be unblocked</string>
+<string name="block_error_string_value">Only numbers and ? * are allowed</string>
+
+<string name="last_update_info">Minor changes to colors and font sizes, harmonization of the graphical UI, some new values in the action mmenu(s). New settings option \"Do not display phone number during a call if it is a saved contact\"</string>
+
+<string name="last_update_info902">🐞 Fixes for possible application crashes in call history</string>
 
 <string name="last_update_info897">⌚ From now on, the caller\'s name will also be displayed on your smartwatch. Another new feature is the ability to tap on the number that is calling you and if you have spam testing turned on, a website with reviews of that number will open. Please support the app by rating it in the store, it costs nothing and you will help others with their choice. Every ⭐ counts!</string>
 

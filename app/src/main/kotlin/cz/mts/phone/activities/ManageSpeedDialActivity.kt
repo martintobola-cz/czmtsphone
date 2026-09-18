@@ -6,14 +6,10 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.google.gson.Gson
-import cz.mts.base.extensions.getPhoneNumberTypeText
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.base.extensions.updateTextColors
-import cz.mts.base.extensions.viewBinding
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.ContactsHelper
 import cz.mts.base.helpers.NavigationIcon
+import cz.mts.base.models.SpeedDial
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.views.MyRecyclerView
 import cz.mts.phone.R
@@ -21,11 +17,10 @@ import cz.mts.phone.adapters.SelectNumbersAdapter
 import cz.mts.phone.adapters.SpeedDialAdapter
 import cz.mts.phone.databinding.ActivityManageSpeedDialBinding
 import cz.mts.phone.dialogs.SelectContactDialog
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.phone.interfaces.RemoveSpeedDialListener
 import cz.mts.phone.models.PhonePickerItem
 import cz.mts.phone.models.PhoneTypeUi
-import cz.mts.base.models.SpeedDial
+import cz.mts.base.extensions.baseConfig as config
 
 class ManageSpeedDialActivity : SimpleActivity(), RemoveSpeedDialListener {
     override var customNavBarLightIcons: Boolean? = null

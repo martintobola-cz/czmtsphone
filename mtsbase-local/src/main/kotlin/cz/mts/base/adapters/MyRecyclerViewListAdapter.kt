@@ -11,7 +11,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -19,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.R
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.PopupMenuColorizer
 import cz.mts.base.interfaces.MyActionModeCallback
 import cz.mts.base.models.RecyclerSelectionPayload
 import cz.mts.base.views.MyRecyclerView
@@ -69,7 +70,7 @@ abstract class MyRecyclerViewListAdapter<T>(
 
     abstract fun onActionModeDestroyed()
 
-    protected fun isOneItemSelected() = selectedKeys.size == 1
+//    protected fun isOneItemSelected() = selectedKeys.size == 1
 
     init {
         actModeCallback = object : MyActionModeCallback() {
@@ -83,6 +84,7 @@ abstract class MyRecyclerViewListAdapter<T>(
                     return true
                 }
 
+                selectedKeys.clear() //MMMMMM
                 isSelectable = true
                 actMode = actionMode
                 actBarTextView = layoutInflater.inflate(R.layout.actionbar_title, null) as TextView
@@ -97,24 +99,57 @@ abstract class MyRecyclerViewListAdapter<T>(
                 }
 
                 activity.menuInflater.inflate(getActionMenuId(), menu)
-                val bgColor = if (activity.isDynamicTheme()) {
-                    ResourcesCompat.getColor(resources, R.color.you_contextual_status_bar_color, activity.theme)
-                } else {
-                    resources.getColor(R.color.dark_grey, activity.theme)
+                val isDynamicTheme = activity.isDynamicTheme()
+                val colorizerEnabled = activity.baseConfig.usePopupMenuColorizer && !isDynamicTheme
+
+                //val colorWhenSelectItem = blendColors(backgroundColor, ContextCompat.getColor(activity, R.color.activated_item_foreground))
+                //val colorSearchBar = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA))
+                //o chlup sytější barva, aby byl action bar lépe vidět a odlišil barvu od pulldown menu
+                //val colorSearchBar2 = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA), 2f)
+
+                val bgPopupMenuColor = if (isDynamicTheme) {resources.getColor(R.color.you_contextual_status_bar_color, activity.theme) }
+                                       else if (colorizerEnabled) { activity.baseConfig.popupMenuBackgroundColor }
+                                       else {resources.getColor(R.color.dark_grey, activity.theme)}
+
+                val txtPopupMenuColor = if (!isDynamicTheme) getContrastingColor(properPrimaryColor)
+                                        else getContrastingColor(activity.baseConfig.popupMenuTextColor)
+
+                actBarTextView!!.setTextColor(txtPopupMenuColor)
+
+                activity.updateMenuItemColors(menu, baseColor = bgPopupMenuColor)
+
+                if (colorizerEnabled) {
+                        menu?.let { PopupMenuColorizer.colorizeTitles(it, activity.baseConfig.popupMenuTextColor) }
                 }
 
-                actBarTextView!!.setTextColor(bgColor.getContrastColor())
-                activity.updateMenuItemColors(menu, baseColor = bgColor)
                 onActionModeCreated()
 
                 activity.onSelectionModeChanged(true)
 
-                if (activity.isDynamicTheme()) {
+                //if (isDynamicTheme) {
                     actBarTextView?.onGlobalLayout {
                         val backArrow = activity.findViewById<ImageView>(androidx.appcompat.R.id.action_mode_close_button)
-                        backArrow?.applyColorFilter(bgColor.getContrastColor())
+                        backArrow?.applyColorFilter(txtPopupMenuColor)
                     }
+//                }
+
+                activity.findViewById<ViewGroup>(androidx.appcompat.R.id.action_mode_bar)?.let { actionModeBar ->
+
+                //  drawalbe/actionmenu_background.xml tímto přepíšem
+                    //chceme barvu action menu jako je search bar +
+                    if (colorizerEnabled) {
+                        actionModeBar.setBackgroundColor(properPrimaryColor)
+                    }
+
+                    PopupMenuColorizer.attachCabOverflowColorHook(
+                        actionModeBar = actionModeBar,
+                        context = activity,
+                        getBackgroundColor = { activity.baseConfig.popupMenuBackgroundColor },
+                        isColoringEnabled = { colorizerEnabled },
+                        isDebugEnabled = { iSaveDebugMode == 1 }
+                    )
                 }
+
 
                 /*
                  * Android 15+ (target SDK 35+) enforces edge-to-edge. AppCompat's
@@ -147,32 +182,25 @@ abstract class MyRecyclerViewListAdapter<T>(
             }
 
             override fun onDestroyActionMode(actionMode: ActionMode) {
+                val animator = recyclerView.itemAnimator
+                recyclerView.itemAnimator = null
+
                 isSelectable = false
-                selectedKeys.toHashSet().forEach { key ->
-                    val position = getItemKeyPosition(key)
-                    if (position != -1) {
-                        toggleItemSelection(false, position, false)
-                    }
-                }
+                selectedKeys.clear()
+                notifyItemRangeChanged(0, itemCount, RecyclerSelectionPayload(false))
+
+                recyclerView.itemAnimator = animator
+                activity.onSelectionModeChanged(false)
 
                 updateTitle()
-                selectedKeys.clear()
                 actBarTextView?.text = ""
                 actMode = null
                 lastLongPressedItem = -1
                 onActionModeDestroyed()
 
-                activity.onSelectionModeChanged(false)
-
-                // Restore only the icon appearance. The status-bar background is
-                // supplied by the app's edge-to-edge content, not Window.statusBarColor.
                 lightStatusBarBeforeActionMode?.let {
-                    WindowCompat.getInsetsController(
-                        activity.window,
-                        activity.window.decorView
-                    ).isAppearanceLightStatusBars = it
+                    WindowCompat.getInsetsController(activity.window, activity.window.decorView).isAppearanceLightStatusBars = it
                 }
-
                 lightStatusBarBeforeActionMode = null
             }
         }
@@ -340,6 +368,17 @@ abstract class MyRecyclerViewListAdapter<T>(
             positions.sortDescending()
         }
         return positions
+    }
+
+    protected fun toggleSelectAll() {
+        val allSelected = selectedKeys.size == getSelectableItemCount()
+        if (allSelected) {
+            selectedKeys.clear()
+            notifyDataSetChanged()
+            updateTitle()
+        } else {
+            selectAll()
+        }
     }
 
     protected fun selectAll() {

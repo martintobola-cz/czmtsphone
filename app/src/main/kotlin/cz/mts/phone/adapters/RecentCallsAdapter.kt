@@ -2,15 +2,15 @@ package cz.mts.phone.adapters
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.provider.CallLog.Calls
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.*
-import android.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -20,64 +20,31 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.bumptech.glide.Glide
 import cz.mts.base.adapters.MyRecyclerViewListAdapter
 import cz.mts.base.dialogs.ConfirmationDialog
-import cz.mts.base.extensions.addBlockedNumber
-import cz.mts.base.extensions.addLockedLabelIfNeeded
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.adjustForContrast
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.copyToClipboard
-import cz.mts.base.extensions.formatDateOrTime
-import cz.mts.base.extensions.formatSecondsToShortTimeString
-import cz.mts.base.extensions.formatTime
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getPopupMenuTheme
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.getTextSize
-import cz.mts.base.extensions.highlightTextPart
-import cz.mts.base.extensions.launchActivityIntent
-import cz.mts.base.extensions.launchSendSMSIntent
-import cz.mts.base.extensions.normalizeString
-import cz.mts.base.extensions.setupViewBackground
-import cz.mts.base.extensions.toDayCode
-import cz.mts.base.extensions.toast
-//import cz.mts.base.helpers.Clipboard.copyTextToClipboard
-import cz.mts.base.helpers.ensureBackgroundThread
-import cz.mts.base.helpers.FONT_SIZE_EXTRA_LARGE
-import cz.mts.base.helpers.FONT_SIZE_LARGE
-import cz.mts.base.helpers.FONT_SIZE_MEDIUM
-import cz.mts.base.helpers.FONT_SIZE_SMALL
-import cz.mts.base.helpers.isNougatPlus
-import cz.mts.base.helpers.KEY_PHONE
-import cz.mts.base.helpers.PERMISSION_WRITE_CALL_LOG
+import cz.mts.base.extensions.*
+import cz.mts.base.extensions.baseConfig
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PhoneNumberHelper.getLocationSafeForUI
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
-import cz.mts.base.helpers.SimpleContactsHelper
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.views.MyRecyclerView
-import cz.mts.phone.activities.mtsGlobalAll
+import cz.mts.phone.R
+import cz.mts.phone.activities.MainActivity
 import cz.mts.phone.activities.SimpleActivity
+import cz.mts.phone.activities.mtsGlobalAll
 import cz.mts.phone.databinding.ItemRecentCallBinding
 import cz.mts.phone.databinding.ItemRecentsDateBinding
 import cz.mts.phone.dialogs.ShowGroupedCallsDialog
 import cz.mts.phone.extensions.areMultipleSIMsAvailable
-import cz.mts.phone.helpers.RecentsHelper
+import cz.mts.phone.extensions.startContactDetailsIntentY
+import cz.mts.phone.helpers.*
 import cz.mts.phone.models.CallLogItem
 import cz.mts.phone.models.RecentCall
-import cz.mts.phone.R
-import cz.mts.phone.activities.MainActivity
-import cz.mts.phone.extensions.startContactDetailsIntentY
-import cz.mts.phone.helpers.CacheContacts
-import cz.mts.phone.helpers.RecentsQueryLimits
-import cz.mts.phone.helpers.SentSmsRecord
-import cz.mts.phone.helpers.SmsHistoryManager
-import cz.mts.phone.helpers.getCallFilterInfo
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import cz.mts.base.extensions.baseConfig as config
 
 
 class RecentCallsAdapter(
@@ -119,6 +86,7 @@ class RecentCallsAdapter(
 
 
 
+
     init {
         initDrawables()
         setupDragListener(true)
@@ -138,19 +106,24 @@ class RecentCallsAdapter(
 
         menu.apply {
             findItem(R.id.cab_show_call_details).isVisible = isOneItemSelected
-            findItem(R.id.cab_view_recents).isVisible = true
+            findItem(R.id.cab_view_recents).isVisible = isOneItemSelected
             findItem(R.id.cab_call_sim_1).isVisible = hasMultipleSIMs && isOneItemSelected
             findItem(R.id.cab_call_sim_2).isVisible = hasMultipleSIMs && isOneItemSelected
             findItem(R.id.cab_remove_default_sim).isVisible = false //isOneItemSelected && (activity.config.getCustomSIM(selectedNumber) ?: "") != ""
-            findItem(R.id.cab_block_number).title = activity.addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
             findItem(R.id.cab_add_number).isVisible = isOneItemSelected && contact == null
-            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected
+            findItem(R.id.cab_copy_number).isVisible = true
             findItem(R.id.cab_view_details).isVisible = isOneItemSelected && contact != null
         }
     }
 
     override fun actionItemPressed(id: Int) {
+
+        if (id == R.id.cab_select_all) {
+            toggleSelectAll()
+            return
+        }
+
         if (selectedKeys.isEmpty()) {
             return
         }
@@ -166,7 +139,7 @@ class RecentCallsAdapter(
             R.id.cab_send_sms -> sendSMS()
             R.id.cab_copy_number -> copyNumber()
             R.id.cab_remove -> askConfirmRemove()
-            R.id.cab_select_all -> selectAll()
+            R.id.cab_select_all -> toggleSelectAll()
             R.id.cab_view_details -> launchContactDetailsIntent(getSelectedItems().first())
         }
     }
@@ -424,9 +397,21 @@ class RecentCallsAdapter(
 
 
     private fun copyNumber() {
-        val recentCall = getSelectedItems().firstOrNull() ?: return
-        activity.copyToClipboard(recentCall.phoneNumber)
-        finishActMode()
+        val selectedItems = getSelectedItems()
+        if (selectedItems.isEmpty()) {
+            return
+        }
+
+        val numbers = selectedItems
+            .mapNotNull { it.phoneNumber.takeIf(String::isNotEmpty) }
+            .joinToString("\n")
+
+        if (numbers.isEmpty()) {
+            return
+        }
+
+        activity.copyToClipboard(numbers)
+        //finishActMode()
     }
 
     private fun askConfirmRemove() {
@@ -492,6 +477,16 @@ class RecentCallsAdapter(
 
         rebuildSmsRecordMap(newItems)
 
+        // Action mode zavíráme JEN pokud by po refreshi dat byl výběr neplatný –
+        // tzn. některá z vybraných položek v nových datech už vůbec neexistuje.
+        if (actModeCallback.isSelectable && selectedKeys.isNotEmpty()) {
+            val newIds = newItems.mapNotNullTo(HashSet()) { it.getItemId() }
+            val anySelectedItemMissing = selectedKeys.any { it !in newIds }
+            if (anySelectedItemMissing) {
+                finishActMode()
+            }
+        }
+
         // Vždy provedeme submitList – DiffUtil si ohlídá změny
         submitList(newItems) {
             // Pokud se změnil highlight, musíme rebindnout položky
@@ -502,8 +497,6 @@ class RecentCallsAdapter(
                 }
             }
         }
-        // přesuneš ven, protože jinak to zasahuje do updateItems logiky
-        finishActMode()
     }
 
 
@@ -534,11 +527,17 @@ class RecentCallsAdapter(
                 findItem(R.id.cab_view_details).isVisible = contact != null && !call.isUnknownNumber
                 findItem(R.id.cab_add_number).isVisible = contact == null && !call.isUnknownNumber //getRecentCallValues(activity, call, true)
                 findItem(R.id.cab_copy_number).isVisible = !call.isUnknownNumber
-                findItem(R.id.cab_block_number).title = activity.addLockedLabelIfNeeded(R.string.block_number)
                 findItem(R.id.cab_block_number).isVisible = isNougatPlus() && !call.isUnknownNumber
-                findItem(R.id.cab_check_spam).isVisible = mtsGlobalAll.iSaveDebugMode != 0
+                findItem(R.id.cab_check_spam).isVisible = iSaveDebugMode != 0
                 findItem(R.id.cab_remove_default_sim).isVisible = false //(activity.config.getCustomSIM(selectedNumber) ?: "") != "" && !call.isUnknownNumber
             }
+
+            val colorizerEnabled = activity.baseConfig.usePopupMenuColorizer && !activity.isDynamicTheme()
+
+            if (colorizerEnabled) {
+                PopupMenuColorizer.colorizeTitles(menu, activity.baseConfig.popupMenuTextColor)
+            }
+
 
             setOnMenuItemClickListener { item ->
                 val callId = call.id
@@ -622,6 +621,10 @@ class RecentCallsAdapter(
                 true
             }
             show()
+
+            if (colorizerEnabled) {
+                PopupMenuColorizer.applyBackground(iSaveDebugMode == 1,this, activity, activity.baseConfig.popupMenuBackgroundColor)
+            }
         }
     }
 
@@ -823,7 +826,7 @@ class RecentCallsAdapter(
 
                 //musíme ho nastavit a poslat už tady, protože je průhledný a první vykreslení by měl jako getContactLetterIcon pozadí
                 val placeholderImage =
-                    if (mtsGlobalAll.iSaveDebugMode == 2) ContextCompat.getDrawable(activity.baseContext,  R.drawable.karlavatar)
+                    if (iSaveDebugMode == 2) ContextCompat.getDrawable(activity.baseContext,  R.drawable.karlavatar)
                     else if (call.isUnknownNumber) ContextCompat.getDrawable(activity.baseContext,  R.drawable.anonymousavatar)
                     else null
 

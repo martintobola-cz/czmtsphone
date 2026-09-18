@@ -1,6 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_launcher_name">电话</string>
+    <string name="app_launcher_name">MTS 拨号器</string>
+
+<string name="send_message">发送消息</string>
+<string name="hide_number_for_saved_contact">如果是已保存的联系人，通话期间不显示电话号码</string>
+<string name="privacy_acknowledge">我已知悉</string>
+<string name="block_confirmation">确定要屏蔽"%s"吗？</string>
+<string name="block_unknown_calls">屏蔽来自未知号码的来电（因此只有已保存的联系人可以来电）</string>
+<string name="block_hidden_calls">屏蔽来自隐藏号码的来电</string>
+<string name="block_unknown_messages">屏蔽来自未知号码的消息</string>
+<string name="block_hidden_messages">屏蔽来自隐藏号码的消息</string>
+<string name="add_blocked_number_helper_text">输入完整号码或使用 * 或 ? 的模式（例如 *333*、+1*8888、+42?777*）即可屏蔽匹配的号码。星号表示任意数量的字符，问号表示恰好一个字符。</string>
+<string name="must_make_default_caller_id_app">如果应用未设置为默认电话应用，同时未设置为默认来电识别应用，则无法屏蔽未知号码。</string>
+<string name="block_contact">屏蔽联系人</string>
+<string name="block_contact_success">联系人已屏蔽</string>
+<string name="block_contact_fail">无法屏蔽联系人</string>
+<string name="unblock_contact">解除屏蔽联系人</string>
+<string name="unblock_contact_success">联系人已解除屏蔽</string>
+<string name="unblock_contact_fail">无法解除屏蔽联系人</string>
+<string name="block_error_string_value">只允许使用数字和 ? * 字符</string>
 
 <string name="edit_sms_templates"> ✍️ 编辑短信模板</string>
 <string name="sms_edit_hint_double_tap">长按或双击以编辑文本</string>

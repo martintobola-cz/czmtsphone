@@ -71,6 +71,11 @@
             android:label="@string/customize_colors"
             android:parentActivityName=".activities.SettingsActivity" />
 
+<activity
+    android:name=".activities.PrivacyPolicyActivity"
+    android:exported="false"
+    android:theme="@style/AppTheme" />
+
         <activity
             android:name="cz.mts.phone.activities.EditLocalContactActivity"
             android:configChanges="orientation"
@@ -79,7 +84,7 @@
             android:parentActivityName=".activities.MainActivity"/>
 
         <activity
-            android:name="cz.mts.base.activities.ManageBlockedNumbersActivity"
+            android:name=".activities.ManageBlockedNumbersActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/blocked_numbers"
@@ -125,6 +130,13 @@
                 <category android:name="android.intent.category.CALL" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.AboutActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:label="@string/about"
+            android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name=".activities.DialpadActivity"

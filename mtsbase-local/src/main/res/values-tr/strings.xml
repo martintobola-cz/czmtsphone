@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="callfilter_info">Bilinmeyen numaralar için derecelendirmeleri göster (callfilter.app, cz.mts.callfilter kullanarak)</string>
+<string name="theme_restart_required">Tamam düğmesi uygulamayı kapatır. Bu, az önce yaptığınız renk değişikliklerinin geçerli olması için gereklidir.</string>
+<string name="customization_popup_menu_background_color_label">Açılır menü arka plan rengi</string>
+<string name="customization_popup_menu_text_color_label">Açılır menü metin rengi</string>
+
+<string name="callfilter_info">Bilinmeyen numaraların değerlendirmelerini göster (callfilter.app, cz.mts.callfilter kullanılarak)</string>
     <string name="more_info">Daha fazla bilgi</string>
     <string name="tmobile_theme">T-Mobile</string>
     <string name="kaktus_theme">Kaktus</string>

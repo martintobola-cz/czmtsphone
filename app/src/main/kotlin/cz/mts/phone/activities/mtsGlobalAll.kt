@@ -3,11 +3,7 @@ package cz.mts.phone.activities
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Typeface
+import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.provider.ContactsContract
@@ -16,12 +12,8 @@ import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.telephony.SubscriptionManager
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
-import android.text.style.URLSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -34,22 +26,8 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import cz.mts.base.activities.BaseSimpleActivity
-import cz.mts.base.activities.ManageBlockedNumbersActivity
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.adjustColor
-import cz.mts.base.extensions.formatDateOrTime
-import cz.mts.base.extensions.getBlockedNumbers
-import cz.mts.base.extensions.getPhoneNumberTypeText
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.isDefaultDialer
-import cz.mts.base.extensions.isNumberBlocked
-import cz.mts.base.extensions.launchActivityIntent
-import cz.mts.base.extensions.launchSendSMSIntent
-import cz.mts.base.extensions.telecomManager
-import cz.mts.base.extensions.toast
-import cz.mts.base.helpers.Clipboard.copyTextToClipboard
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
 import cz.mts.base.helpers.MySIMcountryISO
 import cz.mts.base.helpers.PERMISSION_CALL_PHONE
@@ -59,10 +37,7 @@ import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.helpers.SimpleContactsHelper
 import cz.mts.base.models.PhoneNumber
 import cz.mts.phone.R
-import cz.mts.phone.extensions.appVersionCode
-import cz.mts.phone.extensions.appVersionName
 import cz.mts.phone.extensions.areMultipleSIMsAvailable
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.phone.extensions.getAvailableSIMCardLabels
 import cz.mts.phone.extensions.startContactDetailsIntentID
 import cz.mts.phone.extensions.telephonyService
@@ -74,13 +49,13 @@ import cz.mts.phone.models.RecentCall
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.text.Normalizer
+import cz.mts.base.extensions.baseConfig as config
 
 
 object mtsGlobalAll {
     var bSimAccountsChecked : Boolean = false
     var bShowDialog : Boolean = false
     var bisUnknown : Boolean = false
-    var iSaveDebugMode : Int = 0
     var sSaveNumber: String = ""
     var sSaveFormattedNumber: String = ""
     var sSaveName: String = ""
@@ -651,8 +626,8 @@ object mtsGlobalAll {
             lastClickTime = currentTime
             if (clickCount >= 10) {
                 clickCount = 0 // reset po splnění
-                if (iSaveDebugMode != 0) iSaveDebugMode = 0
-                else iSaveDebugMode = 1
+               // if (iSaveDebugMode != 0) iSaveDebugMode = 0
+               // else iSaveDebugMode = 1
                 if (mtsGlobalAll.sSaveName.lowercase().indexOf("karel") > -1) {
                     activity.config.apply {
                         themeIdSaved = 9
@@ -663,9 +638,12 @@ object mtsGlobalAll {
                         navBarColor = Color.parseColor("#106D1F")
                     }
                     iSaveDebugMode = 2
+                    Toast.makeText(activity, "Debug mode \uD83C\uDF35Karel :)" + iSaveDebugMode.toString(), Toast.LENGTH_SHORT).show()
+                    activity.config.easterEggMode = true
+                    activity.finish()
                 }
-                Toast.makeText(activity, "Debug mode " + iSaveDebugMode.toString(), Toast.LENGTH_SHORT).show()
-                if (iSaveDebugMode == 2) activity.finish()
+              //  Toast.makeText(activity, "Debug mode \uD83C\uDF35Karel :)" + iSaveDebugMode.toString(), Toast.LENGTH_SHORT).show()
+              //  if (iSaveDebugMode == 2) activity.finish()
             }
         }
 
@@ -1382,61 +1360,10 @@ object mtsGlobalAll {
 
 
     fun launchAbout(activity: BaseSimpleActivity) {
-
-        //unlockAll(activity)
-
-        val url = "https://mts.speccy.cz/mtsphone-news.htm#v" + activity.appVersionCode.toInt().toString()
-        val linkText = "see news"
-        val sText = "\n" +
-            "🏷️ [version]: " + activity.appVersionName +  "   " + linkText + "\n\n" +
-            "🌐 [home]:" + "\n" +
-            "mts.speccy.cz/mtsphone.htm" + "\n\n" +
-            "🔑 [license]:" + "\n" +
-            "GNU/GPL3, Apache 2.0, MIT, BSD" + "\n\n" +
-            "🪙 [donate]:" + "\n" +
-            "BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj" + "\n\n" +
-            "📜 [history]:" + "\n" +
-            "This application has its roots as SimpleMobileTools (Slovak developer Tibor Kabuta) " +
-            "and his successors Fossify (Indian developer Naveen Singh). " +
-            "I made a new fork, with love, from the Czech Republic  \uD83C\uDDE8\uD83C\uDDFF" + "\n"
-
-        val spannable = SpannableString(sText)
-        val linkStart = sText.indexOf(linkText)
-        if (linkStart >= 0) {
-            spannable.setSpan(
-                URLSpan(url),
-                linkStart,
-                linkStart + linkText.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-
-        val dialog: AlertDialog =
-            AlertDialog.Builder(activity)
-                .setTitle(R.string.about_mts)
-                .setMessage(spannable)
-                .setPositiveButton("OK") { dialog, _ -> newsnotify(activity) }
-                .setNeutralButton("WWW") { dialog, _ -> goToMyWww(activity) }
-                .setNegativeButton("BTC") { dialog, _ -> goToMyBtc(activity) }
-                .create()
-        dialog.show()
-        dialog.findViewById<TextView>(android.R.id.message)?.apply {
-            movementMethod = LinkMovementMethod.getInstance()
-            text = spannable  // znovu nastavit, aby se aplikoval movementMethod
-        }
-
+        activity.startActivity(Intent(activity.applicationContext, AboutActivity::class.java))
     }
 
 
-
-private fun goToMyBtc(activity: BaseSimpleActivity) {
-    goWWW(activity, "https://drive.google.com/file/d/1IUaYSi05fpQy34Elc2ykdvoIM4jw6U6e/view?usp=drive_link")
-    copyTextToClipboard(activity, "BTC address", "14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj")
-}
-
-private fun goToMyWww(activity: BaseSimpleActivity) {
-    goWWW(activity, "https://mts.speccy.cz/mtsphone.htm")
-}
 
 fun newsnotify(activity: BaseSimpleActivity) {
     AppUpdateNotificationManager(activity).showSpecialNotification(
@@ -1444,19 +1371,7 @@ fun newsnotify(activity: BaseSimpleActivity) {
     )
 }
 
-private fun goWWW (activity: BaseSimpleActivity, sWWW : String ) {
-    try {
-    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(sWWW))
-    activity.startActivity(browserIntent)
-    } catch (e: Exception ) { activity.toast(e.message.toString())}
 
-}
-
-
-
-    fun launchBlockedManagement(context : Context) {
-       Intent(context, ManageBlockedNumbersActivity::class.java).apply {context.startActivity(this)}
-    }
 
 //    fun unlockAll(activity: BaseSimpleActivity) {
 //        activity.config.hadThankYouInstalled = true

@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import cz.mts.base.dialogs.ConfirmationAdvancedDialog
-import cz.mts.base.helpers.LocalContactPhotoStorage
 import cz.mts.base.dialogs.RadioGroupDialog
 import cz.mts.base.extensions.applyColorFilter
 import cz.mts.base.extensions.beGone
@@ -38,37 +37,18 @@ import cz.mts.base.extensions.toast
 import cz.mts.base.extensions.updateTextColors
 import cz.mts.base.extensions.value
 import cz.mts.base.extensions.viewBinding
-import cz.mts.base.helpers.DEFAULT_ADDRESS_TYPE
-import cz.mts.base.helpers.DEFAULT_EMAIL_TYPE
-import cz.mts.base.helpers.DEFAULT_EVENT_TYPE
-import cz.mts.base.helpers.DEFAULT_IM_TYPE
-import cz.mts.base.helpers.DEFAULT_PHONE_NUMBER_TYPE
-import cz.mts.base.helpers.LocalContactsHelper
-import cz.mts.base.helpers.SAVE_DISCARD_PROMPT_INTERVAL
-import cz.mts.base.helpers.SimpleContactsHelper
-import cz.mts.base.helpers.VcfImporter
+import cz.mts.base.helpers.*
 import cz.mts.base.helpers.VcfImporter.MAX_PHOTO_BYTES_LOCAL
-import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.base.models.PhoneNumber
 import cz.mts.base.models.RadioItem
-import cz.mts.base.models.contacts.Address
-import cz.mts.base.models.contacts.Contact
-import cz.mts.base.models.contacts.Email
-import cz.mts.base.models.contacts.Event
-import cz.mts.base.models.contacts.IM
-import cz.mts.base.models.contacts.Organization
+import cz.mts.base.models.contacts.*
 import cz.mts.phone.R
-import cz.mts.phone.databinding.ActivityEditLocalContactBinding
-import cz.mts.phone.databinding.ItemEditEmailBinding
-import cz.mts.phone.databinding.ItemEditImBinding
-import cz.mts.phone.databinding.ItemEditPhoneNumberBinding
-import cz.mts.phone.databinding.ItemEditStructuredAddressBinding
-import cz.mts.phone.databinding.ItemEditWebsiteBinding
-import cz.mts.phone.databinding.ItemEventBinding
+import cz.mts.phone.databinding.*
 import cz.mts.phone.helpers.CacheContacts
 import java.util.Calendar
 import java.util.LinkedList
 import java.util.Locale
+import kotlin.text.toInt
 
 /**
  * Aktivita pro editaci lokálního kontaktu uloženého v Room databázi.

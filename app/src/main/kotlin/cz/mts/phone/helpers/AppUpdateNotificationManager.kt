@@ -8,8 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import cz.mts.base.extensions.notificationManager
 import cz.mts.base.extensions.hasPermission
+import cz.mts.base.extensions.notificationManager
 import cz.mts.base.helpers.NOTIFICATION_SOURCE
 import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
 import cz.mts.base.helpers.PlayStoreIntentHelper

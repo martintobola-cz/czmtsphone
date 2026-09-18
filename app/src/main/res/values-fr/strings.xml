@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Téléphone</string>
 
+<string name="send_message">Envoyer un message</string>
+<string name="hide_number_for_saved_contact">Ne pas afficher le numéro de téléphone pendant un appel s\’il s\’agit d\’un contact enregistré</string>
+<string name="privacy_acknowledge">Je reconnais ceci</string>
+<string name="block_confirmation">Voulez-vous vraiment bloquer "%s" ?</string>
+<string name="block_unknown_calls">Bloquer les appels provenant de numéros qui ne sont pas dans les contacts</string>
+<string name="block_hidden_calls">Bloquer les appels provenant de numéros masqués</string>
+<string name="block_unknown_messages">Bloquer les messages provenant de numéros qui ne sont pas dans les contacts</string>
+<string name="block_hidden_messages">Bloquer les messages provenant de numéros masqués</string>
+<string name="add_blocked_number_helper_text">Saisissez un numéro exact ou un modèle avec * ou ? (par ex. *333*, +1*8888, +42?777*) pour bloquer tous les appels provenant de numéros correspondant au modèle. Un astérisque représente un nombre quelconque de caractères, tandis qu\’un point d\’interrogation représente exactement un caractère.</string>
+<string name="must_make_default_caller_id_app">Impossible de bloquer les numéros inconnus sans l\’autorisation d\’identification de l\’appelant.</string>
+<string name="block_contact">Bloquer le contact</string>
+<string name="block_contact_success">Contact bloqué</string>
+<string name="block_contact_fail">Impossible de bloquer le contact</string>
+<string name="unblock_contact">Débloquer le contact</string>
+<string name="unblock_contact_success">Contact débloqué</string>
+<string name="unblock_contact_fail">Impossible de débloquer le contact</string>
+<string name="block_error_string_value">Seuls les chiffres et ? * sont autorisés</string>
+
 <string name="edit_sms_templates"> ✍️ Modifier les modèles de SMS</string>
 <string name="sms_edit_hint_double_tap">Appui long ou double appui pour modifier le texte</string>
 <string name="sms_add_new_template">+ Ajouter un nouveau texte</string>

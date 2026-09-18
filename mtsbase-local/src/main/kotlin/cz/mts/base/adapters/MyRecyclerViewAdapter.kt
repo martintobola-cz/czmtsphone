@@ -16,12 +16,18 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.R
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.PopupMenuColorizer
 import cz.mts.base.interfaces.MyActionModeCallback
+import cz.mts.base.models.RecyclerSelectionPayload
 import cz.mts.base.views.MyRecyclerView
 import kotlin.math.max
 import kotlin.math.min
 
-abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyclerView: MyRecyclerView, val itemClick: (Any) -> Unit) :
+abstract class MyRecyclerViewAdapter(
+    val activity: BaseSimpleActivity,
+    val recyclerView: MyRecyclerView,
+    val itemClick: (Any) -> Unit) :
     RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
     protected val baseConfig = activity.baseConfig
     protected val resources = activity.resources!!
@@ -89,24 +95,58 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                 }
 
                 activity.menuInflater.inflate(getActionMenuId(), menu)
-                val bgColor = if (activity.isDynamicTheme()) {
-                    resources.getColor(R.color.you_contextual_status_bar_color, activity.theme)
-                } else {
-                    resources.getColor(R.color.dark_grey, activity.theme)
-                }
+                val isDynamicTheme = activity.isDynamicTheme()
+                val colorizerEnabled = activity.baseConfig.usePopupMenuColorizer && !isDynamicTheme
 
-                actBarTextView!!.setTextColor(bgColor.getContrastColor())
-                activity.updateMenuItemColors(menu, baseColor = bgColor)
+                //val colorWhenSelectItem = blendColors(backgroundColor, ContextCompat.getColor(activity, R.color.activated_item_foreground))
+                //val colorSearchBar = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA))
+                //o chlup sytější barva, aby byl action bar lépe vidět a odlišil barvu od pulldown menu
+                //val colorSearchBar2 = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA), 2f)
+
+                val bgPopupMenuColor = if (isDynamicTheme) {resources.getColor(R.color.you_contextual_status_bar_color, activity.theme) }
+                                       else if (colorizerEnabled) { activity.baseConfig.popupMenuBackgroundColor }
+                                       else {resources.getColor(R.color.dark_grey, activity.theme)}
+
+                val txtPopupMenuColor = if (!isDynamicTheme) getContrastingColor(properPrimaryColor)
+                                        else getContrastingColor(activity.baseConfig.popupMenuTextColor)
+
+                actBarTextView!!.setTextColor(txtPopupMenuColor)
+
+                activity.updateMenuItemColors(menu, baseColor = bgPopupMenuColor)
+
+                if (colorizerEnabled) {
+                        menu?.let { PopupMenuColorizer.colorizeTitles(it, activity.baseConfig.popupMenuTextColor) }
+                 }
+
                 onActionModeCreated()
 
                 activity.onSelectionModeChanged(true)
 
-                if (activity.isDynamicTheme()) {
+             //   if (isDynamicTheme) {
                     actBarTextView?.onGlobalLayout {
                         val backArrow = activity.findViewById<ImageView>(androidx.appcompat.R.id.action_mode_close_button)
-                        backArrow?.applyColorFilter(bgColor.getContrastColor())
+                        backArrow?.applyColorFilter(txtPopupMenuColor)
                     }
+               // }
+
+                // ---- NOVĚ: typ 4 (pozadí CAB pruhu) + typ 2 (jeho "...") ----
+                activity.findViewById<ViewGroup>(androidx.appcompat.R.id.action_mode_bar)?.let { actionModeBar ->
+
+                   // protože necháváme drawalbe/actionmenu_background.xml (color/dark_grey) tak programově neobarvujeme...
+                    if (colorizerEnabled) {
+                        actionModeBar.setBackgroundColor(properPrimaryColor)
+                    }
+
+                    PopupMenuColorizer.attachCabOverflowColorHook(
+                        actionModeBar = actionModeBar,
+                        context = activity,
+                        getBackgroundColor = { activity.baseConfig.popupMenuBackgroundColor },
+                        isColoringEnabled = { colorizerEnabled },
+                        isDebugEnabled = { iSaveDebugMode == 1 }
+                    )
                 }
+
+
 
                 /*
                  * Android 15+ (target SDK 35+) enforces edge-to-edge. AppCompat's
@@ -143,12 +183,15 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                 recyclerView.itemAnimator = null
 
                 isSelectable = false
-                selectedKeys.toHashSet().forEach { key ->
-                    val position = getItemKeyPosition(key)
-                    if (position != -1) {
-                        toggleItemSelection(false, position, false)
-                    }
-                }
+                selectedKeys.clear()
+                notifyItemRangeChanged(0, itemCount, RecyclerSelectionPayload(false))   // ← spolehlivě smaže VŠECHNY vizuální výběry
+
+//                selectedKeys.toHashSet().forEach { key ->
+//                    val position = getItemKeyPosition(key)
+//                    if (position != -1) {
+//                        toggleItemSelection(false, position, false)
+//                    }
+//                }
 
                 recyclerView.itemAnimator = animator
                 activity.onSelectionModeChanged(false)
@@ -327,6 +370,17 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
             positions.sortDescending()
         }
         return positions
+    }
+
+    protected fun toggleSelectAll() {
+        val allSelected = selectedKeys.size == getSelectableItemCount()
+        if (allSelected) {
+            selectedKeys.clear()
+            notifyDataSetChanged()
+            updateTitle()
+        } else {
+            selectAll()
+        }
     }
 
     protected fun selectAll() {

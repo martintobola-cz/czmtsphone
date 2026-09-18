@@ -2,10 +2,10 @@ package cz.mts.phone.services
 
 import android.telecom.Call
 import android.telecom.CallScreeningService
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.base.extensions.isNumberBlocked
 import cz.mts.phone.helpers.CacheContacts.findContactByPhoneNumber
 import cz.mts.phone.helpers.CacheContacts.getCachedContacts
+import cz.mts.base.extensions.baseConfig as config
 
 
 class SimpleCallScreeningService : CallScreeningService() {

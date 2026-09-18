@@ -9,22 +9,12 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.GradientDrawable
 import android.text.InputType
 import android.util.AttributeSet
-import android.view.GestureDetector
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.base.extensions.dpToPx
 import cz.mts.base.helpers.FONT_SIZE_LARGE
 import cz.mts.base.helpers.FONT_SIZE_MEDIUM
@@ -32,6 +22,7 @@ import cz.mts.base.helpers.FONT_SIZE_SMALL
 import cz.mts.base.helpers.SMS_TEMPLATE_SEPARATOR
 import cz.mts.phone.R
 import kotlin.math.abs
+import cz.mts.base.extensions.baseConfig as config
 
 data class OverlayColors(
     val windowBackground: Int    = Color.parseColor("#CC000000"),

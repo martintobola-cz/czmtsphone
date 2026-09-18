@@ -3,11 +3,7 @@ package cz.mts.phone.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
 import android.telephony.TelephonyManager
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -18,53 +14,20 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getColorStateList
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.isDefaultDialer
-import cz.mts.base.extensions.launchActivityIntent
-import cz.mts.base.extensions.normalizeString
-import cz.mts.base.extensions.onTextChangeListener
-import cz.mts.base.extensions.performHapticFeedback
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.base.extensions.updateTextColors
-import cz.mts.base.extensions.value
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.helpers.ContactsHelper
-import cz.mts.base.helpers.isOreoPlus
-import cz.mts.base.helpers.KEY_PHONE
-import cz.mts.base.helpers.KeypadHelper
-import cz.mts.base.helpers.LOWER_ALPHA_INT
-import cz.mts.base.helpers.NavigationIcon
-import cz.mts.base.helpers.REQUEST_CODE_SET_DEFAULT_DIALER
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
+import cz.mts.base.models.SpeedDial
 import cz.mts.base.models.contacts.Contact
+import cz.mts.phone.R
 import cz.mts.phone.adapters.ContactsAdapter
 import cz.mts.phone.databinding.ActivityDialpadBinding
-import cz.mts.phone.extensions.addCharacter
-import cz.mts.phone.extensions.boundingBox
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.phone.extensions.disableKeyboard
-import cz.mts.phone.extensions.getKeyEvent
-import cz.mts.phone.extensions.setupWithContacts
-import cz.mts.base.helpers.DIALPAD_TONE_LENGTH_MS
+import cz.mts.phone.extensions.*
 import cz.mts.phone.helpers.ToneGeneratorHelper
-import cz.mts.base.models.SpeedDial
-import cz.mts.phone.R
-import cz.mts.phone.extensions.startContactDetailsIntentID
+import kotlinx.coroutines.*
 import java.util.Locale
 import kotlin.math.roundToInt
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.withContext
+import cz.mts.base.extensions.baseConfig as config
 
 class DialpadActivity : SimpleActivity() {
     override var customNavBarLightIcons: Boolean? = null
@@ -313,6 +276,7 @@ class DialpadActivity : SimpleActivity() {
         binding.dialpadToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.add_number_to_contact -> addNumberToContact()
+                R.id.send_message -> sendMessage()
                 else -> return@setOnMenuItemClickListener false
             }
             true
@@ -352,7 +316,15 @@ class DialpadActivity : SimpleActivity() {
         }
     }
 
+    private fun sendMessage() {
+        val number = binding.dialpadInput.value
+        if (number.isBlank()) return
+        launchSendSMSIntent(number)
+    }
     private fun addNumberToContact() {
+        val number = binding.dialpadInput.value
+        if (number.isBlank()) return
+
         Intent(Intent.ACTION_INSERT_OR_EDIT).apply {
             type = "vnd.android.cursor.item/contact"
             putExtra(KEY_PHONE, binding.dialpadInput.value)

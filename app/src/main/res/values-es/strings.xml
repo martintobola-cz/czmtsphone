@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Teléfono</string>
 
+<string name="send_message">Enviar mensaje</string>
+<string name="hide_number_for_saved_contact">No mostrar el número de teléfono durante una llamada si es un contacto guardado</string>
+<string name="privacy_acknowledge">Acepto esto</string>
+<string name="block_confirmation">¿Está seguro de que desea bloquear "%s"?</string>
+<string name="block_unknown_calls">Bloquear llamadas de números que no están en los contactos</string>
+<string name="block_hidden_calls">Bloquear llamadas de números ocultos</string>
+<string name="block_unknown_messages">Bloquear mensajes de números que no están en los contactos</string>
+<string name="block_hidden_messages">Bloquear mensajes de números ocultos</string>
+<string name="add_blocked_number_helper_text">Introduzca un número exacto o un patrón con * o ? (p. ej., *333*, +1*8888, +42?777*) para bloquear todas las llamadas de números que coincidan. Un asterisco representa cualquier cantidad de caracteres, mientras que un signo de interrogación representa exactamente un carácter.</string>
+<string name="must_make_default_caller_id_app">No se pueden bloquear números desconocidos sin el permiso de identificación de llamadas.</string>
+<string name="block_contact">Bloquear contacto</string>
+<string name="block_contact_success">Contacto bloqueado</string>
+<string name="block_contact_fail">No se ha podido bloquear el contacto</string>
+<string name="unblock_contact">Desbloquear contacto</string>
+<string name="unblock_contact_success">Contacto desbloqueado</string>
+<string name="unblock_contact_fail">No se ha podido desbloquear el contacto</string>
+<string name="block_error_string_value">Solo se permiten números y ? *</string>
+
 <string name="edit_sms_templates"> ✍️ Editar plantillas de SMS</string>
 <string name="sms_edit_hint_double_tap">Mantén pulsado o toca dos veces para editar el texto</string>
 <string name="sms_add_new_template">+ Añadir nuevo texto</string>

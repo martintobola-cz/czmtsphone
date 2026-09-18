@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
- <string name="callfilter_info">Show ratings for unknown numbers (using callfilter.app, cz.mts.callfilter)</string>
+<string name="theme_restart_required">OK button closes the application, this is necessary for the color changes you just made to take effect.</string>
+<string name="customization_popup_menu_background_color_label">PopupMenu background color</string>
+<string name="customization_popup_menu_text_color_label">PopupMenu text color</string>
+
+<string name="callfilter_info">Show ratings for unknown numbers (using callfilter.app, cz.mts.callfilter)</string>
 <string name="more_info">More info</string>
 <string name="tmobile_theme">T-Mobile</string>
 <string name="kaktus_theme">Kaktus</string>
@@ -83,19 +87,6 @@
     <string name="import_blocked_numbers">Import blocked numbers</string>
     <string name="must_make_default_dialer">You have to make this app the default dialer app to make use of blocked numbers.</string>
     <string name="set_as_default">Set as default</string>
-    <string name="block_confirmation">Are you sure you want to block \"%s\"?</string>
-    <string name="block_unknown_calls">Block calls from numbers not in contacts</string>
-    <string name="block_hidden_calls">Block calls from hidden numbers</string>
-    <string name="block_unknown_messages">Block messages from numbers not in contacts</string>
-    <string name="block_hidden_messages">Block messages from hidden numbers</string>
-    <string name="add_blocked_number_helper_text">Enter a number or a pattern (e.g. *12345*, +1*8888) to block all calls and messages from numbers matching the pattern.</string>
-    <string name="must_make_default_caller_id_app">Can\'t block unknown numbers without caller ID permission.</string>
-    <string name="block_contact">Block contact</string>
-    <string name="block_contact_success">Contact blocked</string>
-    <string name="block_contact_fail">Contact could not be blocked</string>
-    <string name="unblock_contact">Unblock contact</string>
-    <string name="unblock_contact_success">Contact unblocked</string>
-    <string name="unblock_contact_fail">Contact could not be unblocked</string>
 
     
     <string name="favorites">Favorites</string>

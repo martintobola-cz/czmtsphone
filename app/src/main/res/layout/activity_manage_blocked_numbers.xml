@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manage_blocked_numbers_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cz.mts.base.views.MyAppBarLayout
+        android:id="@+id/manage_blocked_numbers_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/manage_blocked_numbers_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:title="@string/manage_blocked_numbers"
+            app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
+
+<LinearLayout
+    android:id="@+id/manage_blocked_numbers_switches_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+            <LinearLayout
+                android:id="@+id/manage_blocked_numbers_block_unknown_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:paddingBottom="@dimen/medium_margin">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/manage_blocked_numbers_block_unknown_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="@string/block_unknown_calls" />
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/manage_blocked_numbers_block_unknown_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/manage_blocked_numbers_block_hidden_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:paddingBottom="@dimen/medium_margin">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/manage_blocked_numbers_block_hidden_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="@string/block_hidden_calls" />
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/manage_blocked_numbers_block_hidden_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/manage_blocked_numbers_check_spam_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:paddingBottom="@dimen/medium_margin">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/manage_blocked_numbers_check_spam_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="@string/callfilter_info" />
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/manage_blocked_numbers_check_spam_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/manage_blocked_numbers_switches_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+    </cz.mts.base.views.MyAppBarLayout>
+
+    <cz.mts.base.views.MyRecyclerView
+        android:id="@+id/manage_blocked_numbers_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        app:layoutManager="cz.mts.base.views.MyLinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!-- Jeden placeholder blok pro oba prázdné stavy (chybí oprávnění / žádná blokovaná čísla),
+         viz ManageBlockedNumbersActivity#updateUiState -->
+    <LinearLayout
+        android:id="@+id/manage_blocked_numbers_placeholder_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/big_margin"
+        android:paddingTop="@dimen/big_margin"
+        android:paddingEnd="@dimen/big_margin"
+        android:paddingBottom="@dimen/big_margin"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:visibility="visible">
+
+        <cz.mts.base.views.MyTextView
+            android:id="@+id/manage_blocked_numbers_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:gravity="center"
+            android:textStyle="italic"
+            tools:text="@string/not_blocking_anyone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/manage_blocked_numbers_placeholder_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/add_a_blocked_number" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

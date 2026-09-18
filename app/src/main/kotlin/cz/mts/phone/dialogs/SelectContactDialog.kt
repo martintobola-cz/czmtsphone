@@ -5,26 +5,14 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import cz.mts.base.extensions.*
+import cz.mts.base.models.contacts.Contact
+import cz.mts.base.views.MySearchMenu
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.adapters.ContactsAdapter
 import cz.mts.phone.databinding.DialogSelectContactBinding
 import cz.mts.phone.extensions.setupWithContacts
-import cz.mts.base.extensions.beInvisible
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.getAlertDialogBuilder
-import cz.mts.base.extensions.getColorStateList
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.setupDialogStuff
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.models.contacts.Contact
-import cz.mts.base.views.MySearchMenu
-import cz.mts.base.extensions.hideKeyboard
-import cz.mts.base.extensions.isGone
-import cz.mts.base.extensions.normalizeString
 
 class SelectContactDialog(
     private val activity: SimpleActivity,

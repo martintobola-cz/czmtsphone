@@ -6,5 +6,7 @@ data class MyTheme(
     val backgroundColorId: Int,
     val primaryColorId: Int,
     val appIconColorId: Int,
-    val navBarColorId : Int
+    val navBarColorId : Int,
+    val popupMenuBackgroundColorId : Int,
+    val popupMenuTextColorId : Int
 )

@@ -4,6 +4,7 @@ import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.setupDialogStuff
 import cz.mts.base.extensions.viewBinding
+import cz.mts.base.helpers.ALL_TABS_MASK
 import cz.mts.base.helpers.TAB_CALL_HISTORY
 import cz.mts.base.helpers.TAB_CONTACTS
 import cz.mts.base.helpers.TAB_FAVORITES
@@ -11,7 +12,6 @@ import cz.mts.base.views.MyAppCompatCheckbox
 import cz.mts.phone.R
 import cz.mts.phone.databinding.DialogManageVisibleTabsBinding
 import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.helpers.ALL_TABS_MASK
 
 class ManageVisibleTabsDialog(
     private val activity: BaseSimpleActivity

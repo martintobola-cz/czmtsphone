@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="callfilter_info">Zobrazovať hodnotenie pri neznámych číslach (pomocou aplikácií callfilter.app, cz.mts.callfilter)</string>
+<string name="theme_restart_required">Tlačidlo OK zatvorí aplikáciu. Je to potrebné, aby sa prejavili práve vykonané zmeny farieb.</string>
+<string name="customization_popup_menu_background_color_label">Farba pozadia menu ponuky</string>
+<string name="customization_popup_menu_text_color_label">Farba textu menu</string>
+<string name="callfilter_info">Zobrazovať hodnotenia neznámych čísel (pomocou callfilter.app, cz.mts.callfilter)</string>
     <plurals name="files_saved">
         <item quantity="one">File saved successfully</item>
         <item quantity="other">Files saved successfully</item>

@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import cz.mts.base.helpers.CALLUUID
-import cz.mts.phone.helpers.CallManager
 import cz.mts.base.helpers.NOTIFICATION_SOURCE
 import cz.mts.base.helpers.SOURCE_CALL
 import cz.mts.base.helpers.SOURCE_UPDATE
+import cz.mts.phone.helpers.CallManager
 
 class NotificationDismissedReceiver : BroadcastReceiver() {
 

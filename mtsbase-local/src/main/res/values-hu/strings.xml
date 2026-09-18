@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
- <string name="callfilter_info">Ismeretlen számok értékelésének megjelenítése (callfilter.app, cz.mts.callfilter használatával)</string>
+<string name="theme_restart_required">Az OK gomb bezárja az alkalmazást. Erre azért van szükség, hogy az imént módosított színek érvénybe lépjenek.</string>
+<string name="customization_popup_menu_background_color_label">A felugró menü háttérszíne</string>
+<string name="customization_popup_menu_text_color_label">A felugró menü szövegszíne</string>
+
+<string name="callfilter_info">Ismeretlen számok értékeléseinek megjelenítése (a callfilter.app, cz.mts.callfilter használatával)</string>
     <string name="more_info">További információk</string>
     <string name="tmobile_theme">T-Mobile</string>
     <string name="kaktus_theme">Kaktus</string>

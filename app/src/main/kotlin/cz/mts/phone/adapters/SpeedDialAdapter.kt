@@ -3,12 +3,12 @@ package cz.mts.phone.adapters
 import android.view.Menu
 import android.view.ViewGroup
 import cz.mts.base.adapters.MyRecyclerViewAdapter
+import cz.mts.base.models.SpeedDial
 import cz.mts.base.views.MyRecyclerView
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.databinding.ItemSpeedDialBinding
 import cz.mts.phone.interfaces.RemoveSpeedDialListener
-import cz.mts.base.models.SpeedDial
 
 class SpeedDialAdapter(
     activity: SimpleActivity,
@@ -44,7 +44,9 @@ class SpeedDialAdapter(
 
     override fun onActionModeCreated() {}
 
-    override fun onActionModeDestroyed() {}
+    override fun onActionModeDestroyed() {
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return createViewHolder(ItemSpeedDialBinding.inflate(layoutInflater, parent, false).root)

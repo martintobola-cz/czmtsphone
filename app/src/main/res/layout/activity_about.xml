@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/about_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cz.mts.base.views.MyAppBarLayout
+        android:id="@+id/about_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:title="@string/about"
+            app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
+    </cz.mts.base.views.MyAppBarLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/about_nested_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:id="@+id/about_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- 1. cz.mts.phone <version> — odkaz na changelog -->
+            <RelativeLayout
+                android:id="@+id/about_version_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_version_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="🏷" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_version_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_version_icon"
+                    android:textStyle="bold"
+                    tools:text="cz.mts.phone 1.5.0" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_version_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_version_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_version_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="https://mts.speccy.cz/mtsphone-news.htm#v150" />
+            </RelativeLayout>
+            <!-- 2. Source code -->
+            <RelativeLayout
+                android:id="@+id/about_source_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_source_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="💻" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_source_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_source_icon"
+                    android:textStyle="bold"
+                    tools:text="Source code" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_source_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_source_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_source_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="https://github.com/martintobola-cz/czmtsphone" />
+            </RelativeLayout>
+            <!-- 3. Home -->
+            <RelativeLayout
+                android:id="@+id/about_home_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_home_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="🌐" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_home_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_home_icon"
+                    android:textStyle="bold"
+                    tools:text="Home" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_home_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_home_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_home_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="https://mts.speccy.cz/mtsphone.htm" />
+            </RelativeLayout>
+            <!-- 4. License (bez odkazu) -->
+            <RelativeLayout
+                android:id="@+id/about_license_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_license_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="🔑" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_license_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_license_icon"
+                    android:textStyle="bold"
+                    tools:text="License" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_license_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_license_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_license_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="GNU/GPL3, Apache 2.0, MIT, BSD" />
+            </RelativeLayout>
+            <!-- 5. Zásady ochrany osobních údajů -->
+            <RelativeLayout
+                android:id="@+id/about_privacy_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_privacy_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="🔒" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_privacy_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_privacy_icon"
+                    android:textStyle="bold"
+                    tools:text="Zásady ochrany osobních údajů" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_privacy_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_privacy_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_privacy_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="https://mts.speccy.cz" />
+            </RelativeLayout>
+            <!-- 6. Donate (BTC) — bez odkazu, jen adresa -->
+            <RelativeLayout
+                android:id="@+id/about_donate_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_donate_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="💙" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_donate_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_donate_icon"
+                    android:textStyle="bold"
+                    tools:text="Donate (BTC)" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_donate_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_donate_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_donate_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj" />
+            </RelativeLayout>
+            <!-- 7. History — dlouhý odstavec, bez odkazu -->
+            <RelativeLayout
+                android:id="@+id/about_history_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/normal_margin">
+                <TextView
+                    android:id="@+id/about_history_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="📜" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_history_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_history_icon"
+                    android:textStyle="bold"
+                    tools:text="History" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_history_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_history_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_history_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    android:text="" />
+            </RelativeLayout>
+            <!-- 8. Send email to author -->
+            <RelativeLayout
+                android:id="@+id/about_email_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/about_email_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="✉️" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_email_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_email_icon"
+                    android:textStyle="bold"
+                    tools:text="Send email to author" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_email_value"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_email_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_email_icon"
+                    android:singleLine="false"
+                    android:textStyle="normal"
+                    tools:text="email" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

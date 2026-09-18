@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="send_message">Mesaj gönder</string>
+<string name="hide_number_for_saved_contact">Kayıtlı bir kişiyse arama sırasında telefon numarasını gösterme</string>
+<string name="privacy_acknowledge">Bunu kabul ediyorum</string>
+<string name="block_confirmation">"%s" numarasını engellemek istediğinizden emin misiniz?</string>
+<string name="block_unknown_calls">Kişilerde kayıtlı olmayan numaralardan gelen aramaları engelle</string>
+<string name="block_hidden_calls">Gizli numaralardan gelen aramaları engelle</string>
+<string name="block_unknown_messages">Kişilerde kayıtlı olmayan numaralardan gelen mesajları engelle</string>
+<string name="block_hidden_messages">Gizli numaralardan gelen mesajları engelle</string>
+<string name="add_blocked_number_helper_text">Eşleşen numaralardan gelen tüm aramaları engellemek için tam bir numara veya * ya da ? içeren bir desen girin (ör. *333*, +1*8888, +42?777*). Yıldız işareti herhangi bir sayıda karakteri, soru işareti ise tam olarak bir karakteri temsil eder.</string>
+<string name="must_make_default_caller_id_app">Arayan kimliği izni olmadan bilinmeyen numaralar engellenemez.</string>
+<string name="block_contact">Kişiyi engelle</string>
+<string name="block_contact_success">Kişi engellendi</string>
+<string name="block_contact_fail">Kişi engellenemedi</string>
+<string name="unblock_contact">Kişinin engellemesini kaldır</string>
+<string name="unblock_contact_success">Kişinin engellemesi kaldırıldı</string>
+<string name="unblock_contact_fail">Kişinin engellemesi kaldırılamadı</string>
+<string name="block_error_string_value">Yalnızca rakamlara ve ? * karakterlerine izin verilir</string>
+
 <string name="edit_sms_templates"> ✍️ SMS şablonlarını düzenle</string>
 <string name="sms_edit_hint_double_tap">Metni düzenlemek için uzun basın veya çift dokunun</string>
 <string name="sms_add_new_template">+ Yeni metin ekle</string>

@@ -41,8 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/normal_margin"
-                android:text="@string/speed_dial_label"
-                android:textSize="@dimen/bigger_text_size" />
+                android:text="@string/speed_dial_label" />
 
             <cz.mts.base.views.MyRecyclerView
                 android:id="@+id/speed_dial_list"

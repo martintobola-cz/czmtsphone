@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="send_message">Отправить сообщение</string>
+<string name="hide_number_for_saved_contact">Не показывать номер телефона во время звонка, если это сохранённый контакт</string>
+<string name="privacy_acknowledge">Я принимаю это к сведению</string>
+<string name="block_confirmation">Вы действительно хотите заблокировать "%s"?</string>
+<string name="block_unknown_calls">Блокировать звонки с неизвестных номеров (звонить смогут только сохранённые контакты)</string>
+<string name="block_hidden_calls">Блокировать звонки со скрытых номеров</string>
+<string name="block_unknown_messages">Блокировать сообщения с неизвестных номеров</string>
+<string name="block_hidden_messages">Блокировать сообщения со скрытых номеров</string>
+<string name="add_blocked_number_helper_text">Введите точный номер или шаблон с использованием символов * или ? (например, *333*, +1*8888, +42?777*), чтобы заблокировать соответствующие номера. Звёздочка обозначает любое количество символов, а вопросительный знак — ровно один символ.</string>
+<string name="must_make_default_caller_id_app">Невозможно блокировать неизвестные номера, если приложение не установлено как телефонное приложение по умолчанию и одновременно как приложение по умолчанию для идентификации вызывающего абонента.</string>
+<string name="block_contact">Заблокировать контакт</string>
+<string name="block_contact_success">Контакт заблокирован</string>
+<string name="block_contact_fail">Не удалось заблокировать контакт</string>
+<string name="unblock_contact">Разблокировать контакт</string>
+<string name="unblock_contact_success">Контакт разблокирован</string>
+<string name="unblock_contact_fail">Не удалось разблокировать контакт</string>
+<string name="block_error_string_value">Разрешены только цифры и символы ? *</string>
+
 <string name="edit_sms_templates"> ✍️ Редактировать шаблоны SMS</string>
 <string name="sms_edit_hint_double_tap">Долгое нажатие или двойное касание для редактирования текста</string>
 <string name="sms_add_new_template">+ Добавить новый текст</string>

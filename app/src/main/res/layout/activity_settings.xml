@@ -404,6 +404,21 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/settings_hide_number_for_saved_contact_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/settings_hide_number_for_saved_contact"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hide_number_for_saved_contact" />
+
+            </RelativeLayout>
+
 
 
             <include

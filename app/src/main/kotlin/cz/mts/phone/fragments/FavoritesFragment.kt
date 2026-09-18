@@ -4,14 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.gson.Gson
 import cz.mts.base.adapters.MyRecyclerViewAdapter
-import cz.mts.base.extensions.areSystemAnimationsEnabled
-import cz.mts.base.extensions.beGone
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.getColorStateList
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.hasPermission
-import cz.mts.base.extensions.normalizeString
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.Converters
 import cz.mts.base.helpers.PERMISSION_READ_CONTACTS
 import cz.mts.base.helpers.VIEW_TYPE_GRID
@@ -24,11 +17,11 @@ import cz.mts.phone.activities.mtsGlobalAll
 import cz.mts.phone.adapters.ContactsAdapter
 import cz.mts.phone.databinding.FragmentFavoritesBinding
 import cz.mts.phone.databinding.FragmentLettersLayoutBinding
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.phone.extensions.setupWithContacts
 import cz.mts.phone.extensions.startContactDetailsIntentID
 import cz.mts.phone.helpers.CacheContacts
 import cz.mts.phone.interfaces.RefreshItemsListener
+import cz.mts.base.extensions.baseConfig as config
 
 class FavoritesFragment(context: Context, attributeSet: AttributeSet) :
     MyViewPagerFragment<MyViewPagerFragment.LettersInnerBinding>(context, attributeSet),

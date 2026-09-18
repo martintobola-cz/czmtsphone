@@ -2,9 +2,9 @@ package cz.mts.phone.helpers
 
 import android.content.Context
 import cz.mts.base.helpers.MAX_SMS_RECORDS
-import cz.mts.base.extensions.baseConfig as config
 import org.json.JSONArray
 import org.json.JSONObject
+import cz.mts.base.extensions.baseConfig as config
 
 data class SentSmsRecord(
     val phoneNumber: String,

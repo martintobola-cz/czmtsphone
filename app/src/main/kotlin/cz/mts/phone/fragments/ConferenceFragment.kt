@@ -5,10 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import cz.mts.phone.activities.SimpleActivity
-import cz.mts.phone.adapters.ConferenceCallsAdapter
-import cz.mts.phone.databinding.ActivityConferenceBinding
-import cz.mts.phone.helpers.CallManager
 import cz.mts.base.extensions.applyColorFilter
 import cz.mts.base.extensions.getColoredDrawableWithColor
 import cz.mts.base.extensions.getContrastColor
@@ -16,6 +12,10 @@ import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.helpers.NavigationIcon
 import cz.mts.base.views.MyAppBarLayout
 import cz.mts.phone.R
+import cz.mts.phone.activities.SimpleActivity
+import cz.mts.phone.adapters.ConferenceCallsAdapter
+import cz.mts.phone.databinding.ActivityConferenceBinding
+import cz.mts.phone.helpers.CallManager
 
 class ConferenceFragment : Fragment() {
 

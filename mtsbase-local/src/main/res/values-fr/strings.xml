@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="callfilter_info">Afficher les notes des numéros inconnus (via callfilter.app, cz.mts.callfilter)</string>
+<string name="theme_restart_required">Le bouton OK ferme l\’application. Cela est nécessaire pour que les changements de couleur que vous venez d\’effectuer prennent effet.</string>
+<string name="customization_popup_menu_background_color_label">Couleur d\’arrière-plan du menu contextuel</string>
+<string name="customization_popup_menu_text_color_label">Couleur du texte du menu contextuel</string>
+<string name="callfilter_info">Afficher les évaluations des numéros inconnus (avec callfilter.app, cz.mts.callfilter)</string>
+
     <string name="more_info">Plus d\'informations</string>
     <string name="tmobile_theme">T-Mobile</string>
     <string name="kaktus_theme">Kaktus</string>

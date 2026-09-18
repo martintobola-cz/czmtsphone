@@ -8,19 +8,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.telecom.TelecomManager
 import android.widget.Toast
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
 import cz.mts.base.helpers.REQUEST_CODE_SET_DEFAULT_DIALER
 import cz.mts.phone.R
-import cz.mts.phone.extensions.getHandleToUse
-import cz.mts.base.extensions.getBlockedNumbers
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.hideKeyboard
-import cz.mts.base.extensions.isDefaultDialer
-import cz.mts.base.extensions.isNumberBlocked
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.base.extensions.telecomManager
-import cz.mts.base.extensions.toast
-import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
 import cz.mts.phone.extensions.clipboardManager
+import cz.mts.phone.extensions.getHandleToUse
 
 class DialerActivity : SimpleActivity() {
 
@@ -43,7 +37,7 @@ class DialerActivity : SimpleActivity() {
                 } catch (_: Exception) { }
             }
 
-            if (mtsGlobalAll.iSaveDebugMode == 1) {
+            if (iSaveDebugMode == 1) {
                 clipboardManager.setPrimaryClip(ClipData.newPlainText("Intent", sIntent))
             }
 

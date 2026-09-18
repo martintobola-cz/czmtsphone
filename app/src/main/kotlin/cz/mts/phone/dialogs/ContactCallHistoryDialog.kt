@@ -7,23 +7,14 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import cz.mts.base.extensions.adjustColor
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.base.extensions.getColoredDrawableWithColor
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.getTextSize
-import cz.mts.base.helpers.FONT_SIZE_EXTRA_LARGE
-import cz.mts.base.helpers.FONT_SIZE_LARGE
-import cz.mts.base.helpers.FONT_SIZE_MEDIUM
-import cz.mts.base.helpers.FONT_SIZE_SMALL
-import cz.mts.base.helpers.SimpleContactsHelper
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.adapters.ContactCallHistoryAdapter
 import cz.mts.phone.databinding.DialogContactCallHistoryBinding
 import cz.mts.phone.fragments.RecentsFragment
+import cz.mts.base.extensions.baseConfig as config
 
 /**
  * Zdrojem dat je běžící RecentsFragment: dialog si na startu vezme aktuální

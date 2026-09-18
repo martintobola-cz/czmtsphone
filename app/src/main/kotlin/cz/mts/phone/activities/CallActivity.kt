@@ -4,104 +4,45 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.RippleDrawable
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.RippleDrawable
 import android.media.AudioManager
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.PowerManager
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
 import android.telecom.Call
 import android.telephony.SmsManager
 import android.telephony.SubscriptionManager
 import android.util.TypedValue
+import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import android.view.KeyEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.FragmentManager
 import androidx.core.view.children
 import androidx.core.view.setPadding
 import androidx.core.view.updatePadding
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import cz.mts.base.extensions.adjustAlpha
-import cz.mts.base.extensions.applyColorFilter
-import cz.mts.base.extensions.beGone
-import cz.mts.base.extensions.beInvisible
-import cz.mts.base.extensions.beVisible
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.getContrastColor
-import cz.mts.base.extensions.getFormattedDuration
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.isSystemInDarkMode
-import cz.mts.base.extensions.isVisible
-import cz.mts.base.extensions.lightenColor
-import cz.mts.base.extensions.onGlobalLayout
-import cz.mts.base.extensions.dpToPx
-import cz.mts.base.extensions.shouldUseLightIcons
-import cz.mts.base.extensions.toast
-import cz.mts.base.extensions.updateTextColors
-import cz.mts.base.extensions.viewBinding
-import cz.mts.base.helpers.isOreoMr1Plus
-import cz.mts.base.helpers.isOreoPlus
-import cz.mts.base.helpers.LOWER_ALPHA
-import cz.mts.base.helpers.LOWER_ALPHA_INT
-import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
-import cz.mts.base.helpers.PhoneNumberHelper
+import cz.mts.base.extensions.*
+import cz.mts.base.helpers.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
-import cz.mts.base.helpers.SimpleContactsHelper
-import cz.mts.phone.databinding.ActivityCallBinding
-import cz.mts.phone.extensions.addCharacter
-import cz.mts.phone.extensions.audioManager
-import cz.mts.base.extensions.baseConfig as config
-import cz.mts.phone.extensions.disableKeyboard
-import cz.mts.phone.extensions.getAvailableSIMCardLabels
-import cz.mts.phone.extensions.getCallDuration
-import cz.mts.phone.extensions.getStateCompat
-import cz.mts.phone.extensions.hasCapability
-import cz.mts.phone.helpers.CallActivityUI
-import cz.mts.phone.helpers.CallManager
-import cz.mts.phone.helpers.CallManagerListener
-import cz.mts.phone.helpers.CallSwipeHandler
-import cz.mts.phone.helpers.getCallContact
-import cz.mts.phone.models.AudioRoute
-import cz.mts.phone.models.CallContact
 import cz.mts.phone.R
 import cz.mts.phone.activities.mtsGlobalAll.checkNumberForRating
 import cz.mts.phone.activities.mtsGlobalAll.fakeAvatar
-import cz.mts.phone.extensions.isDndActive
-import cz.mts.phone.extensions.isOutgoing
-import cz.mts.phone.extensions.keyguardManager
-import cz.mts.phone.extensions.powerManager
-import cz.mts.phone.fragments.ConferenceFragment
-import cz.mts.phone.helpers.AudioOutputRoutingHelper
-import cz.mts.base.helpers.CALLUUID
 import cz.mts.phone.activities.mtsGlobalAll.openSpamNumberWeb
-import cz.mts.phone.helpers.CacheContacts
-import cz.mts.phone.helpers.CallContactAvatarHelper
-import cz.mts.phone.helpers.CallFilterResult
-import cz.mts.phone.helpers.CallNotificationManagerMTs2
-import cz.mts.phone.helpers.getCallFilterInfo
-import cz.mts.phone.helpers.SmsQuickReplyOverlay
-import kotlin.String
-import kotlin.collections.List
-import cz.mts.phone.extensions.getKeyEvent
-import cz.mts.phone.helpers.SmsHistoryManager
+import cz.mts.phone.databinding.ActivityCallBinding
+import cz.mts.phone.extensions.*
+import cz.mts.phone.fragments.ConferenceFragment
+import cz.mts.phone.helpers.*
+import cz.mts.phone.models.AudioRoute
+import cz.mts.phone.models.CallContact
+import cz.mts.base.extensions.baseConfig as config
 
 class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
@@ -312,11 +253,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         callSwap.setOnClickListener { callswap() }
         callMerge.setOnClickListener { callmerge() }
         callManage.setOnClickListener { showConferenceFragment() } // startActivity(Intent(this@CallActivity, ConferenceActivity::class.java))
+        callSendSms.setOnClickListener { sendMessage() }
 
         // Tooltip při dlouhém podržení
         arrayOf(
             callToggleMicrophone, callDialpad,
-            callToggleHold, callSwap, callMerge, callManage, callDeclineSms //callToggleHold, callAdd, callSwap, callMerge, callManage
+            callToggleHold, callSwap, callMerge, callManage, callDeclineSms, callSendSms //callToggleHold, callAdd, callSwap, callMerge, callManage
         ).forEach { imageView ->
             imageView.setOnLongClickListener {
                 if (!imageView.contentDescription.isNullOrEmpty()) {
@@ -383,7 +325,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         val inactiveColor = getInactiveButtonColor()
         arrayOf(
             callToggleMicrophone, callToggleSpeaker, callDialpad,
-            callToggleHold, callSwap, callMerge, callManage //callToggleHold, callAdd, callSwap, callMerge, callManage
+            callToggleHold, callSwap, callMerge, callManage, callSendSms //callToggleHold, callAdd, callSwap, callMerge, callManage
         ).forEach {
             it.applyColorFilter(bgColor.getContrastColor())
             it.background.applyColorFilter(inactiveColor)
@@ -458,7 +400,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                 }
             }
 
-            if (mtsGlobalAll.iSaveDebugMode == 1)  toast(message)
+            if (iSaveDebugMode == 1)  toast(message)
             else {
                 smsManager?.sendTextMessage(callerNumber, null, message, null, null) //odeslat SMS
             }
@@ -605,6 +547,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility") // performClick() se volá níže v ACTION_UP, lint to i tak hlásí u ImageView
     private fun updateOtherPersonsInfo(callContact : CallContact, avatarUri: String?, isConference : Boolean) {
         binding.apply {
             spamcheck.beGone()
@@ -618,9 +561,15 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             } else {
                 callDeclineSms.beGone()
             }
+            val isSavedContact = id.toInt() != 0
+            val hideNumberForSavedContact = config.hideNumberForSavedContact && isSavedContact
             if (!isHiddenNumber && number.isNotBlank()) {
                 if (numberLabel.isNotEmpty()) {
-                    callerNumber.text = "$number - $numberLabel"
+                    callerNumber.text = if (hideNumberForSavedContact) numberLabel else "$number - $numberLabel"
+                    callerNumber.beVisible()
+                } else if (hideNumberForSavedContact) {
+                    //nechceme schovávat pole, aby neodskakovala tlačítka pod tím, jen vyprázdníme text
+                    callerNumber.text = " "
                     callerNumber.beVisible()
                 } else {
                     callerNumber.text = number
@@ -657,7 +606,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                     //val bgColor = getProperPrimaryColor()
                     // setBackgroundResource(R.drawable.circle_background)
                     if (isConference) setImageResource(R.drawable.conferenceavatar)
-                    else if (mtsGlobalAll.iSaveDebugMode == 2) setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.karlavatar))
+                    else if (iSaveDebugMode == 2) setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.karlavatar))
                     else if (isHiddenNumber) setImageResource(R.drawable.anonymousavatar) //setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.anonymousavatar))
                     else setImageResource(R.drawable.fakeavatar)
                     setPadding(resources.getDimensionPixelSize(R.dimen.activity_margin))
@@ -672,9 +621,45 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                     }
                 }
             }
+            lastAvatarContact = callContact
+            callerAvatar.setOnTouchListener { v, event ->
+                callerAvatarGestureDetector.onTouchEvent(event)
+                if (event.action == MotionEvent.ACTION_UP) {
+                    v.performClick()
+                }
+                true
+            }
         }
     }
 
+    private var onAvatarDoubleTap: (CallContact) -> Unit = { _ ->
+        val intent = Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            putExtra("start_tab", TAB_CONTACTS)
+        }
+        startActivity(intent)
+    }
+
+        // Akce po dvojkliku na avatar volajícího.
+    private var onAvatarDoubleTapOLD: (CallContact) -> Unit = { contact ->
+        startContactDetailsIntentID(contact.id, contact.source)
+    }
+
+    private var lastAvatarContact: CallContact? = null
+
+    private val callerAvatarGestureDetector by lazy {
+        GestureDetector(
+            this,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent): Boolean = true
+
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    lastAvatarContact?.let { onAvatarDoubleTap(it) }
+                    return true
+                }
+            }
+        )
+    }
 
     private fun checkCalledSIMCard(call: Call?) {
         binding.callSimImage.beInvisible()
@@ -844,6 +829,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
             callSwap.beVisibleIf(isHoldAndActiveCalls)
             callMerge.beVisibleIf(isHoldAndActiveCalls)
+
+            // Tlačítko na odeslání SMS je vidět jen když hovor aktivně probíhá (ne při ringing/holding/dialing)
+            val isCallActive = false //MTSX TODO//!isActivityEnded && state == Call.STATE_ACTIVE
+            callSendSms.beVisibleIf(isCallActive)
+            setActionButtonEnabled(callSendSms, isCallActive)
+
             holdIconRefresh(call)
         }
     }
@@ -918,9 +909,22 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                             var callerNumber = contact.number
                             var sSpamEmoji = ""
                             val bSpamEmoji = ((contact.id.toInt() == 0) && (CacheContacts.bSpamChecking))
+                            val isSavedContactOverlay = contact.id.toInt() != 0
+                            val hideNumberForSavedContactOverlay = config.hideNumberForSavedContact && isSavedContactOverlay
+                            var bForceShowNumber = false
 
                             if ((callerNumber.isBlank()) || (normalizeDigitsOnly(callerNumber) == normalizeDigitsOnly(callerName)))
                                 callerNumber = ""
+
+                            if (hideNumberForSavedContactOverlay && callerNumber.isNotBlank()) {
+                                //nechceme schovávat pole, aby neodskakovaly prvky pod tím, jen vyprázdníme text
+                                if (contact.numberLabel.isNotEmpty()) {
+                                    callerNumber = contact.numberLabel
+                                } else {
+                                    callerNumber = " "
+                                    bForceShowNumber = true
+                                }
+                            }
 
                             val isConfenerce = CallManager.isConference(call)
                             if (isConfenerce) {
@@ -981,7 +985,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                             callNotification.notificationCallerName.setText(callerName)
                             callNotification.notificationPhoneNumber.setText(callerNumber)
 
-                            if (callerNumber.isBlank()) callNotification.notificationPhoneNumber.beGone()
+                            if (callerNumber.isBlank() && !bForceShowNumber) callNotification.notificationPhoneNumber.beGone()
                             else callNotification.notificationPhoneNumber.beVisible()
 
                             val iSimSlot = CallManager.getSimSlotByCall(call)
@@ -1012,7 +1016,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                             callNotification.notificationDeclineCall.setImageResource(R.drawable.ic_phone_down_red_vector)
 
                             val callContactAvatar = if (CallManager.isConference(call)) fakeAvatar(this@CallActivity, R.drawable.conferenceavatar)
-                            else if (mtsGlobalAll.iSaveDebugMode == 2) fakeAvatar(this@CallActivity, R.drawable.karlavatar)
+                            else if (iSaveDebugMode == 2) fakeAvatar(this@CallActivity, R.drawable.karlavatar)
                             else if (isUnknown) fakeAvatar(this@CallActivity, R.drawable.anonymousavatar)
                             else callContactAvatarHelper.getCallContactAvatar(contact, false) ?: fakeAvatar(this@CallActivity, R.drawable.fakeavatar)
                             callNotification.notificationThumbnail.setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmap(callContactAvatar))
@@ -1081,7 +1085,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             runOnUiThread {
                 if ((!isFinishing) && (!isDestroyed) && (result != null)) {
                     binding.callerNumber.text = checkNumberForRating(result, number, false)
-                    if (mtsGlobalAll.iSaveDebugMode != 0) {
+                    if (iSaveDebugMode != 0) {
                         binding.spamcheck.beVisible()
                         binding.spamcheck.text = result.toString()
                     }
@@ -1117,6 +1121,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     private fun callRinging() {
         binding.incomingCallHolder.beVisible()
 
+    }
+
+    private fun sendMessage() {
+        val number = CallManager.getCallById(sMyUUIDcall)?.details?.handle?.schemeSpecificPart.orEmpty()
+        if (number.isBlank()) return
+        launchSendSMSIntent(number)
     }
 
     private fun callswap() {

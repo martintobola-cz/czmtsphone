@@ -2,6 +2,24 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="send_message">Надіслати повідомлення</string>
+<string name="hide_number_for_saved_contact">Не показувати номер телефону під час дзвінка, якщо це збережений контакт</string>
+<string name="privacy_acknowledge">Беру до відома</string>
+<string name="block_confirmation">Ви дійсно хочете заблокувати "%s"?</string>
+<string name="block_unknown_calls">Блокувати дзвінки з невідомих номерів (телефонувати зможуть лише збережені контакти)</string>
+<string name="block_hidden_calls">Блокувати дзвінки з прихованих номерів</string>
+<string name="block_unknown_messages">Блокувати повідомлення з невідомих номерів</string>
+<string name="block_hidden_messages">Блокувати повідомлення з прихованих номерів</string>
+<string name="add_blocked_number_helper_text">Введіть точний номер або шаблон із використанням символів * або ? (наприклад, *333*, +1*8888, +42?777*), щоб заблокувати відповідні номери. Зірочка позначає будь-яку кількість символів, а знак питання — рівно один символ.</string>
+<string name="must_make_default_caller_id_app">Неможливо блокувати невідомі номери, якщо програму не встановлено як стандартну телефонну програму та одночасно як стандартну програму для ідентифікації абонента.</string>
+<string name="block_contact">Заблокувати контакт</string>
+<string name="block_contact_success">Контакт заблоковано</string>
+<string name="block_contact_fail">Не вдалося заблокувати контакт</string>
+<string name="unblock_contact">Розблокувати контакт</string>
+<string name="unblock_contact_success">Контакт розблоковано</string>
+<string name="unblock_contact_fail">Не вдалося розблокувати контакт</string>
+<string name="block_error_string_value">Дозволені лише цифри та символи ? *</string>
+
 <string name="edit_sms_templates"> ✍️ Редагувати шаблони SMS</string>
 <string name="sms_edit_hint_double_tap">Довге натискання або подвійне торкання для редагування тексту</string>
 <string name="sms_add_new_template">+ Додати новий текст</string>

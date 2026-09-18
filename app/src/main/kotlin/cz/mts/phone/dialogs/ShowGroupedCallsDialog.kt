@@ -1,13 +1,13 @@
 package cz.mts.phone.dialogs
 
 import cz.mts.base.activities.BaseSimpleActivity
+import cz.mts.base.extensions.toast
 import cz.mts.base.extensions.viewBinding
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.activities.mtsGlobalAll
 import cz.mts.phone.adapters.RecentCallsAdapter
 import cz.mts.phone.databinding.DialogShowGroupedCallsBinding
 import cz.mts.phone.models.RecentCall
-import cz.mts.base.extensions.toast
 
 class ShowGroupedCallsDialog(
     private val activity: BaseSimpleActivity,

@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
- <string name="callfilter_info">Afișați evaluările pentru numere necunoscute (folosind callfilter.app, cz.mts.callfilter)</string>
+<string name="theme_restart_required">Butonul OK închide aplicația. Acest lucru este necesar pentru ca modificările de culoare pe care tocmai le-ați făcut să intre în vigoare.</string>
+<string name="customization_popup_menu_background_color_label">Culoarea de fundal a meniului pop-up</string>
+<string name="customization_popup_menu_text_color_label">Culoarea textului meniului pop-up</string>
+
+<string name="callfilter_info">Afișează evaluările numerelor necunoscute (folosind callfilter.app, cz.mts.callfilter)</string>
     <string name="more_info">Mai multe informaţii</string>
     <string name="tmobile_theme">T-Mobile</string>
     <string name="kaktus_theme">Kaktus</string>

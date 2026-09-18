@@ -10,8 +10,8 @@ import cz.mts.base.helpers.PhoneNumberHelper.areSamePhoneNumber
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.phone.R
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.phone.models.CallContact
+import cz.mts.base.extensions.baseConfig as config
 
 fun getCallContact(context: Context, call: Call?, sNumberToSearch: String = "", callback: (CallContact) -> Unit) {
 

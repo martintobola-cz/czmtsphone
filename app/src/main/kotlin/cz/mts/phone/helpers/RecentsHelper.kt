@@ -6,28 +6,21 @@ import android.content.Context
 import android.provider.CallLog.Calls
 import android.provider.CallLog.Calls.PRESENTATION_UNAVAILABLE
 import android.provider.CallLog.Calls.PRESENTATION_UNKNOWN
-import cz.mts.base.models.contacts.Contact
-import cz.mts.phone.R
-import cz.mts.phone.activities.SimpleActivity
-import cz.mts.phone.activities.mtsGlobalAll
-import cz.mts.phone.extensions.getAvailableSIMCardLabels
-import cz.mts.phone.models.RecentCall
-import cz.mts.phone.models.SIMAccount
-import cz.mts.base.extensions.getIntValue
-import cz.mts.base.extensions.getIntValueOrNull
-import cz.mts.base.extensions.getLongValue
-import cz.mts.base.extensions.getPhoneNumberTypeText
-import cz.mts.base.extensions.getStringValue
-import cz.mts.base.extensions.getStringValueOrNull
-import cz.mts.base.extensions.hasPermission
-import cz.mts.base.extensions.toast
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.Clipboard.copyTextToClipboard
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PERMISSION_READ_CALL_LOG
 import cz.mts.base.helpers.PERMISSION_WRITE_CALL_LOG
 import cz.mts.base.helpers.PhoneNumberHelper.areSamePhoneNumber
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.base.helpers.getQuestionMarks
+import cz.mts.base.models.contacts.Contact
+import cz.mts.phone.R
+import cz.mts.phone.activities.SimpleActivity
+import cz.mts.phone.extensions.getAvailableSIMCardLabels
+import cz.mts.phone.models.RecentCall
+import cz.mts.phone.models.SIMAccount
 
 
 class RecentsHelper(private val context: Context) {
@@ -294,7 +287,7 @@ class RecentsHelper(private val context: Context) {
                 else contact?.getNameToDisplay() ?: number
 
                 val photoUri = when {
-                    mtsGlobalAll.iSaveDebugMode == 2 -> "$debugAvatar?t=$startTs"
+                    iSaveDebugMode == 2 -> "$debugAvatar?t=$startTs"
                     type == 6 -> "$blockAvatar?t=$startTs"
                     isUnknown -> "$anonAvatar?t=$startTs"
                     else -> contact?.photoUri.orEmpty()
@@ -581,7 +574,7 @@ class RecentsHelper(private val context: Context) {
                     else contact?.getNameToDisplay() ?: number
 
                     val photoUri = when {
-                        mtsGlobalAll.iSaveDebugMode == 2 -> "$debugAvatar?t=$startTs"
+                        iSaveDebugMode == 2 -> "$debugAvatar?t=$startTs"
                         type == 6   -> "$blockAvatar?t=$startTs"
                         isUnknown   -> "$anonAvatar?t=$startTs"
                         else        -> contact?.photoUri.orEmpty()

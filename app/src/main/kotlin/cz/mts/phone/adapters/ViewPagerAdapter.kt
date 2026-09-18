@@ -6,11 +6,11 @@ import androidx.viewpager.widget.PagerAdapter
 import cz.mts.base.helpers.TAB_CALL_HISTORY
 import cz.mts.base.helpers.TAB_CONTACTS
 import cz.mts.base.helpers.TAB_FAVORITES
+import cz.mts.base.helpers.tabsList
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.phone.fragments.MyViewPagerFragment
-import cz.mts.base.helpers.tabsList
+import cz.mts.base.extensions.baseConfig as config
 
 
 class ViewPagerAdapter(
