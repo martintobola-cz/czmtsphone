@@ -29,15 +29,46 @@
 -keep class androidx.appcompat.widget.MenuPopupWindow { *; }
 
 # ať se přes ně dá dál reflexí procházet i vnořené interface implementace
--keepclassmembers class androidx.appcompat.view.menu.** { *; }
--keepclassmembers class androidx.appcompat.widget.** { *; }
+# --- PopupMenuColorizer.kt: reflexní přístup na androidx popup internals ---
 
+-keepclassmembers class androidx.appcompat.widget.PopupMenu {
+    *** mPopup;
+}
+-keepclassmembers class androidx.appcompat.view.menu.MenuPopupHelper {
+    *** getPopup(...);
+}
+-keepclassmembers class androidx.appcompat.widget.Toolbar {
+    *** mMenuView;
+}
+-keepclassmembers class androidx.appcompat.widget.ActionMenuView {
+    *** mPresenter;
+}
+-keepclassmembers class androidx.appcompat.widget.ActionMenuPresenter {
+    *** mOverflowPopup;
+}
 
-# Joda
--dontwarn org.joda.convert.**
--dontwarn org.joda.time.**
--keep class org.joda.time.** { *; }
--keep interface org.joda.time.** { *; }
+# jméno třídy se čte za běhu (contains("Standard")/contains("Cascading")) -> nesmí se přejmenovat
+-keep class androidx.appcompat.view.menu.StandardMenuPopup {
+    *** mPopup;
+}
+-keep class androidx.appcompat.view.menu.CascadingMenuPopup {
+    *** mPresenters;
+}
+-keep class androidx.appcompat.view.menu.CascadingMenuPopup$CascadingMenuInfo {
+    *** window;
+}
+
+-keepclassmembers class androidx.appcompat.widget.ListPopupWindow {
+    *** mPopup;
+    *** setBackgroundDrawable(...);
+    *** dismiss(...);
+    *** show(...);
+}
+-keepclassmembers class androidx.appcompat.widget.MenuPopupWindow {
+    *** setBackgroundDrawable(...);
+    *** dismiss(...);
+    *** show(...);
+}
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
