@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_primary"
-            app:title="@string/manage_speed_dial"
+            app:title="@string/speed_dial_title"
             app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
     </cz.mts.base.views.MyAppBarLayout>

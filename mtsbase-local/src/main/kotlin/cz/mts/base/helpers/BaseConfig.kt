@@ -198,9 +198,13 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getInt(BASE_THEME, 7) //Automat systém android
         set(themeIdSaved) = prefs.edit().putInt(BASE_THEME, themeIdSaved).apply()
 
+    var useDynamicTheme: Boolean
+        get() = prefs.getBoolean(USE_DYNAMIC_THEME, true)
+        set(useDynamicTheme) = prefs.edit().putBoolean(USE_DYNAMIC_THEME, useDynamicTheme).apply()
+
     var usePopupMenuColorizer: Boolean
         get() = prefs.getBoolean(USE_POPUPMENU_COLORIZER, true)
-        set(v) = prefs.edit().putBoolean(USE_POPUPMENU_COLORIZER, v).apply()
+        set(usePopupMenuColorizer) = prefs.edit().putBoolean(USE_POPUPMENU_COLORIZER, usePopupMenuColorizer).apply()
     var themeChanged: Boolean
         get() = prefs.getBoolean(THEME_CHANGED, false)
         set(themeChanged) = prefs.edit().putBoolean(THEME_CHANGED, themeChanged).apply()

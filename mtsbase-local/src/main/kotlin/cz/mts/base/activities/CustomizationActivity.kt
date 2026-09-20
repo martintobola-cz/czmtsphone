@@ -42,6 +42,7 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var curPopupMenuTextColor = 0
     private var curPopupMenuBackgroundColor = 0
     private var curUseCustomSimColor = false
+    private var curUseDynamicTheme = false
     private var savedThemeId = 0
     private var notSavedThemeId = 0
     private var originalAppIconColor = 0
@@ -92,12 +93,26 @@ class CustomizationActivity : BaseSimpleActivity() {
             setTheme(getThemeId(this))
         }
 
+        setupTopAppBarWithBackPrompt(getColoredMaterialStatusBarColor())
+
+    }
+
+    /**
+     * Wrapper kolem setupTopAppBar, co vždy zapojí naši promptSaveDiscard logiku na šipku zpět.
+     * Volej tímhle všude v aktivitě (i při přebarvování topbaru), ne přímo setupTopAppBar(),
+     * jinak se navigation listener tiše přepíše zpátky na výchozí finish().
+     */
+    private fun setupTopAppBarWithBackPrompt(topBarColor: Int) {
         setupTopAppBar(
             topAppBar = binding.appBar,
             navigationIcon = NavigationIcon.Arrow,
-            topBarColor = getColoredMaterialStatusBarColor()
+            topBarColor = topBarColor,
+            onNavigationClick = {
+                if (!onBackPressedCompat()) {
+                    finish()
+                }
+            }
         )
-
     }
 
     private fun refreshMenuItems() {
@@ -312,6 +327,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateNavBarVisibility()
         updatePopupMenuColorVisibility()
         updateSIM12ColorVisibility()
+        updateDynamicThemeVisibility()
         binding.customizationThemeHolder.setOnClickListener {
             if (baseConfig.wasAppIconCustomizationWarningShown) {
                 themePickerClicked()
@@ -367,11 +383,7 @@ class CustomizationActivity : BaseSimpleActivity() {
             }
 
             updateMenuItemColors(binding.customizationToolbar.menu, getCurrentTopBarColor())
-            setupTopAppBar(
-                topAppBar = binding.appBar,
-                navigationIcon = NavigationIcon.Arrow,
-                topBarColor = getCurrentTopBarColor()
-            )
+            setupTopAppBarWithBackPrompt(getCurrentTopBarColor())
 
         }
     }
@@ -394,7 +406,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                 curUseCustomSimColor = baseConfig.useCustomSimColor
                 setTheme(getThemeId(curPrimaryColor))
                 updateMenuItemColors(binding.customizationToolbar.menu, curPrimaryColor)
-                setupTopAppBar(binding.appBar, NavigationIcon.Arrow, curPrimaryColor)
+                setupTopAppBarWithBackPrompt(curPrimaryColor)
                 setupColorsPickers()
             } else {
                 baseConfig.customPrimaryColor = curPrimaryColor
@@ -412,13 +424,20 @@ class CustomizationActivity : BaseSimpleActivity() {
         } else {
             val theme = predefinedThemes[notSavedThemeId] ?: predefinedThemes[THEME_LIGHT]!!
 
-            curTextColor = getColor(theme.textColorId)
-            curBackgroundColor = getColor(theme.backgroundColorId)
-            curNavBarColor = getColor(theme.navBarColorId)
+            if (notSavedThemeId == THEME_SYSTEM) {
+                //barvy se přepočítají podle aktuálního (ještě neuloženého) stavu přepínače dynamic theme
+                curTextColor = getColor(getDynamicTextColors(curUseDynamicTheme))
+                curBackgroundColor = getColor(getDynamicBackgroundColors(curUseDynamicTheme))
+                curNavBarColor = curBackgroundColor
+            } else {
+                curTextColor = getColor(theme.textColorId)
+                curBackgroundColor = getColor(theme.backgroundColorId)
+                curNavBarColor = getColor(theme.navBarColorId)
+            }
             curPopupMenuTextColor = getColor(theme.popupMenuTextColorId)
             curPopupMenuBackgroundColor = getColor(theme.popupMenuBackgroundColorId)
 
-            if (notSavedThemeId != THEME_SYSTEM) {
+            if (notSavedThemeId != THEME_SYSTEM || !curUseDynamicTheme) {
                 curPrimaryColor = getColor(theme.primaryColorId)
                 curAppIconColor = getColor(theme.appIconColorId)
                 if (curAccentColor == 0) curAccentColor = getColor(R.color.color_primary)
@@ -427,11 +446,7 @@ class CustomizationActivity : BaseSimpleActivity() {
             setTheme(getThemeId(getCurrentPrimaryColor()))
             colorChanged()
             updateMenuItemColors(binding.customizationToolbar.menu, getCurrentTopBarColor())
-            setupTopAppBar(
-                topAppBar = binding.appBar,
-                navigationIcon = NavigationIcon.Arrow,
-                topBarColor = getCurrentTopBarColor()
-            )
+            setupTopAppBarWithBackPrompt(getCurrentTopBarColor())
 
         }
 
@@ -445,6 +460,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateNavBarVisibility()
         updatePopupMenuColorVisibility()
         updateSIM12ColorVisibility()
+        updateDynamicThemeVisibility()
     }
 
     private fun getThemeText(): String {
@@ -514,6 +530,7 @@ class CustomizationActivity : BaseSimpleActivity() {
             navBarColor = if (notSavedThemeId == THEME_CUSTOM) curNavBarColor
             else curBackgroundColor
             useCustomSimColor = curUseCustomSimColor
+            useDynamicTheme = curUseDynamicTheme
             themeIdSaved = notSavedThemeId
             themeChanged = true
         }
@@ -538,6 +555,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updatePopupMenuColorVisibility()
         updateAutoThemeFields()
         updateSIM12ColorVisibility()
+        updateDynamicThemeVisibility()
     }
 
     private fun initColorVariables() {
@@ -547,6 +565,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         curAccentColor = baseConfig.accentColor
         curAppIconColor = baseConfig.appIconColor
         curUseCustomSimColor = baseConfig.useCustomSimColor
+        curUseDynamicTheme = baseConfig.useDynamicTheme
         curPopupMenuTextColor = baseConfig.popupMenuTextColor
         curPopupMenuBackgroundColor = baseConfig.popupMenuBackgroundColor
 
@@ -764,11 +783,11 @@ class CustomizationActivity : BaseSimpleActivity() {
                     setTheme(getThemeId(color))
                 }
                 updateMenuItemColors(binding.customizationToolbar.menu, color)
-                setupTopAppBar(binding.appBar, NavigationIcon.Arrow, color)
+                setupTopAppBarWithBackPrompt(color)
             } else {
                 setTheme(getThemeId(curPrimaryColor))
                 updateMenuItemColors(binding.customizationToolbar.menu, curPrimaryColor)
-                setupTopAppBar(binding.appBar, NavigationIcon.Arrow, curPrimaryColor)
+                setupTopAppBarWithBackPrompt(curPrimaryColor)
                 updateTopBarColors(binding.appBar, curPrimaryColor)
             }
         }
@@ -841,7 +860,8 @@ class CustomizationActivity : BaseSimpleActivity() {
             binding.customizationSim2ColorLabel,
             binding.customizationPopupMenuBackgroundColorLabel,
             binding.customizationPopupMenuTextColorLabel,
-            binding.settingsUseCustomSimColor
+            binding.settingsUseCustomSimColor,
+            binding.settingsUseDynamicTheme
         ).forEach {
             it.setTextColor(textColor)
         }
@@ -856,22 +876,22 @@ class CustomizationActivity : BaseSimpleActivity() {
     }
 
     private fun getCurrentTextColor() = when {
-        (notSavedThemeId == THEME_SYSTEM && isSPlus()) -> getColor(R.color.you_neutral_text_color)
+        notSavedThemeId == THEME_SYSTEM -> getColor(getDynamicTextColors(curUseDynamicTheme))
         else -> curTextColor
     }
 
     private fun getCurrentBackgroundColor() = when {
-        (notSavedThemeId == THEME_SYSTEM && isSPlus()) -> getColor(R.color.you_background_color)
+        notSavedThemeId == THEME_SYSTEM -> getColor(getDynamicBackgroundColors(curUseDynamicTheme))
         else -> curBackgroundColor
     }
 
     private fun getCurrentPrimaryColor() = when {
-        (notSavedThemeId == THEME_SYSTEM && isSPlus()) -> getColor(R.color.you_primary_color)
+        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) -> getColor(R.color.you_primary_color)
         else -> curPrimaryColor
     }
 
     private fun getCurrentTopBarColor() = when {
-        (notSavedThemeId == THEME_SYSTEM && isSPlus()) ->  getColor(R.color.you_status_bar_color)
+        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) ->  getColor(R.color.you_status_bar_color)
         (isCurrentWhiteTheme() || isCurrentBlackAndWhiteTheme()) ->  curAccentColor
         else -> curPrimaryColor
     }
@@ -912,6 +932,43 @@ class CustomizationActivity : BaseSimpleActivity() {
                 refreshMenuItems()
                 updateSIM12ColorVisibility()
 
+            }
+        }
+    }
+
+    private fun updateDynamicThemeVisibility() {
+        binding.settingsUseDynamicThemeHolder.beVisibleIf(notSavedThemeId == THEME_SYSTEM)
+        setupUseDynamicTheme()
+    }
+
+    private fun setupUseDynamicTheme() {
+
+        val switch = binding.settingsUseDynamicTheme
+        val trackStates = arrayOf(
+            intArrayOf(android.R.attr.state_checked),
+            intArrayOf()
+        )
+        //pozadí switche
+        val trackColors = intArrayOf(
+            curPrimaryColor,   // ON
+            Color.GRAY     // OFF
+        )
+        switch.trackTintList = ColorStateList(trackStates, trackColors)
+        //tečka
+        val thumbColors = intArrayOf(
+            Color.WHITE,   // ON
+            Color.DKGRAY   // OFF
+        )
+        switch.thumbTintList = ColorStateList(trackStates, thumbColors)
+
+        binding.apply {
+            settingsUseDynamicTheme.isChecked = curUseDynamicTheme
+            settingsUseDynamicThemeHolder.setOnClickListener {
+                curUseDynamicTheme = !curUseDynamicTheme
+                settingsUseDynamicTheme.isChecked = curUseDynamicTheme
+                hasUnsavedChanges = true
+                refreshMenuItems()
+                updateColorTheme() //přepočítá text/background barvy podle nového stavu přepínače
             }
         }
     }

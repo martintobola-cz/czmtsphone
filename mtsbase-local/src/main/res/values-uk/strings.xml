@@ -60,6 +60,7 @@
         <item quantity="other">%d рядків</item>
     </plurals>
     <string name="manage_blocked_numbers">⛔ Керування заблокованими номерами</string>
+    <string name="blocked_numbers_title">⛔ Блокування</string>
     <string name="not_blocking_anyone">Немає заблокованих номерів.</string>
     <string name="add_a_blocked_number">Додати номер до блокування</string>
     <string name="block_number">Заблокувати номер</string>

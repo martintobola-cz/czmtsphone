@@ -127,7 +127,7 @@
     <string name="no_previous_calls">未找到先前的通話</string>
     <string name="could_not_access_the_call_history">無法存取通話記錄</string>
     <string name="request_access">請求存取</string>
-    <string name="remove_confirmation">您確定想要從通話記錄刪除選定的條目嗎？</string>
+    <string name="remove_confirmation">您確定要移除所選項目嗎？</string>
     <string name="clear_history_confirmation">您確定要刪除通話記錄中的所有內容嗎\?</string>
     <string name="clear_call_history">清除通話記錄</string>
     <string name="show_call_details">顯示通話詳情</string>
@@ -178,6 +178,7 @@
     <string name="call_notification_channel">通話狀態</string>
     <string name="call_notification_channel_high_priority">通話狀態（高優先級）</string>
     <string name="manage_speed_dial">🏍️ 管理快速撥號</string>
+    <string name="speed_dial_title">🏍️ 管理快速撥號</string>
     <string name="speed_dial_label">點擊一個數字來分配一個聯絡人。之後您可以在撥號盤長按指定的號碼來快速呼叫指定的聯絡人。</string>
     <string name="group_subsequent_calls">在通話記錄中將同一號碼的後續呼叫合併為一組</string>
     <string name="open_dialpad_by_default">應用開啟時預設開啟撥號鍵盤</string>

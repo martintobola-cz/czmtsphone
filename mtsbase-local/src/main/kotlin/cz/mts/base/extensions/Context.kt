@@ -3,7 +3,6 @@ package cz.mts.base.extensions
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
-import android.app.Application
 import android.app.NotificationManager
 import android.app.role.RoleManager
 import android.content.*
@@ -45,9 +44,6 @@ fun Context.getSharedPrefs() = getSharedPreferences(PREFS_KEY, Context.MODE_PRIV
 val Context.isRTLLayout: Boolean get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
 
 val Context.areSystemAnimationsEnabled: Boolean get() = Settings.Global.getFloat(contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 0f) > 0f
-
-val Context.appLockManager
-    get() = AppLockManager.getInstance(applicationContext as Application)
 
 fun Context.toast(id: Int, length: Int = Toast.LENGTH_SHORT) {
     toast(getString(id), length)

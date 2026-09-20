@@ -130,7 +130,7 @@
     <string name="no_previous_calls">Aucun appel précédent n\'a été trouvé</string>
     <string name="could_not_access_the_call_history">Impossible d\'accéder à l\'historique des appels</string>
     <string name="request_access">Demande d\'accès</string>
-    <string name="remove_confirmation">Êtes-vous sûr(e) de vouloir effacer les éléments sélectionnés de l\'historique ?</string>
+    <string name="remove_confirmation">Êtes-vous sûr de vouloir supprimer les éléments sélectionnés ?</string>
     <string name="clear_history_confirmation">Êtes-vous sûr(e) de vouloir supprimer votre historique d\'appel \?</string>
     <string name="clear_call_history">Effacer l\'historique des appels</string>
     <string name="show_call_details">Afficher les détails de l\'appel</string>
@@ -181,7 +181,7 @@
     <string name="call_is_being_connected">Votre appel est en cours de connexion…</string>
     <string name="call_notification_channel">Statut d\'appel</string>
     <string name="call_notification_channel_high_priority">Statut d\'appel (haute priorité)</string>
-
+    <string name="speed_dial_title">🏍️ Numérotation abrégée</string>
     <string name="manage_speed_dial">🏍️ Gérer la numérotation rapide</string>
     <string name="speed_dial_label">Cliquez sur un numéro pour lui attribuer un contact. Vous pouvez ensuite appeler rapidement le contact donné en appuyant longuement sur le numéro donné sur le pavé numérique.</string>
 

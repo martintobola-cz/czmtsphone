@@ -125,7 +125,7 @@
     <string name="no_previous_calls">Nie znaleziono wcześniejszych połączeń</string>
     <string name="could_not_access_the_call_history">Nie udało się uzyskać dostępu do historii połączeń</string>
     <string name="request_access">Poproś o dostęp</string>
-    <string name="remove_confirmation">Czy usunąć wybrane elementy z historii połączeń\?</string>
+    <string name="remove_confirmation">Czy usunąć wybrane elementy\?</string>
     <string name="clear_history_confirmation">Czy usunąć całą historię połączeń\?</string>
     <string name="show_grouped_calls">Pokaż zgrupowane połączenia</string>
     <string name="clear_call_history">Wyczyść historię połączeń</string>
@@ -175,6 +175,7 @@
     <string name="choose_audio_route">Wybierz urządzenie audio</string>
     <string name="calling_blocked_number">Numer, na który dzwonisz, jest zablokowany</string>
     <string name="speed_dial">Szybkie wybieranie</string>
+    <string name="speed_dial_title">🏍️ Szybkie wybieranie</string>
     <string name="manage_speed_dial">🏍️ Zarządzaj szybkim wybieraniem</string>
     <string name="speed_dial_label">Naciśnij cyfrę, aby przypisać do niej kontakt. Możesz wtedy szybko zadzwonić do danego kontaktu przez długie naciśnięcie odpowiedniej cyfry na panelu wybierania.</string>
     <string name="group_subsequent_calls">Grupuj kolejne połączenia z tym samym numerem w rejestrze połączeń</string>

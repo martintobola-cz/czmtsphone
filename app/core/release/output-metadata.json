@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 986,
-      "versionName": "9.8.6",
-      "outputFile": "phone-986-core-release.apk"
+      "versionCode": 936,
+      "versionName": "9.3.6",
+      "outputFile": "phone-936-core-release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/phone-986-core-release.dm"
+        "baselineProfiles/1/phone-936-core-release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/phone-986-core-release.dm"
+        "baselineProfiles/0/phone-936-core-release.dm"
       ]
     }
   ],

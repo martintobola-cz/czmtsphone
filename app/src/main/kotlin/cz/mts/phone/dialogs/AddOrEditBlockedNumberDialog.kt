@@ -4,13 +4,13 @@ import android.app.AlertDialog
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
-import cz.mts.phone.R
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.extensions.getProperPrimaryColor
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.extensions.toast
 import cz.mts.base.models.BlockedNumber
+import cz.mts.phone.R
 import cz.mts.phone.databinding.DialogAddBlockedNumberBinding
 
 /**

@@ -16,7 +16,8 @@ import cz.mts.base.views.*
 fun Context.isBlackAndWhiteTheme() = baseConfig.themeIdSaved == 4
     //baseConfig.textColor == Color.WHITE && baseConfig.primaryColor == Color.BLACK && baseConfig.backgroundColor == Color.BLACK
 
-fun Context.isDynamicTheme() = isSPlus() && baseConfig.themeIdSaved == 7
+fun Context.isDynamicTheme(useDynamicTheme: Boolean = baseConfig.useDynamicTheme) = isSPlus() && baseConfig.themeIdSaved == 7 && useDynamicTheme
+//fun Context.isDynamicTheme() = isSPlus() && baseConfig.themeIdSaved == 7
 
 fun Context.isWhiteTheme() = baseConfig.themeIdSaved == 6
     //baseConfig.textColor == DARK_GREY && baseConfig.primaryColor == Color.WHITE && baseConfig.backgroundColor == Color.WHITE
@@ -28,8 +29,8 @@ fun Context.isSystemInDarkMode(): Boolean {
     return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
 }
 
-fun Context.getDynamicTextColors(): Int {
-    return if (isSPlus()) {
+fun Context.getDynamicTextColors(useDynamicTheme: Boolean = baseConfig.useDynamicTheme): Int {
+    return if (isSPlus() && useDynamicTheme) {
         R.color.you_neutral_text_color
     } else {
         val isDarkTheme = isSystemInDarkMode()
@@ -37,8 +38,8 @@ fun Context.getDynamicTextColors(): Int {
     }
 }
 
-fun Context.getDynamicBackgroundColors(): Int {
-    return if (isSPlus()) {
+fun Context.getDynamicBackgroundColors(useDynamicTheme: Boolean = baseConfig.useDynamicTheme): Int {
+    return if (isSPlus() && useDynamicTheme) {
         R.color.you_background_color
     } else {
         val isDarkTheme = isSystemInDarkMode()

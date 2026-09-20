@@ -25,6 +25,7 @@ import cz.mts.base.databinding.ItemContactWithoutNumberGridBinding
 import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
+import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.helpers.PopupMenuColorizer.setOneTitleColor
 import cz.mts.base.interfaces.ItemMoveCallback
 import cz.mts.base.interfaces.ItemTouchHelperContract
@@ -195,7 +196,21 @@ class ContactsAdapter(
         if (selectedItems.isEmpty()) {
             return
         }
-        val numbers = selectedItems.joinToString("\n") { it.getNameToDisplay() }
+
+        val formatPhoneNumbers = activity.config.formatPhoneNumbers
+
+        val numbers = selectedItems.joinToString("\n\n") { contact ->
+            val header = contact.getNameToDisplay()
+
+            val phoneLines = contact.phoneNumbers.joinToString("\n") { phone ->
+                val formatted = numberForRecents(phone.value, formatPhoneNumbers)
+                val label = mtsGlobalAll.getNumberTypeLabel2(activity, phone.type)
+                "$formatted ($label)"
+            }
+
+            if (phoneLines.isBlank()) header else "$header\n$phoneLines"
+        }
+
         activity.copyToClipboard(numbers)
         //finishActMode()
     }

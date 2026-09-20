@@ -72,6 +72,7 @@
         <item quantity="other">%d 行</item>
     </plurals>
     <string name="manage_blocked_numbers">⛔ 管理黑名单</string>
+    <string name="blocked_numbers_title">⛔ 管理黑名单</string>
     <string name="not_blocking_anyone">黑名单为空。</string>
     <string name="add_a_blocked_number">添加号码到黑名单</string>
     <string name="block_number">加入黑名单</string>

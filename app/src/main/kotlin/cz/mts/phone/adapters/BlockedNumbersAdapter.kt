@@ -1,15 +1,14 @@
 package cz.mts.phone.adapters
 
 import android.annotation.SuppressLint
-import android.view.*
-import androidx.appcompat.widget.PopupMenu
+import android.view.Menu
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.adapters.MyRecyclerViewListAdapter
+import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.extensions.*
-import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
-import cz.mts.base.helpers.PopupMenuColorizer
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.base.models.BlockedNumber
 import cz.mts.base.views.MyRecyclerView
@@ -66,7 +65,7 @@ class BlockedNumbersAdapter(
 
         when (id) {
             R.id.cab_copy_number -> copyNumber()
-            R.id.cab_unblock -> unblockSelected()
+            R.id.cab_unblock -> askConfirmUnblock()
             R.id.cab_select_all -> toggleSelectAll()
         }
     }
@@ -97,6 +96,12 @@ class BlockedNumbersAdapter(
         val numbers = selectedItems.joinToString("\n") { it.number }
         activity.copyToClipboard(numbers)
         //finishActMode()
+    }
+
+    private fun askConfirmUnblock() {
+        ConfirmationDialog(activity, activity.getString(R.string.remove_confirmation)) {
+            unblockSelected()
+        }
     }
 
     private fun unblockSelected() {

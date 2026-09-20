@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_primary"
-            app:title="@string/manage_blocked_numbers"
+            app:title="@string/blocked_numbers_title"
             app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
 <LinearLayout

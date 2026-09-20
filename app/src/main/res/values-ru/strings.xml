@@ -125,7 +125,7 @@
     <string name="no_previous_calls">Предыдущие вызовы не найдены</string>
     <string name="could_not_access_the_call_history">Невозможно получить доступ к истории вызовов!</string>
     <string name="request_access">Запрос доступа</string>
-    <string name="remove_confirmation">Удалить выбранные записи из истории вызовов\?</string>
+    <string name="remove_confirmation">Вы уверены, что хотите удалить выбранные элементы\?</string>
     <string name="clear_history_confirmation">Удалить всю историю вызовов\?</string>
     <string name="show_grouped_calls">Сгруппировать вызовы</string>
     <string name="clear_call_history">Очистить историю вызовов</string>
@@ -175,6 +175,7 @@
     <string name="choose_audio_route">Выберите аудиовыход</string>
     <string name="calling_blocked_number">Набранный вами номер заблокирован</string>
     <string name="speed_dial">Быстрый вызов</string>
+    <string name="speed_dial_title">🏍️ Быстрый набор</string>
     <string name="manage_speed_dial">🏍️ Управление быстрым вызовом</string>
     <string name="speed_dial_label">Нажмите на цифру, чтобы назначить ей контакт. Затем вы сможете быстро вызвать данный контакт длительным нажатием на выбранную цифру в номеронабирателе.</string>
     <string name="group_subsequent_calls">Группировать последующие вызовы с тем же номером в журнале вызовов</string>

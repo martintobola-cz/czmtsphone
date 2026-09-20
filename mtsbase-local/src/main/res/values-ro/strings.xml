@@ -77,6 +77,7 @@
         <item quantity="other">%d de rânduri</item>
     </plurals>
     <string name="manage_blocked_numbers">⛔ Gestionaţi numerele blocate</string>
+    <string name="blocked_numbers_title">⛔ Blocare</string>
     <string name="not_blocking_anyone">Nu blochezi pe nimeni.</string>
     <string name="add_a_blocked_number">Adăugaţi un număr blocat</string>
     <string name="block_number">Blochează numărul</string>

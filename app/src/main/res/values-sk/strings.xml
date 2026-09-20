@@ -125,7 +125,7 @@
     <string name="no_previous_calls">Nenašli sa žiadne predchádzajúce hovory</string>
     <string name="could_not_access_the_call_history">Nie je možné získať prístup k histórii hovorov</string>
     <string name="request_access">Požiadať o prístup</string>
-    <string name="remove_confirmation">Naozaj chcete odstrániť vybrané položky z histórie hovorov\?</string>
+    <string name="remove_confirmation">Naozaj chcete odstrániť vybrané položky\?</string>
     <string name="clear_history_confirmation">Naozaj chcete odstrániť všetky záznamy z histórie hovorov\?</string>
     <string name="show_grouped_calls">Zobraziť hovory zoskupené</string>
     <string name="clear_call_history">Vymazať históriu hovorov</string>
@@ -176,6 +176,7 @@
     <string name="calling_blocked_number">Číslo, ktoré voláte, je blokované</string>
     <string name="speed_dial">Rýchla voľba</string>
     <string name="manage_speed_dial">🏍️ Spravovať rýchlu voľbu</string>
+    <string name="speed_dial_title">🏍️ Rýchle vytáčanie</string>
     <string name="speed_dial_label">Kliknutím na číslo mu priradíte kontakt. Potom môžete danému kontaktu rýchlo zavolať dlhým stlačením čísla na číselníku.</string>
     <string name="group_subsequent_calls">Zoskupiť v denníku hovorov ďalšie hovory s rovnakým číslom</string>
     <string name="open_dialpad_by_default">Po spustení aplikácie vždy otvoriť číselník</string>

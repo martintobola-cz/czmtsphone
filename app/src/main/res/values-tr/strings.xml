@@ -127,7 +127,7 @@
     <string name="no_previous_calls">Geçmiş aramalar yok</string>
     <string name="could_not_access_the_call_history">Arama geçmişine erişilemedi</string>
     <string name="request_access">Erişim iste</string>
-    <string name="remove_confirmation">Seçilen ögeleri arama geçmişinden kaldırmak istediğinize emin misiniz?</string>
+    <string name="remove_confirmation">Seçili öğeleri kaldırmak istediğinizden emin misiniz?</string>
     <string name="clear_history_confirmation">Arama geçmişindeki her şeyi kaldırmak istediğinize emin misiniz?</string>
     <string name="clear_call_history">Arama geçmişini temizle</string>
     <string name="show_call_details">Arama ayrıntılarını göster</string>
@@ -177,6 +177,7 @@
     <string name="call_notification_channel">Arama durumu</string>
     <string name="call_notification_channel_high_priority">Arama durumu (yüksek öncelik)</string>
     <string name="manage_speed_dial">🏍️ Hızlı aramayı yönet</string>
+    <string name="speed_dial_title">🏍️ Hızlı aramalar</string>
     <string name="speed_dial_label">Bir kişiye atamak için bir numaraya tıklayın. Tuş takımında bu numaraya uzun basarak bu kişiyi hızlıca arayabilirsiniz.</string>
     <string name="group_subsequent_calls">Arama kaydında aynı numaradan gelen aramaları gruplandır</string>
     <string name="open_dialpad_by_default">Uygulama açıldığında tuş takımını aç</string>

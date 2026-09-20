@@ -121,6 +121,7 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
         navigationIcon: NavigationIcon = NavigationIcon.None,
         topBarColor: Int = getRequiredTopBarColor(),
         searchMenuItem: MenuItem? = null,
+        onNavigationClick: (() -> Unit)? = null,
     ) {
         val contrastColor = topBarColor.getContrastColor()
         if (navigationIcon != NavigationIcon.None) {
@@ -136,7 +137,11 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
 
         topAppBar.toolbar?.setNavigationOnClickListener {
             hideKeyboard()
-            finish()
+            if (onNavigationClick != null) {
+                onNavigationClick()
+            } else {
+                finish()
+            }
         }
 
         updateTopBarColors(topAppBar, topBarColor)

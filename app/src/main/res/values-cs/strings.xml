@@ -18,7 +18,7 @@
     <string name="unblock_contact">Odblokovat kontakt</string>
     <string name="unblock_contact_success">Kontakt odblokován</string>
     <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
-<string name="block_error_string_value">Jsou dovolena pouze čísla a zbaky ? *</string>
+<string name="block_error_string_value">Jsou dovolena pouze čísla a znaky ? *</string>
 
 
 <string name="last_update_info">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
@@ -139,7 +139,7 @@
     <string name="no_previous_calls">Nebyly nalezeny žádné předchozí hovory</string>
     <string name="could_not_access_the_call_history">Aplikace nemá přístup k historii hovorů!</string>
     <string name="request_access">Požádat o přístup</string>
-    <string name="remove_confirmation">Opravdu chcete odstranit vybrané položky z historie hovorů\?</string>
+    <string name="remove_confirmation">Opravdu chcete odstranit vybrané položky\?</string>
     <string name="clear_history_confirmation">Opravdu chcete z historie hovorů odstranit vše\?</string>
     <string name="show_grouped_calls">Zobrazit hovory seskupené</string>
     <string name="clear_call_history">Vymazat historii hovorů</string>
@@ -189,6 +189,7 @@
     <string name="choose_audio_route">Vybrat směrování zvuku</string>
     <string name="calling_blocked_number">Číslo, které voláte, je blokované</string>
     <string name="speed_dial">Rychlé vytáčení</string>
+    <string name="speed_dial_title">🏍️ Rychlá vytáčení</string>
     <string name="manage_speed_dial">🏍️ Spravovat rychlá vytáčení</string>
     <string name="speed_dial_label">Kliknutím na číslo mu přiřadíte kontakt. Potom můžete rychle zavolat danému kontaktu dlouhým stisknutím daného čísla na číselníku.</string>
     <string name="group_subsequent_calls">Seskupit v protokolu hovorů další hovory se stejným číslem</string>

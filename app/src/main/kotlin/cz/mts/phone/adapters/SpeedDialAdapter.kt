@@ -3,6 +3,7 @@ package cz.mts.phone.adapters
 import android.view.Menu
 import android.view.ViewGroup
 import cz.mts.base.adapters.MyRecyclerViewAdapter
+import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.models.SpeedDial
 import cz.mts.base.views.MyRecyclerView
 import cz.mts.phone.R
@@ -30,7 +31,7 @@ class SpeedDialAdapter(
         if (selectedKeys.isEmpty()) return
 
         when (id) {
-            R.id.cab_delete -> deleteSpeedDial()
+            R.id.cab_delete -> askConfirmDeleteSpeedDial()
         }
     }
 
@@ -64,6 +65,12 @@ class SpeedDialAdapter(
 
     private fun getSelectedItems(): ArrayList<SpeedDial> =
         speedDialValues.filterTo(ArrayList()) { selectedKeys.contains(it.id) }
+
+    private fun askConfirmDeleteSpeedDial() {
+        ConfirmationDialog(activity, activity.getString(R.string.remove_confirmation)) {
+            deleteSpeedDial()
+        }
+    }
 
     private fun deleteSpeedDial() {
         val ids = getSelectedItems().mapTo(ArrayList()) { it.id }

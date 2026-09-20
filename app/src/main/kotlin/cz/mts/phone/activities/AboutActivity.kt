@@ -66,7 +66,7 @@ class AboutActivity : SimpleActivity() {
             aboutLicenseValue.text = "GNU/GPL3, Apache 2.0, MIT, BSD"
 
             aboutPrivacyLabel.text = "Privacy policy"
-            aboutPrivacyValue.text = "mts.speccy.cz/privacy-policy(czmtsphone).html"
+            aboutPrivacyValue.text = "mts.speccy.cz/privacy-policy"
 
             aboutDonateLabel.text = "Donate"
             aboutDonateValue.text = "If you enjoy using this app and would like to see it continue to improve, " +
@@ -115,7 +115,7 @@ class AboutActivity : SimpleActivity() {
 
     private fun onPrivacyClick() {
         //startActivity(Intent(this, PrivacyPolicyActivity::class.java))
-        goWWW("https://mts.speccy.cz/privacy-policy(czmtsphone).html")
+        goWWW("mts.speccy.cz/privacy-policy(czmtsphone).html")
     }
 
     private fun onEmailClick() {

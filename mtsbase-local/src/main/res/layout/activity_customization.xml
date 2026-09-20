@@ -62,6 +62,20 @@
                     tools:text="@string/system_default" />
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/settings_use_dynamic_theme_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/settings_use_dynamic_theme"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/use_dynamic_theme" />
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/settings_use_custom_sim_color_holder"
                 style="@style/SettingsHolderSwitchStyle"
                 android:layout_width="match_parent"

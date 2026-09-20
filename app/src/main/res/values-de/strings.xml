@@ -125,7 +125,7 @@
     <string name="no_previous_calls">Keine vorherigen Anrufe gefunden</string>
     <string name="could_not_access_the_call_history">Kein Zugriff auf die Anrufliste möglich</string>
     <string name="request_access">Zugriff anfordern</string>
-    <string name="remove_confirmation">Sollen wirklich die ausgewählten Einträge aus der Anrufliste gelöscht werden\?</string>
+    <string name="remove_confirmation">Sollen wirklich die ausgewählten Einträge gelöscht werden\?</string>
     <string name="clear_history_confirmation">Soll wirklich die gesamte Anrufliste gelöscht werden\?</string>
     <string name="show_grouped_calls">Gruppierte Anrufe anzeigen</string>
     <string name="clear_call_history">Anrufliste löschen</string>
@@ -175,6 +175,7 @@
     <string name="choose_audio_route">Audioausgang wählen</string>
     <string name="calling_blocked_number">Die angerufene Nummer ist gesperrt</string>
     <string name="speed_dial">Kurzwahl</string>
+    <string name="speed_dial_title">🏍️ Kurzwahlen</string>
     <string name="manage_speed_dial">🏍️ Kurzwahlnummern verwalten</string>
     <string name="speed_dial_label">Auf eine Zahl klicken, um einen Kontakt zuzuweisen. Danach kann der Kontakt durch langes Drücken der entsprechenden Zahl schnell angerufen werden.</string>
     <string name="group_subsequent_calls">In der Anrufliste aufeinanderfolgende Anrufe mit derselben Nummer gruppieren</string>

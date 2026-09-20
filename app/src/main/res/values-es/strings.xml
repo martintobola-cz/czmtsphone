@@ -127,7 +127,7 @@
     <string name="no_previous_calls">No se han encontrado llamadas anteriores</string>
     <string name="could_not_access_the_call_history">No se pudo acceder al historial de llamadas</string>
     <string name="request_access">Solicitar acceso</string>
-    <string name="remove_confirmation">¿Estás seguro que quieres eliminar los elementos seleccionados del historial de llamadas\?</string>
+    <string name="remove_confirmation">¿Está seguro de que desea eliminar los elementos seleccionados?</string>
     <string name="clear_history_confirmation">¿Está seguro de que desea eliminar todo del historial de llamadas\?</string>
     <string name="clear_call_history">Borrar historial de llamadas</string>
     <string name="show_call_details">Mostrar los detalles de la llamada</string>
@@ -176,6 +176,7 @@
     <string name="call_is_being_connected">Tu llamada está conectándose…</string>
     <string name="call_notification_channel">Estado de llamada</string>
     <string name="call_notification_channel_high_priority">Estado de llamada (alta prioridad)</string>
+    <string name="speed_dial_title">🏍️ Marcación rápida</string>
     <string name="manage_speed_dial">🏍️ Administrar marcado rápido</string>
     <string name="speed_dial_label">Toca un número para asignarle un contacto. Entonces podrás llamarlo rápidamente manteniendo presionado el número asignado en el teclado de marcado.</string>
     <string name="group_subsequent_calls">Agrupar llamadas subsecuentes con el mísmo número en el registro de llamadas</string>

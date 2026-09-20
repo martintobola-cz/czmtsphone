@@ -127,7 +127,7 @@
     <string name="no_previous_calls">Nem találhatók híváselőzmények</string>
     <string name="could_not_access_the_call_history">A híváselőzmények nem érhetők el</string>
     <string name="request_access">Hozzáférés kérése</string>
-    <string name="remove_confirmation">Biztos, hogy eltávolítja a kiválasztott elemeket a híváselőzményekből\?</string>
+    <string name="remove_confirmation">Biztosan el szeretné távolítani a kijelölt elemeket\?</string>
     <string name="clear_history_confirmation">Biztos, hogy mindent eltávolít a híváselőzményekből\?</string>
     <string name="clear_call_history">Híváselőzmények törlése</string>
     <string name="show_call_details">Hívás részleteinek megjelenítése</string>
@@ -177,6 +177,8 @@
     <string name="call_notification_channel">Hívás állapota</string>
     <string name="call_notification_channel_high_priority">Hívás állapota (magas prioritás)</string>
     <string name="manage_speed_dial">🏍️ Gyors tárcsázó kezelése</string>
+    <string name="speed_dial_title">🏍️ Gyorshívók</string>
+
     <string name="speed_dial_label">Koppintson egy számra, hogy névjegyet rendeljen hozzá. Aztán gyorsan felhívhatja az adott szám hosszú érintésével a tárcsázón.</string>
     <string name="group_subsequent_calls">Ugyanazon szám egymást követő hívásainak csoportosítása a hívásnaplóban</string>
     <string name="open_dialpad_by_default">Tárcsázó alapértelmezett kinyitása az alkalmazás megnyitásakor</string>

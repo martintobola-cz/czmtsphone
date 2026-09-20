@@ -127,7 +127,7 @@
     <string name="no_previous_calls">Nu au fost găsite apeluri anterioare</string>
     <string name="could_not_access_the_call_history">Nu s-a putut accesa istoricul apelurilor</string>
     <string name="request_access">Solicitați acces</string>
-    <string name="remove_confirmation">Sunteți sigur că doriți să eliminați elementele selectate din istoricul apelurilor\?</string>
+    <string name="remove_confirmation">Sigur doriți să eliminați elementele selectate\?</string>
     <string name="clear_history_confirmation">Sunteți sigur că doriți să eliminați totul din istoricul apelurilor\?</string>
     <string name="clear_call_history">Ștergeți istoricul apelurilor</string>
     <string name="show_call_details">Afișați detaliile apelului</string>
@@ -176,6 +176,7 @@
     <string name="call_is_being_connected">Apelul dvs. este în curs de conectare…</string>
     <string name="call_notification_channel">Stare apel</string>
     <string name="call_notification_channel_high_priority">Stare apel (prioritate ridicată)</string>
+    <string name="speed_dial_title">🏍️ Apelare rapidă</string>
     <string name="manage_speed_dial">🏍️ Gestionați apelarea rapidă</string>
     <string name="speed_dial_label">Apăsaţi pe un număr pentru a-i atribui un contact. Apoi, puteți apela rapid contactul dat prin apăsarea lungă a numărului dat în dialer.</string>
     <string name="group_subsequent_calls">Grupaţi apelurile ulterioare cu același număr în jurnalul de apeluri</string>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import cz.mts.base.activities.BaseSimpleActivity
+import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
@@ -213,9 +214,11 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
             activity = this,
             blockedNumber = blockedNumber,
             onDelete = { numberToDelete ->
-                ensureBackgroundThread {
-                    deleteBlockedNumber(numberToDelete)
-                    runOnUiThread { updateBlockedNumbers() }
+                ConfirmationDialog(this, getString(R.string.remove_confirmation)) {
+                    ensureBackgroundThread {
+                        deleteBlockedNumber(numberToDelete)
+                        runOnUiThread { updateBlockedNumbers() }
+                    }
                 }
             },
             onSave = { newNumber ->

@@ -60,6 +60,7 @@
         <item quantity="other">%d строк</item>
     </plurals>
     <string name="manage_blocked_numbers">⛔ Управление заблокированными номерами</string>
+    <string name="blocked_numbers_title">⛔ Блокировка</string>
     <string name="not_blocking_anyone">Нет заблокированных номеров.</string>
     <string name="add_a_blocked_number">Добавить блокируемый номер</string>
     <string name="block_number">Заблокировать номер</string>

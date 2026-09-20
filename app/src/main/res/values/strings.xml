@@ -150,7 +150,7 @@
     <string name="no_previous_calls">No previous calls have been found</string>
     <string name="could_not_access_the_call_history">Could not access the call history</string>
     <string name="request_access">Request access</string>
-    <string name="remove_confirmation">Are you sure you want to remove the selected items from the Call History?</string>
+    <string name="remove_confirmation">Are you sure you want to remove the selected items?</string>
     <string name="clear_history_confirmation">Are you sure you want to remove everything from the Call History?</string>
     <string name="clear_call_history">Clear call history</string>
     <string name="show_call_details">Show call details</string>
@@ -206,8 +206,8 @@
     <string name="call_notification_channel_high_priority">Call status (high priority)</string>
     <string name="other_info_notification_channel">Update and others info</string>
 
-    
-    <string name="manage_speed_dial">Manage speed dial</string>
+    <string name="speed_dial_title">🏍️ Speed dial</string>
+    <string name="manage_speed_dial">🏍️ Manage speed dial</string>
     <string name="speed_dial_label">Click on a number to assign a contact to it. You can then quickly call the given contact by long pressing the given number at the dialer.</string>
 
     
