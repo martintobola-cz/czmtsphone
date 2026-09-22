@@ -1,42 +1,28 @@
-Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
-You’ve just found it.
+<p>Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨</p>
+<p>You've just found it.</p>
 
-Why you’ll love this app: ❤️
+<p><b>Why you'll love this app: ❤️</b></p>
+<ul>
+<li><b>🎨 Customizable colors:</b> Set the colors exactly to your liking.</li>
+<li><b>💸 100% free:</b> No fees, no limits—all features are available.</li>
+<li><b>🔒 Maximum privacy:</b>
+  <ul>
+  <li>The app collects no data about you.</li>
+  <li>It allows you to save contacts to its own hidden storage, invisible to all other apps.</li>
+  </ul>
+</li>
+<li><b>📡 No internet connection is required:</b> Internet permission is not declared, the application runs offline, nothing is sent or downloaded anywhere!</li>
+<li><b>🚫 Ad-free:</b> No pop-ups, no annoyances.</li>
+<li><b>🧭 Simple controls:</b> Logical and intuitive—anyone can use it. You can even search for contacts directly via the dialer using T9.</li>
+<li><b>👨‍👩‍👧 No more unwanted calls:</b> Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors.</li>
+<li><b>💻 Open-source (GNU/GPL v3):</b> You can download the code from my website (<a href="https://mts.speccy.cz/mtsphone.htm">mts.speccy.cz/mtsphone.htm</a>) or <a href="https://github.com/martintobola-cz/czmtsphone">GitHub</a> and review it at any time.</li>
+</ul>
 
-🎨 Customizable colors:
-Set the colors exactly to your liking.
+<p><b>The app's story 🛠️</b></p>
+<p>The original app was created by Slovak developer Tibor Kaputa (Simple Mobile Tools). Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads.</p>
+<p>Naturally, this led to the creation of a new branch—first the Indian fork "Fossify," and subsequently this Czech 🇨🇿 fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪</p>
 
-💸 100% free:
-No fees, no limits—all features are available.
-
-🔒 Maximum privacy:
-- The app collects no data about you.
-- It allows you to save contacts to its own hidden storage, invisible to all other apps.
-
-📡 No internet connection is required:
-Internet permission is not declared, the application runs offline, nothing is sent or downloaded anywhere !
-
-🚫 Ad-free:
-No pop-ups, no annoyances.
-
-🧭 Simple controls:
-Logical and intuitive—anyone can use it. You can even search for contacts directly via the dialer using T9.
-
-👨‍👩‍👧 No more unwanted calls:
-Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors.
-
-💻 Open-source (GNU/GPL v3):
-You can download the code from my website (https://mts.speccy.cz/mtsphone.htm) or github (https://github.com/martintobola-cz/czmtsphone) and review it at any time.
-
-The app's story 🛠️
-
-The original app was created by Slovak developer Tibor Kaputa (Simple Mobile Tools). Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch—first the Indian fork "Fossify," and subsequently this Czech 🇨🇿 fork of mine, which gets the app back on the right track and responds quickly to your feedback 💪
-
-
-
-Help the app grow 🚀
-
-I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!
-
-If you like the app and want to support its continued development, you can contribute any amount.
-🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj
+<p><b>Help the app grow 🚀</b></p>
+<p>I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!</p>
+<p>If you like the app and want to support its continued development, you can contribute any amount.<br>
+🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj</p>
