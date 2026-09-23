@@ -1,4 +1,4 @@
-# MTs Dialer – Phone you love  (cz.mts.phone)
+# MTs Dialer – Phone You Love  (cz.mts.phone)
 <img alt="Logo" src="https://mts.speccy.cz/pictures/czmtsphone.png"/>
   
 __Phone app (calling, blocking, contacts) that you’ll love !__  
