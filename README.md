@@ -1,4 +1,4 @@
-# MTs Phone – Simple Dialer (cz.mts.phone)
+# MTs Dialer – Phone you love  (cz.mts.phone)
 <img alt="Logo" src="https://mts.speccy.cz/pictures/czmtsphone.png"/>
   
 __Phone app (calling, blocking, contacts) that you’ll love !__  
@@ -74,6 +74,9 @@ I would appreciate any reviews or ideas for improvement. Just please 🙏 keep t
 
   
 🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj
+
+☕ <a href='https://buymeacoffee.com/cz.mts.phone'>buymeacoffee.com/cz.mts.phone</a>
+  
 <br><br> 
 <div>
   
