@@ -112,8 +112,7 @@
     <string name="pattern_renaming">格式</string>
     <string name="string_to_add">要添加的文本</string>
     <string name="rename_date_time_pattern">%Y - 年 \n%M - 月 \n%D - 日 \n%h - 時 \n%m - 分 \n%s - 秒 \n%i - 數字從 1 起計</string>
-    <string name="filename_without_txt">文件名 (不含 .txt)</string>
-    <string name="filename_without_json">文件名（不含擴展名）</string>
+    <string name="filename_without_ext">文件名</string>
     <string name="copy">複製</string>
     <string name="please_select_destination">請選擇目標</string>
     <string name="could_not_create_folder">創建文件夾 %s 失敗</string>

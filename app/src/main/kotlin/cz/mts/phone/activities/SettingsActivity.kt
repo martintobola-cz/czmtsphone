@@ -125,6 +125,7 @@ class SettingsActivity : SimpleActivity() {
 
         // Listenery patří do onCreate – registrují se jen jednou
         setupClickListeners()
+        setupAllowRecordCalls()
 
         setupSwhowDeclineAndSMSbutton(config.swhowDeclineAndSMSbutton)
     }
@@ -215,6 +216,7 @@ class SettingsActivity : SimpleActivity() {
             settingsSwhowDeclineAndSmsButton.isChecked = config.swhowDeclineAndSMSbutton
             settingsShakeCallEffect.isChecked = config.shakeEffectConfirmingCall
             settingsHideNumberForSavedContact.isChecked = config.hideNumberForSavedContact
+            settingsAllowRecordCalls.isChecked = config.allowRecordCalls
         }
     }
 
@@ -459,6 +461,13 @@ class SettingsActivity : SimpleActivity() {
             config.alwaysShowFullscreen = binding.settingsAlwaysShowFullscreen.isChecked
         }
     }
+
+    private val authKeyActivityLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val allowed = result.resultCode == RESULT_OK
+            binding.settingsAllowRecordCalls.isChecked = allowed
+            config.allowRecordCalls = allowed
+        }
 
     // Na úrovni třídy – launcher pro žádost o oprávnění
     private val smsPermissionLauncher =
@@ -817,6 +826,20 @@ class SettingsActivity : SimpleActivity() {
             toast(R.string.importing_successful)
         } catch (e: Exception) {
             showErrorToast(e)
+        }
+    }
+
+    private fun setupAllowRecordCalls() {
+        binding.settingsAllowRecordCallsHolder.setOnClickListener {
+            if (binding.settingsAllowRecordCalls.isChecked) {
+                // vypnutí nevyžaduje potvrzení
+                binding.settingsAllowRecordCalls.isChecked = false
+                config.allowRecordCalls = false
+            } else {
+                // zapnutí jde vždy přes ShizukuAuthKeyActivity – switch se nastaví
+                // na true až po úspěšném uložení klíče (viz authKeyActivityLauncher)
+                authKeyActivityLauncher.launch(Intent(this, ShizukuAuthKeyActivity::class.java))
+            }
         }
     }
 }

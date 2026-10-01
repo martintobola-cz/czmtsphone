@@ -32,7 +32,7 @@
             android:id="@+id/export_settings_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/filename_without_txt">
+            android:hint="@string/filename_without_ext">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/export_settings_filename"

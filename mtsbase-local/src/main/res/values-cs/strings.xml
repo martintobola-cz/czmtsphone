@@ -101,8 +101,7 @@
 \n%m – minuta
 \n%s – sekunda
 \n%i – číslo narůstající od 1</string>
-    <string name="filename_without_txt">Název souboru (bez „.txt“)</string>
-    <string name="filename_without_json">Název souboru bez přípony</string>
+    <string name="filename_without_ext">Název souboru bez přípony</string>
     <string name="copy">Kopírovat</string>
     <string name="please_select_destination">Prosím, zvolte cílovou složku</string>
     <string name="could_not_create_folder">Nepodařilo se vytvořit složku %s</string>

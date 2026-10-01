@@ -2,16 +2,33 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="allow_record_calls">Povolit nahrávání hovorů</string>
+<string name="call_recording_title">Nahrávání hovorů</string>
+<string name="call_recording_info">Upozornění k nahrávání hovorů:\n\nNahrávání telefonních hovorů může v některých zemích nebo za určitých okolností podléhat právním předpisům, omezením nebo povinnosti informovat či získat souhlas účastníků hovoru.\n\nPřed použitím této funkce se ujistěte, že její použití je v souladu s právními předpisy a dalšími pravidly platnými ve vaší zemi nebo v místě, kde se nacházíte.\n\nZa způsob použití funkce nahrávání hovorů, včetně dodržování všech příslušných právních povinností a získání případných potřebných souhlasů, odpovídáte výhradně vy.\n\nJá, jako vývojář aplikace neposkytuji právní poradenství a nenesu odpovědnost za použití této funkce v rozporu s platnými právními předpisy.\n\nPoužitím funkce nahrávání hovorů potvrzujete, že jste se s tímto upozorněním seznámili a berete jej na vědomí.\n\nNahrávání je realizováno za pomocí Thedjchi forku Shizuku (moe.shizuku.privileged.api), kterou si můžete stáhnout z https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nVypnutí a zapnutí Shizuku probíhá automaticky z mé telefonní aplikace pomocí intentu (moe.shizuku.privileged.api.START / STOP). K tomu je však nutné zde vložit autorizační klíč, který naleznete po instalaci a zprovoznění Shizuku - nachází se pod tlačítkem Zobrazit záměry v sekci Ovládejte Shizuku pomocí automatizačních aplikací.</string>
+<string name="call_recording_agree">Beru na vědomí a souhlasím</string>
+<string name="call_recording_key_hint">Shizuku auth key</string>
+<string name="call_recording_key_invalid">Neplatný klíč</string>
+<string name="call_recording_key_saved">Test Shizuku proběhl v pořádku a klíč byl uložen</string>
+<string name="recording_start_failed">Nahrávání selhalo</string>
+<string name="call_recording_files">Nahrané hovory</string>
+<string name="start_call_recording">Spustit nahrávání</string>
+<string name="stop_call_recording">Zastavit nahrávání</string>
+<string name="recorded_files_missing">Soubor už neexistuje</string>
+<string name="recorded_files_delete_failed">Soubor se nepodařilo smazat</string>
+<string name="recorded_files_play">Přehrát</string>
+<string name="recorded_files_export">Exportovat</string>
+<string name="recorded_files_refresh">Obnovit</string>
+
 <string name="send_message">Poslat zprávu</string>
 <string name="hide_number_for_saved_contact">Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt</string>
 <string name="privacy_acknowledge">Beru na vědomí</string>
-    <string name="block_confirmation">Opravdu chcete zablokovat "%s"?</string>
+    <string name="block_confirmation">Opravdu chcete zablokovat \n"%s\n"?</string>
     <string name="block_unknown_calls">Blokovat volání z neznámých čísel (volat tedy mohou pouze uložené kontakty)</string>
     <string name="block_hidden_calls">Blokovat volání ze skrytých čísel</string>
     <string name="block_unknown_messages">Blokovat zprávy z neznámých čísel</string>
     <string name="block_hidden_messages">Blokovat zprávy ze skrytých čísel</string>
-    <string name="add_blocked_number_helper_text">Zadáním přesného čísla nebo vzoru s použitím znaků * nebo ? (např. *333*, +1*8888, +42?777*) můžete zablokovat daná čísla. Hvězdička značí libovolný počet znaků, otazník pro právě jeden znak.</string>
-    <string name="must_make_default_caller_id_app">Nelze blokovat neznámá čísla pokud aplikace není nastavena jako výchozí telefonní aplikace a zároveň jako výchozí aplikace pro identifikací volajícího.</string>
+    <string name="add_blocked_number_helper_text">Zadáním přesného čísla nebo vzoru s použitím znaků * nebo ? (např. *333*, +1*8888, +42?777*) můžete zablokovat daná čísla. Hvězdička značí libovolný počet znaků, otazník právě jeden znak.</string>
+    <string name="must_make_default_caller_id_app">Nelze blokovat neznámá čísla pokud aplikace není nastavena jako výchozí telefonní aplikace a zároveň jako výchozí aplikace pro identifikaci volajícího.</string>
     <string name="block_contact">Zablokovat kontakt</string>
     <string name="block_contact_success">Kontakt zablokován</string>
     <string name="block_contact_fail">Kontakt se nepodařilo zablokovat</string>
@@ -20,17 +37,13 @@
     <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
 <string name="block_error_string_value">Jsou dovolena pouze čísla a znaky ? *</string>
 
+<string name="last_update_info">Co takhle seřadit si spodní záložky 🗂️ podle sebe? A co nahrávání 🎙️ probíhajícího hovoru, nehodilo by se? 😁</string>
 
-<string name="last_update_info">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
-
+<string name="last_update_info932">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
 <string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
-
 <string name="last_update_info897">⌚ Odteď se i na vašich chytrých hodinkách bude ukazovat jméno volajícího. Další novinkou je možnost klepnout na číslo, které vám volá a pokud máte zapnuto testování na spam, otevře se Vám web stránka s recenzemi toho čísla. Prosím podpořte aplikaci svým hodnocením v obchodě, nic to nestojí a ostatním pomůžete s výběrem. Každá ⭐ se počítá !</string>
-    
 <string name="last_update_info894">🐞 Opravena historie volání, která se na některých modelech telefonů neukazovala celá. Prosím podpořte aplikaci svým hodnocením v obchodě, nic to nestojí a ostatním pomůžete s výběrem. Každá ⭐ se počítá !</string>
-
     <string name="last_update_info885">V této nové verzi byl vylepšen grafický 🖌️ vzhled notifikací. Pokud máte více SIM karet, zobrazí se v notifikaci také info o SIM kartě, abyste jasně věděli, které SIMce hovor patří 💪</string>
-
     <string name="last_update_info853">V této nové verzi máte možnost propojení s aplikacemi, které kontrolují neznámá čísla na spam. Díky emoji 🎣🤖🗣️🥊💰🛒🏢📓  zobrazeném hned vedle čísla budete vědět, zda jde o spam! Také jsem přidal odmítnutí hovoru SMSkou. Více info na mém webu...</string>
 
 <string name="edit_sms_templates"> ✍️ Upravit SMS texty</string>

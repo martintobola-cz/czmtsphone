@@ -106,8 +106,7 @@
 \n%m — минута
 \n%s — секунда
 \n%i — порядковый номер с 1</string>
-    <string name="filename_without_txt">Имя файла (без .txt)</string>
-    <string name="filename_without_json">Имя файла без расширения</string>
+    <string name="filename_without_ext">Имя файла без расширения</string>
     <string name="copy">Копировать</string>
     <string name="please_select_destination">Пожалуйста, выберите путь назначения</string>
     <string name="could_not_create_folder">Невозможно создать папку \"%s\"</string>

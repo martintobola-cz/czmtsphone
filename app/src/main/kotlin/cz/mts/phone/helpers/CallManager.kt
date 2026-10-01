@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.telecom.Call
 import android.telecom.CallAudioState
 import android.telecom.InCallService
@@ -28,7 +29,9 @@ data class CallEntry(
     val notificationDone : Int = 0,
     val simSlot: Int = 0,   // 0 = neznámo / single SIM, 1 = SIM1, 2 = SIM2
     val simColor: Int = 0,      // barva SIM karty
-    val simIndexId: Int = 0     // index
+    val simIndexId: Int = 0,     // index
+    val ringStartMs: Long = 0L,  // elapsedRealtime při začátku vyzvánění, 0 = neznámo
+    val ringEndMs: Long = 0L     // elapsedRealtime při opuštění RINGING, 0 = ještě zvoní
 )
 
 
@@ -549,6 +552,25 @@ class CallManager {
                 .firstOrNull { it.value.id == callId }
                 ?.value?.notificationDone
                 ?: 0
+        }
+
+        fun markRingStart(call: Call) {
+            val e = callIds[call] ?: return
+            if (e.ringStartMs == 0L) callIds[call] = e.copy(ringStartMs = SystemClock.elapsedRealtime())
+        }
+
+        fun markRingEnd(call: Call) {
+            val e = callIds[call] ?: return
+            if (e.ringStartMs != 0L && e.ringEndMs == 0L)
+                callIds[call] = e.copy(ringEndMs = SystemClock.elapsedRealtime())
+        }
+
+        // -1 = neznámo (start nebyl změřen)
+        fun getRingSeconds(call: Call?): Int {
+            val e = call?.let { callIds[it] } ?: return -1
+            if (e.ringStartMs == 0L) return -1
+            val end = if (e.ringEndMs != 0L) e.ringEndMs else SystemClock.elapsedRealtime()
+            return ((end - e.ringStartMs + 500) / 1000).toInt()
         }
 
     }

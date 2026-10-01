@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">MTS 拨号器</string>
 
+<string name="allow_record_calls">允许录音通话</string>
+<string name="call_recording_title">通话录音</string>
+<string name="call_recording_info">通话录音提示：\n\n在某些国家或特定情况下，录制电话通话可能受到法律法规、限制或相关要求的约束，例如需要告知通话参与者或获得其同意。\n\n使用此功能前，请确保其使用符合您所在国家或地区适用的法律及其他规定。\n\n您须对通话录音功能的使用方式承担全部责任，包括遵守所有适用的法律义务以及获取任何必要的同意。\n\n应用开发者不提供法律建议，也不对违反适用法律使用此功能所产生的后果负责。\n\n使用通话录音功能即表示您确认已阅读并理解此提示，并对此予以确认。\n\n录音功能通过 Shizuku 应用（moe.shizuku.privileged.api）实现，您可以从 https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi 下载该应用。\n\n我的电话应用通过 intent（moe.shizuku.privileged.api.START / STOP）启动和停止 Shizuku。但您需要在此处输入 Shizuku 授权密钥。安装 Shizuku 后，可在 Control Shizuku using automation apps 部分点击 Show intents 找到该密钥。</string>
+<string name="call_recording_agree">我知悉并同意</string>
+<string name="call_recording_key_hint">Shizuku 授权密钥</string>
+<string name="call_recording_key_invalid">密钥无效</string>
+<string name="call_recording_key_saved">测试成功完成，密钥已保存</string>
+<string name="call_recording_files">已录制的通话</string>
+<string name="start_call_recording">开始录音</string>
+<string name="stop_call_recording">停止录音</string>
+<string name="recording_start_failed">无法开始录音</string>
+<string name="recorded_files_missing">文件已不存在</string>
+<string name="recorded_files_delete_failed">无法删除文件</string>
+<string name="recorded_files_play">播放</string>
+<string name="recorded_files_export">导出</string>
+<string name="recorded_files_refresh">刷新</string>
+
 <string name="send_message">发送消息</string>
 <string name="hide_number_for_saved_contact">如果是已保存的联系人，通话期间不显示电话号码</string>
 <string name="privacy_acknowledge">我已知悉</string>

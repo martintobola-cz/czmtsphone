@@ -460,6 +460,29 @@ open class BaseConfig(val context: Context) {
     fun removeCustomSim(phoneNumber: String) =
         prefs.edit().remove("SIM_SAVE_$phoneNumber").apply()
 
+    var allowRecordCalls: Boolean
+        get() = prefs.getBoolean(ALLOW_RECORD_CALLS, false)
+        set(allowRecordCalls) = prefs.edit().putBoolean(ALLOW_RECORD_CALLS, allowRecordCalls).apply()
+
+    var tabsOrder: String
+        get() = prefs.getString(TABS_ORDER, "") ?: ""
+        set(value) { prefs.edit().putString(TABS_ORDER, value).commit() }
+
+    /** Všechny taby (i skryté) v uloženém pořadí; chybějící/neplatné hodnoty se doplní. */
+    fun getAllTabsOrdered(): List<Int> {
+        val saved = tabsOrder.split(',')
+            .mapNotNull { it.trim().toIntOrNull() }
+            .filter { it in tabsList }
+            .distinct()
+        return saved + tabsList.filter { it !in saved }
+    }
+
+    /** Jen viditelné taby v uloženém pořadí. Nikdy nevrací prázdný seznam. */
+    fun getOrderedVisibleTabs(): List<Int> {
+        val all = getAllTabsOrdered()
+        return all.filter { showTabs and it != 0 }.ifEmpty { all }
+    }
+
     var showTabs: Int
         get() = prefs.getInt(SHOW_TABS, ALL_TABS_MASK)
         set(showTabs) = prefs.edit().putInt(SHOW_TABS, showTabs).apply()

@@ -117,8 +117,7 @@
     <string name="pattern_renaming">Patrón</string>
     <string name="string_to_add">Texto para agregar</string>
     <string name="rename_date_time_pattern">%Y - Año\n%M - Mes\n%D - Día\n%h - Hora\n%m - Minuto\n%s - Segundo\n%i - número aumentando desde 1</string>
-    <string name="filename_without_txt">Nombre del archivo (sin .txt) </string>
-    <string name="filename_without_json">Nombre de archivo sin extensión</string>
+    <string name="filename_without_ext">Nombre de archivo sin extensión</string>
     <string name="copy">Copiar</string>
     <string name="please_select_destination">Por favor elige un destino</string>
     <string name="could_not_create_folder">No se puede crear la carpeta %s</string>

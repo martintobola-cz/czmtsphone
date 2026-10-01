@@ -114,8 +114,7 @@
     <string name="pattern_renaming">Desen</string>
     <string name="string_to_add">Eklenecek metin</string>
     <string name="rename_date_time_pattern">%Y - yıl\n%M - ay\n%D - gün\n%h - saat\n%m - dakika\n%s - saniye\n%i - 1\'den artan sayı</string>
-    <string name="filename_without_txt">Dosya adı (.txt olmadan)</string>
-    <string name="filename_without_json">Uzantısız dosya adı</string>
+    <string name="filename_without_ext">Uzantısız dosya adı</string>
     <string name="copy">Kopyala</string>
     <string name="please_select_destination">Lütfen bir hedef seçin</string>
     <string name="could_not_create_folder">%s klasörü oluşturulamıyor</string>

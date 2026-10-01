@@ -120,8 +120,7 @@
 \n%m – perc
 \n%s – másodperc
 \n%i – 1-től induló számláló</string>
-    <string name="filename_without_txt">Fájlnév (.txt nélkül)</string>
-    <string name="filename_without_json">Fájlnév (.json nélkül)</string>
+    <string name="filename_without_ext">Fájlnév</string>
     <string name="copy">Másolás</string>
     <string name="please_select_destination">Válasszon célt</string>
     <string name="could_not_create_folder">Nem lehet létrehozni a(z) %s mappát</string>

@@ -15,8 +15,10 @@ const val TAB_LAST_USED = 0
 const val TAB_CONTACTS = 1
 const val TAB_FAVORITES = 2
 const val TAB_CALL_HISTORY = 4
+const val TABS_ORDER = "tabs_order"
 
 // shared prefs
+const val ALLOW_RECORD_CALLS = "allow_record_calls"
 const val REMEMBER_SIM_PREFIX = "remember_sim_"
 const val GROUP_SUBSEQUENT_CALLS = "group_subsequent_calls"
 const val OPEN_DIAL_PAD_AT_LAUNCH = "open_dial_pad_at_launch"

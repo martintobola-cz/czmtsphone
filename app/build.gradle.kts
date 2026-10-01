@@ -1,7 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
+import java.net.URI
+import java.security.MessageDigest
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android)
@@ -23,16 +25,90 @@ fun hasSigningVars(): Boolean {
             && providers.environmentVariable("SIGNING_STORE_PASSWORD").orNull != null
 }
 
+// --- scrcpy-server: staženo a ověřeno při buildu, stejně jako v ShizuCallRecorder ---
+// Verze je v libs.versions.toml a MUSÍ zůstat 4.0 - ScrcpyClient.kt parsuje binární
+// protokol specifický pro tuhle verzi. Při změně verze aktualizuj i SHA256 níže.
+val scrcpyVersion = libs.versions.scrcpy.get()
+val scrcpyServerUrl = "https://github.com/Genymobile/scrcpy/releases/download/v$scrcpyVersion/scrcpy-server-v$scrcpyVersion"
+val scrcpyServerSha256 = "84924bd564a1eb6089c872c7521f968058977f91f5ff02514a8c74aff3210f3a"
+val scrcpyServerAssetName = "scrcpy-server"
+val scrcpyDownloadDir = layout.buildDirectory.dir("generated/scrcpy/assets")
+
+abstract class DownloadAssetTask : DefaultTask() {
+    @get:Input
+    abstract val url: Property<String>
+
+    @get:Input
+    abstract val sha256: Property<String>
+
+    @get:Input
+    abstract val assetName: Property<String>
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun download() {
+        val targetFile = outputDir.get().file(assetName.get()).asFile
+
+        if (targetFile.exists() && calculateSha256(targetFile).equals(sha256.get(), ignoreCase = true)) {
+            logger.info("${assetName.get()} je už aktuální.")
+            return
+        }
+
+        targetFile.parentFile.mkdirs()
+        logger.lifecycle("Stahuji ${assetName.get()}...")
+
+        URI(url.get()).toURL().openStream().use { input ->
+            targetFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        val actualHash = calculateSha256(targetFile)
+        if (!actualHash.equals(sha256.get(), ignoreCase = true)) {
+            targetFile.delete()
+            throw GradleException("SHA256 nesedí! Očekáváno ${sha256.get()} ale je $actualHash")
+        }
+    }
+
+    private fun calculateSha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().use { input ->
+            val buffer = ByteArray(8192)
+            var bytesRead = input.read(buffer)
+            while (bytesRead != -1) {
+                digest.update(buffer, 0, bytesRead)
+                bytesRead = input.read(buffer)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
+    }
+}
+
+val downloadScrcpyServer = tasks.register<DownloadAssetTask>("downloadScrcpyServer") {
+    url.set(scrcpyServerUrl)
+    sha256.set(scrcpyServerSha256)
+    assetName.set(scrcpyServerAssetName)
+    outputDir.set(scrcpyDownloadDir)
+}
+// --- konec scrcpy-server bloku ---
+
 android {
-    compileSdk = 36
+    namespace = project.property("APP_ID").toString()
+    compileSdk = libs.versions.app.build.compileSDKVersion.get().toInt()
 
     defaultConfig {
         applicationId = project.property("APP_ID").toString()
-        minSdk = 28
-        targetSdk = 36
+        minSdk = libs.versions.app.build.minimumSDK.get().toInt()
+        targetSdk = libs.versions.app.build.targetSDK.get().toInt()
         versionName = project.property("VERSION_NAME").toString()
         versionCode = project.property("VERSION_CODE").toString().toInt()
         setProperty("archivesBaseName", "phone-$versionCode")
+
+        buildConfigField("String", "SCRCPY_VERSION", "\"$scrcpyVersion\"")
+        buildConfigField("String", "SCRCPY_SERVER_SHA256", "\"$scrcpyServerSha256\"")
+        buildConfigField("String", "SCRCPY_SERVER_ASSET_NAME", "\"$scrcpyServerAssetName\"")
     }
 
     signingConfigs {
@@ -56,6 +132,7 @@ android {
     }
 
     buildFeatures {
+        aidl = true
         viewBinding = true
         buildConfig = true
         compose = false
@@ -90,10 +167,9 @@ android {
     }
 
     compileOptions {
-        val currentJavaVersionFromLibs =
-            JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
-        sourceCompatibility = currentJavaVersionFromLibs
-        targetCompatibility = currentJavaVersionFromLibs
+        val javaVersion = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
 
     dependenciesInfo {
@@ -104,14 +180,6 @@ android {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
     }
-
-    tasks.withType<KotlinCompile> {
-        compilerOptions.jvmTarget.set(
-            JvmTarget.fromTarget(project.libs.versions.app.build.kotlinJVMTarget.get())
-        )
-    }
-
-    namespace = project.property("APP_ID").toString()
 
     lint {
         checkReleaseBuilds = false
@@ -128,6 +196,22 @@ android {
     }
 }
 
+tasks.withType<KotlinCompile> {
+    compilerOptions.jvmTarget.set(
+        JvmTarget.fromTarget(libs.versions.app.build.kotlinJVMTarget.get())
+    )
+}
+
+// Zaregistruje vygenerovanou scrcpy-server assets složku pro každý build variant,
+// stejně jako to dělá ShizuCallRecorder.
+androidComponents {
+    onVariants { variant ->
+        variant.sources.assets?.addGeneratedSourceDirectory(
+            downloadScrcpyServer,
+            DownloadAssetTask::outputDir
+        )
+    }
+}
 
 detekt {
     baseline = file("detekt-baseline.xml")
@@ -138,12 +222,11 @@ detekt {
 
 
 dependencies {
+    implementation(project(":mtsbase-local"))
+    implementation(libs.bundles.shizuku)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.compose.ui.graphics)
     implementation(libs.indicator.fast.scroll)
     implementation(libs.autofit.text.view)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.ui.graphics)
-    implementation(project(":mtsbase-local"))
-    implementation(libs.androidx.ui.graphics)
-
-
 }

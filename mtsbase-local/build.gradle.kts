@@ -2,17 +2,15 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.parcelize)
     alias(libs.plugins.compose.compiler)
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-
-    id("org.jetbrains.kotlin.plugin.parcelize")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("io.gitlab.arturbosch.detekt")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.detekt)
     `maven-publish`
 }
-
 
 group = "cz.mts"
 version = "1.0.0"
@@ -51,27 +49,10 @@ android {
     }
 
     compileOptions {
-        val currentJavaVersionFromLibs =
-            JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
-        sourceCompatibility = currentJavaVersionFromLibs
-        targetCompatibility = currentJavaVersionFromLibs
+        val javaVersion = JavaVersion.valueOf(libs.versions.app.build.javaVersion.get())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
-
-tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget.set(
-        JvmTarget.fromTarget(project.libs.versions.app.build.kotlinJVMTarget.get())
-    )
-    compilerOptions.freeCompilerArgs.set(
-        listOf(
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-opt-in=com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi",
-            "-Xcontext-parameters"   // ← změna zde, místo "-Xcontext-receivers"
-        )
-    )
-}
- 
 
     lint {
         checkReleaseBuilds = false
@@ -86,7 +67,20 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-composeCompiler { }
+tasks.withType<KotlinCompile> {
+    compilerOptions.jvmTarget.set(
+        JvmTarget.fromTarget(libs.versions.app.build.kotlinJVMTarget.get())
+    )
+    compilerOptions.freeCompilerArgs.set(
+        listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi",
+            "-Xcontext-parameters"
+        )
+    )
+}
 
 publishing.publications {
     create<MavenPublication>("release") {
@@ -110,9 +104,8 @@ dependencies {
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.exifinterface)
-    implementation("com.googlecode.libphonenumber:libphonenumber:9.0.38")
-    implementation("com.googlecode.libphonenumber:geocoder:3.38")
-    //implementation(libs.androidx.biometric.ktx)
+    implementation(libs.libphonenumber)
+    implementation(libs.libphonenumber.geocoder)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.ez.vcard)
 
@@ -121,11 +114,8 @@ dependencies {
     implementation(libs.compose.view.binding)
     debugImplementation(libs.bundles.compose.preview)
 
-    //api(libs.joda.time)
     api(libs.recyclerView.fastScroller)
-    //api(libs.reprint)
     api(libs.rtl.viewpager)
-    //api(libs.patternLockView)
     api(libs.androidx.core.ktx)
     api(libs.androidx.appcompat)
     api(libs.material)

@@ -67,7 +67,6 @@ class MainActivity : SimpleActivity() {
 
     private var loadingIconToggle = true
     private var launchedDialer = false
-    private var storedShowTabs = 0
     private var storedFontSize = 0
     private var storedSorting = 0
     private var storedStartNameWithSurname = false
@@ -84,6 +83,8 @@ class MainActivity : SimpleActivity() {
     private var bPermissionNotificationOn = false
     private var bSnackBarOn = false
     private var bCheckContactDuplicityIsRunning = false
+    private val visibleTabs: List<Int> get() = config.getOrderedVisibleTabs()
+    private var storedVisibleTabs: List<Int> = emptyList()   // místo storedShowTabs
 
     val colorizerEnabled: Boolean
         get() = config.usePopupMenuColorizer && !isDynamicTheme()
@@ -156,7 +157,7 @@ class MainActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (storedShowTabs != config.showTabs) {
+        if (storedVisibleTabs != visibleTabs) {
             config.lastUsedViewPagerPage = 0
             System.exit(0)
             return
@@ -272,7 +273,7 @@ class MainActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
         storedSorting = config.sorting
-        storedShowTabs = config.showTabs
+        storedVisibleTabs = visibleTabs
         storedGroupingCalls = config.groupSubsequentCalls
         storedStartNameWithSurname = config.startNameWithSurname
         storedFormatPhoneNumbers = config.formatPhoneNumbers
@@ -343,7 +344,7 @@ class MainActivity : SimpleActivity() {
             val isContacts = currentTabType == TAB_CONTACTS
             val isFavorites = currentTabType == TAB_FAVORITES
 
-            findItem(R.id.view_all_call_history).isVisible = isCallHistory
+            findItem(R.id.refresh_call_history).isVisible = isCallHistory
             findItem(R.id.clear_call_history).isVisible = isCallHistory
             findItem(R.id.sort).isVisible = !isCallHistory
             findItem(R.id.filter).isVisible = true
@@ -369,6 +370,7 @@ class MainActivity : SimpleActivity() {
             findItem(R.id.create_new_contact).isVisible = isContacts
             findItem(R.id.change_view_type).isVisible = isFavorites
             findItem(R.id.column_count).isVisible = isFavorites && config.viewType == VIEW_TYPE_GRID
+            findItem(R.id.showRecorded).isVisible = isCallHistory && config.allowRecordCalls
         }
         updateChangeViewTypeIcon()
     }
@@ -405,7 +407,7 @@ class MainActivity : SimpleActivity() {
                 when (menuItem.itemId) {
                     R.id.search_all_fields -> searchAllFieldsInContactOnOff()
                     R.id.filter_only_contacts_without_numbers -> filterOnlyContactsWithoutNumbers()
-                    R.id.view_all_call_history -> refreshRecetCalls()
+                    R.id.refresh_call_history -> refreshRecetCalls()
                     R.id.clear_call_history -> clearCallHistory()
                     R.id.create_new_contact -> launchCreateNewContactIntent()
                     R.id.sort -> showSortingDialog(showCustomSorting = getCurrentFragment() is FavoritesFragment)
@@ -414,6 +416,7 @@ class MainActivity : SimpleActivity() {
                     R.id.settings2 -> launchAccountsConfiguration()
                     R.id.settings3 -> manageSpeedDial()
                     R.id.settingsBlocked -> manageBlockNumbers()
+                    R.id.showRecorded -> manageRecordedFiles()
                     R.id.change_view_type -> changeViewType()
                     R.id.column_count -> changeColumnCount()
                     R.id.permissions -> checkPerm(true, false, true)
@@ -576,43 +579,6 @@ class MainActivity : SimpleActivity() {
 
     private fun getInactiveTabIndexes(activeIndex: Int) = (0 until binding.mainTabsHolder.tabCount).filter { it != activeIndex }
 
-    private fun getSelectedTabDrawableIds(): List<Int> {
-        val showTabs = config.showTabs
-        val icons = mutableListOf<Int>()
-
-        if (showTabs and TAB_CONTACTS != 0) {
-            icons.add(R.drawable.ic_person_vector)
-        }
-
-        if (showTabs and TAB_FAVORITES != 0) {
-            icons.add(R.drawable.ic_star_vector)
-        }
-
-        if (showTabs and TAB_CALL_HISTORY != 0) {
-            icons.add(R.drawable.ic_clock_filled_vector)
-        }
-
-        return icons
-    }
-
-    private fun getDeselectedTabDrawableIds(): ArrayList<Int> {
-        val showTabs = config.showTabs
-        val icons = ArrayList<Int>()
-
-        if (showTabs and TAB_CONTACTS != 0) {
-            icons.add(R.drawable.ic_person_outline_vector)
-        }
-
-        if (showTabs and TAB_FAVORITES != 0) {
-            icons.add(R.drawable.ic_star_outline_vector)
-        }
-
-        if (showTabs and TAB_CALL_HISTORY != 0) {
-            icons.add(R.drawable.ic_clock_vector)
-        }
-
-        return icons
-    }
 
     private fun selectInitialTabFromIntent() {
         if (binding.mainTabsHolder.tabCount == 0) return
@@ -632,10 +598,9 @@ class MainActivity : SimpleActivity() {
         }
 
         // 2) fallback – ACTION_VIEW
-        if (intent?.action == Intent.ACTION_VIEW &&
-            config.showTabs and TAB_CALL_HISTORY > 0
-        ) {
-            wantedTab = binding.mainTabsHolder.tabCount - 1
+        if (intent?.action == Intent.ACTION_VIEW) {
+            val index = getIndexForTabType(TAB_CALL_HISTORY)
+            if (index >= 0) wantedTab = index
         }
 
         binding.mainTabsHolder.getTabAt(wantedTab)?.select()
@@ -704,23 +669,21 @@ class MainActivity : SimpleActivity() {
             return
         }
 
-        tabsList.forEachIndexed { index, value ->
-            if (config.showTabs and value != 0) {
-                binding.mainTabsHolder.newTab().setCustomView(R.layout.bottom_tablayout_item).apply {
-                    customView?.findViewById<ImageView>(R.id.tab_item_icon)?.setImageDrawable(getTabIcon(index))
-                    customView?.findViewById<TextView>(R.id.tab_item_label)?.apply {
-                        text = getTabLabel(index)
-                        val tabTextSize =  when (storedFontSize) {
-                            FONT_SIZE_SMALL  -> (resources.getDimension(R.dimen.small_text_size))
-                            FONT_SIZE_MEDIUM -> (resources.getDimension(R.dimen.small2_text_size))
-                            FONT_SIZE_LARGE  -> (resources.getDimension(R.dimen.smaller_text_size))
-                            else             -> (resources.getDimension(R.dimen.normal_text_size))
-                        }
-                        setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize)
+        visibleTabs.forEach { tabType ->
+            binding.mainTabsHolder.newTab().setCustomView(R.layout.bottom_tablayout_item).apply {
+                customView?.findViewById<ImageView>(R.id.tab_item_icon)?.setImageDrawable(getTabIcon(tabType))
+                customView?.findViewById<TextView>(R.id.tab_item_label)?.apply {
+                    text = getTabLabel(tabType)
+                    val tabTextSize = when (storedFontSize) {
+                        FONT_SIZE_SMALL  -> resources.getDimension(R.dimen.small_text_size)
+                        FONT_SIZE_MEDIUM -> resources.getDimension(R.dimen.small2_text_size)
+                        FONT_SIZE_LARGE  -> resources.getDimension(R.dimen.smaller_text_size)
+                        else             -> resources.getDimension(R.dimen.normal_text_size)
                     }
-                    AutofitHelper.create(customView?.findViewById(R.id.tab_item_label))
-                    binding.mainTabsHolder.addTab(this)
+                    setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize)
                 }
+                AutofitHelper.create(customView?.findViewById(R.id.tab_item_label))
+                binding.mainTabsHolder.addTab(this)
             }
         }
 
@@ -734,8 +697,7 @@ class MainActivity : SimpleActivity() {
                 binding.viewPager.currentItem = it.position
                 updateBottomTabItemColors(it.customView, true, getSelectedTabDrawableIds()[it.position], baseConfigbackgroundColor)
 
-                val lastPosition = binding.mainTabsHolder.tabCount - 1
-                if (it.position == lastPosition && config.showTabs and TAB_CALL_HISTORY > 0) {
+                if (currentTabType == TAB_CALL_HISTORY) {
                     clearMissedCalls()
                 }
                 refreshMenuItems()
@@ -743,53 +705,60 @@ class MainActivity : SimpleActivity() {
         )
 
         binding.mainTabsHolder.beGoneIf(binding.mainTabsHolder.tabCount == 1)
-        storedShowTabs = config.showTabs
+        storedVisibleTabs = visibleTabs
         storedStartNameWithSurname = config.startNameWithSurname
     }
 
-    private fun getTabIcon(position: Int): Drawable {
-        val drawableId = when (position) {
-            0 -> R.drawable.ic_person_vector
-            1 -> R.drawable.ic_star_vector
+    private fun getTabTypeForIndex(index: Int): Int = visibleTabs.getOrNull(index) ?: visibleTabs.first()
+
+    private fun getIndexForTabType(tabType: Int): Int = visibleTabs.indexOf(tabType)
+
+    private fun getTabIcon(tabType: Int): Drawable {
+        val drawableId = when (tabType) {
+            TAB_CONTACTS -> R.drawable.ic_person_vector
+            TAB_FAVORITES -> R.drawable.ic_star_vector
             else -> R.drawable.ic_clock_vector
         }
-
         return resources.getColoredDrawableWithColor(drawableId, getProperTextColor())
     }
 
-    private fun getTabTypeForIndex(index: Int): Int {
-        val showTabs = config.showTabs
-
-        val list = mutableListOf<Int>()
-        if (showTabs and TAB_CONTACTS != 0) list.add(TAB_CONTACTS)
-        if (showTabs and TAB_FAVORITES != 0) list.add(TAB_FAVORITES)
-        if (showTabs and TAB_CALL_HISTORY != 0) list.add(TAB_CALL_HISTORY)
-
-        return list.getOrNull(index) ?: TAB_CONTACTS
-    }
-
-    // převede typ tabu na index
-    private fun getIndexForTabType(tabType: Int): Int {
-        val showTabs = config.showTabs
-        val list = mutableListOf<Int>()
-        if (showTabs and TAB_CONTACTS != 0) list.add(TAB_CONTACTS)
-        if (showTabs and TAB_FAVORITES != 0) list.add(TAB_FAVORITES)
-        if (showTabs and TAB_CALL_HISTORY != 0) list.add(TAB_CALL_HISTORY)
-
-        return list.indexOf(tabType)
-    }
-
-
-    private fun getTabLabel(position: Int): String {
-        val stringId = when (position) {
-            0 -> R.string.contacts_tab
-            1 -> R.string.favorites_tab
+    private fun getTabLabel(tabType: Int): String = getString(
+        when (tabType) {
+            TAB_CONTACTS -> R.string.contacts_tab
+            TAB_FAVORITES -> R.string.favorites_tab
             else -> R.string.call_history_tab
         }
+    )
 
-        return resources.getString(stringId)
+    private fun getSelectedTabDrawableIds(): List<Int> = visibleTabs.map {
+        when (it) {
+            TAB_CONTACTS -> R.drawable.ic_person_vector
+            TAB_FAVORITES -> R.drawable.ic_star_vector
+            else -> R.drawable.ic_clock_filled_vector
+        }
     }
 
+    private fun getDeselectedTabDrawableIds(): List<Int> = visibleTabs.map {
+        when (it) {
+            TAB_CONTACTS -> R.drawable.ic_person_outline_vector
+            TAB_FAVORITES -> R.drawable.ic_star_outline_vector
+            else -> R.drawable.ic_clock_vector
+        }
+    }
+
+    private fun getFragmentForType(tabType: Int): MyViewPagerFragment<*>? = when (tabType) {
+        TAB_CONTACTS -> getContactsFragment()
+        TAB_FAVORITES -> getFavoritesFragment()
+        else -> getRecentsFragment()
+    }
+
+    private fun getAllFragments(): ArrayList<MyViewPagerFragment<*>?> =
+        ArrayList(visibleTabs.map { getFragmentForType(it) })
+
+    private fun getDefaultTab(): Int = when (config.defaultTab) {
+        TAB_LAST_USED -> config.lastUsedViewPagerPage.takeIf { it < binding.mainTabsHolder.tabCount } ?: 0
+        else -> getIndexForTabType(config.defaultTab).coerceAtLeast(0)
+    }
 
         private fun refreshItems(openLastTab: Boolean = false) {
         if (isDestroyed || isFinishing) return
@@ -858,25 +827,6 @@ class MainActivity : SimpleActivity() {
         ContactCallHistoryDialog(this, fragment, contactName, sUri)
     }
 
-    private fun getAllFragments(): ArrayList<MyViewPagerFragment<*>?> {
-        val showTabs = config.showTabs
-        val fragments = arrayListOf<MyViewPagerFragment<*>?>()
-
-        if (showTabs and TAB_CONTACTS > 0) {
-            fragments.add(getContactsFragment())
-        }
-
-        if (showTabs and TAB_FAVORITES > 0) {
-            fragments.add(getFavoritesFragment())
-        }
-
-        if (showTabs and TAB_CALL_HISTORY > 0) {
-            fragments.add(getRecentsFragment())
-        }
-
-        return fragments
-    }
-
     private fun getCurrentFragment(): MyViewPagerFragment<*>? = getAllFragments().getOrNull(binding.viewPager.currentItem)
 
     private fun getContactsFragment(): ContactsFragment? = findViewById(R.id.contacts_fragment)
@@ -892,34 +842,6 @@ class MainActivity : SimpleActivity() {
     private fun wireRecentsProgressCallback(fragment: RecentsFragment) {
         if (fragment.onChunkProgress == null) {
             fragment.onChunkProgress = { toggleViewAllHistoryLoadingIcon() }
-        }
-    }
-
-    private fun getDefaultTab(): Int {
-        val showTabsMask = config.showTabs
-        return when (config.defaultTab) {
-            TAB_LAST_USED -> if (config.lastUsedViewPagerPage < binding.mainTabsHolder.tabCount) config.lastUsedViewPagerPage else 0
-            TAB_CONTACTS -> 0
-            TAB_FAVORITES -> if (showTabsMask and TAB_CONTACTS > 0) 1 else 0
-            else -> {
-                if (showTabsMask and TAB_CALL_HISTORY > 0) {
-                    if (showTabsMask and TAB_CONTACTS > 0) {
-                        if (showTabsMask and TAB_FAVORITES > 0) {
-                            2
-                        } else {
-                            1
-                        }
-                    } else {
-                        if (showTabsMask and TAB_FAVORITES > 0) {
-                            1
-                        } else {
-                            0
-                        }
-                    }
-                } else {
-                    0
-                }
-            }
         }
     }
 
@@ -944,6 +866,12 @@ class MainActivity : SimpleActivity() {
 
     private fun manageBlockNumbers() {
         Intent(this, ManageBlockedNumbersActivity::class.java).apply {
+            startActivity(this)
+        }
+    }
+
+    private fun manageRecordedFiles() {
+        Intent(this, RecordedFilesActivity::class.java).apply {
             startActivity(this)
         }
     }
@@ -982,7 +910,7 @@ class MainActivity : SimpleActivity() {
 
         val icon = resources.getColoredDrawableWithColor(iconRes, getProperTextColor())
         binding.mainMenu.requireToolbar().menu
-            .findItem(R.id.view_all_call_history)
+            .findItem(R.id.refresh_call_history)
             ?.icon = icon
     }
 
@@ -1227,5 +1155,7 @@ class MainActivity : SimpleActivity() {
             intent.putExtra("start_tab", TAB_CALL_HISTORY)
         }
     }
+
+
 
 }

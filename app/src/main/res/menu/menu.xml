@@ -28,7 +28,7 @@
         android:title="@string/filter"
         app:showAsAction="never" />
     <item
-        android:id="@+id/view_all_call_history"
+        android:id="@+id/refresh_call_history"
         android:icon="@drawable/ic_database_refresh"
         android:title="@string/view_all_call_history"
         app:showAsAction="always" />
@@ -66,6 +66,11 @@
         android:id="@+id/settingsBlocked"
         android:icon="@drawable/ic_settings_cog_vector"
         android:title="@string/blocked_numbers_mts"
+        app:showAsAction="never" />
+<item
+        android:id="@+id/showRecorded"
+        android:icon="@drawable/ic_settings_cog_vector"
+        android:title="@string/call_recording_files"
         app:showAsAction="never" />
 <item
         android:id="@+id/permissions"

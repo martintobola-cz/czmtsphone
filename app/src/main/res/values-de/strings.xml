@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="allow_record_calls">Anrufaufzeichnung erlauben</string>
+<string name="call_recording_title">Anrufaufzeichnung</string>
+<string name="call_recording_info">Hinweis zur Anrufaufzeichnung:\n\nDas Aufzeichnen von Telefongesprächen kann in einigen Ländern oder unter bestimmten Umständen gesetzlichen Vorschriften, Einschränkungen oder Anforderungen zur Information der Gesprächsteilnehmer oder zur Einholung ihrer Zustimmung unterliegen.\n\nStellen Sie vor der Verwendung dieser Funktion sicher, dass ihre Nutzung mit den in Ihrem Land oder an Ihrem Aufenthaltsort geltenden Gesetzen und sonstigen Vorschriften übereinstimmt.\n\nSie sind allein dafür verantwortlich, wie Sie die Anrufaufzeichnungsfunktion verwenden, einschließlich der Einhaltung aller geltenden rechtlichen Verpflichtungen und der Einholung gegebenenfalls erforderlicher Einwilligungen.\n\nDer Entwickler der App bietet keine Rechtsberatung und übernimmt keine Verantwortung für die Nutzung dieser Funktion unter Verstoß gegen geltendes Recht.\n\nDurch die Nutzung der Anrufaufzeichnungsfunktion bestätigen Sie, dass Sie diesen Hinweis gelesen und verstanden haben und ihn zur Kenntnis nehmen.\n\nDie Aufzeichnung wird mithilfe der App Shizuku (moe.shizuku.privileged.api) umgesetzt, die Sie unter https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi herunterladen können.\n\nMeine Telefon-App startet und beendet Shizuku über einen Intent (moe.shizuku.privileged.api.START / STOP). Sie müssen hier jedoch den Shizuku-Autorisierungsschlüssel eingeben. Den Schlüssel finden Sie nach der Installation von Shizuku, indem Sie im Abschnitt Control Shizuku using automation apps auf Show intents tippen.</string>
+<string name="call_recording_agree">Ich bestätige und stimme zu</string>
+<string name="call_recording_key_hint">Shizuku-Autorisierungsschlüssel</string>
+<string name="call_recording_key_invalid">Ungültiger Schlüssel</string>
+<string name="call_recording_key_saved">Test erfolgreich abgeschlossen, Schlüssel gespeichert</string>
+<string name="call_recording_files">Aufgezeichnete Gespräche</string>
+<string name="start_call_recording">Aufzeichnung starten</string>
+<string name="stop_call_recording">Aufzeichnung stoppen</string>
+<string name="recording_start_failed">Aufzeichnung konnte nicht gestartet werden</string>
+<string name="recorded_files_missing">Die Datei existiert nicht mehr</string>
+<string name="recorded_files_delete_failed">Die Datei konnte nicht gelöscht werden</string>
+<string name="recorded_files_play">Abspielen</string>
+<string name="recorded_files_export">Exportieren</string>
+<string name="recorded_files_refresh">Aktualisieren</string>
+
 <string name="send_message">SMS senden</string>
 <string name="hide_number_for_saved_contact">Telefonnummer während eines Anrufs nicht anzeigen, wenn es sich um einen gespeicherten Kontakt handelt</string>
 <string name="privacy_acknowledge">Ich bestätige dies</string>

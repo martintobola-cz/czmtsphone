@@ -6,7 +6,6 @@ import androidx.viewpager.widget.PagerAdapter
 import cz.mts.base.helpers.TAB_CALL_HISTORY
 import cz.mts.base.helpers.TAB_CONTACTS
 import cz.mts.base.helpers.TAB_FAVORITES
-import cz.mts.base.helpers.tabsList
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.fragments.MyViewPagerFragment
@@ -16,6 +15,10 @@ import cz.mts.base.extensions.baseConfig as config
 class ViewPagerAdapter(
     private val activity: SimpleActivity
 ) : PagerAdapter() {
+
+    // Snapshot pořadí při vytvoření adaptéru: getCount() a getFragment() se tak nikdy
+    // nerozejdou, ani kdyby se config změnil za běhu. Změnu pořadí řeší restart v MainActivity.onResume().
+    private val tabs: List<Int> = activity.config.getOrderedVisibleTabs()
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = getFragment(position)
@@ -31,22 +34,21 @@ class ViewPagerAdapter(
         container.removeView(item as View)
     }
 
-    override fun getCount() = tabsList.filter { it and activity.config.showTabs != 0 }.size
+    override fun getCount() = tabs.size
 
     override fun isViewFromObject(view: View, item: Any) = view == item
 
     private fun getFragment(position: Int): Int {
-        val showTabs = activity.config.showTabs
-        val fragments = buildList {
-            if (showTabs and TAB_CONTACTS > 0)      add(R.layout.fragment_contacts)
-            if (showTabs and TAB_FAVORITES > 0)     add(R.layout.fragment_favorites)
-            if (showTabs and TAB_CALL_HISTORY > 0)  add(R.layout.fragment_recents)
-        }
+        // getOrNull + lastOrNull chrání před pádem na prázdném listu.
+        val tabType = tabs.getOrNull(position)
+            ?: tabs.lastOrNull()
+            ?: error("No tabs available (showTabs=${activity.config.showTabs})")
 
-        // FIX: getOrNull + lastOrNull chrání před pádem na prázdném listu.
-        // Původní fragments.last() hodil NoSuchElementException pokud byly všechny taby vypnuté.
-        return fragments.getOrNull(position)
-            ?: fragments.lastOrNull()
-            ?: error("No fragments available – all tabs are disabled (showTabs=$showTabs)")
+        return when (tabType) {
+            TAB_CONTACTS -> R.layout.fragment_contacts
+            TAB_FAVORITES -> R.layout.fragment_favorites
+            TAB_CALL_HISTORY -> R.layout.fragment_recents
+            else -> error("Unknown tab type: $tabType")
+        }
     }
 }

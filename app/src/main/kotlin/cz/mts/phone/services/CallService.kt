@@ -14,6 +14,8 @@ import cz.mts.phone.R
 import cz.mts.phone.extensions.*
 import cz.mts.phone.helpers.*
 import cz.mts.phone.models.AudioRoute
+import cz.mts.phone.recorder.CallRecordingManager
+import cz.mts.phone.recorder.RecorderLog
 import cz.mts.base.extensions.baseConfig as config
 
 class CallService : InCallService(), CallManagerListener {
@@ -58,6 +60,12 @@ class CallService : InCallService(), CallManagerListener {
     private val callListener = object : Call.Callback() {
         override fun onStateChanged(call: Call, state: Int) {
 
+            if (state == Call.STATE_ACTIVE ||
+                state == Call.STATE_DISCONNECTING ||
+                state == Call.STATE_DISCONNECTED) {
+                CallManager.markRingEnd(call)
+            }
+
             if (state == Call.STATE_ACTIVE) {
                 restoreRingerMode()
                 callNotificationManager.doNotification(call,false, false, false, false)
@@ -93,6 +101,7 @@ class CallService : InCallService(), CallManagerListener {
 
         val isIncoming = call.isIncoming()
         val isOutgoing = call.isOutgoing()
+        if (isIncoming) CallManager.markRingStart(call)
 
         if (CallManager.getAliveCallsCount() > 1) bMoreThanOneCall = true
 
@@ -296,6 +305,8 @@ class CallService : InCallService(), CallManagerListener {
     override fun onCallRemoved(call: Call) {
         super.onCallRemoved(call)
 
+        CallManager.markRingEnd(call)
+
         restoreRingerMode()
      //   if (call.isConference()) RecentsQueryLimits.setRefreshState(true) //jinak v recents observer konferenci nezobrazí
 
@@ -311,7 +322,8 @@ class CallService : InCallService(), CallManagerListener {
                          else numberForRecents(numberX, config.formatPhoneNumbers)
             val sEmoji = CallManager.getSpamEmojiByCall(call) ?: ""
             val iSim = CallManager.getSimSlotByCall(call)
-            MissedCallManager.registerMissedCall(applicationContext, number, sEmoji, iSim)
+            val iRingSec = CallManager.getRingSeconds(call)
+            MissedCallManager.registerMissedCall(applicationContext, number, sEmoji, iSim, iRingSec)
         }
 
         callCallbacks.remove(call)?.let { callback ->
@@ -321,6 +333,7 @@ class CallService : InCallService(), CallManagerListener {
         val callsOnStack = CallManager.onCallRemoved(call)
         // žádné hovory
         if (callsOnStack < 1) {
+            CallRecordingManager.stopRecording() // pojistka, kdyby uživatel nestihl vypnout ručně
             CallManager.inCallService = null
             CallManager.clearCallsLists()
             showUI(true, true, "no_call", null)
@@ -369,6 +382,9 @@ class CallService : InCallService(), CallManagerListener {
     override fun onCreate() {
         super.onCreate()
         CallManager.addListener(this)
+
+        CallRecordingManager.init(applicationContext)
+        RecorderLog.clear() //vyčistit Shizuku LOG
     }
 
     override fun onDestroy() {
@@ -376,6 +392,8 @@ class CallService : InCallService(), CallManagerListener {
         CallManager.removeListener(this)
         CallManager.inCallService = null
         CallManager.clearCallsLists()
+
+        CallRecordingManager.stopRecording() // pojistka - zajistí i unbind + stop Shizuku serveru
 
         callCallbacks.forEach { (call, cb) -> call.unregisterCallback(cb) }
         callCallbacks.clear()

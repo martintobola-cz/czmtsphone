@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="allow_record_calls">Arama kaydına izin ver</string>
+<string name="call_recording_title">Arama kaydı</string>
+<string name="call_recording_info">Arama kaydı hakkında bilgilendirme:\n\nTelefon görüşmelerinin kaydedilmesi, bazı ülkelerde veya belirli koşullar altında yasal düzenlemelere, kısıtlamalara veya görüşme katılımcılarını bilgilendirme ya da onaylarını alma gerekliliklerine tabi olabilir.\n\nBu özelliği kullanmadan önce, kullanımının ülkenizde veya bulunduğunuz yerde geçerli olan yasalara ve diğer kurallara uygun olduğundan emin olun.\n\nArama kaydı özelliğini nasıl kullandığınızdan, geçerli tüm yasal yükümlülüklere uymak ve gerekli onayları almak da dahil olmak üzere, yalnızca siz sorumlusunuz.\n\nUygulama geliştiricisi hukuki danışmanlık sağlamaz ve bu özelliğin geçerli yasalara aykırı kullanımından sorumlu değildir.\n\nArama kaydı özelliğini kullanarak bu bilgilendirmeyi okuduğunuzu ve anladığınızı ve kabul ettiğinizi onaylarsınız.\n\nKayıt, https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi adresinden indirebileceğiniz Shizuku (moe.shizuku.privileged.api) uygulaması kullanılarak gerçekleştirilir.\n\nTelefon uygulamam, bir intent (moe.shizuku.privileged.api.START / STOP) aracılığıyla Shizuku\'yu başlatır ve durdurur. Ancak burada Shizuku kimlik doğrulama anahtarını girmeniz gerekir. Anahtarı, Shizuku\'yu yükledikten sonra Control Shizuku using automation apps bölümündeki Show intents seçeneğine dokunarak bulabilirsiniz.</string>
+<string name="call_recording_agree">Okudum, kabul ediyorum</string>
+<string name="call_recording_key_hint">Shizuku kimlik doğrulama anahtarı</string>
+<string name="call_recording_key_invalid">Geçersiz anahtar</string>
+<string name="call_recording_key_saved">Test başarıyla tamamlandı, anahtar kaydedildi</string>
+<string name="call_recording_files">Kaydedilen aramalar</string>
+<string name="start_call_recording">Kaydı başlat</string>
+<string name="stop_call_recording">Kaydı durdur</string>
+<string name="recording_start_failed">Kayıt başlatılamadı</string>
+<string name="recorded_files_missing">Dosya artık mevcut değil</string>
+<string name="recorded_files_delete_failed">Dosya silinemedi</string>
+<string name="recorded_files_play">Oynat</string>
+<string name="recorded_files_export">Dışa aktar</string>
+<string name="recorded_files_refresh">Yenile</string>
+
 <string name="send_message">Mesaj gönder</string>
 <string name="hide_number_for_saved_contact">Kayıtlı bir kişiyse arama sırasında telefon numarasını gösterme</string>
 <string name="privacy_acknowledge">Bunu kabul ediyorum</string>

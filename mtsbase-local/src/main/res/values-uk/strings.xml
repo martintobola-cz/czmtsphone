@@ -106,8 +106,7 @@
 \n%m — хвилина
 \n%s — секунда
 \n%i — порядковий номер з 1</string>
-    <string name="filename_without_txt">Ім\'я файлу (без .txt)</string>
-    <string name="filename_without_json">Ім\'я файлу без розширення</string>
+    <string name="filename_without_ext">Ім\'я файлу без розширення</string>
     <string name="copy">Копіювати</string>
     <string name="please_select_destination">Будь ласка, оберіть шлях призначення</string>
     <string name="could_not_create_folder">Неможливо створити теку \"%s\"</string>

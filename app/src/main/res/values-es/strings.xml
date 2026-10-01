@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Teléfono</string>
 
+<string name="allow_record_calls">Permitir la grabación de llamadas</string>
+<string name="call_recording_title">Grabación de llamadas</string>
+<string name="call_recording_info">Aviso sobre la grabación de llamadas:\n\nLa grabación de llamadas telefónicas puede estar sujeta en algunos países o en determinadas circunstancias a normativas legales, restricciones o requisitos para informar a los participantes de la llamada u obtener su consentimiento.\n\nAntes de utilizar esta función, asegúrate de que su uso cumple las leyes y demás normas aplicables en tu país o ubicación.\n\nEres el único responsable del uso que hagas de la función de grabación de llamadas, incluido el cumplimiento de todas las obligaciones legales aplicables y la obtención de cualquier consentimiento necesario.\n\nEl desarrollador de la aplicación no proporciona asesoramiento jurídico y no se hace responsable del uso de esta función en incumplimiento de las leyes aplicables.\n\nAl utilizar la función de grabación de llamadas, confirmas que has leído y comprendido este aviso y que lo aceptas.\n\nLa grabación se realiza mediante la aplicación Shizuku (moe.shizuku.privileged.api), que puedes descargar desde https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMi aplicación Teléfono inicia y detiene Shizuku mediante un intent (moe.shizuku.privileged.api.START / STOP). Sin embargo, debes introducir aquí la clave de autenticación de Shizuku. Puedes encontrar la clave después de instalar Shizuku pulsando Show intents en la sección Control Shizuku using automation apps.</string>
+<string name="call_recording_agree">Reconozco y acepto</string>
+<string name="call_recording_key_hint">Clave de autenticación de Shizuku</string>
+<string name="call_recording_key_invalid">Clave no válida</string>
+<string name="call_recording_key_saved">Prueba completada correctamente, clave guardada</string>
+<string name="call_recording_files">Llamadas grabadas</string>
+<string name="start_call_recording">Iniciar grabación</string>
+<string name="stop_call_recording">Detener grabación</string>
+<string name="recording_start_failed">No se ha podido iniciar la grabación</string>
+<string name="recorded_files_missing">El archivo ya no existe</string>
+<string name="recorded_files_delete_failed">No se ha podido eliminar el archivo</string>
+<string name="recorded_files_play">Reproducir</string>
+<string name="recorded_files_export">Exportar</string>
+<string name="recorded_files_refresh">Actualizar</string>
+
 <string name="send_message">Enviar mensaje</string>
 <string name="hide_number_for_saved_contact">No mostrar el número de teléfono durante una llamada si es un contacto guardado</string>
 <string name="privacy_acknowledge">Acepto esto</string>

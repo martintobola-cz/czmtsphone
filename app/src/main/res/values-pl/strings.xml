@@ -2,6 +2,23 @@
 <resources>
 <string name="app_launcher_name">Telefon</string>
 
+<string name="allow_record_calls">Zezwól na nagrywanie rozmów</string>
+<string name="call_recording_title">Nagrywanie rozmów</string>
+<string name="call_recording_info">Informacja o nagrywaniu rozmów:\n\nNagrywanie rozmów telefonicznych może w niektórych krajach lub w określonych okolicznościach podlegać przepisom prawa, ograniczeniom lub wymogom dotyczącym poinformowania uczestników rozmowy lub uzyskania ich zgody.\n\nPrzed użyciem tej funkcji upewnij się, że jej używanie jest zgodne z prawem i innymi zasadami obowiązującymi w Twoim kraju lub miejscu pobytu.\n\nPonosisz wyłączną odpowiedzialność za sposób korzystania z funkcji nagrywania rozmów, w tym za przestrzeganie wszystkich obowiązujących obowiązków prawnych oraz uzyskanie wymaganej zgody.\n\nDeweloper aplikacji nie udziela porad prawnych i nie ponosi odpowiedzialności za korzystanie z tej funkcji w sposób niezgodny z obowiązującym prawem.\n\nKorzystając z funkcji nagrywania rozmów, potwierdzasz, że przeczytałeś(-aś) i zrozumiałeś(-aś) niniejszą informację oraz przyjmujesz ją do wiadomości.\n\nNagrywanie jest realizowane za pomocą aplikacji Shizuku (moe.shizuku.privileged.api), którą można pobrać z https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMoja aplikacja Telefon uruchamia i zatrzymuje Shizuku za pomocą intentu (moe.shizuku.privileged.api.START / STOP). Musisz jednak w tym miejscu wprowadzić klucz autoryzacyjny Shizuku. Klucz można znaleźć po zainstalowaniu Shizuku, dotykając Show intents w sekcji Control Shizuku using automation apps.</string>
+<string name="call_recording_agree">Potwierdzam i zgadzam się</string>
+<string name="call_recording_key_hint">Klucz autoryzacyjny Shizuku</string>
+<string name="call_recording_key_invalid">Nieprawidłowy klucz</string>
+<string name="call_recording_key_saved">Test zakończony pomyślnie, klucz zapisany</string>
+<string name="call_recording_files">Nagrane rozmowy</string>
+<string name="start_call_recording">Rozpocznij nagrywanie</string>
+<string name="stop_call_recording">Zatrzymaj nagrywanie</string>
+<string name="recording_start_failed">Nie udało się rozpocząć nagrywania</string>
+<string name="recorded_files_missing">Plik już nie istnieje</string>
+<string name="recorded_files_delete_failed">Nie udało się usunąć pliku</string>
+<string name="recorded_files_play">Odtwórz</string>
+<string name="recorded_files_export">Eksportuj</string>
+<string name="recorded_files_refresh">Odśwież</string>
+
 <string name="send_message">Wyślij wiadomość</string>
 <string name="hide_number_for_saved_contact">Nie wyświetlaj numeru telefonu podczas połączenia, jeśli jest to zapisany kontakt</string>
 <string name="privacy_acknowledge">Przyjmuję to do wiadomości</string>

@@ -2,6 +2,23 @@
 <resources>
 <string name="app_launcher_name">MTS Dialer</string>
 
+<string name="allow_record_calls">Allow call recording</string>
+<string name="call_recording_title">Call recording</string>
+<string name="call_recording_info">Call recording notice:\n\nRecording phone calls may be subject to legal regulations, restrictions, or requirements to notify or obtain the consent of call participants in some countries or under certain circumstances.\n\nBefore using this feature, make sure that its use complies with the laws and other rules applicable in your country or location.\n\nYou are solely responsible for how you use the call recording feature, including compliance with all applicable legal obligations and obtaining any required consent.\n\nThe app developer does not provide legal advice and is not responsible for the use of this feature in violation of applicable laws.\n\nBy using the call recording feature, you confirm that you have read and understood this notice and acknowledge it.\n\nRecording is implemented using the Shizuku app (moe.shizuku.privileged.api), which you can download from https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMy phone app starts and stops Shizuku via an intent (moe.shizuku.privileged.api.START / STOP). But you need to enter the Shizuku auth key here. You can find the key after installing Shizuku by tapping Show intents in the Control Shizuku using automation apps section.</string>
+<string name="call_recording_agree">I acknowledge and agree</string>
+<string name="call_recording_key_hint">Shizuku auth key</string>
+<string name="call_recording_key_invalid">Invalid key</string>
+<string name="call_recording_key_saved">Test completed successfully, key saved</string>
+<string name="call_recording_files">Recorded calls</string>
+<string name="start_call_recording">Start recording</string>
+<string name="stop_call_recording">Stop recording</string>
+<string name="recording_start_failed">Failed to start recording</string>
+<string name="recorded_files_missing">The file no longer exists</string>
+<string name="recorded_files_delete_failed">Failed to delete the file</string>
+<string name="recorded_files_play">Play</string>
+<string name="recorded_files_export">Export</string>
+<string name="recorded_files_refresh">Refresh</string>
+
 <string name="send_message">Send message</string>
 <string name="hide_number_for_saved_contact">Do not display phone number during a call if it is a saved contact</string>
 <string name="privacy_acknowledge">I acknowledge this</string>
@@ -10,7 +27,7 @@
     <string name="block_hidden_calls">Block calls from hidden numbers</string>
     <string name="block_unknown_messages">Block messages from numbers not in contacts</string>
     <string name="block_hidden_messages">Block messages from hidden numbers</string>
-    <string name="add_blocked_number_helper_text">Enter a exact number or a pattern with * or ? (e.g. *333*, +1*8888, +42?777*) to block all calls from numbers matching. An asterisk represents any number of characters, while a question mark represents exactly one character.</string>
+    <string name="add_blocked_number_helper_text">Enter an exact number or a pattern with * or ? (e.g. *333*, +1*8888, +42?777*) to block all calls from matching numbers. An asterisk represents any number of characters, while a question mark represents exactly one character.</string>
     <string name="must_make_default_caller_id_app">Can\'t block unknown numbers without caller ID permission.</string>
     <string name="block_contact">Block contact</string>
     <string name="block_contact_success">Contact blocked</string>
@@ -20,27 +37,25 @@
     <string name="unblock_contact_fail">Contact could not be unblocked</string>
 <string name="block_error_string_value">Only numbers and ? * are allowed</string>
 
-<string name="last_update_info">Minor changes to colors and font sizes, harmonization of the graphical UI, some new values in the action mmenu(s). New settings option \"Do not display phone number during a call if it is a saved contact\"</string>
 
+<string name="last_update_info">How about arranging the bottom tabs 🗂️ just the way you like? And what about recording 🎙️ an ongoing call — wouldn\'t that come in handy? 😁</string>
+
+<string name="last_update_info932">Minor changes to colors and font sizes, harmonization of the graphical UI, some new values in the action menu(s). New settings option \"Do not display phone number during a call if it is a saved contact\"</string>
+<string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
 <string name="last_update_info902">🐞 Fixes for possible application crashes in call history</string>
-
-<string name="last_update_info897">⌚ From now on, the caller\'s name will also be displayed on your smartwatch. Another new feature is the ability to tap on the number that is calling you and if you have spam testing turned on, a website with reviews of that number will open. Please support the app by rating it in the store, it costs nothing and you will help others with their choice. Every ⭐ counts!</string>
-
-
+<string name="last_update_info897">⌚ From now on, the caller\'s name will also be displayed on your smartwatch. Another new feature is the ability to tap on the number that is calling you, and if you have spam testing turned on, a website with reviews of that number will open. Please support the app by rating it in the store, it costs nothing and you will help others with their choice. Every ⭐ counts!</string>
 <string name="last_update_info894">🐞 Fixed an issue where the call history was not displaying fully on certain phone models. Please support the app by rating it in the store, it costs nothing and helps others make their choice. Every ⭐ counts!</string>
-
 <string name="last_update_info885">In this new version, the graphical appearance of notifications has been completely redesigned. If you have multiple SIMs, you will also see a SIM note in the notification.</string>
-
 <string name="last_update_info853">In this new version you have the option to connect to applications that check unknown numbers for spam. Thanks to the emoji 🎣🤖🗣️🥊💰🛒🏢📓 displayed right next to the number, you will know if it is spam! More info on my website...</string>
 
 <string name="update_done">Updated to v</string>
 <string name="not_permissions_info">The application does not have the necessary permissions and may not function properly.</string>
 <string name="edit_sms_templates"> 🔤 Edit SMS templates</string>
-<string name="sms_edit_hint_double_tap">Tap twice or long to edit</string>
+<string name="sms_edit_hint_double_tap">Double-tap or long-press to edit</string>
 <string name="sms_add_new_template">+ Add new template</string>
-<string name="could_not_send_sms">You have the function to reject a call with SMS enabled, but the application does not have the right to send SMS...</string>
+<string name="could_not_send_sms">You have the function to reject a call with SMS enabled, but the application does not have permission to send SMS...</string>
 <string name="show_decline_and_sms_button">Enable Decline and send SMS button</string>
-<string name="decline_with_sms">Decline and sned SMS</string>
+<string name="decline_with_sms">Decline and send SMS</string>
 <string name="contacts_duplicity">It appears that you have contacts from multiple sources enabled because duplicate numbers were found...</string>
 
 <string name="import_perfs">Import settings</string>
@@ -95,8 +110,8 @@
  <string name="fast_dial_mts">Fast dialing</string>
  <string name="blocked_numbers_mts">Blocking &amp; spam</string>
 <string name="error_autoremoveperm_mts">You have automatic permission removal enabled for this application. Turn this option off.</string>
- <string name="perm_mts">Check premissions</string>
- <string name="speaker_mts">Built-in loud speaker</string>
+ <string name="perm_mts">Check permissions</string>
+ <string name="speaker_mts">Built-in loudspeaker</string>
  <string name="ear_mts">Built-in speaker</string>
 <string name="select_audio_mts">Select a device</string>
 <string name="cancel_mts">Cancel</string>
@@ -129,7 +144,7 @@
 <string name="call_error1_text_mts">is on the blocked numbers list. The call cannot be made until you unblock the number.</string>
 <string name="call_error1_title_mts">Blocked number</string>
 <string name="call_error1_number_mts">Number</string>
-<string name="call_empty_string_mts">is empty string !</string>
+<string name="call_empty_string_mts">is an empty string !</string>
 <string name="dialog_back">Back</string>
 <string name="dialog_ok">OK</string>
 <string name="dialog_close">Close</string>
@@ -204,18 +219,18 @@
     <string name="call_is_being_connected">Your call is being connected…</string>
     <string name="call_notification_channel">Call status</string>
     <string name="call_notification_channel_high_priority">Call status (high priority)</string>
-    <string name="other_info_notification_channel">Update and others info</string>
+    <string name="other_info_notification_channel">Update and other info</string>
 
     <string name="speed_dial_title">🏍️ Speed dial</string>
     <string name="manage_speed_dial">🏍️ Manage speed dial</string>
-    <string name="speed_dial_label">Click on a number to assign a contact to it. You can then quickly call the given contact by long pressing the given number at the dialer.</string>
+    <string name="speed_dial_label">Tap on a number to assign a contact to it. You can then quickly call the given contact by long pressing the given number at the dialer.</string>
 
     
-    <string name="group_subsequent_calls">Group subsequent calls with the same number at the call log</string>
+    <string name="group_subsequent_calls">Group subsequent calls with the same number in the call log</string>
     <string name="open_dialpad_by_default">Open the dialpad by default when the app opens</string>
     <string name="disable_proximity_sensor">Disable proximity sensor during calls</string>
-    <string name="disable_swipe_to_answer">Replace swiping at responding to incoming calls with clicking</string>
-    <string name="show_blur_incoming_calls_full_screen">Blur efect on Android 16+ lock screen</string>
+    <string name="disable_swipe_to_answer">Replace swiping with tapping when answering incoming calls</string>
+    <string name="show_blur_incoming_calls_full_screen">Blur effect on Android 16+ lock screen</string>
     <string name="show_incoming_calls_full_screen">Always display incoming calls on full screen</string>
     <string name="hide_dialpad_numbers">Hide dialpad numbers</string>
     <string name="export_call_history">Export call history</string>

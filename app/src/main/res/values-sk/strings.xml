@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Telefón</string>
 
+<string name="allow_record_calls">Povoliť nahrávanie hovorov</string>
+<string name="call_recording_title">Nahrávanie hovorov</string>
+<string name="call_recording_info">Upozornenie na nahrávanie hovorov:\n\nNahrávanie telefonických hovorov môže v niektorých krajinách alebo za určitých okolností podliehať právnym predpisom, obmedzeniam alebo požiadavkám na informovanie účastníkov hovoru či získanie ich súhlasu.\n\nPred použitím tejto funkcie sa uistite, že jej používanie je v súlade so zákonmi a ostatnými pravidlami platnými vo vašej krajine alebo na vašom mieste pobytu.\n\nZa spôsob používania funkcie nahrávania hovorov nesiete výhradnú zodpovednosť vrátane dodržiavania všetkých platných právnych povinností a získania prípadného požadovaného súhlasu.\n\nVývojár aplikácie neposkytuje právne poradenstvo a nenesie zodpovednosť za používanie tejto funkcie v rozpore s platnými zákonmi.\n\nPoužívaním funkcie nahrávania hovorov potvrdzujete, že ste si toto upozornenie prečítali, porozumeli mu a beriete ho na vedomie.\n\nNahrávanie je implementované pomocou aplikácie Shizuku (moe.shizuku.privileged.api), ktorú si môžete stiahnuť z https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMoja aplikácia Telefón spúšťa a zastavuje Shizuku pomocou intentu (moe.shizuku.privileged.api.START / STOP). Tu však musíte zadať autorizačný kľúč Shizuku. Kľúč nájdete po nainštalovaní aplikácie Shizuku klepnutím na Show intents v časti Control Shizuku using automation apps.</string>
+<string name="call_recording_agree">Beriem na vedomie a súhlasím</string>
+<string name="call_recording_key_hint">Autorizačný kľúč Shizuku</string>
+<string name="call_recording_key_invalid">Neplatný kľúč</string>
+<string name="call_recording_key_saved">Test bol úspešne dokončený, kľúč bol uložený</string>
+<string name="call_recording_files">Nahrané hovory</string>
+<string name="start_call_recording">Spustiť nahrávanie</string>
+<string name="stop_call_recording">Zastaviť nahrávanie</string>
+<string name="recording_start_failed">Nahrávanie sa nepodarilo spustiť</string>
+<string name="recorded_files_missing">Súbor už neexistuje</string>
+<string name="recorded_files_delete_failed">Súbor sa nepodarilo odstrániť</string>
+<string name="recorded_files_play">Prehrať</string>
+<string name="recorded_files_export">Exportovať</string>
+<string name="recorded_files_refresh">Obnoviť</string>
+
 <string name="send_message">Poslať správu</string>
 <string name="hide_number_for_saved_contact">Počas hovoru nezobrazovať telefónne číslo, ak ide o uložený kontakt</string>
 <string name="privacy_acknowledge">Beriem na vedomie</string>

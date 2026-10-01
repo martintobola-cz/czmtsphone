@@ -1,62 +1,58 @@
 [versions]
 
-# JetBrains / Kotlin
+# Kotlin
 kotlin = "2.3.20"
-kotlin-immutable-collections = "0.5.1"
-kotlinxSerializationJson = "1.11.0"
 ksp = "2.3.7"
+kotlin-immutable-collections = "0.5.2"
+kotlinxCoroutines = "1.11.0"
+kotlinxSerializationJson = "1.11.0"
 
 # Detekt
 detekt = "1.23.8"
 detektCompose = "0.6.3"
 
 # AndroidX
+androidx-appcompat = "1.8.0"
+androidx-constraintlayout = "2.2.2"
+androidx-coreKtx = "1.18.0"
 androidx-customView = "1.2.0"
 androidx-customViewPooling = "1.1.0"
-androidx-lifecycle = "2.9.4"
-androidx-constraintlayout = "2.2.2"
 androidx-documentfile = "1.1.0"
 androidx-exifinterface = "1.4.2"
-androidx-coreKtx = "1.18.0"
-androidx-appcompat = "1.7.1"
+androidx-lifecycle = "2.10.0"
 androidx-swiperefreshlayout = "1.2.0"
 
 # Material
 material = "1.14.0"
 
-# Helpers / libs
-# patternLockView = "a90b0d4bf0"
-# reprint = "2cb206415d"
-# recyclerviewFastscroller = "5a95285b1f"
-recyclerviewFastscroller = "1.0.0"
-rtlViewpager = "2.0.2"
-
 # Compose
-composeActivity = "1.11.0"
 compose = "1.7.6"
+composeActivity = "1.11.0"
 composeMaterial3 = "1.4.0"
-
-#compose = "1.8.0"
-#composeActivity = "1.12.0"
-#composeMaterial3 = "1.4.1"
-
+uiGraphics = "1.11.4"
 
 # Glide
 glide = "5.0.7"
 glideCompose = "1.0.0-beta09"
 
 # Room
-room = "2.8.4"
+room = "2.8.5"
 
 # Other libs
+autofitTextView = "0.2.1"
 ezVcard = "0.12.2"
 gson = "2.14.0"
-# jodaTime = "2.14.0"
-# eventbus = "3.3.1"
-# geocoderVersion = "3.16"
 indicatorFastScroll = "c7873f7168"
-autofitTextView = "0.2.1"
-uiGraphicsVersion = "1.11.4"
+libphonenumber = "9.0.40"
+libphonenumberGeocoder = "3.40"
+recyclerviewFastscroller = "1.0.0"
+rtlViewpager = "2.0.2"
+shizuku = "13.1.5"
+
+# scrcpy-server (binary stahovaný při buildu, ne Maven závislost)
+# Verze MUSÍ zůstat 4.0 - ScrcpyClient.kt parsuje binární protokol specifický pro tuhle verzi.
+# Při změně verze aktualizuj i SHA256 v app/build.gradle.kts.
+scrcpy = "4.0"
 
 # Gradle / build
 gradlePlugins-agp = "8.13.2"
@@ -65,14 +61,12 @@ app-build-targetSDK = "36"
 app-build-minimumSDK = "28"
 app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
-uiGraphics = "1.11.4"
 
 
 [libraries]
 
-# AndroidX Core
+# AndroidX
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-# androidx-biometric-ktx = { module = "androidx.biometric:biometric-ktx", version.ref = "androidx-biometricKtx" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-coreKtx" }
 androidx-customView = { module = "androidx.customview:customview", version.ref = "androidx-customView" }
@@ -95,6 +89,7 @@ compose-material-icons = { module = "androidx.compose.material:material-icons-ex
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "uiGraphics" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-uiTooling-debug = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-uiTooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
@@ -114,24 +109,25 @@ glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = 
 # Material
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
-# Helpers
-#patternLockView = { module = "com.github.aritraroy:patternLockView", version.ref = "patternLockView" }
-#reprint = { module = "com.github.tibbi:reprint", version.ref = "reprint" }
+# Kotlinx
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable-collections" }
+
+# Shizuku
+shizuku-api = { module = "dev.rikka.shizuku:api", version.ref = "shizuku" }
+shizuku-provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizuku" }
+
+# Other libs
+autofit-text-view = { module = "me.grantland:autofittextview", version.ref = "autofitTextView" }
+ez-vcard = { module = "com.googlecode.ez-vcard:ez-vcard", version.ref = "ezVcard" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+indicator-fast-scroll = { module = "org.fossify:IndicatorFastScroll", version.ref = "indicatorFastScroll" }
+libphonenumber = { module = "com.googlecode.libphonenumber:libphonenumber", version.ref = "libphonenumber" }
+libphonenumber-geocoder = { module = "com.googlecode.libphonenumber:geocoder", version.ref = "libphonenumberGeocoder" }
 recyclerView-fastScroller = { module = "com.github.tibbi:RecyclerView-FastScroller", version.ref = "recyclerviewFastscroller" }
 rtl-viewpager = { module = "com.github.naveensingh:rtl-viewpager", version.ref = "rtlViewpager" }
 
-# Other libs
-ez-vcard = { module = "com.googlecode.ez-vcard:ez-vcard", version.ref = "ezVcard" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-#joda-time = { module = "joda-time:joda-time", version.ref = "jodaTime" }
-#eventbus = { module = "org.greenrobot:eventbus", version.ref = "eventbus" }
-# geocoder = { module = "com.googlecode.libphonenumber:geocoder", version.ref = "geocoderVersion" }
-indicator-fast-scroll = { module = "org.fossify:IndicatorFastScroll", version.ref = "indicatorFastScroll" }
-autofit-text-view = { module = "me.grantland:autofittextview", version.ref = "autofitTextView" }
-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "uiGraphicsVersion" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable-collections" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
 
 [bundles]
 
@@ -160,6 +156,11 @@ lifecycle = [
     "androidx-lifecycle-viewModel",
     "androidx-lifecycle-viewModel-compose",
 ]
+shizuku = [
+    "shizuku-api",
+    "shizuku-provider",
+]
+
 
 [plugins]
 

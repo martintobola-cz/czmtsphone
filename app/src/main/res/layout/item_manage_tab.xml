@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/activity_margin">
+
+    <cz.mts.base.views.MyAppCompatCheckbox
+        android:id="@+id/manage_tab_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/medium_margin" />
+
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/manage_tab_up"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:text="▲"
+        android:textSize="20sp" />
+
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/manage_tab_down"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:text="▼"
+        android:textSize="20sp" />
+</LinearLayout>

@@ -120,8 +120,7 @@
     <string name="pattern_renaming">Modèle</string>
     <string name="string_to_add">Texte à ajouter</string>
     <string name="rename_date_time_pattern">%Y - année\n%M - mois\n%D - jour\n%h - heure\n%m - minute\n%s - seconde\n%i - l\'incrémentation débute à 1</string>
-    <string name="filename_without_txt">Nom de fichier (sans .txt)</string>
-    <string name="filename_without_json">Nom de fichier sans extension</string>
+    <string name="filename_without_ext">Nom de fichier sans extension</string>
     <string name="copy">Copier</string>
     <string name="please_select_destination">Veuillez sélectionner une destination</string>
     <string name="could_not_create_folder">Impossible de créer le dossier \"%s\"</string>

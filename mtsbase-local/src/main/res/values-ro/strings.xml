@@ -116,8 +116,7 @@
     <string name="pattern_renaming">Model</string>
     <string name="string_to_add">Şir de caractere de adăugat</string>
     <string name="rename_date_time_pattern">%Y - an\n%M - lună\n%D - zi\n%h - oră\n%m - minut\n%s - secondă\n%i - numărul crescând de la 1</string>
-    <string name="filename_without_txt">Numele fişierului (fără .txt)</string>
-    <string name="filename_without_json">Numele fişierului (fără .json)</string>
+    <string name="filename_without_ext">Numele fişierului</string>
     <string name="copy">Copiază</string>
     <string name="please_select_destination">Selectaţi o destinaţie</string>
     <string name="could_not_create_folder">Nu s-a putut crea dosarul %s</string>

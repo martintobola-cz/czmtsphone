@@ -22,7 +22,7 @@ object MissedCallManager {
     // Zabezpečeno proti souběžnému přístupu z více vláken
     private val missedCalls = mutableListOf<String>()
 
-    fun registerMissedCall(context: Context, number: String, sSpamEmoji: String, iSim : Int) {
+    fun registerMissedCall(context: Context, number: String, sSpamEmoji: String, iSim: Int, iRingSec: Int = -1) {
         getCallContact(context, null, number) { callContact ->
             synchronized(missedCalls) {
                 var sTextToDisplay : String
@@ -36,6 +36,7 @@ object MissedCallManager {
                         sTextToDisplay = number
                     }
                 }
+                if (iRingSec >= 0) sTextToDisplay = "(${iRingSec}s) $sTextToDisplay"
                 if (iSim == 1) { sTextToDisplay = "📞¹ " + sTextToDisplay }
                 else if (iSim == 2) { sTextToDisplay = "📞² " + sTextToDisplay }
                 missedCalls.add(sTextToDisplay)

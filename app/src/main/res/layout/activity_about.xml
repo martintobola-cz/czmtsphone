@@ -275,6 +275,86 @@
                     android:textStyle="normal"
                     android:text="" />
             </RelativeLayout>
+            <!-- 7b. Special thanks — nadpis + 4 samostatné odkazy -->
+            <RelativeLayout
+                android:id="@+id/about_thanks_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/normal_margin">
+                <TextView
+                    android:id="@+id/about_thanks_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="false"
+                    android:gravity="center"
+                    android:text="👍" />
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/about_thanks_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_thanks_icon"
+                    android:textStyle="bold"
+                    tools:text="Special thanks" />
+                <LinearLayout
+                    android:id="@+id/about_thanks_links"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/about_thanks_label"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_toEndOf="@id/about_thanks_icon"
+                    android:orientation="vertical">
+                    <cz.mts.base.views.MyTextView
+                        android:id="@+id/about_thanks_link1"
+                        style="@style/SettingsTextLabelStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/small_margin"
+                        android:singleLine="false"
+                        android:textStyle="normal"
+                        tools:text="thanks1.com" />
+                    <cz.mts.base.views.MyTextView
+                        android:id="@+id/about_thanks_link2"
+                        style="@style/SettingsTextLabelStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/small_margin"
+                        android:singleLine="false"
+                        android:textStyle="normal"
+                        tools:text="thanks2.com" />
+                    <cz.mts.base.views.MyTextView
+                        android:id="@+id/about_thanks_link3"
+                        style="@style/SettingsTextLabelStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/small_margin"
+                        android:singleLine="false"
+                        android:textStyle="normal"
+                        tools:text="thanks3.com" />
+                    <cz.mts.base.views.MyTextView
+                        android:id="@+id/about_thanks_link4"
+                        style="@style/SettingsTextLabelStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/small_margin"
+                        android:singleLine="false"
+                        android:textStyle="normal"
+                        tools:text="thanks4.com" />
+                    <cz.mts.base.views.MyTextView
+                        android:id="@+id/about_thanks_link5"
+                        style="@style/SettingsTextLabelStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/small_margin"
+                        android:singleLine="false"
+                        android:textStyle="normal"
+                        tools:text="thanks5.com" />
+
+                </LinearLayout>
+            </RelativeLayout>
             <!-- 8. Send email to author -->
             <RelativeLayout
                 android:id="@+id/about_email_holder"

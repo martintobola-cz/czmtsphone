@@ -35,6 +35,7 @@
         </intent>
         <package android:name="callfilter.app"/>
         <package android:name="cz.mts.callfilter"/>
+        <package android:name="moe.shizuku.privileged.api"/>
     </queries>
 
     <application
@@ -71,10 +72,17 @@
             android:label="@string/customize_colors"
             android:parentActivityName=".activities.SettingsActivity" />
 
-<activity
-    android:name=".activities.PrivacyPolicyActivity"
-    android:exported="false"
-    android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.RecordedFilesActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:label="@string/call_recording_files"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <activity
+            android:name=".activities.PrivacyPolicyActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name="cz.mts.phone.activities.EditLocalContactActivity"
@@ -136,6 +144,12 @@
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/about"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <activity android:name=".activities.ShizukuAuthKeyActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:label="@string/call_recording_title"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
@@ -498,5 +512,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+
+<provider
+    android:name="rikka.shizuku.ShizukuProvider"
+    android:authorities="${applicationId}.shizuku"
+    android:multiprocess="false"
+    android:enabled="true"
+    android:exported="true"
+    android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
     </application>
 </manifest>

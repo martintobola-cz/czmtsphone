@@ -10,14 +10,17 @@ import cz.mts.base.helpers.SHOWNEWS_MTS
 class SplashActivity : BaseSplashActivity() {
     override fun initActivity() {
         val prefs = getSharedPreferences(PREFS_KEY, MODE_PRIVATE)
-        val accepted = prefs.getBoolean(PRIVACY_POLICY_ACCEPTED, false)
         val debug = prefs.getBoolean(EASTER_EGG_MODE, false)
         val iFirstRun = prefs.getInt(SHOWNEWS_MTS, 0)
 
-        val targetActivity = if (debug) PrivacyPolicyActivity::class.java
-                             else if (iFirstRun > 0) MainActivity::class.java
-                             else if (!accepted) PrivacyPolicyActivity::class.java
-                             else MainActivity::class.java
+        val needsPolicy = if (prefs.contains(PRIVACY_POLICY_ACCEPTED)) {
+            !prefs.getBoolean(PRIVACY_POLICY_ACCEPTED, false)   // souhlas explicitně odebrán / nedán
+        } else {
+            iFirstRun == 0
+        }
+
+        val targetActivity = if (debug || needsPolicy) PrivacyPolicyActivity::class.java
+        else MainActivity::class.java
 
         startActivity(Intent(this, targetActivity))
         finish()

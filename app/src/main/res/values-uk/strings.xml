@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="allow_record_calls">Дозволити запис дзвінків</string>
+<string name="call_recording_title">Запис дзвінків</string>
+<string name="call_recording_info">Повідомлення про запис дзвінків:\n\nЗапис телефонних розмов у деяких країнах або за певних обставин може регулюватися законодавством, обмеженнями або вимогами щодо повідомлення учасників розмови чи отримання їхньої згоди.\n\nПеред використанням цієї функції переконайтеся, що її використання відповідає законам та іншим правилам, чинним у вашій країні або місці перебування.\n\nВи несете повну відповідальність за використання функції запису дзвінків, зокрема за дотримання всіх чинних юридичних вимог та отримання необхідної згоди.\n\nРозробник застосунку не надає юридичних консультацій і не несе відповідальності за використання цієї функції з порушенням чинного законодавства.\n\nВикористовуючи функцію запису дзвінків, ви підтверджуєте, що прочитали та зрозуміли це повідомлення і берете його до відома.\n\nЗапис здійснюється за допомогою застосунку Shizuku (moe.shizuku.privileged.api), який можна завантажити за адресою https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nМій застосунок «Телефон» запускає та зупиняє Shizuku за допомогою intent (moe.shizuku.privileged.api.START / STOP). Однак тут потрібно ввести ключ авторизації Shizuku. Ключ можна знайти після встановлення Shizuku, натиснувши Show intents у розділі Control Shizuku using automation apps.</string>
+<string name="call_recording_agree">Я підтверджую та погоджуюся</string>
+<string name="call_recording_key_hint">Ключ авторизації Shizuku</string>
+<string name="call_recording_key_invalid">Недійсний ключ</string>
+<string name="call_recording_key_saved">Тест успішно завершено, ключ збережено</string>
+<string name="call_recording_files">Записані дзвінки</string>
+<string name="start_call_recording">Почати запис</string>
+<string name="stop_call_recording">Зупинити запис</string>
+<string name="recording_start_failed">Не вдалося почати запис</string>
+<string name="recorded_files_missing">Файл більше не існує</string>
+<string name="recorded_files_delete_failed">Не вдалося видалити файл</string>
+<string name="recorded_files_play">Відтворити</string>
+<string name="recorded_files_export">Експортувати</string>
+<string name="recorded_files_refresh">Оновити</string>
+
 <string name="send_message">Надіслати повідомлення</string>
 <string name="hide_number_for_saved_contact">Не показувати номер телефону під час дзвінка, якщо це збережений контакт</string>
 <string name="privacy_acknowledge">Беру до відома</string>

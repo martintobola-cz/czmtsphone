@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/activity_margin"
+    android:paddingVertical="@dimen/medium_margin">
+
+    <!-- velikost a barva se nastavují v adaptéru (fontSize, fontSize * 0.8, alpha 0.6) -->
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/recorded_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        tools:text="call_2026_09_28_14_05_33.ogg" />
+
+    <cz.mts.base.views.MyTextView
+        android:id="@+id/recorded_file_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        tools:text="28. zář 2026 14:05 • 1,2 MB" />
+
+</LinearLayout>

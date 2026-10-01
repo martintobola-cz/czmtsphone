@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="allow_record_calls">Permite înregistrarea apelurilor</string>
+<string name="call_recording_title">Înregistrarea apelurilor</string>
+<string name="call_recording_info">Notificare privind înregistrarea apelurilor:\n\nÎnregistrarea apelurilor telefonice poate fi supusă în anumite țări sau în anumite circumstanțe unor reglementări legale, restricții sau cerințe privind informarea participanților la apel ori obținerea consimțământului acestora.\n\nÎnainte de a utiliza această funcție, asigurați-vă că utilizarea acesteia respectă legile și celelalte reguli aplicabile în țara sau locația dumneavoastră.\n\nSunteți singurul responsabil pentru modul în care utilizați funcția de înregistrare a apelurilor, inclusiv pentru respectarea tuturor obligațiilor legale aplicabile și obținerea oricărui consimțământ necesar.\n\nDezvoltatorul aplicației nu oferă consultanță juridică și nu este responsabil pentru utilizarea acestei funcții cu încălcarea legilor aplicabile.\n\nPrin utilizarea funcției de înregistrare a apelurilor, confirmați că ați citit și ați înțeles această notificare și că luați act de aceasta.\n\nÎnregistrarea este realizată folosind aplicația Shizuku (moe.shizuku.privileged.api), pe care o puteți descărca de la https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nAplicația mea Telefon pornește și oprește Shizuku printr-un intent (moe.shizuku.privileged.api.START / STOP). Totuși, aici trebuie să introduceți cheia de autentificare Shizuku. Puteți găsi cheia după instalarea Shizuku apăsând Show intents în secțiunea Control Shizuku using automation apps.</string>
+<string name="call_recording_agree">Confirm și sunt de acord</string>
+<string name="call_recording_key_hint">Cheia de autentificare Shizuku</string>
+<string name="call_recording_key_invalid">Cheie nevalidă</string>
+<string name="call_recording_key_saved">Test finalizat cu succes, cheia a fost salvată</string>
+<string name="call_recording_files">Apeluri înregistrate</string>
+<string name="start_call_recording">Pornește înregistrarea</string>
+<string name="stop_call_recording">Oprește înregistrarea</string>
+<string name="recording_start_failed">Pornirea înregistrării a eșuat</string>
+<string name="recorded_files_missing">Fișierul nu mai există</string>
+<string name="recorded_files_delete_failed">Ștergerea fișierului a eșuat</string>
+<string name="recorded_files_play">Redare</string>
+<string name="recorded_files_export">Exportă</string>
+<string name="recorded_files_refresh">Reîmprospătează</string>
+
 <string name="send_message">Trimite mesaj</string>
 <string name="hide_number_for_saved_contact">Nu afișa numărul de telefon în timpul unui apel dacă este un contact salvat</string>
 <string name="privacy_acknowledge">Confirm că am luat la cunoștință</string>

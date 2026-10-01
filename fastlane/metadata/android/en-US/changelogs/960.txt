@@ -1,0 +1,2 @@
+First official f-droid release
+<a href="https://mts.speccy.cz/mtsphone-news.htm#v960">changelog</a>

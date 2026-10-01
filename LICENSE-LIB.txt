@@ -6,25 +6,30 @@ All libraries listed below are licensed under
 permissive open-source licenses (Apache 2.0, MIT, BSD).
 They are free for commercial use, redistribution, and modification.
 
+Versions match gradle/libs.versions.toml.
+[debug] = included in debug builds only
+[build] = build-time tool, not shipped in the APK
+
 ----------------------------------------
  AndroidX Libraries
 ----------------------------------------
-androidx.appcompat:appcompat ....................... 1.7.1 (Apache 2.0)
+androidx.appcompat:appcompat ....................... 1.8.0 (Apache 2.0)
 androidx.constraintlayout:constraintlayout ......... 2.2.2 (Apache 2.0)
 androidx.core:core-ktx ............................. 1.18.0 (Apache 2.0)
-androidx.customview:customview ..................... 1.2.0 (Apache 2.0)
-androidx.customview:customview-poolingcontainer .... 1.1.0 (Apache 2.0)
+androidx.customview:customview ..................... 1.2.0 (Apache 2.0) [debug]
+androidx.customview:customview-poolingcontainer .... 1.1.0 (Apache 2.0) [debug]
 androidx.documentfile:documentfile ................. 1.1.0 (Apache 2.0)
 androidx.exifinterface:exifinterface ............... 1.4.2 (Apache 2.0)
 androidx.swiperefreshlayout:swiperefreshlayout ..... 1.2.0 (Apache 2.0)
 
-Lifecycle (AndroidX)
 ----------------------------------------
-androidx.lifecycle:lifecycle-runtime-ktx ........... 2.9.4 (Apache 2.0)
-androidx.lifecycle:lifecycle-viewmodel-ktx ......... 2.9.4 (Apache 2.0)
-androidx.lifecycle:lifecycle-viewmodel-compose ..... 2.9.4 (Apache 2.0)
-androidx.lifecycle:lifecycle-runtime-compose ....... 2.9.4 (Apache 2.0)
-androidx.lifecycle:lifecycle-process ............... 2.9.4 (Apache 2.0)
+ Lifecycle (AndroidX)
+----------------------------------------
+androidx.lifecycle:lifecycle-runtime-ktx ........... 2.10.0 (Apache 2.0)
+androidx.lifecycle:lifecycle-viewmodel-ktx ......... 2.10.0 (Apache 2.0)
+androidx.lifecycle:lifecycle-viewmodel-compose ..... 2.10.0 (Apache 2.0)
+androidx.lifecycle:lifecycle-runtime-compose ....... 2.10.0 (Apache 2.0)
+androidx.lifecycle:lifecycle-process ............... 2.10.0 (Apache 2.0)
 
 ----------------------------------------
  Jetpack Compose
@@ -35,30 +40,50 @@ androidx.compose.material:material-icons-extended .. 1.7.6 (Apache 2.0)
 androidx.compose.animation:animation ............... 1.7.6 (Apache 2.0)
 androidx.activity:activity-compose ................. 1.11.0 (Apache 2.0)
 androidx.compose.ui:ui ............................. 1.7.6 (Apache 2.0)
+androidx.compose.ui:ui-graphics .................... 1.11.4 (Apache 2.0)
 androidx.compose.runtime:runtime ................... 1.7.6 (Apache 2.0)
-androidx.compose.ui:ui-tooling ..................... 1.7.6 (Apache 2.0)
+androidx.compose.ui:ui-tooling ..................... 1.7.6 (Apache 2.0) [debug]
 androidx.compose.ui:ui-tooling-preview ............. 1.7.6 (Apache 2.0)
-androidx.compose.ui:ui-viewbinding ................  1.7.6 (Apache 2.0)
-io.nlopez.compose.rules:detekt ..................... 0.6.3 (Apache 2.0)
+androidx.compose.ui:ui-viewbinding ................. 1.7.6 (Apache 2.0)
+io.nlopez.compose.rules:detekt ..................... 0.6.3 (Apache 2.0) [build]
 
 ----------------------------------------
  Room (AndroidX)
 ----------------------------------------
-androidx.room:room-runtime ........................  2.8.4 (Apache 2.0)
-androidx.room:room-ktx ............................. 2.8.4 (Apache 2.0)
-androidx.room:room-compiler ........................ 2.8.4 (Apache 2.0)
+androidx.room:room-runtime ......................... 2.8.5 (Apache 2.0)
+androidx.room:room-ktx ............................. 2.8.5 (Apache 2.0)
+androidx.room:room-compiler ........................ 2.8.5 (Apache 2.0) [build]
 
 ----------------------------------------
  Glide
 ----------------------------------------
 com.github.bumptech.glide:glide .................... 5.0.7 (BSD, MIT, Apache 2.0)
 com.github.bumptech.glide:compose .................. 1.0.0-beta09 (BSD, MIT, Apache 2.0)
-com.github.bumptech.glide:compiler ................. 5.0.7 (BSD, MIT, Apache 2.0)
+com.github.bumptech.glide:compiler ................. 5.0.7 (BSD, MIT, Apache 2.0) [build]
 
 ----------------------------------------
  Material Components
 ----------------------------------------
 com.google.android.material:material ............... 1.14.0 (Apache 2.0)
+
+----------------------------------------
+ Kotlin / JetBrains
+----------------------------------------
+org.jetbrains.kotlinx:kotlinx-coroutines-android ... 1.11.0 (Apache 2.0)
+org.jetbrains.kotlinx:kotlinx-serialization-json ... 1.11.0 (Apache 2.0)
+org.jetbrains.kotlinx:kotlinx-collections-immutable  0.5.2 (Apache 2.0)
+
+----------------------------------------
+ Shizuku
+----------------------------------------
+dev.rikka.shizuku:api .............................. 13.1.5 (MIT)
+dev.rikka.shizuku:provider ......................... 13.1.5 (MIT)
+
+----------------------------------------
+ scrcpy
+----------------------------------------
+Genymobile/scrcpy (scrcpy-server binary) ........... 4.0 (Apache 2.0)
+    https://github.com/Genymobile/scrcpy
 
 ----------------------------------------
  Other Libraries
@@ -67,13 +92,10 @@ com.github.tibbi:RecyclerView-FastScroller ......... 1.0.0 (Apache 2.0) (before 
 com.github.naveensingh:rtl-viewpager ............... 2.0.2 (Apache 2.0)
 com.googlecode.ez-vcard:ez-vcard ................... 0.12.2 (BSD)
 com.google.code.gson:gson .......................... 2.14.0 (Apache 2.0)
-com.googlecode.libphonenumber:geocoder ............. 3.38 (Apache 2.0)
-com.googlecode.libphonenumber:libphonenumber........ 9.0.38 (Apache 2.0)
+com.googlecode.libphonenumber:libphonenumber ....... 9.0.40 (Apache 2.0)
+com.googlecode.libphonenumber:geocoder ............. 3.40 (Apache 2.0)
 org.fossify:IndicatorFastScroll .................... c7873f7168 (Apache 2.0)
 me.grantland:autofittextview ....................... 0.2.1 (Apache 2.0)
-androidx.compose.ui:ui-graphics .................... 1.11.4 (Apache 2.0)
-org.jetbrains.kotlinx:kotlinx-serialization-json ... 1.11.0 (Apache 2.0)
-org.jetbrains.kotlinx:kotlinx-collections-immutable  0.5.1 (Apache 2.0)
 
 ----------------------------------------
  Legal Summary
@@ -84,11 +106,16 @@ All listed libraries use permissive licenses:
 - BSD License
 
 These licenses:
-✔ allow free commercial use  
-✔ allow modification and redistribution  
-✔ do not require releasing your own source code  
-✔ do not require paying any fees  
+✔ allow free commercial use
+✔ allow modification and redistribution
+✔ do not require releasing your own source code
+✔ do not require paying any fees
 ✔ are fully compatible with closed-source Android apps
+
+They do require that the copyright notices and license texts
+of the libraries are preserved when the app is distributed
+(this file serves that purpose together with the full license
+texts available from each project's repository).
 
 ========================================
  END OF FILE

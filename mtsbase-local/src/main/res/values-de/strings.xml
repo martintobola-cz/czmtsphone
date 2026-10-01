@@ -106,8 +106,7 @@
 \n%m - Minute
 \n%s - Sekunde
 \n%i - Zähler, aufsteigend ab 1</string>
-    <string name="filename_without_txt">Dateiname (ohne .txt)</string>
-    <string name="filename_without_json">Dateiname ohne Dateiendung</string>
+    <string name="filename_without_ext">Dateiname ohne Dateiendung</string>
     <string name="copy">Kopieren</string>
     <string name="please_select_destination">Bitte Ziel auswählen</string>
     <string name="could_not_create_folder">Ordner %s konnte nicht erstellt werden</string>

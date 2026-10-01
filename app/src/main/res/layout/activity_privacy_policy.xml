@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true">
 
     <WebView
         android:id="@+id/webViewPrivacy"
@@ -11,11 +11,20 @@ android:fitsSystemWindows="true">
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <CheckBox
+        android:id="@+id/chkAcknowledge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/call_recording_agree" />
+
     <Button
         android:id="@+id/btnAcknowledge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/privacy_acknowledge" />
+        android:text="@string/dialog_ok" />
 
 </LinearLayout>

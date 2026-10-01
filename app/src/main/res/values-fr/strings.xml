@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Téléphone</string>
 
+<string name="allow_record_calls">Autoriser l\’enregistrement des appels</string>
+<string name="call_recording_title">Enregistrement des appels</string>
+<string name="call_recording_info">Avis concernant l\’enregistrement des appels :\n\nL\’enregistrement des appels téléphoniques peut être soumis, dans certains pays ou dans certaines circonstances, à des dispositions légales, à des restrictions ou à l\’obligation d\’informer les participants à l\’appel ou d\’obtenir leur consentement.\n\nAvant d\’utiliser cette fonctionnalité, assurez-vous que son utilisation est conforme aux lois et autres règles applicables dans votre pays ou votre lieu de résidence.\n\nVous êtes seul responsable de l\’utilisation que vous faites de la fonction d\’enregistrement des appels, notamment du respect de toutes les obligations légales applicables et de l\’obtention de tout consentement requis.\n\nLe développeur de l\’application ne fournit aucun conseil juridique et n\’est pas responsable de l\’utilisation de cette fonctionnalité en violation des lois applicables.\n\nEn utilisant la fonction d\’enregistrement des appels, vous confirmez avoir lu et compris cet avis et en prendre acte.\n\nL\’enregistrement est réalisé à l\’aide de l\’application Shizuku (moe.shizuku.privileged.api), que vous pouvez télécharger depuis https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMon application Téléphone démarre et arrête Shizuku à l\’aide d\’un intent (moe.shizuku.privileged.api.START / STOP). Vous devez cependant saisir ici la clé d\’authentification Shizuku. Vous pouvez trouver cette clé après avoir installé Shizuku en appuyant sur Show intents dans la section Control Shizuku using automation apps.</string>
+<string name="call_recording_agree">Je reconnais et j\’accepte</string>
+<string name="call_recording_key_hint">Clé d\’authentification Shizuku</string>
+<string name="call_recording_key_invalid">Clé invalide</string>
+<string name="call_recording_key_saved">Test terminé avec succès, clé enregistrée</string>
+<string name="call_recording_files">Appels enregistrés</string>
+<string name="start_call_recording">Démarrer l\’enregistrement</string>
+<string name="stop_call_recording">Arrêter l\’enregistrement</string>
+<string name="recording_start_failed">Échec du démarrage de l\’enregistrement</string>
+<string name="recorded_files_missing">Le fichier n\’existe plus</string>
+<string name="recorded_files_delete_failed">Échec de la suppression du fichier</string>
+<string name="recorded_files_play">Lire</string>
+<string name="recorded_files_export">Exporter</string>
+<string name="recorded_files_refresh">Actualiser</string>
+
 <string name="send_message">Envoyer un message</string>
 <string name="hide_number_for_saved_contact">Ne pas afficher le numéro de téléphone pendant un appel s\’il s\’agit d\’un contact enregistré</string>
 <string name="privacy_acknowledge">Je reconnais ceci</string>

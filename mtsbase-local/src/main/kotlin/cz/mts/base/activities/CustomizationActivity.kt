@@ -425,17 +425,18 @@ class CustomizationActivity : BaseSimpleActivity() {
             val theme = predefinedThemes[notSavedThemeId] ?: predefinedThemes[THEME_LIGHT]!!
 
             if (notSavedThemeId == THEME_SYSTEM) {
-                //barvy se přepočítají podle aktuálního (ještě neuloženého) stavu přepínače dynamic theme
                 curTextColor = getColor(getDynamicTextColors(curUseDynamicTheme))
                 curBackgroundColor = getColor(getDynamicBackgroundColors(curUseDynamicTheme))
                 curNavBarColor = curBackgroundColor
+                curPopupMenuTextColor = if (isSPlus() && curUseDynamicTheme) getColor(R.color.you_neutral_text_color) else curTextColor
+                curPopupMenuBackgroundColor = if (isSPlus() && curUseDynamicTheme) getColor(R.color.you_dialog_background_color) else curBackgroundColor
             } else {
                 curTextColor = getColor(theme.textColorId)
                 curBackgroundColor = getColor(theme.backgroundColorId)
                 curNavBarColor = getColor(theme.navBarColorId)
+                curPopupMenuTextColor = getColor(theme.popupMenuTextColorId)
+                curPopupMenuBackgroundColor = getColor(theme.popupMenuBackgroundColorId)
             }
-            curPopupMenuTextColor = getColor(theme.popupMenuTextColorId)
-            curPopupMenuBackgroundColor = getColor(theme.popupMenuBackgroundColorId)
 
             if (notSavedThemeId != THEME_SYSTEM || !curUseDynamicTheme) {
                 curPrimaryColor = getColor(theme.primaryColorId)

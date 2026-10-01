@@ -5,7 +5,6 @@ import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.PorterDuff
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -42,6 +41,8 @@ import cz.mts.phone.fragments.ConferenceFragment
 import cz.mts.phone.helpers.*
 import cz.mts.phone.models.AudioRoute
 import cz.mts.phone.models.CallContact
+import cz.mts.phone.recorder.CallRecordingManager
+import me.grantland.widget.AutofitHelper
 import cz.mts.base.extensions.baseConfig as config
 
 class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
@@ -95,6 +96,11 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        AutofitHelper.create(binding.callerNameLabel).apply {
+            setMinTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.call_status_text_size))
+            //setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.caller_name_text_size))
+        }
 
         handleIntent(intent)
         setVars()
@@ -241,6 +247,8 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         callDialpad.setOnClickListener { toggleDialpadVisibility() }
         dialpadClose.setOnClickListener { hideDialpad() }
         callToggleHold.setOnClickListener { toggleHold() }
+        callRecord.setOnClickListener { toggleRecording() }
+        updateRecordButton()
 
         //callAdd.beGone()
         //callAdd.setOnClickListener {
@@ -258,7 +266,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         // Tooltip při dlouhém podržení
         arrayOf(
             callToggleMicrophone, callDialpad,
-            callToggleHold, callSwap, callMerge, callManage, callDeclineSms, callSendSms //callToggleHold, callAdd, callSwap, callMerge, callManage
+            callToggleHold, callSwap, callMerge, callManage, callDeclineSms, callSendSms, callRecord //callToggleHold, callAdd, callSwap, callMerge, callManage
         ).forEach { imageView ->
             imageView.setOnLongClickListener {
                 if (!imageView.contentDescription.isNullOrEmpty()) {
@@ -476,6 +484,55 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         binding.callToggleMicrophone.contentDescription = getString(if (isMicrophoneOff) R.string.turn_microphone_on else R.string.turn_microphone_off)
     }
 
+
+    private fun startRecordingNow() {
+        val number = CallManager.getCallById(sMyUUIDcall)?.details?.handle?.schemeSpecificPart.orEmpty()
+        CallRecordingManager.startRecording(number.ifBlank { "call" }) { started ->
+            runOnUiThread {
+                if (!started) reportRecordingFailure()
+                updateRecordButton()
+            }
+        }
+    }
+
+    private fun reportRecordingFailure() {
+        val error = CallRecordingManager.lastError
+        if (iSaveDebugMode == 1 && error != null) {
+            copyToClipboard(error)
+            //toast("Nahrávání selhalo (chyba zkopírována do schránky): $error")
+        } else {
+            toast(R.string.recording_start_failed)
+        }
+    }
+
+
+    private fun toggleRecording() {
+        if (!config.allowRecordCalls) return
+
+        if (CallRecordingManager.isRecording()) {
+            CallRecordingManager.stopRecording()
+            updateRecordButton()
+            return
+        }
+        startRecordingNow()
+    }
+
+    private fun updateRecordButton() {
+        val allowRecording = config.allowRecordCalls
+        binding.callRecord.beVisibleIf(allowRecording)
+
+        if (!allowRecording) {
+            if (CallRecordingManager.isRecording()) {
+                CallRecordingManager.stopRecording()
+            }
+            return
+        }
+
+        val recording = CallRecordingManager.isRecording()
+        toggleButtonColor(binding.callRecord, recording)
+        binding.callRecord.contentDescription = getString(if (recording) R.string.stop_call_recording else R.string.start_call_recording)
+    }
+
     private fun toggleDialpadVisibility() {
         if (binding.dialpadWrapper.isVisible()) hideDialpad() else showDialpad()
     }
@@ -592,13 +649,14 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
             //pokud je jméno hodně dlouhé, tak zmenšíme font a dáme tučný
             //sice callerNameLabel může být na dva řádky, ale u dlouhého jména původní text  ve velikosti "caller_name_text_size" vypadá hnusně
-            if (callerNameLabel.text.length > 16) {
-                callerNameLabel.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    resources.getDimension(R.dimen.call_status_text_size)
-                )
-                callerNameLabel.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-            }
+//            if (callerNameLabel.text.length > 16) {
+//                callerNameLabel.setTextSize(
+//                    TypedValue.COMPLEX_UNIT_PX,
+//                    resources.getDimension(R.dimen.call_status_text_size)
+//                )
+//                callerNameLabel.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+//            }  //zakomentováno, řeším knihovnou
+
 
             callerAvatar.beVisible()
             callerAvatar.apply {
@@ -841,6 +899,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
     private fun updateState() {
         if (isConferenceOpen()) return
+        updateRecordButton() // sync ikonu, kdyby nahrávání skončilo centrálně (např. hovor spadl)
         val callsCount = CallManager.getAliveCallsCount()
         var callMy = CallManager.getCallById(sMyUUIDcall)
         //kontrola na duchy

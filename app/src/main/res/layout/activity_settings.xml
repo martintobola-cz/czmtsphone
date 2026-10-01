@@ -419,7 +419,20 @@
 
             </RelativeLayout>
 
+<RelativeLayout
+    android:id="@+id/settings_allow_record_calls_holder"
+    style="@style/SettingsHolderSwitchStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <cz.mts.base.views.MyMaterialSwitch
+        android:id="@+id/settings_allow_record_calls"
+        style="@style/SettingsSwitchStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/allow_record_calls" />
+
+</RelativeLayout>
 
             <include
                 android:id="@+id/settings_dialpad_divider"

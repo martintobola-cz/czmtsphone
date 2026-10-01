@@ -136,7 +136,7 @@
         android:layout_marginTop="@dimen/bigger_margin"
         android:ellipsize="end"
         android:gravity="center_horizontal"
-        android:maxLines="2"
+        android:maxLines="1"
         android:paddingStart="@dimen/medium_margin"
         android:paddingEnd="@dimen/medium_margin"
         android:textSize="@dimen/caller_name_text_size"
@@ -243,7 +243,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/medium_margin"
-            app:constraint_referenced_ids="call_toggle_microphone,call_toggle_speaker,call_dialpad,call_toggle_hold,call_add,call_manage,call_swap,call_merge,call_send_sms"
+            app:constraint_referenced_ids="call_toggle_microphone,call_toggle_speaker,call_dialpad,call_toggle_hold,call_add,call_manage,call_swap,call_merge,call_send_sms,call_record"
             app:flow_horizontalGap="@dimen/activity_margin"
             app:flow_maxElementsWrap="3"
             app:flow_verticalGap="@dimen/activity_margin"
@@ -343,6 +343,17 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintHeight_max="@dimen/call_control_button_size"
             tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/call_record"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/circle_background"
+            android:contentDescription="@string/start_call_recording"
+            android:padding="@dimen/activity_margin"
+            android:src="@drawable/ic_call_rec_vector"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_max="@dimen/call_control_button_size" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/controls_single_call"
