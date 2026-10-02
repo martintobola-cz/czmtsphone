@@ -29,10 +29,11 @@ __Translations:__ (if you need another language, let me know and I'll add it)
 🇹🇼 TW (zh-TW)
 ```
 <a href='https://play.google.com/store/apps/details?id=cz.mts.phone' target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=80/></a> <a href="https://f-droid.org/packages/cz.mts.phone/" target="_blank"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a> <a href='https://appgallery.huawei.com/app/C118955915' target="_blank"><img alt='Get it on AppGallery' src='https://mts.speccy.cz/pictures/appgallery-logo.png' height=80/></a> 
+```
 AllowedAPKSigningKeys:  
 9b0209216bf0484be60b2fe1e5b08b9e7bd8e946ccf6fd5eb40f8203e6ff689b (Huawei, F-droid, GitHub)  
 2b548a77088dae64c347f28344b6ee239bf4e07d9357c2cb213dc56ea2be6c8e (Google store)  
-  
+```  
 __Why you’ll love this app: ❤️__
 
 🎨 Customizable colors:  
