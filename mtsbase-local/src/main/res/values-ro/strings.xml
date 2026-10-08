@@ -14,7 +14,7 @@
     <string name="use_dayofweek_in_time_format">Afișare zi a săptămânii</string>
     <string name="invalid_target_for_import">Selectați o singură țintă (sau niciuna pentru a crea una personalizată)!</string>
     <string name="invalid_name_or_type">Nume sau tip invalid!</string>
-    <string name="view_all_call_history">Vizualizare tot istoricul</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Căutare avansată</string>
     <string name="other">Altele</string>
     <string name="about">Despre aplicație</string>
@@ -31,7 +31,7 @@
     <string name="error">Eroare: %s</string>
     <string name="no_app_found">Nu s-a găsit nicio aplicaţie validă</string>
     <string name="copy_number_to_clipboard">Copiază numărul în clipboard</string>
-    <string name="value_copied_to_clipboard_show">Valoare copiată în clipboard:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Valoare copiată în clipboard</string>
     <string name="unknown">Necunoscut</string>
     <string name="previous">Precedent</string>
     <string name="next">Următor</string>
@@ -395,7 +395,7 @@
     <string name="theme_and_colors">Temă și culori</string>
     <string name="feature_locked">Blocat</string>
     <string name="use_english_language">Utilizați limba engleză</string>
-    <string name="language">🗣️ Limbă</string>
+    <string name="language">🌏 Limbă</string>
     <string name="font_size">🅰️ Dimensiunea fontului</string>
     <string name="small">Mic</string>
     <string name="medium">Medie</string>
@@ -412,6 +412,7 @@
     <string name="startup">Pornire</string>
     <string name="migrating">Migrare 📦</string>
     <string name="manage_shown_tabs">🗂️ Gestionați filele afișate</string>
+    <string name="calling_accounts">🔑 Conturi de apel (SIM)</string>
     <string name="default_tab_to_open">Fila implicită cu care se deschide aplicația</string>
     <string name="contacts_tab">Contacte</string>
     <string name="favorites_tab">Favorite</string>

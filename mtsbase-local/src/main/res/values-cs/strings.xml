@@ -13,7 +13,7 @@
     <string name="invalid_name_or_type">Neplatné jméno nebo typ!</string>
     <string name="invalid_target_for_import">Vyberte pouze jeden cíl!</string>
     <string name="show_only_contacts_with_numbers">Zobrazovat pouze kontakty s číslem</string>
-    <string name="view_all_call_history">Zobrazit celou historii</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Rozšířené hledání</string>
     <string name="close">Zavřít</string>
     <string name="back">Zpět</string>
@@ -21,8 +21,7 @@
     <string name="error">Chyba: %s</string>
     <string name="no_app_found">Nenalezena žádná vhodná aplikace</string>
     <string name="copy_number_to_clipboard">Zkopírovat číslo do schránky</string>
-    <string name="value_copied_to_clipboard_show">Hodnota byla zkopírována do schránky:
-\n%s</string>
+    <string name="value_copied_to_clipboard_show">Zkopírováno do schránky</string>
     <string name="unknown">Skryté volání</string>
     <string name="previous">Předchozí</string>
     <string name="next">Následující</string>
@@ -369,7 +368,7 @@
     <string name="customize_colors">🎨 Přizpůsobit barvy</string>
     <string name="feature_locked">Uzamčeno</string>
     <string name="use_english_language">Použít angličtinu</string>
-    <string name="language">🗣️ Jazyk</string>
+    <string name="language">🌏 Jazyk</string>
     <string name="font_size">🅰️ Velikost písma</string>
     <string name="small">Malé</string>
     <string name="medium">Střední</string>
@@ -384,6 +383,7 @@
     <string name="startup">Po spuštění</string>
     <string name="migrating">Přenosy (Import/Export) 📦</string>
     <string name="manage_shown_tabs">🗂️ Spravovat zobrazené karty</string>
+    <string name="calling_accounts">🔑 Účty (SIM) pro volání</string>
     <string name="default_tab_to_open">Při spuštění aplikace otevřít na kartě</string>
     <string name="contacts_tab">Kontakty</string>
     <string name="favorites_tab">Oblíbené</string>

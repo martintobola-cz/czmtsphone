@@ -41,11 +41,14 @@ import cz.mts.phone.extensions.startContactDetailsIntentID
 import cz.mts.phone.helpers.CacheContacts
 import cz.mts.phone.helpers.RecentsQueryLimits
 import cz.mts.phone.interfaces.RefreshItemsListener
+import android.provider.ContactsContract.CommonDataKinds
 import cz.mts.phone.models.PhonePickerItem
 import cz.mts.phone.models.PhoneTypeUi
+import cz.mts.phone.models.SendTarget
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger
 import cz.mts.base.extensions.baseConfig as config
+
 
 class ContactsAdapter(
     activity: SimpleActivity,
@@ -135,11 +138,11 @@ class ContactsAdapter(
             R.id.cab_call_sim_2 -> callContact(false)
           //  R.id.cab_remove_default_sim -> removeDefaultSIM()
             R.id.cab_delete -> askConfirmDelete()
-            R.id.cab_send_sms -> sendSMS()
+            R.id.cab_send_sms -> sendSMSorEmail()
             R.id.cab_view_details -> viewContactDetails()
             R.id.cab_create_shortcut -> createShortcut()
             R.id.cab_view_recents -> viewContactRecentCalls()
-            R.id.cab_select_all -> toggleSelectAll()
+//            R.id.cab_select_all -> toggleSelectAll()
             R.id.cab_copy_number -> copyNumber()
         }
     }
@@ -269,33 +272,66 @@ class ContactsAdapter(
 //        finishActMode()
 //    }
 
-    private fun sendSMS() {
+    private fun sendSMSorEmail() {
         resolveSmsRecipients(
             contacts = getSelectedItems(),
             showPicker = { items, onConfirm -> showSelectNumbersDialog(items, onConfirm) },
-            onResolved = { numbers -> activity.launchSendSMSIntent(TextUtils.join(";", numbers)) }
+            onResolved = { target ->
+                when (target) {
+                    is SendTarget.Numbers ->
+                        activity.launchSendSMSIntent(TextUtils.join(";", target.numbers))
+                    is SendTarget.EmailAddress ->
+                        sendEmail(target.address)
+                }
+            }
         )
+    }
+
+    private fun sendEmail(email: String) {
+        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
+        try {
+            activity.startActivity(intent)
+        } catch (e: Exception) {
+            activity.toast(e.message.toString())
+        }
+    }
+
+    private fun emailTypeText(type: Int, label: String): String = when (type) {
+        CommonDataKinds.Email.TYPE_HOME -> activity.getString(cz.mts.base.R.string.home)
+        CommonDataKinds.Email.TYPE_WORK -> activity.getString(cz.mts.base.R.string.work)
+        CommonDataKinds.Email.TYPE_MOBILE -> activity.getString(cz.mts.base.R.string.mobile)
+        CommonDataKinds.Email.TYPE_CUSTOM -> label.ifEmpty { activity.getString(cz.mts.base.R.string.custom) }
+        else -> activity.getString(cz.mts.base.R.string.other)
     }
 
     private fun showSelectNumbersDialog(
         items: List<PhonePickerItem>,
-        onConfirm: (List<String>) -> Unit
+        onConfirm: (SendTarget) -> Unit
     ) {
         val numberItems = items.filterIsInstance<PhonePickerItem.Number>()
+        val emailItems = items.filterIsInstance<PhonePickerItem.Email>()
+        val hasEmails = emailItems.isNotEmpty()
 
-        val hasAnyContactWithMultipleNumbers =
-            numberItems
-                .groupBy { it.contactId }
-                .any { it.value.size > 1 }
-
-        if (!hasAnyContactWithMultipleNumbers) {
+        fun targetFromSelection(): SendTarget? {
+            // e-mail a číslo se nikdy nemíchají, e-mail je jen u jednoho kontaktu
+            emailItems.firstOrNull { it.isSelected }?.let {
+                return SendTarget.EmailAddress(it.address)
+            }
             val numbers = numberItems
+                .filter { it.isSelected }
                 .mapNotNull { it.phone.normalizedNumber }
                 .distinct()
+            return if (numbers.isNotEmpty()) SendTarget.Numbers(numbers) else null
+        }
 
-            if (numbers.isNotEmpty()) {
-                onConfirm(numbers)
-            }
+        // dialog je potřeba jen pokud má některý kontakt víc než jednu možnost (číslo/e-mail)
+        val needsChoice = (numberItems.map { it.contactId } + emailItems.map { it.contactId })
+            .groupingBy { it }
+            .eachCount()
+            .any { it.value > 1 }
+
+        if (!needsChoice) {
+            targetFromSelection()?.let(onConfirm)
             return
         }
 
@@ -305,7 +341,11 @@ class ContactsAdapter(
         val recyclerView = view.findViewById<MyRecyclerView>(R.id.mtsRecyclerView)
         recyclerView.setHasFixedSize(true)
 
-        val adapter = SelectNumbersAdapter(items, true)
+        // s e-maily (= jeden kontakt) smí být vybraná právě jedna možnost
+        val adapter = SelectNumbersAdapter(
+            items,
+            allowMultipleNumbersPerContact = !hasEmails
+        )
         recyclerView.adapter = adapter
 
         val roundedBackground = GradientDrawable().apply {
@@ -314,18 +354,12 @@ class ContactsAdapter(
             setColor(activity.getProperBackgroundColor())
         }
 
+        val sendLabel = if (hasEmails) R.string.send_message else R.string.send_sms
+
         val dialog = AlertDialog.Builder(activity)
             .setView(view)
-            .setNeutralButton(R.string.send_sms) { _, _ ->
-                val selectedNumbers = items
-                    .filterIsInstance<PhonePickerItem.Number>()
-                    .filter { it.isSelected }
-                    .mapNotNull { it.phone.normalizedNumber }
-                    .distinct()
-
-                if (selectedNumbers.isNotEmpty()) {
-                    onConfirm(selectedNumbers)
-                }
+            .setNeutralButton(sendLabel) { _, _ ->
+                targetFromSelection()?.let(onConfirm)
             }
             .setPositiveButton(android.R.string.cancel, null)
             .create()
@@ -346,18 +380,27 @@ class ContactsAdapter(
 
     fun resolveSmsRecipients(
         contacts: List<Contact>,
-        showPicker: (List<PhonePickerItem>, (List<String>) -> Unit) -> Unit,
-        onResolved: (List<String>) -> Unit
+        showPicker: (List<PhonePickerItem>, (SendTarget) -> Unit) -> Unit,
+        onResolved: (SendTarget) -> Unit
     ) {
         if (contacts.isEmpty()) return
 
-        if (contacts.all { it.phoneNumbers.size == 1 }) {
+        // e-maily se nabízejí jen při označeném jednom kontaktu
+        val emails = if (contacts.size == 1) {
+            contacts.first().emails
+                .filter { it.value.isNotBlank() }
+                .distinctBy { it.value.trim().lowercase() }
+        } else {
+            emptyList()
+        }
+
+        if (emails.isEmpty() && contacts.all { it.phoneNumbers.size == 1 }) {
             val numbers = contacts
                 .mapNotNull { it.phoneNumbers.first().normalizedNumber }
                 .distinct()
 
             if (numbers.isNotEmpty()) {
-                onResolved(numbers)
+                onResolved(SendTarget.Numbers(numbers))
             }
             return
         }
@@ -394,13 +437,20 @@ class ContactsAdapter(
                     isSelected = isSelected
                 )
             }
-        }
 
-        showPicker(pickerItems) { selected ->
-            if (selected.isNotEmpty()) {
-                onResolved(selected.distinct())
+            // e-maily jako další možnosti; předvybraný je jen, když kontakt nemá žádné číslo
+            emails.forEach { mail ->
+                pickerItems += PhonePickerItem.Email(
+                    contactId = contact.id,
+                    contactName = contact.getNameToDisplay(),
+                    address = mail.value.trim(),
+                    typeLabel = emailTypeText(mail.type, mail.label),
+                    isSelected = numbers.isEmpty() && emails.size == 1
+                )
             }
         }
+
+        showPicker(pickerItems, onResolved)
     }
 
     private fun viewContactDetails() {
@@ -412,7 +462,7 @@ class ContactsAdapter(
         val contact = getSelectedItems().firstOrNull() ?: return
         val mainActivity = activity as? MainActivity ?: return
         mainActivity.showContactCallHistory(contact.getNameToDisplay(), contact.photoUri)
-        finishActMode()
+        //finishActMode()
 
     }
 

@@ -2,6 +2,17 @@
 <resources>
     <string name="app_launcher_name">MTS 撥號器</string>
 
+<string name="transfers">傳輸</string> <string name="transfer_import">導入 📦→📱</string>
+<string name="transfer_export">導出 📱→📦</string>
+<string name="transfer_contacts">👤 聯絡人</string>
+<string name="transfer_contacts_sim">👤 聯絡人 (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ 已攔截號碼</string>
+<string name="transfer_call_history">🕒 通話記錄</string>
+<string name="transfer_settings">⚙️ 設定</string>
+<string name="transfer_no_active_sim">無可用 SIM 卡</string>
+<string name="transfer_sim_import_message">此動作會將 SIM 卡中儲存的聯絡人匯入至隱藏儲存區（其他應用程式無法檢視）。您可以多次執行導入操作，系統不會建立重複條目。請選擇 SIM 卡並點選「確定」。 </string>
+<string name="highlight_call_buttons">高亮顯示通話介面上的按鈕</string>
+
 <string name="allow_record_calls">允許錄音通話</string>
 <string name="call_recording_title">通話錄音</string>
 <string name="call_recording_info">通話錄音提示：\n\n在某些國家或特定情況下，錄製電話通話可能受到法律法規、限制或相關要求的約束，例如需要通知通話參與者或取得其同意。\n\n使用此功能前，請確保其使用符合您所在國家或地區適用的法律及其他規定。\n\n您須對通話錄音功能的使用方式承擔全部責任，包括遵守所有適用的法律義務以及取得任何必要的同意。\n\n應用程式開發者不提供法律建議，也不對違反適用法律使用此功能所產生的後果負責。\n\n使用通話錄音功能即表示您確認已閱讀並理解此提示，並對此予以確認。\n\n錄音功能透過 Shizuku 應用程式（moe.shizuku.privileged.api）實現，您可以從 https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi 下載該應用程式。\n\n我的電話應用程式透過 intent（moe.shizuku.privileged.api.START / STOP）啟動及停止 Shizuku。但您需要在此處輸入 Shizuku 授權金鑰。安裝 Shizuku 後，可在 Control Shizuku using automation apps 部分點擊 Show intents 找到該金鑰。</string>
@@ -160,8 +171,8 @@
     <string name="decline">拒絕</string>
     <string name="decline_call">拒絕通話</string>
     <string name="unknown_caller">未知呼叫</string>
-    <string name="is_calling">正在呼叫…</string>
-    <string name="dialing">撥號中…</string>
+    <string name="is_calling">正在呼叫</string>
+    <string name="dialing">撥號中</string>
     <string name="call_ended">通話結束</string>
     <string name="call_ending">通話正在結束</string>
     <string name="ongoing_call">去電</string>
@@ -208,7 +219,6 @@
     <string name="import_call_history">匯入通話記錄</string>
     <string name="export_contacts">匯出聯絡人 (.vcf)</string>
     <string name="import_contacts">匯入聯絡人 (.vcf)</string>
-    <string name="calling_accounts">通話帳號</string>
     <string name="show_grouped_calls">顯示分組通話</string>
     <string name="choose_audio_route">選擇音訊路由</string>
 </resources>

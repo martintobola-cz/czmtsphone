@@ -90,6 +90,8 @@ object PopupMenuColorizer {
     ) {
         actionModeBar.post {
             try {
+                findActionMenuView(actionModeBar)?.let { installToastTooltips(it) }
+
                 val overflowButton = findOverflowButton(actionModeBar) ?: return@post
                 val actionMenuView = overflowButton.parent as? androidx.appcompat.widget.ActionMenuView ?: return@post
 
@@ -121,6 +123,8 @@ object PopupMenuColorizer {
     ) {
         val listener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
+                findActionMenuView(toolbar)?.let { installToastTooltips(it) }
+
                 val overflowButton = findOverflowButton(toolbar) ?: return
                 toolbar.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
@@ -170,6 +174,44 @@ object PopupMenuColorizer {
         return debugReport(context, "cabBg: $result", debug)
     }
 
+
+    // ---------------------------------------------------------------------
+    // Nápověda ikon v Toolbaru a CAB jako standardní Toast
+    // Systémovou nápovědu přebije tím, že dlouhý stisk zpracujeme sami.
+    // ---------------------------------------------------------------------
+
+    private val tooltipHooked = java.util.WeakHashMap<View, Boolean>()
+
+    private fun findActionMenuView(root: ViewGroup): ViewGroup? {
+        for (i in 0 until root.childCount) {
+            val child = root.getChildAt(i)
+            if (child is androidx.appcompat.widget.ActionMenuView) return child
+            if (child is ViewGroup) findActionMenuView(child)?.let { return it }
+        }
+        return null
+    }
+
+    private fun installToastTooltips(menuView: ViewGroup) {
+        applyToastTooltips(menuView)
+
+        // položky menu se při překreslení / invalidaci vytvářejí znovu, proto se při každém layoutu přenastaví
+        if (tooltipHooked.put(menuView, true) == null) {
+            menuView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                applyToastTooltips(menuView)
+            }
+        }
+    }
+
+    private fun applyToastTooltips(menuView: ViewGroup) {
+        for (i in 0 until menuView.childCount) {
+            menuView.getChildAt(i).setOnLongClickListener { v ->
+                val label = v.contentDescription?.takeIf { it.isNotBlank() }
+                    ?: return@setOnLongClickListener false
+                v.context.toast("F1\uD83D\uDCA1: " + label.toString())
+                true   // dlouhý stisk zpracován, systémová nápověda se nezobrazí
+            }
+        }
+    }
 
     private fun buildBackgroundDrawable(context: Context, color: Int, cornerRadiusDp: Float) =
         GradientDrawable().apply {

@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="transfers">Aktarımlar</string>
+<string name="transfer_import">İçe Aktar 📦→📱</string>
+<string name="transfer_export">Dışa Aktar 📱→📦</string>
+<string name="transfer_contacts">👤 Kişiler</string>
+<string name="transfer_contacts_sim">👤 Kişiler (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Engellenen numaralar</string>
+<string name="transfer_call_history">🕒 Arama geçmişi</string>
+<string name="transfer_settings">⚙️ Ayarlar</string>
+<string name="transfer_no_active_sim">Etkin SIM yok</string>
+<string name="transfer_sim_import_message">Bu işlem, SIM kartta kayıtlı kişileri gizli depolama alanına (diğer uygulamalar tarafından görülmeyen) aktarır. İçe aktarma işlemini tekrarlayabilirsiniz; kopya kayıtlar oluşturulmaz. SIM kartı seçin ve Tamam\'a basın.</string>
+<string name="highlight_call_buttons">Arama ekranındaki düğmeleri vurgula</string>
+
 <string name="allow_record_calls">Arama kaydına izin ver</string>
 <string name="call_recording_title">Arama kaydı</string>
 <string name="call_recording_info">Arama kaydı hakkında bilgilendirme:\n\nTelefon görüşmelerinin kaydedilmesi, bazı ülkelerde veya belirli koşullar altında yasal düzenlemelere, kısıtlamalara veya görüşme katılımcılarını bilgilendirme ya da onaylarını alma gerekliliklerine tabi olabilir.\n\nBu özelliği kullanmadan önce, kullanımının ülkenizde veya bulunduğunuz yerde geçerli olan yasalara ve diğer kurallara uygun olduğundan emin olun.\n\nArama kaydı özelliğini nasıl kullandığınızdan, geçerli tüm yasal yükümlülüklere uymak ve gerekli onayları almak da dahil olmak üzere, yalnızca siz sorumlusunuz.\n\nUygulama geliştiricisi hukuki danışmanlık sağlamaz ve bu özelliğin geçerli yasalara aykırı kullanımından sorumlu değildir.\n\nArama kaydı özelliğini kullanarak bu bilgilendirmeyi okuduğunuzu ve anladığınızı ve kabul ettiğinizi onaylarsınız.\n\nKayıt, https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi adresinden indirebileceğiniz Shizuku (moe.shizuku.privileged.api) uygulaması kullanılarak gerçekleştirilir.\n\nTelefon uygulamam, bir intent (moe.shizuku.privileged.api.START / STOP) aracılığıyla Shizuku\'yu başlatır ve durdurur. Ancak burada Shizuku kimlik doğrulama anahtarını girmeniz gerekir. Anahtarı, Shizuku\'yu yükledikten sonra Control Shizuku using automation apps bölümündeki Show intents seçeneğine dokunarak bulabilirsiniz.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Mesaj gönder</string>
 <string name="hide_number_for_saved_contact">Kayıtlı bir kişiyse arama sırasında telefon numarasını gösterme</string>
 <string name="privacy_acknowledge">Bunu kabul ediyorum</string>
-<string name="block_confirmation">"%s" numarasını engellemek istediğinizden emin misiniz?</string>
+<string name="block_confirmation">\"%s\" numarasını engellemek istediğinizden emin misiniz?</string>
 <string name="block_unknown_calls">Kişilerde kayıtlı olmayan numaralardan gelen aramaları engelle</string>
 <string name="block_hidden_calls">Gizli numaralardan gelen aramaları engelle</string>
 <string name="block_unknown_messages">Kişilerde kayıtlı olmayan numaralardan gelen mesajları engelle</string>
@@ -160,8 +172,8 @@
     <string name="decline">Reddet</string>
     <string name="decline_call">Aramayı reddet</string>
     <string name="unknown_caller">Bilinmeyen Arama</string>
-    <string name="is_calling">Arıyor…</string>
-    <string name="dialing">Çağrı yapılıyor…</string>
+    <string name="is_calling">Arıyor</string>
+    <string name="dialing">Çağrı yapılıyor</string>
     <string name="call_ended">Arama Sona Erdi</string>
     <string name="call_ending">Arama Sonlandırılıyor</string>
     <string name="ongoing_call">Giden Arama</string>
@@ -207,5 +219,4 @@
     <string name="import_call_history">Arama geçmişini içe aktar</string>
     <string name="export_contacts">Kişileri dışa aktar (.vcf)</string>
     <string name="import_contacts">Kişileri içe aktar (.vcf)</string>
-    <string name="calling_accounts">Arama hesapları</string>
 </resources>

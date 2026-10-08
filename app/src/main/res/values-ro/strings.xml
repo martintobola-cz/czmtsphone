@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="transfers">Transferuri</string>
+<string name="transfer_import">Import 📦→📱</string>
+<string name="transfer_export">Export 📱→📦</string>
+<string name="transfer_contacts">👤 Contacte</string>
+<string name="transfer_contacts_sim">👤 Contacte (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Numere blocate</string>
+<string name="transfer_call_history">🕒 Istoric apeluri</string>
+<string name="transfer_settings">⚙️ Setări</string>
+<string name="transfer_no_active_sim">Nicio cartelă SIM activă</string>
+<string name="transfer_sim_import_message">Această acțiune va importa contactele stocate pe SIM în spațiul de stocare ascuns (invizibil pentru alte aplicații). Poți efectua importul în mod repetat; nu se vor crea duplicate. Selectează cartela SIM și apasă OK.</string>
+<string name="highlight_call_buttons">Evidențiere butoane pe ecranul de apel</string>
+
 <string name="allow_record_calls">Permite înregistrarea apelurilor</string>
 <string name="call_recording_title">Înregistrarea apelurilor</string>
 <string name="call_recording_info">Notificare privind înregistrarea apelurilor:\n\nÎnregistrarea apelurilor telefonice poate fi supusă în anumite țări sau în anumite circumstanțe unor reglementări legale, restricții sau cerințe privind informarea participanților la apel ori obținerea consimțământului acestora.\n\nÎnainte de a utiliza această funcție, asigurați-vă că utilizarea acesteia respectă legile și celelalte reguli aplicabile în țara sau locația dumneavoastră.\n\nSunteți singurul responsabil pentru modul în care utilizați funcția de înregistrare a apelurilor, inclusiv pentru respectarea tuturor obligațiilor legale aplicabile și obținerea oricărui consimțământ necesar.\n\nDezvoltatorul aplicației nu oferă consultanță juridică și nu este responsabil pentru utilizarea acestei funcții cu încălcarea legilor aplicabile.\n\nPrin utilizarea funcției de înregistrare a apelurilor, confirmați că ați citit și ați înțeles această notificare și că luați act de aceasta.\n\nÎnregistrarea este realizată folosind aplicația Shizuku (moe.shizuku.privileged.api), pe care o puteți descărca de la https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nAplicația mea Telefon pornește și oprește Shizuku printr-un intent (moe.shizuku.privileged.api.START / STOP). Totuși, aici trebuie să introduceți cheia de autentificare Shizuku. Puteți găsi cheia după instalarea Shizuku apăsând Show intents în secțiunea Control Shizuku using automation apps.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Trimite mesaj</string>
 <string name="hide_number_for_saved_contact">Nu afișa numărul de telefon în timpul unui apel dacă este un contact salvat</string>
 <string name="privacy_acknowledge">Confirm că am luat la cunoștință</string>
-<string name="block_confirmation">Sigur doriți să blocați "%s"?</string>
+<string name="block_confirmation">Sigur doriți să blocați \"%s\"?</string>
 <string name="block_unknown_calls">Blochează apelurile de la numere care nu se află în contacte</string>
 <string name="block_hidden_calls">Blochează apelurile de la numere ascunse</string>
 <string name="block_unknown_messages">Blochează mesajele de la numere care nu se află în contacte</string>
@@ -160,8 +172,8 @@
     <string name="decline">Refuzaţi</string>
     <string name="decline_call">Refuzaţi apelul</string>
     <string name="unknown_caller">Apelant necunoscut</string>
-    <string name="is_calling">Apelează…</string>
-    <string name="dialing">Apelare…</string>
+    <string name="is_calling">Apelează</string>
+    <string name="dialing">Apelare</string>
     <string name="call_ended">Apel terminat</string>
     <string name="call_ending">Încheierea apelului</string>
     <string name="ongoing_call">Apel de ieșire</string>
@@ -207,5 +219,4 @@
     <string name="import_call_history">Importă istoricul apelurilor</string>
     <string name="export_contacts">Exportați contactele (.vcf)</string>
     <string name="import_contacts">Importați contactele (.vcf)</string>
-    <string name="calling_accounts">Conturi de apelare</string>
 </resources>

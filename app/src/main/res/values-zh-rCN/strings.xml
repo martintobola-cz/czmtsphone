@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">MTS 拨号器</string>
 
+<string name="transfers">传输</string>
+<string name="transfer_import">导入 📦→📱</string>
+<string name="transfer_export">导出 📱→📦</string>
+<string name="transfer_contacts">👤 联系人</string>
+<string name="transfer_contacts_sim">👤 联系人 (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ 已拦截号码</string>
+<string name="transfer_call_history">🕒 通话记录</string>
+<string name="transfer_settings">⚙️ 设置</string>
+<string name="transfer_no_active_sim">无可用 SIM 卡</string>
+<string name="transfer_sim_import_message">此操作会将 SIM 卡中存储的联系人导入到隐藏存储区（其他应用无法查看）。您可以多次执行导入操作，系统不会创建重复条目。请选择 SIM 卡并点击“确定”。</string>
+<string name="highlight_call_buttons">高亮显示通话界面上的按钮</string>
+
 <string name="allow_record_calls">允许录音通话</string>
 <string name="call_recording_title">通话录音</string>
 <string name="call_recording_info">通话录音提示：\n\n在某些国家或特定情况下，录制电话通话可能受到法律法规、限制或相关要求的约束，例如需要告知通话参与者或获得其同意。\n\n使用此功能前，请确保其使用符合您所在国家或地区适用的法律及其他规定。\n\n您须对通话录音功能的使用方式承担全部责任，包括遵守所有适用的法律义务以及获取任何必要的同意。\n\n应用开发者不提供法律建议，也不对违反适用法律使用此功能所产生的后果负责。\n\n使用通话录音功能即表示您确认已阅读并理解此提示，并对此予以确认。\n\n录音功能通过 Shizuku 应用（moe.shizuku.privileged.api）实现，您可以从 https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi 下载该应用。\n\n我的电话应用通过 intent（moe.shizuku.privileged.api.START / STOP）启动和停止 Shizuku。但您需要在此处输入 Shizuku 授权密钥。安装 Shizuku 后，可在 Control Shizuku using automation apps 部分点击 Show intents 找到该密钥。</string>
@@ -22,7 +34,7 @@
 <string name="send_message">发送消息</string>
 <string name="hide_number_for_saved_contact">如果是已保存的联系人，通话期间不显示电话号码</string>
 <string name="privacy_acknowledge">我已知悉</string>
-<string name="block_confirmation">确定要屏蔽"%s"吗？</string>
+<string name="block_confirmation">确定要屏蔽\"%s\"吗？</string>
 <string name="block_unknown_calls">屏蔽来自未知号码的来电（因此只有已保存的联系人可以来电）</string>
 <string name="block_hidden_calls">屏蔽来自隐藏号码的来电</string>
 <string name="block_unknown_messages">屏蔽来自未知号码的消息</string>
@@ -160,8 +172,8 @@
     <string name="decline">拒绝</string>
     <string name="decline_call">拒绝通话</string>
     <string name="unknown_caller">未知呼叫</string>
-    <string name="is_calling">正在呼叫…</string>
-    <string name="dialing">拨号中…</string>
+    <string name="is_calling">正在呼叫</string>
+    <string name="dialing">拨号中</string>
     <string name="call_ended">通话结束</string>
     <string name="call_ending">通话正在结束</string>
     <string name="ongoing_call">去电</string>
@@ -208,7 +220,6 @@
     <string name="import_call_history">导入通话记录</string>
     <string name="export_contacts">导出联系人 (.vcf)</string>
     <string name="import_contacts">导入联系人 (.vcf)</string>
-    <string name="calling_accounts">通话账号</string>
     <string name="show_grouped_calls">显示分组通话</string>
     <string name="choose_audio_route">选择音频路由</string>
 </resources>

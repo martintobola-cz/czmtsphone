@@ -1,6 +1,5 @@
 package cz.mts.phone.adapters
 
-import android.text.format.Formatter
 import android.util.TypedValue
 import android.view.Menu
 import android.view.ViewGroup
@@ -9,18 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.adapters.MyRecyclerViewListAdapter
 import cz.mts.base.dialogs.ConfirmationDialog
 import cz.mts.base.extensions.*
-import cz.mts.base.helpers.*
 import cz.mts.base.views.MyRecyclerView
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.databinding.ItemRecordedFileBinding
-import cz.mts.phone.helpers.*
 
 data class RecordedFile(
     val path: String,
     val name: String,
     val size: Long,
-    val modified: Long
+    val modified: Long,
+    val durationMs: Long = 0L
 )
 
 /**
@@ -42,7 +40,9 @@ class RecordedFilesAdapter(
     recyclerView: MyRecyclerView,
     itemClick: (RecordedFile) -> Unit,
     private val onDelete: (List<RecordedFile>) -> Unit,
-    private val onExport: (RecordedFile) -> Unit,
+    private val onExport: (List<RecordedFile>) -> Unit,
+    /** Zavolá se, když má skončit přehrávání: zavřel se CAB, nebo je označeno víc než jedna položka. */
+    private val onStopPlayback: () -> Unit,
 ) : MyRecyclerViewListAdapter<RecordedFile>(activity, recyclerView, RecordedFileDiffCallback(), itemClick) {
 
     // stejně jako RecentCallsAdapter - velikost písma se bere z configu, ne natvrdo
@@ -74,10 +74,13 @@ class RecordedFilesAdapter(
 
     override fun prepareActionMode(menu: Menu) {
         val isOneItemSelected = selectedKeys.size == 1
+        // Přidal se do výběru další soubor -> už není jasné, co hraje, takže přehrávání končí.
+        // (size == 0 je start CAB těsně před označením prvního souboru, to nechat.)
+        if (selectedKeys.size > 1) onStopPlayback()
         menu.apply {
             findItem(R.id.cab_play).isVisible = isOneItemSelected
             findItem(R.id.cab_remove).isVisible = true
-            findItem(R.id.cab_export).isVisible = isOneItemSelected
+            findItem(R.id.cab_export).isVisible = true //isOneItemSelected
             findItem(R.id.cab_select_all).isVisible = true
         }
     }
@@ -99,6 +102,19 @@ class RecordedFilesAdapter(
         }
     }
 
+    /**
+     * Označí položku a vyvolá horní action menu (CAB) - jako dlouhý stisk, ale bez drag-selectu.
+     * Volá aktivita po normálním kliknutí, aby bylo vidět, který soubor se přehrává.
+     */
+    fun selectAndShowActionMenu(item: RecordedFile) {
+        val position = currentList.indexOfFirst { it.path == item.path }
+        if (position == -1) return
+        if (!actModeCallback.isSelectable) {
+            activity.startSupportActionMode(actModeCallback)
+        }
+        toggleItemSelection(true, position, true)
+    }
+
     private fun getSelectedItems() = currentList.filter { selectedKeys.contains(it.key()) }
 
     private fun playSelected() {
@@ -107,9 +123,10 @@ class RecordedFilesAdapter(
     }
 
     private fun exportSelected() {
-        val item = getSelectedItems().singleOrNull() ?: return
+        val items = getSelectedItems()
+        if (items.isEmpty()) return
         finishActMode()
-        onExport(item)
+        onExport(items)
     }
 
     private fun askConfirmRemove() {
@@ -141,7 +158,10 @@ class RecordedFilesAdapter(
 
     override fun onActionModeCreated() {}
 
-    override fun onActionModeDestroyed() {}
+    // Zavření CAB (zpětné tlačítko, zrušení výběru, export, smazání...) ukončí i přehrávání.
+    override fun onActionModeDestroyed() {
+        onStopPlayback()
+    }
 
     // ─── Aktualizace dat ──────────────────────────────────────────────────
 
@@ -192,7 +212,7 @@ class RecordedFilesAdapter(
             allowLongClick = true,
         ) { _, _ ->
             val primaryTextSize = fontSize
-            val secondaryTextSize = fontSize * 0.8f          // stejně jako smallTextSize v RecentCallsAdapter
+            val secondaryTextSize = fontSize * 0.85f          // stejně jako smallTextSize v RecentCallsAdapter
             val secondaryColor = textColor.adjustAlpha(0.6f) // stejně jako secondaryTextColor v RecentCallsAdapter
 
             binding.apply {
@@ -206,8 +226,8 @@ class RecordedFilesAdapter(
                 }
 
                 recordedFileInfo.apply {
-                    val size = Formatter.formatShortFileSize(context, file.size)
-                    text = "${formatFileDateTime(file.modified)} • $size"
+                    val date = formatFileDateTime(file.modified)
+                    text = if (file.durationMs > 0) "$date • ${file.durationMs.formatDuration()}" else date
                     setTextColor(secondaryColor)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, secondaryTextSize)
                 }
@@ -216,6 +236,17 @@ class RecordedFilesAdapter(
     }
 }
 
+private fun Long.formatDuration(): String {
+    val total = (this + 500) / 1000
+    val h = total / 3600
+    val m = total % 3600 / 60
+    val s = total % 60
+    return when {
+        h > 0 -> "${h}h ${m}m ${s}s"
+        m > 0 -> "${m}m ${s}s"
+        else -> "${s}s"
+    }
+}
 private class RecordedFileDiffCallback : DiffUtil.ItemCallback<RecordedFile>() {
     override fun areItemsTheSame(oldItem: RecordedFile, newItem: RecordedFile) = oldItem.path == newItem.path
     override fun areContentsTheSame(oldItem: RecordedFile, newItem: RecordedFile) = oldItem == newItem

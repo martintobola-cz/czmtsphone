@@ -15,7 +15,7 @@
     <string name="use_dayofweek_in_time_format">View day of week</string>
     <string name="invalid_target_for_import">Select only one target (or none for creating custom)!</string>
     <string name="invalid_name_or_type">Invalid name or type!</string>
-    <string name="view_all_call_history">View all history</string>
+    <string name="view_all_call_history">Refresh</string>
    <string name="search_all_fields">Search all fields</string>
     <string name="other">other</string>
     <string name="about">About</string>
@@ -32,7 +32,7 @@
     <string name="error">Error: %s</string>
     <string name="no_app_found">No valid app found</string>
     <string name="copy_number_to_clipboard">Copy number to clipboard</string>
-    <string name="value_copied_to_clipboard_show">Value copied to clipboard:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Value copied to clipboard</string>
     <string name="unknown">Unknown</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
@@ -79,7 +79,7 @@
     </plurals>
 
     
-    <string name="manage_blocked_numbers">⛔ Manage blocked numbers</string>
+    <string name="manage_blocked_numbers">⛔ Blocked numbers</string>
     <string name="blocked_numbers_title">⛔ Blocking</string>
 
     <string name="not_blocking_anyone">You are not blocking anyone.</string>
@@ -228,7 +228,7 @@
     <string name="descending">Descending</string>
     <string name="first_name">First name</string>
     <string name="middle_name">Middle name</string>
-    <string name="surname">Surname</string>
+    <string name="surname">Family name</string>
     <string name="full_name">Full name</string>
     <string name="more_options">More options</string>
     <string name="proceed_with_deletion">Are you sure you want to proceed with the deletion?</string>
@@ -387,23 +387,24 @@
     <string name="theme_and_colors">Theme and colors</string>
     <string name="feature_locked">Locked</string>
     <string name="use_english_language">Use English language</string>
-    <string name="language">🗣️ Language</string>
+    <string name="language">🌏 Language</string>
     <string name="font_size">🅰️ Font size</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
     <string name="extra_large">Extra large</string>
     <string name="use_24_hour_time_format">Use 24-hour time format</string>
-    <string name="change_date_and_time_format">🕒 Change date and time format</string>
+    <string name="change_date_and_time_format">🕒 Date and time format</string>
     <string name="export_settings">Export settings</string>
     <string name="settings_exported_successfully">Settings exported successfully</string>
-    <string name="start_name_with_surname">Start name with surname</string>
+    <string name="start_name_with_surname">Start name with family name</string>
     <string name="show_call_confirmation_dialog">Show a call confirmation dialog before initiating a call</string>
     <string name="format_phone_numbers">Format phone numbers</string>
     <string name="show_only_contacts_with_numbers">Show only contacts with numbers</string>  
     <string name="startup">Startup</string>
     <string name="migrating">Migrating 📦</string>
-    <string name="manage_shown_tabs">🗂️ Manage shown tabs</string>
+    <string name="manage_shown_tabs">🗂️ Manage tabs</string>
+    <string name="calling_accounts">🔑 Calling accounts</string>
     <string name="default_tab_to_open">Tab to open at app start</string>
     <string name="contacts_tab">Contacts</string>
     <string name="favorites_tab">Favorites</string>

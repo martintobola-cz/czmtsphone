@@ -139,7 +139,7 @@ class RecentCallsAdapter(
             R.id.cab_send_sms -> sendSMS()
             R.id.cab_copy_number -> copyNumber()
             R.id.cab_remove -> askConfirmRemove()
-            R.id.cab_select_all -> toggleSelectAll()
+//            R.id.cab_select_all -> toggleSelectAll()
             R.id.cab_view_details -> launchContactDetailsIntent(getSelectedItems().first())
         }
     }
@@ -148,7 +148,7 @@ class RecentCallsAdapter(
         val recentCall = getSelectedItems().firstOrNull() ?: return
         val contact = CacheContacts.findContactByCall(recentCall)
         viewContactRecentCalls(contact, recentCall)
-        finishActMode()
+        //finishActMode()
     }
 
     private fun viewContactRecentCalls(contact: Contact?, recentCall : RecentCall) {
@@ -464,7 +464,12 @@ class RecentCallsAdapter(
         }
     }
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<CallLogItem>, highlightText: String? = null, bForce : Boolean = false) {
+    fun updateItems(
+        newItems: List<CallLogItem>,
+        highlightText: String? = null,
+        bForce: Boolean = false,
+        onCommitted: (() -> Unit)? = null
+    ) {
 
         val newHighlight = highlightText ?: this.textToHighlight
 
@@ -496,6 +501,7 @@ class RecentCallsAdapter(
                     notifyItemRangeChanged(0, itemCount, PAYLOAD_HIGHLIGHT)
                 }
             }
+            onCommitted?.invoke()
         }
     }
 
@@ -758,6 +764,10 @@ class RecentCallsAdapter(
                     )
                     setTextColor(textColorInt)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, currentFontSize)
+
+                    // Seskupené hovory mající (N), budou mít ... u dlouhých názvů uprostřed, aby bylo vidět počet těch hovorů !
+                    ellipsize = if (call.groupedCalls != null) TextUtils.TruncateAt.MIDDLE
+                                else TextUtils.TruncateAt.END
                 }
 
 

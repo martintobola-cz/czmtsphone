@@ -14,13 +14,10 @@ import cz.mts.base.views.*
 
 
 fun Context.isBlackAndWhiteTheme() = baseConfig.themeIdSaved == 4
-    //baseConfig.textColor == Color.WHITE && baseConfig.primaryColor == Color.BLACK && baseConfig.backgroundColor == Color.BLACK
 
 fun Context.isDynamicTheme(useDynamicTheme: Boolean = baseConfig.useDynamicTheme) = isSPlus() && baseConfig.themeIdSaved == 7 && useDynamicTheme
-//fun Context.isDynamicTheme() = isSPlus() && baseConfig.themeIdSaved == 7
 
 fun Context.isWhiteTheme() = baseConfig.themeIdSaved == 6
-    //baseConfig.textColor == DARK_GREY && baseConfig.primaryColor == Color.WHITE && baseConfig.backgroundColor == Color.WHITE
 
 fun Context.isSystemInDarkModeOLD() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
 
@@ -79,13 +76,16 @@ fun Context.getColoredMaterialStatusBarColor(): Int {
     }
 }
 
-fun Context.updateTextColors(viewGroup: ViewGroup) {
-    val textColor = when {
-        isDynamicTheme() -> getProperTextColor()
-        else -> baseConfig.textColor
-    }
+/** Barva kruhu za tlačítky na obrazovce hovoru. OFF = plně průhledná. */
+fun Context.getCallButtonCircleColor(active: Boolean): Int {
+    if (!baseConfig.highlightCallButtons) return Color.TRANSPARENT
+    return if (active) getProperPrimaryColor().adjustAlpha(0.25f)
+    else getProperTextColor().adjustAlpha(0.10f)
+}
 
-    val backgroundColor = baseConfig.backgroundColor
+fun Context.updateTextColors(viewGroup: ViewGroup) {
+    val textColor = getProperTextColor()
+    val backgroundColor = getProperBackgroundColor()
     val accentColor = when {
         isWhiteTheme() || isBlackAndWhiteTheme() -> baseConfig.accentColor
         else -> getProperPrimaryColor()
@@ -111,19 +111,11 @@ fun Context.updateTextColors(viewGroup: ViewGroup) {
 }
 
 fun Context.getPopupMenuTheme(): Int {
-    return if (isDynamicTheme()) {
-        R.style.AppTheme_YouPopupMenuStyle
-    } else if (isWhiteTheme()) {
-        R.style.AppTheme_PopupMenuLightStyle
-    } else {
-        R.style.AppTheme_PopupMenuDarkStyle
-    }
+    return if (isDynamicTheme()) R.style.AppTheme_YouPopupMenuStyle
+           else if (isWhiteTheme()) R.style.AppTheme_PopupMenuLightStyle
+           else R.style.AppTheme_PopupMenuDarkStyle
 }
 
-//fun Context.syncGlobalConfig(callback: (() -> Unit)? = null) {
-//        baseConfig.showCheckmarksOnSwitches = false
-//        callback?.invoke()
-//}
 
 fun Context.density(): Float =
     (resources.displayMetrics.density)
@@ -182,23 +174,11 @@ fun Context.toggleAppIconColor(appId: String, colorIndex: Int, color: Int, enabl
 
 fun Context.getAppIconColors() = resources.getIntArray(R.array.md_app_icon_colors).toCollection(ArrayList())
 
-//@SuppressLint("NewApi")
-//fun Context.getBottomNavigationBackgroundColor(): Int {
-//    val baseColor = baseConfig.backgroundColor
-//    val bottomColor = when {
-//        isDynamicTheme() -> resources.getColor(R.color.you_status_bar_color, theme)
-//        baseColor == Color.WHITE -> resources.getColor(R.color.bottom_tabs_light_background)
-//        else -> baseConfig.backgroundColor.lightenColor(4)
-//    }
-//    return baseColor  //MTSX bottomColor
-//}
-
 fun Context.getDialogBackgroundColor(): Int {
     return when {
         isDynamicTheme() -> MaterialColors.getColor(
             this, com.google.android.material.R.attr.colorSurfaceContainerHigh, Color.TRANSPARENT
         )
-
-        else -> baseConfig.backgroundColor
+        else -> getProperBackgroundColor()
     }
 }

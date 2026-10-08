@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="transfers">Átvitel</string>
+<string name="transfer_import">Importálás 📦→📱</string>
+<string name="transfer_export">Exportálás 📱→📦</string>
+<string name="transfer_contacts">👤 Névjegyek</string>
+<string name="transfer_contacts_sim">👤 Névjegyek (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Letiltott számok</string>
+<string name="transfer_call_history">🕒 Híváselőzmények</string>
+<string name="transfer_settings">⚙️ Beállítások</string>
+<string name="transfer_no_active_sim">Nincs aktív SIM</string>
+<string name="transfer_sim_import_message">Ez importálja a SIM-en tárolt névjegyeket a rejtett tárhelyre (amely más alkalmazások számára láthatatlan). Az importálás többször is elvégezhető; nem jönnek létre duplikátumok. Válassza ki a SIM-et, majd nyomja meg az OK gombot.</string>
+<string name="highlight_call_buttons">Gombok kiemelése a hívásképernyőn</string>
+
 <string name="allow_record_calls">Hívásrögzítés engedélyezése</string>
 <string name="call_recording_title">Hívásrögzítés</string>
 <string name="call_recording_info">Tájékoztató a hívások rögzítéséről:\n\nA telefonhívások rögzítésére egyes országokban vagy bizonyos körülmények között jogszabályok, korlátozások vonatkozhatnak, illetve előírhatják a hívás résztvevőinek tájékoztatását vagy hozzájárulásuk beszerzését.\n\nA funkció használata előtt győződjön meg arról, hogy annak használata megfelel az Ön országában vagy tartózkodási helyén érvényes jogszabályoknak és egyéb előírásoknak.\n\nA hívásrögzítési funkció használatáért kizárólag Ön felelős, beleértve az összes vonatkozó jogi kötelezettség betartását és az esetlegesen szükséges hozzájárulások beszerzését.\n\nAz alkalmazás fejlesztője nem nyújt jogi tanácsadást, és nem vállal felelősséget a funkció alkalmazandó jogszabályokba ütköző használatáért.\n\nA hívásrögzítési funkció használatával megerősíti, hogy elolvasta és megértette ezt a tájékoztatót, és tudomásul veszi azt.\n\nA rögzítés a Shizuku alkalmazás (moe.shizuku.privileged.api) segítségével történik, amely letölthető innen: https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nA Telefon alkalmazásom intent (moe.shizuku.privileged.api.START / STOP) segítségével indítja és állítja le a Shizukut. Itt azonban meg kell adnia a Shizuku hitelesítési kulcsát. A kulcsot a Shizuku telepítése után a Control Shizuku using automation apps szakaszban a Show intents elemre koppintva találhatja meg.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Üzenet küldése</string>
 <string name="hide_number_for_saved_contact">Ne jelenítse meg a telefonszámot hívás közben, ha a szám mentett névjegyhez tartozik</string>
 <string name="privacy_acknowledge">Tudomásul veszem</string>
-<string name="block_confirmation">Biztosan le szeretné tiltani a következőt: "%s"?</string>
+<string name="block_confirmation">Biztosan le szeretné tiltani a következőt: \"%s\"?</string>
 <string name="block_unknown_calls">A névjegyek között nem szereplő számokról érkező hívások letiltása</string>
 <string name="block_hidden_calls">Rejtett számokról érkező hívások letiltása</string>
 <string name="block_unknown_messages">A névjegyek között nem szereplő számokról érkező üzenetek letiltása</string>
@@ -160,8 +172,8 @@
     <string name="decline">Elutasítás</string>
     <string name="decline_call">Hívás elutasítása</string>
     <string name="unknown_caller">Ismeretlen hívó</string>
-    <string name="is_calling">Hívás…</string>
-    <string name="dialing">Tárcsázás…</string>
+    <string name="is_calling">Hívás</string>
+    <string name="dialing">Tárcsázás</string>
     <string name="call_ended">Hívás vége</string>
     <string name="call_ending">Hívás befejezése</string>
     <string name="ongoing_call">Kimenő hívás</string>
@@ -208,5 +220,4 @@
     <string name="import_call_history">Hívásnapló importálása</string>
     <string name="export_contacts">Névjegyek exportálása (.vcf)</string>
     <string name="import_contacts">Névjegyek importálása (.vcf)</string>
-    <string name="calling_accounts">Hívási fiókok</string>
 </resources>

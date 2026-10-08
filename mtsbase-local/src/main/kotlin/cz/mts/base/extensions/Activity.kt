@@ -166,7 +166,7 @@ fun Activity.setupDialogStuff(
         }
 
         // if we use the same primary and background color, use the text color for dialog confirmation buttons
-        val dialogButtonColor = if (primaryColor == baseConfig.backgroundColor) {
+        val dialogButtonColor = if (primaryColor == backgroundColor) {
             textColor
         } else {
             primaryColor
@@ -189,7 +189,7 @@ fun Activity.setupDialogStuff(
                 isDynamicTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.dialog_you_background, theme)
                 else -> resources.getColoredDrawableWithColor(
                     R.drawable.dialog_bg,
-                    baseConfig.backgroundColor.adjustColor(8, true)  //aby když je pozadí černé, nesplýval dialog s pozadím
+                    backgroundColor.adjustColor(8, true)  //aby když je pozadí černé, nesplýval dialog s pozadím
                 )
             }
 

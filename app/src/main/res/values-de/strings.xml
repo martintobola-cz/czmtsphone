@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="transfers">Übertragungen</string>
+<string name="transfer_import">Import 📦→📱</string>
+<string name="transfer_export">Export 📱→📦</string>
+<string name="transfer_contacts">👤 Kontakte</string>
+<string name="transfer_contacts_sim">👤 Kontakte (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Blockierte Nummern</string>
+<string name="transfer_call_history">🕒 Anrufliste</string>
+<string name="transfer_settings">⚙️ Einstellungen</string>
+<string name="transfer_no_active_sim">Keine aktive SIM</string>
+<string name="transfer_sim_import_message">Hierdurch werden die auf der SIM gespeicherten Kontakte in den geschützten Speicher importiert (für andere Anwendungen unsichtbar). Der Import kann mehrfach durchgeführt werden; es entstehen keine Duplikate. Wählen Sie die SIM aus und drücken Sie auf OK.</string>
+<string name="highlight_call_buttons">Tasten im Anrufbildschirm hervorheben</string>
+
 <string name="allow_record_calls">Anrufaufzeichnung erlauben</string>
 <string name="call_recording_title">Anrufaufzeichnung</string>
 <string name="call_recording_info">Hinweis zur Anrufaufzeichnung:\n\nDas Aufzeichnen von Telefongesprächen kann in einigen Ländern oder unter bestimmten Umständen gesetzlichen Vorschriften, Einschränkungen oder Anforderungen zur Information der Gesprächsteilnehmer oder zur Einholung ihrer Zustimmung unterliegen.\n\nStellen Sie vor der Verwendung dieser Funktion sicher, dass ihre Nutzung mit den in Ihrem Land oder an Ihrem Aufenthaltsort geltenden Gesetzen und sonstigen Vorschriften übereinstimmt.\n\nSie sind allein dafür verantwortlich, wie Sie die Anrufaufzeichnungsfunktion verwenden, einschließlich der Einhaltung aller geltenden rechtlichen Verpflichtungen und der Einholung gegebenenfalls erforderlicher Einwilligungen.\n\nDer Entwickler der App bietet keine Rechtsberatung und übernimmt keine Verantwortung für die Nutzung dieser Funktion unter Verstoß gegen geltendes Recht.\n\nDurch die Nutzung der Anrufaufzeichnungsfunktion bestätigen Sie, dass Sie diesen Hinweis gelesen und verstanden haben und ihn zur Kenntnis nehmen.\n\nDie Aufzeichnung wird mithilfe der App Shizuku (moe.shizuku.privileged.api) umgesetzt, die Sie unter https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi herunterladen können.\n\nMeine Telefon-App startet und beendet Shizuku über einen Intent (moe.shizuku.privileged.api.START / STOP). Sie müssen hier jedoch den Shizuku-Autorisierungsschlüssel eingeben. Den Schlüssel finden Sie nach der Installation von Shizuku, indem Sie im Abschnitt Control Shizuku using automation apps auf Show intents tippen.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">SMS senden</string>
 <string name="hide_number_for_saved_contact">Telefonnummer während eines Anrufs nicht anzeigen, wenn es sich um einen gespeicherten Kontakt handelt</string>
 <string name="privacy_acknowledge">Ich bestätige dies</string>
-<string name="block_confirmation">Möchten Sie "%s" wirklich blockieren?</string>
+<string name="block_confirmation">Möchten Sie \"%s\" wirklich blockieren?</string>
 <string name="block_unknown_calls">Anrufe von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>
 <string name="block_hidden_calls">Anrufe von unterdrückten Nummern blockieren</string>
 <string name="block_unknown_messages">Nachrichten von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>
@@ -160,8 +172,8 @@
     <string name="decline">Ablehnen</string>
     <string name="decline_call">Anruf ablehnen</string>
     <string name="unknown_caller">Unterdrückte Nummer</string>
-    <string name="is_calling">Ruft an …</string>
-    <string name="dialing">Wird gewählt …</string>
+    <string name="is_calling">Ruft an</string>
+    <string name="dialing">Wird gewählt</string>
     <string name="call_ended">Anruf beendet</string>
     <string name="call_ending">Anruf beenden</string>
     <string name="ongoing_call">Ausgehender Anruf</string>
@@ -207,5 +219,4 @@
     <string name="call_is_being_connected">Verbindung wird hergestellt …</string>
     <string name="call_notification_channel">Anrufstatus</string>
     <string name="call_notification_channel_high_priority">Anrufstatus (hohe Priorität)</string>
-    <string name="calling_accounts">SIM für Anrufe</string>
 </resources>

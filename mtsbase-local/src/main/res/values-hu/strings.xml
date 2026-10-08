@@ -14,7 +14,7 @@
     <string name="use_dayofweek_in_time_format">A hét napjának megjelenítése</string>
     <string name="invalid_target_for_import">Csak egy célt válasszon ki (vagy egyet se, ha egyénit akar létrehozni)!</string>
     <string name="invalid_name_or_type">Érvénytelen név vagy típus!</string>
-    <string name="view_all_call_history">Teljes előzmény megtekintése</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Speciális keresés</string>
     <string name="other">Egyéb</string>
     <string name="about">Az alkalmazásról</string>
@@ -31,7 +31,7 @@
     <string name="error">Hiba: %s</string>
     <string name="no_app_found">Nem található érvényes alkalmazás</string>
     <string name="copy_number_to_clipboard">Szám másolása a vágólapra</string>
-    <string name="value_copied_to_clipboard_show">Érték a vágólapra másolva:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Érték a vágólapra másolva</string>
     <string name="unknown">Ismeretlen</string>
     <string name="previous">Előző</string>
     <string name="next">Következő</string>
@@ -366,7 +366,7 @@
     <string name="theme_and_colors">Téma és színek</string>
     <string name="feature_locked">Zárolt</string>
     <string name="use_english_language">Angol nyelv használata</string>
-    <string name="language">🗣️ Nyelv</string>
+    <string name="language">🌏 Nyelv</string>
     <string name="font_size">🅰️ Betűméret</string>
     <string name="small">Kicsi</string>
     <string name="medium">Közepes</string>
@@ -383,6 +383,7 @@
     <string name="startup">Indítás</string>
     <string name="migrating">Átköltöztetés 📦</string>
     <string name="manage_shown_tabs">🗂️ Megjelenített lapok kezelése</string>
+    <string name="calling_accounts">🔑 Hívásfiókok (SIM)</string>
     <string name="default_tab_to_open">Alkalmazás indításakor megjelenítendő lap</string>
     <string name="contacts_tab">Névjegyek</string>
     <string name="favorites_tab">Kedvencek</string>

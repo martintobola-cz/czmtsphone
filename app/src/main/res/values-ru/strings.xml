@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="transfers">Перенос данных</string>
+<string name="transfer_import">Импорт 📦→📱</string>
+<string name="transfer_export">Экспорт 📱→📦</string>
+<string name="transfer_contacts">👤 Контакты</string>
+<string name="transfer_contacts_sim">👤 Контакты (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Заблокированные номера</string>
+<string name="transfer_call_history">🕒 История вызовов</string>
+<string name="transfer_settings">⚙️ Настройки</string>
+<string name="transfer_no_active_sim">Нет активной SIM-карты</string>
+<string name="transfer_sim_import_message">Это действие импортирует контакты с SIM-карты в скрытое хранилище (недоступное для других приложений). Импорт можно выполнять повторно; дубликаты создаваться не будут. Выберите SIM-карту и нажмите OK.</string>
+<string name="highlight_call_buttons">Выделять кнопки на экране вызова</string>
+
 <string name="allow_record_calls">Разрешить запись звонков</string>
 <string name="call_recording_title">Запись звонков</string>
 <string name="call_recording_info">Уведомление о записи звонков:\n\nЗапись телефонных разговоров в некоторых странах или при определённых обстоятельствах может регулироваться законодательством, ограничениями или требованиями об уведомлении участников разговора либо получении их согласия.\n\nПеред использованием этой функции убедитесь, что её использование соответствует законам и другим правилам, действующим в вашей стране или в месте вашего нахождения.\n\nВы несёте полную ответственность за использование функции записи звонков, включая соблюдение всех применимых законодательных требований и получение необходимого согласия.\n\nРазработчик приложения не предоставляет юридических консультаций и не несёт ответственности за использование этой функции в нарушение действующего законодательства.\n\nИспользуя функцию записи звонков, вы подтверждаете, что прочитали и поняли это уведомление и принимаете его к сведению.\n\nЗапись осуществляется с помощью приложения Shizuku (moe.shizuku.privileged.api), которое можно скачать по адресу https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nМоё приложение «Телефон» запускает и останавливает Shizuku с помощью intent (moe.shizuku.privileged.api.START / STOP). Однако здесь необходимо ввести ключ авторизации Shizuku. Ключ можно найти после установки Shizuku, нажав Show intents в разделе Control Shizuku using automation apps.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Отправить сообщение</string>
 <string name="hide_number_for_saved_contact">Не показывать номер телефона во время звонка, если это сохранённый контакт</string>
 <string name="privacy_acknowledge">Я принимаю это к сведению</string>
-<string name="block_confirmation">Вы действительно хотите заблокировать "%s"?</string>
+<string name="block_confirmation">Вы действительно хотите заблокировать \"%s\"?</string>
 <string name="block_unknown_calls">Блокировать звонки с неизвестных номеров (звонить смогут только сохранённые контакты)</string>
 <string name="block_hidden_calls">Блокировать звонки со скрытых номеров</string>
 <string name="block_unknown_messages">Блокировать сообщения с неизвестных номеров</string>
@@ -160,8 +172,8 @@
     <string name="decline">Отклонить</string>
     <string name="decline_call">Отклонить вызов</string>
     <string name="unknown_caller">Скрытый номер</string>
-    <string name="is_calling">Звонит…</string>
-    <string name="dialing">Набор номера…</string>
+    <string name="is_calling">Звонит</string>
+    <string name="dialing">Набор номера</string>
     <string name="call_ended">Вызов завершён</string>
     <string name="call_ending">Завершение вызова</string>
     <string name="ongoing_call">Исходящий вызов</string>
@@ -207,5 +219,4 @@
     <string name="call_is_being_connected">Соединение…</string>
     <string name="call_notification_channel">Статус вызова</string>
     <string name="call_notification_channel_high_priority">Статус вызова (высокий приоритет)</string>
-    <string name="calling_accounts">сим для звонков</string>
 </resources>

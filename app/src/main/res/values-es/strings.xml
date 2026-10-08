@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Teléfono</string>
 
+<string name="transfers">Transferencias</string>
+<string name="transfer_import">Importar 📦→📱</string>
+<string name="transfer_export">Exportar 📱→📦</string>
+<string name="transfer_contacts">👤 Contactos</string>
+<string name="transfer_contacts_sim">👤 Contactos (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Números bloqueados</string>
+<string name="transfer_call_history">🕒 Historial de llamadas</string>
+<string name="transfer_settings">⚙️ Ajustes</string>
+<string name="transfer_no_active_sim">Sin SIM activa</string>
+<string name="transfer_sim_import_message">Esto importará los contactos almacenados en la SIM al almacenamiento oculto (invisible para otras aplicaciones). Puedes realizar la importación varias veces; no se crearán duplicados. Selecciona la SIM y pulsa Aceptar.</string>
+<string name="highlight_call_buttons">Resaltar botones en la pantalla de llamada</string>
+
 <string name="allow_record_calls">Permitir la grabación de llamadas</string>
 <string name="call_recording_title">Grabación de llamadas</string>
 <string name="call_recording_info">Aviso sobre la grabación de llamadas:\n\nLa grabación de llamadas telefónicas puede estar sujeta en algunos países o en determinadas circunstancias a normativas legales, restricciones o requisitos para informar a los participantes de la llamada u obtener su consentimiento.\n\nAntes de utilizar esta función, asegúrate de que su uso cumple las leyes y demás normas aplicables en tu país o ubicación.\n\nEres el único responsable del uso que hagas de la función de grabación de llamadas, incluido el cumplimiento de todas las obligaciones legales aplicables y la obtención de cualquier consentimiento necesario.\n\nEl desarrollador de la aplicación no proporciona asesoramiento jurídico y no se hace responsable del uso de esta función en incumplimiento de las leyes aplicables.\n\nAl utilizar la función de grabación de llamadas, confirmas que has leído y comprendido este aviso y que lo aceptas.\n\nLa grabación se realiza mediante la aplicación Shizuku (moe.shizuku.privileged.api), que puedes descargar desde https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMi aplicación Teléfono inicia y detiene Shizuku mediante un intent (moe.shizuku.privileged.api.START / STOP). Sin embargo, debes introducir aquí la clave de autenticación de Shizuku. Puedes encontrar la clave después de instalar Shizuku pulsando Show intents en la sección Control Shizuku using automation apps.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Enviar mensaje</string>
 <string name="hide_number_for_saved_contact">No mostrar el número de teléfono durante una llamada si es un contacto guardado</string>
 <string name="privacy_acknowledge">Acepto esto</string>
-<string name="block_confirmation">¿Está seguro de que desea bloquear "%s"?</string>
+<string name="block_confirmation">¿Está seguro de que desea bloquear \"%s\"?</string>
 <string name="block_unknown_calls">Bloquear llamadas de números que no están en los contactos</string>
 <string name="block_hidden_calls">Bloquear llamadas de números ocultos</string>
 <string name="block_unknown_messages">Bloquear mensajes de números que no están en los contactos</string>
@@ -160,8 +172,8 @@
     <string name="decline">Rechazar</string>
     <string name="decline_call">Rechazar llamada</string>
     <string name="unknown_caller">Número desconocido</string>
-    <string name="is_calling">Está llamando…</string>
-    <string name="dialing">Llamando…</string>
+    <string name="is_calling">Está llamando</string>
+    <string name="dialing">Llamando</string>
     <string name="call_ended">Llamada finalizada</string>
     <string name="call_ending">Finalizando llamada</string>
     <string name="ongoing_call">Llamada en curso</string>
@@ -207,5 +219,4 @@
     <string name="import_call_history">Importar el historial de llamadas</string>
     <string name="export_contacts">Exportar contactos (.vcf)</string>
     <string name="import_contacts">Importar contactos (.vcf)</string>
-    <string name="calling_accounts">Cuentas telefónicas</string>
 </resources>

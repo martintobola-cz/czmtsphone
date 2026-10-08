@@ -225,6 +225,10 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getLong(UNLOCK_TIMEOUT_DURATION_MS, DEFAULT_UNLOCK_TIMEOUT_DURATION)
         set(value) = prefs.edit().putLong(UNLOCK_TIMEOUT_DURATION_MS, value).apply()
 
+    var highlightCallButtons: Boolean
+        get() = prefs.getBoolean(HIGHLIGHT_CALL_FULSCREEN_BUTTONS, false)
+        set(value) = prefs.edit().putBoolean(HIGHLIGHT_CALL_FULSCREEN_BUTTONS, value).apply()
+
     var useEnglish: Boolean
         get() = prefs.getBoolean(USE_ENGLISH, false)
         set(useEnglish) {

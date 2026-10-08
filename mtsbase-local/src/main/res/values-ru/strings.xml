@@ -12,7 +12,7 @@
     <string name="error">Ошибка: %s</string>
     <string name="no_app_found">Приложение не найдено</string>
     <string name="copy_number_to_clipboard">Копировать номер в буфер обмена</string>
-    <string name="value_copied_to_clipboard_show">Скопировано в буфер обмена:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Скопировано в буфер обмена</string>
     <string name="unknown">скрытый номер</string>
     <string name="previous">Предыдущая</string>
     <string name="next">Следующая</string>
@@ -382,7 +382,7 @@
     <string name="customize_colors">🎨 Настройка интерфейса</string>
     <string name="feature_locked">Заблокировано</string>
     <string name="use_english_language">Использовать английский язык</string>
-    <string name="language">🗣️ Язык</string>
+    <string name="language">🌏 Язык</string>
     <string name="font_size">🅰️ Размер шрифта</string>
     <string name="small">Мелкий</string>
     <string name="medium">Средний</string>
@@ -398,11 +398,12 @@
     <string name="startup">Запуск</string>
     <string name="migrating">Перенос 📦</string>
     <string name="manage_shown_tabs">🗂️ Управление отображаемыми вкладками</string>
+    <string name="calling_accounts">🔑 Аккаунты для звонков</string>
     <string name="default_tab_to_open">Открываемая при запуске вкладка</string>
     <string name="contacts_tab">Контакты</string>
     <string name="favorites_tab">Избранное</string>
     <string name="call_history_tab">История вызовов</string>
-    <string name="view_all_call_history">Показать всю историю</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="last_used_tab">Последняя использованная</string>
     <plurals name="moving_items_into_bin">
         <item quantity="one">%d элемент перемещается в корзину</item>

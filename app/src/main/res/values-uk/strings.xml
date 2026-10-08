@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="transfers">Перенесення даних</string>
+<string name="transfer_import">Імпорт 📦→📱</string>
+<string name="transfer_export">Експорт 📱→📦</string>
+<string name="transfer_contacts">👤 Контакти</string>
+<string name="transfer_contacts_sim">👤 Контакти (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Заблоковані номери</string>
+<string name="transfer_call_history">🕒 Історія дзвінків</string>
+<string name="transfer_settings">⚙️ Налаштування</string>
+<string name="transfer_no_active_sim">Немає активної SIM-карти</string>
+<string name="transfer_sim_import_message">Це імпортує контакти із SIM-карти до прихованого сховища (невидимого для інших програм). Імпорт можна виконувати повторно; дублікати не створюватимуться. Виберіть SIM-карту та натисніть «ОК».</string>
+<string name="highlight_call_buttons">Виділяти кнопки на екрані дзвінка</string>
+
 <string name="allow_record_calls">Дозволити запис дзвінків</string>
 <string name="call_recording_title">Запис дзвінків</string>
 <string name="call_recording_info">Повідомлення про запис дзвінків:\n\nЗапис телефонних розмов у деяких країнах або за певних обставин може регулюватися законодавством, обмеженнями або вимогами щодо повідомлення учасників розмови чи отримання їхньої згоди.\n\nПеред використанням цієї функції переконайтеся, що її використання відповідає законам та іншим правилам, чинним у вашій країні або місці перебування.\n\nВи несете повну відповідальність за використання функції запису дзвінків, зокрема за дотримання всіх чинних юридичних вимог та отримання необхідної згоди.\n\nРозробник застосунку не надає юридичних консультацій і не несе відповідальності за використання цієї функції з порушенням чинного законодавства.\n\nВикористовуючи функцію запису дзвінків, ви підтверджуєте, що прочитали та зрозуміли це повідомлення і берете його до відома.\n\nЗапис здійснюється за допомогою застосунку Shizuku (moe.shizuku.privileged.api), який можна завантажити за адресою https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nМій застосунок «Телефон» запускає та зупиняє Shizuku за допомогою intent (moe.shizuku.privileged.api.START / STOP). Однак тут потрібно ввести ключ авторизації Shizuku. Ключ можна знайти після встановлення Shizuku, натиснувши Show intents у розділі Control Shizuku using automation apps.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Надіслати повідомлення</string>
 <string name="hide_number_for_saved_contact">Не показувати номер телефону під час дзвінка, якщо це збережений контакт</string>
 <string name="privacy_acknowledge">Беру до відома</string>
-<string name="block_confirmation">Ви дійсно хочете заблокувати "%s"?</string>
+<string name="block_confirmation">Ви дійсно хочете заблокувати \"%s\"?</string>
 <string name="block_unknown_calls">Блокувати дзвінки з невідомих номерів (телефонувати зможуть лише збережені контакти)</string>
 <string name="block_hidden_calls">Блокувати дзвінки з прихованих номерів</string>
 <string name="block_unknown_messages">Блокувати повідомлення з невідомих номерів</string>
@@ -160,8 +172,8 @@
     <string name="decline">Відхилити</string>
     <string name="decline_call">Відхилити виклик</string>
     <string name="unknown_caller">Прихований номер</string>
-    <string name="is_calling">Дзвонить…</string>
-    <string name="dialing">Набір номера…</string>
+    <string name="is_calling">Дзвонить</string>
+    <string name="dialing">Набір номера</string>
     <string name="call_ended">Виклик завершено</string>
     <string name="call_ending">Завершення виклику</string>
     <string name="ongoing_call">Вихідний виклик</string>
@@ -207,5 +219,4 @@
     <string name="call_is_being_connected">З\'єднання…</string>
     <string name="call_notification_channel">Статус виклику</string>
     <string name="call_notification_channel_high_priority">Статус виклику (високий пріоритет)</string>
-    <string name="calling_accounts">сім для дзвінків</string>
 </resources>

@@ -422,7 +422,9 @@ class CallNotificationManagerMTs2(private val context: Context) {
                          else if (callstate == Call.STATE_ACTIVE) R.string.mts_active_call
                          else R.string.mts_none
 
-            setText(R.id.notification_call_status, context.getString(textId))
+            val statusText = context.getString(textId) +
+                             if (textId == R.string.dialing) "..." else ""
+            setText(R.id.notification_call_status, statusText)
 
             setViewVisibility(
                 R.id.notification_accept_call,
@@ -477,7 +479,7 @@ class CallNotificationManagerMTs2(private val context: Context) {
                     append(callerNumber)
                     append(" ")
                 }
-                append(context.getString(textId))
+                append(statusText)
             }
             wearableTexts = WearableTexts(title = wearableTitle, text = wearableText)
         }

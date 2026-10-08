@@ -15,7 +15,7 @@
 <string name="customization_navbar_color_label">Farba navigačného panela</string>
     <string name="search_all_fields">Rozšírené vyhľadávanie</string>
     <string name="show_only_contacts_with_numbers">Zobrazovať iba kontakty s číslom</string>
-    <string name="view_all_call_history">Zobraziť celú históriu</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="invalid_name_or_type">Neplatné meno alebo typ!</string>
     <string name="invalid_target_for_import">Vyberte iba jeden cieľ!</string>
     <string name="cancel">Zrušiť</string>
@@ -25,7 +25,7 @@
     <string name="error">Chyba: %s</string>
     <string name="no_app_found">Nenašla sa žiadna vhodná aplikácia</string>
     <string name="copy_number_to_clipboard">Skopírovať číslo do schránky</string>
-    <string name="value_copied_to_clipboard_show">Hodnota bola vložená do schránky:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Hodnota bola vložená do schránky</string>
     <string name="unknown">Skryté volanie</string>
     <string name="previous">Predošlá</string>
     <string name="next">Nasledujúca</string>
@@ -381,7 +381,7 @@
     <string name="customize_colors">🎨 Upraviť farby</string>
     <string name="feature_locked">Uzamknuté</string>
     <string name="use_english_language">Použiť angličtinu</string>
-    <string name="language">🗣️ Jazyk</string>
+    <string name="language">🌏 Jazyk</string>
     <string name="font_size">🅰️ Veľkosť písma</string>
     <string name="small">Malé</string>
     <string name="medium">Stredné</string>
@@ -396,6 +396,7 @@
     <string name="startup">Po spustení</string>
     <string name="migrating">Migrovanie 📦</string>
     <string name="manage_shown_tabs">🗂️ Spravovať zobrazené karty</string>
+    <string name="calling_accounts">🔑 Účty (SIM) pre volanie</string>
     <string name="default_tab_to_open">Karta otvorená po spustení aplikácie</string>
     <string name="contacts_tab">Kontakty</string>
     <string name="favorites_tab">Obľúbené</string>

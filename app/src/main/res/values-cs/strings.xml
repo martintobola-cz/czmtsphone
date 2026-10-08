@@ -2,7 +2,22 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="recents_still_loading">Operaci nelze provést dokud se historie nenačte celá...</string>
+
+<string name="transfers">Přenosy</string>
+<string name="transfer_import">Import 📦→📱</string>
+<string name="transfer_export">Export 📱→📦</string>
+<string name="transfer_contacts">👤 Kontakty</string>
+<string name="transfer_contacts_sim">👤 Kontakty ze SIM</string>
+<string name="transfer_blocked_numbers">⛔ Blokovaná čísla</string>
+<string name="transfer_call_history">🕒 Historie volání</string>
+<string name="transfer_settings">⚙️ Nastavení</string>
+<string name="transfer_no_active_sim">Žádná aktivní SIM</string>
+<string name="transfer_sim_import_message">Tímto naimportujete kontaky uložené na SIM do této aplikace Telefon (do skrytého úložiště neviditelného pro ostatní aplikace). Import můžete provádět i opakovaně, duplicity nevzniknou. Vyberte SIM a stiskněte OK.</string>
+<string name="highlight_call_buttons">Zvýraznit tlačítka na obrazovce s hovorem</string>
+
 <string name="allow_record_calls">Povolit nahrávání hovorů</string>
+<string name="call_recording_files_empty">Zatím je zde pusto prázdno...</string>
 <string name="call_recording_title">Nahrávání hovorů</string>
 <string name="call_recording_info">Upozornění k nahrávání hovorů:\n\nNahrávání telefonních hovorů může v některých zemích nebo za určitých okolností podléhat právním předpisům, omezením nebo povinnosti informovat či získat souhlas účastníků hovoru.\n\nPřed použitím této funkce se ujistěte, že její použití je v souladu s právními předpisy a dalšími pravidly platnými ve vaší zemi nebo v místě, kde se nacházíte.\n\nZa způsob použití funkce nahrávání hovorů, včetně dodržování všech příslušných právních povinností a získání případných potřebných souhlasů, odpovídáte výhradně vy.\n\nJá, jako vývojář aplikace neposkytuji právní poradenství a nenesu odpovědnost za použití této funkce v rozporu s platnými právními předpisy.\n\nPoužitím funkce nahrávání hovorů potvrzujete, že jste se s tímto upozorněním seznámili a berete jej na vědomí.\n\nNahrávání je realizováno za pomocí Thedjchi forku Shizuku (moe.shizuku.privileged.api), kterou si můžete stáhnout z https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nVypnutí a zapnutí Shizuku probíhá automaticky z mé telefonní aplikace pomocí intentu (moe.shizuku.privileged.api.START / STOP). K tomu je však nutné zde vložit autorizační klíč, který naleznete po instalaci a zprovoznění Shizuku - nachází se pod tlačítkem Zobrazit záměry v sekci Ovládejte Shizuku pomocí automatizačních aplikací.</string>
 <string name="call_recording_agree">Beru na vědomí a souhlasím</string>
@@ -22,7 +37,7 @@
 <string name="send_message">Poslat zprávu</string>
 <string name="hide_number_for_saved_contact">Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt</string>
 <string name="privacy_acknowledge">Beru na vědomí</string>
-    <string name="block_confirmation">Opravdu chcete zablokovat \n"%s\n"?</string>
+    <string name="block_confirmation">Opravdu chcete zablokovat  \"%s\"?</string>
     <string name="block_unknown_calls">Blokovat volání z neznámých čísel (volat tedy mohou pouze uložené kontakty)</string>
     <string name="block_hidden_calls">Blokovat volání ze skrytých čísel</string>
     <string name="block_unknown_messages">Blokovat zprávy z neznámých čísel</string>
@@ -37,7 +52,7 @@
     <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
 <string name="block_error_string_value">Jsou dovolena pouze čísla a znaky ? *</string>
 
-<string name="last_update_info">Co takhle seřadit si spodní záložky 🗂️ podle sebe? A co nahrávání 🎙️ probíhajícího hovoru, nehodilo by se? 😁</string>
+<string name="last_update_info">Co takhle seřadit si spodní záložky 🗂️ podle sebe? A co nahrávání 🎙️ probíhajícího hovoru, nehodilo by se? 😁 Přidána volba Zvýraznit tlačítka na obrazovce s hovorem, možnost importu kontaktů ze SIM, jednoduchý audio player. A hlavně konečně opravena nepříjemnost, že se zobrazovala dvojí notifikace o zmeškaném hovoru.</string>
 
 <string name="last_update_info932">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
 <string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
@@ -170,8 +185,8 @@
     <string name="decline">Odmítnout</string>
     <string name="decline_call">Odmítnout volání</string>
     <string name="unknown_caller">Skryté číslo</string>
-    <string name="is_calling">Volá…</string>
-    <string name="dialing">Vytáčí se…</string>
+    <string name="is_calling">Volá</string>
+    <string name="dialing">Vytáčí se</string>
     <string name="call_ended">Hovor ukončen</string>
     <string name="call_ending">Zavěšování</string>
     <string name="ongoing_call">Odchozí hovor</string>
@@ -202,8 +217,8 @@
     <string name="choose_audio_route">Vybrat směrování zvuku</string>
     <string name="calling_blocked_number">Číslo, které voláte, je blokované</string>
     <string name="speed_dial">Rychlé vytáčení</string>
-    <string name="speed_dial_title">🏍️ Rychlá vytáčení</string>
-    <string name="manage_speed_dial">🏍️ Spravovat rychlá vytáčení</string>
+    <string name="speed_dial_title">🏍️ Rychlé vytáčení</string>
+    <string name="manage_speed_dial">🏍️ Spravovat rychlé vytáčení</string>
     <string name="speed_dial_label">Kliknutím na číslo mu přiřadíte kontakt. Potom můžete rychle zavolat danému kontaktu dlouhým stisknutím daného čísla na číselníku.</string>
     <string name="group_subsequent_calls">Seskupit v protokolu hovorů další hovory se stejným číslem</string>
     <string name="open_dialpad_by_default">Otevřít číselník vždy po spuštění aplikace</string>
@@ -218,5 +233,4 @@
     <string name="other_info_notification_channel">Aktualizace a ostatní info</string>
     <string name="call_notification_channel">Stav hovoru</string>
     <string name="call_notification_channel_high_priority">Stav hovoru (vysoká priorita)</string>
-    <string name="calling_accounts">SIM pro volání</string>
 </resources>

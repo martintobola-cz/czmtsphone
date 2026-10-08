@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Telefón</string>
 
+<string name="transfers">Prenosy</string>
+<string name="transfer_import">Import 📦→📱</string>
+<string name="transfer_export">Export 📱→📦</string>
+<string name="transfer_contacts">👤 Kontakty</string>
+<string name="transfer_contacts_sim">👤 Kontakty (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Blokované čísla</string>
+<string name="transfer_call_history">🕒 História hovorov</string>
+<string name="transfer_settings">⚙️ Nastavenia</string>
+<string name="transfer_no_active_sim">Žiadna aktívna SIM karta</string>
+<string name="transfer_sim_import_message">Táto akcia importuje kontakty uložené na SIM karte do skrytého úložiska (neviditeľného pre ostatné aplikácie). Import môžete vykonať opakovane, nevytvoria sa žiadne duplikáty. Vyberte SIM kartu a stlačte OK.</string>
+<string name="highlight_call_buttons">Zvýrazniť tlačidlá na obrazovke hovoru</string>
+
 <string name="allow_record_calls">Povoliť nahrávanie hovorov</string>
 <string name="call_recording_title">Nahrávanie hovorov</string>
 <string name="call_recording_info">Upozornenie na nahrávanie hovorov:\n\nNahrávanie telefonických hovorov môže v niektorých krajinách alebo za určitých okolností podliehať právnym predpisom, obmedzeniam alebo požiadavkám na informovanie účastníkov hovoru či získanie ich súhlasu.\n\nPred použitím tejto funkcie sa uistite, že jej používanie je v súlade so zákonmi a ostatnými pravidlami platnými vo vašej krajine alebo na vašom mieste pobytu.\n\nZa spôsob používania funkcie nahrávania hovorov nesiete výhradnú zodpovednosť vrátane dodržiavania všetkých platných právnych povinností a získania prípadného požadovaného súhlasu.\n\nVývojár aplikácie neposkytuje právne poradenstvo a nenesie zodpovednosť za používanie tejto funkcie v rozpore s platnými zákonmi.\n\nPoužívaním funkcie nahrávania hovorov potvrdzujete, že ste si toto upozornenie prečítali, porozumeli mu a beriete ho na vedomie.\n\nNahrávanie je implementované pomocou aplikácie Shizuku (moe.shizuku.privileged.api), ktorú si môžete stiahnuť z https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMoja aplikácia Telefón spúšťa a zastavuje Shizuku pomocou intentu (moe.shizuku.privileged.api.START / STOP). Tu však musíte zadať autorizačný kľúč Shizuku. Kľúč nájdete po nainštalovaní aplikácie Shizuku klepnutím na Show intents v časti Control Shizuku using automation apps.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Poslať správu</string>
 <string name="hide_number_for_saved_contact">Počas hovoru nezobrazovať telefónne číslo, ak ide o uložený kontakt</string>
 <string name="privacy_acknowledge">Beriem na vedomie</string>
-<string name="block_confirmation">Naozaj chcete zablokovať "%s"?</string>
+<string name="block_confirmation">Naozaj chcete zablokovať \"%s\"?</string>
 <string name="block_unknown_calls">Blokovať hovory z neznámych čísel (volať teda môžu iba uložené kontakty)</string>
 <string name="block_hidden_calls">Blokovať hovory zo skrytých čísel</string>
 <string name="block_unknown_messages">Blokovať správy z neznámych čísel</string>
@@ -160,8 +172,8 @@
     <string name="decline">Odmietnuť</string>
     <string name="decline_call">Odmietnuť hovor</string>
     <string name="unknown_caller">Skryté číslo</string>
-    <string name="is_calling">Volá…</string>
-    <string name="dialing">Vytáča sa…</string>
+    <string name="is_calling">Volá</string>
+    <string name="dialing">Vytáča sa</string>
     <string name="call_ended">Hovor ukončený</string>
     <string name="call_ending">Ukončovanie</string>
     <string name="ongoing_call">Odchádzajúci hovor</string>
@@ -207,5 +219,4 @@
     <string name="call_is_being_connected">Prebieha spájanie…</string>
     <string name="call_notification_channel">Stav hovoru</string>
     <string name="call_notification_channel_high_priority">Stav hovoru (vysoká priorita)</string>
-    <string name="calling_accounts">SIM pre volanie</string>
 </resources>

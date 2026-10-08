@@ -112,7 +112,7 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
         }
     }
 
-    fun updateBackgroundColor(color: Int = baseConfig.backgroundColor) {
+    fun updateBackgroundColor(color: Int) {
         window.decorView.setBackgroundColor(color)
     }
 

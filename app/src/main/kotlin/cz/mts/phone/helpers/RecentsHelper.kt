@@ -364,6 +364,7 @@ class RecentsHelper(private val context: Context) {
             if (it) {
                 ensureBackgroundThread {
                     context.contentResolver.delete(contentUri, null, null)
+                    RecentsQueryLimits.markCallLogCleared()
                     callback()
                 }
             }
@@ -522,6 +523,8 @@ class RecentsHelper(private val context: Context) {
             Calls.NUMBER_PRESENTATION
         )
 
+        val gen = RecentsQueryLimits.getClearGeneration()
+
         val pkg = context.packageName
         val blockAvatar = "android.resource://$pkg/${R.drawable.blockavatar}"
         val anonAvatar  = "android.resource://$pkg/${R.drawable.anonymousavatar}"
@@ -543,6 +546,12 @@ class RecentsHelper(private val context: Context) {
             }
 
             while (cursor.moveToNext()) {
+
+                if (RecentsQueryLimits.getClearGeneration() != gen) {
+                    onChunk(emptyList(), true)
+                    return@use
+                }
+
                 chunkRaw++
 
                 // ── čtení sloupců ──────────────────────────────────────────

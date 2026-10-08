@@ -29,8 +29,12 @@ __Translations:__ (if you need another language, let me know and I'll add it)
 🇹🇼 TW (zh-TW)
 ```
 <a href='https://play.google.com/store/apps/details?id=cz.mts.phone' target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=80/></a> <a href="https://f-droid.org/packages/cz.mts.phone/" target="_blank"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a> <a href='https://appgallery.huawei.com/app/C118955915' target="_blank"><img alt='Get it on AppGallery' src='https://mts.speccy.cz/pictures/appgallery-logo.png' height=80/></a> 
-  
-__Why you’ll love this app: ❤️__
+```
+!! My allowed APK Signing Keys !! :  
+9b0209216bf0484be60b2fe1e5b08b9e7bd8e946ccf6fd5eb40f8203e6ff689b (Huawei, F-droid, GitHub)  
+2b548a77088dae64c347f28344b6ee239bf4e07d9357c2cb213dc56ea2be6c8e (Google store)  
+```  
+__Why you’ll love this app? ❤️__
 
 🎨 Customizable colors:  
 Set the colors exactly to your liking.
@@ -53,6 +57,9 @@ Logical and intuitive - anyone can use it. You can even search for contacts dire
 
 👨‍👩‍👧 No more unwanted calls:  
 Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors. Or you can set soft possibility - unknown numbers rated via an app <a href='https://play.google.com/store/apps/details?id=callfilter.app'>Callfilter.app</a> (how it works is described in detail on my <a href='https://mts.speccy.cz/mtsphone.htm#callfilter'>website</a>, including images showing two possible ways to use it).
+
+🎙️ Call recording:  
+Although the latest versions of Android strictly prohibit call recording for non-system apps, call recording will work with this phone app when used in conjunction with Shizuku.
 
 💻 Open-source (GNU/GPL v3):  
 You can download the code from this site and review it at any time.

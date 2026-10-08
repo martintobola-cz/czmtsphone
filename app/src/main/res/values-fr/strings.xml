@@ -2,6 +2,18 @@
 <resources>
     <string name="app_launcher_name">Téléphone</string>
 
+<string name="transfers">Transferts</string>
+<string name="transfer_import">Importer 📦→📱</string>
+<string name="transfer_export">Exporter 📱→📦</string>
+<string name="transfer_contacts">👤 Contacts</string>
+<string name="transfer_contacts_sim">👤 Contacts (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Numéros bloqués</string>
+<string name="transfer_call_history">🕒 Historique des appels</string>
+<string name="transfer_settings">⚙️ Paramètres</string>
+<string name="transfer_no_active_sim">Aucune carte SIM active</string>
+<string name="transfer_sim_import_message">Cela importera les contacts stockés sur la carte SIM vers le stockage masqué (invisible pour les autres applications). Vous pouvez effectuer l\'importation plusieurs fois ; aucun doublon ne sera créé. Sélectionnez la carte SIM et appuyez sur OK.</string>
+<string name="highlight_call_buttons">Mettre en évidence les boutons de l\'écran d\'appel</string>
+
 <string name="allow_record_calls">Autoriser l\’enregistrement des appels</string>
 <string name="call_recording_title">Enregistrement des appels</string>
 <string name="call_recording_info">Avis concernant l\’enregistrement des appels :\n\nL\’enregistrement des appels téléphoniques peut être soumis, dans certains pays ou dans certaines circonstances, à des dispositions légales, à des restrictions ou à l\’obligation d\’informer les participants à l\’appel ou d\’obtenir leur consentement.\n\nAvant d\’utiliser cette fonctionnalité, assurez-vous que son utilisation est conforme aux lois et autres règles applicables dans votre pays ou votre lieu de résidence.\n\nVous êtes seul responsable de l\’utilisation que vous faites de la fonction d\’enregistrement des appels, notamment du respect de toutes les obligations légales applicables et de l\’obtention de tout consentement requis.\n\nLe développeur de l\’application ne fournit aucun conseil juridique et n\’est pas responsable de l\’utilisation de cette fonctionnalité en violation des lois applicables.\n\nEn utilisant la fonction d\’enregistrement des appels, vous confirmez avoir lu et compris cet avis et en prendre acte.\n\nL\’enregistrement est réalisé à l\’aide de l\’application Shizuku (moe.shizuku.privileged.api), que vous pouvez télécharger depuis https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMon application Téléphone démarre et arrête Shizuku à l\’aide d\’un intent (moe.shizuku.privileged.api.START / STOP). Vous devez cependant saisir ici la clé d\’authentification Shizuku. Vous pouvez trouver cette clé après avoir installé Shizuku en appuyant sur Show intents dans la section Control Shizuku using automation apps.</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Envoyer un message</string>
 <string name="hide_number_for_saved_contact">Ne pas afficher le numéro de téléphone pendant un appel s\’il s\’agit d\’un contact enregistré</string>
 <string name="privacy_acknowledge">Je reconnais ceci</string>
-<string name="block_confirmation">Voulez-vous vraiment bloquer "%s" ?</string>
+<string name="block_confirmation">Voulez-vous vraiment bloquer \n"%s\n" ?</string>
 <string name="block_unknown_calls">Bloquer les appels provenant de numéros qui ne sont pas dans les contacts</string>
 <string name="block_hidden_calls">Bloquer les appels provenant de numéros masqués</string>
 <string name="block_unknown_messages">Bloquer les messages provenant de numéros qui ne sont pas dans les contacts</string>
@@ -165,8 +177,8 @@
     <string name="decline">Décliner</string>
     <string name="decline_call">Décliner l\'appel</string>
     <string name="unknown_caller">Appelant inconnu</string>
-    <string name="is_calling">Appelle…</string>
-    <string name="dialing">Numérotation…</string>
+    <string name="is_calling">Appelle</string>
+    <string name="dialing">Numérotation</string>
     <string name="call_ended">Appel terminé</string>
     <string name="call_ending">Fin de l\'appel</string>
     <string name="ongoing_call">Appel en cours</string>
@@ -213,5 +225,4 @@
     <string name="import_call_history">Importer l\'historique d\'appels</string>
     <string name="export_contacts">Exporter les contacts (.vcf)</string>
     <string name="import_contacts">Importer les contacts (.vcf)</string>
-    <string name="calling_accounts">Comptes d\'appel</string>
 </resources>

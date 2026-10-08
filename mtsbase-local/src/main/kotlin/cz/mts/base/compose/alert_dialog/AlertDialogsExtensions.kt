@@ -21,7 +21,7 @@ import cz.mts.base.compose.theme.Shapes
 import cz.mts.base.compose.theme.SimpleTheme
 import cz.mts.base.compose.theme.light_grey_stroke
 import cz.mts.base.compose.theme.model.Theme
-import cz.mts.base.extensions.baseConfig
+import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.helpers.isSPlus
 import kotlinx.coroutines.android.awaitFrame
 
@@ -32,7 +32,7 @@ val dialogContainerColor
         is Theme.SystemDefaultMaterialYou -> if (isSPlus()) colorResource(R.color.you_dialog_background_color) else SimpleTheme.colorScheme.surface
         else -> {
             val context = LocalContext.current
-            Color(context.baseConfig.backgroundColor)
+            Color(context.getProperBackgroundColor())
         }
     }
 

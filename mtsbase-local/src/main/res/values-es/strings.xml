@@ -14,7 +14,7 @@
     <string name="use_dayofweek_in_time_format">Ver el día de la semana</string>
     <string name="invalid_target_for_import">¡Seleccione solo un destino (o ninguno para crear uno personalizado)!</string>
     <string name="invalid_name_or_type">¡Nombre o tipo no válido!</string>
-    <string name="view_all_call_history">Ver todo el historial</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Búsqueda avanzada</string>
     <string name="other">Otro</string>
     <string name="about">Acerca de la app</string>
@@ -32,7 +32,7 @@
     <string name="error">Error: %s</string>
     <string name="no_app_found">No se encontró ninguna aplicación válida</string>
     <string name="copy_number_to_clipboard">Copiar número al portapapeles</string>
-    <string name="value_copied_to_clipboard_show">Valor copiado al portapapeles:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Valor copiado al portapapeles</string>
     <string name="unknown">llamada oculta</string>
     <string name="previous">Anterior</string>
     <string name="next">Siguiente</string>
@@ -396,7 +396,7 @@
     <string name="theme_and_colors">Tema y colores</string>
     <string name="feature_locked">Bloqueado</string>
     <string name="use_english_language">Usar el idioma inglés</string>
-    <string name="language">🗣️ Idioma</string>
+    <string name="language">🌏 Idioma</string>
     <string name="font_size">🅰️ Tamaño de fuente</string>
     <string name="small">Pequeña</string>
     <string name="medium">Mediana</string>
@@ -413,6 +413,7 @@
     <string name="startup">Puesta en marcha</string>
     <string name="migrating">Migrando 📦</string>
     <string name="manage_shown_tabs">🗂️ Administrar pestañas mostradas</string>
+    <string name="calling_accounts">🔑 Cuentas de llamadas (SIM)</string>
     <string name="default_tab_to_open">Pestaña para abrir al inicio de la aplicación</string>
     <string name="contacts_tab">Contactos</string>
     <string name="favorites_tab">Favoritos</string>

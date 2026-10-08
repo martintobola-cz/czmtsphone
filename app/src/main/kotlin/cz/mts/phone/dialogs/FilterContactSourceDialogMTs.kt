@@ -2,7 +2,6 @@ package cz.mts.phone.dialogs
 
 import androidx.appcompat.app.AlertDialog
 import cz.mts.base.extensions.getAlertDialogBuilder
-import cz.mts.base.extensions.getVisibleContactSources
 import cz.mts.base.extensions.setupDialogStuff
 import cz.mts.base.extensions.viewBinding
 import cz.mts.base.helpers.ContactsHelper
@@ -65,7 +64,10 @@ class FilterContactSourceDialogMTs(
         }
 
         activity.runOnUiThread {
-            val selectedSources = activity.getVisibleContactSources()
+            // Vybrané = všechny zdroje, které NEJSOU v ignorovaných (porovnání přes plný identifikátor name:type)
+            val ignored = activity.config.ignoredContactSources
+            val selectedSources = contactSourcesWithCount.filter { !ignored.contains(it.getFullIdentifier()) }
+
             binding.filterContactSourcesList.adapter =
                 FilterContactSourcesAdapter(activity, contactSourcesWithCount, selectedSources)
 
@@ -94,9 +96,9 @@ class FilterContactSourceDialogMTs(
             .map { it.getFullIdentifier() }
             .toHashSet()
 
-
         if (!bImport) {
-            if (activity.getVisibleContactSources() != ignoredContactSources) {
+            // Porovnáváme stejné typy: HashSet<String> s HashSet<String>
+            if (activity.config.ignoredContactSources != ignoredContactSources) {
                 activity.config.ignoredContactSources = ignoredContactSources
                 callback()
             }

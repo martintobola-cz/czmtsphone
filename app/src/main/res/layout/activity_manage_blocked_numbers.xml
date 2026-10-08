@@ -125,7 +125,6 @@
         android:id="@+id/manage_blocked_numbers_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         android:scrollbars="none"
         app:layoutManager="cz.mts.base.views.MyLinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

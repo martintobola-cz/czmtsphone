@@ -15,7 +15,7 @@
     <string name="use_dayofweek_in_time_format">顯示星期</string>
     <string name="invalid_target_for_import">請只選擇一個目標（或不選擇以新建自定義）！</string>
     <string name="invalid_name_or_type">無效的姓名或類型！</string>
-    <string name="view_all_call_history">查看所有通話記錄</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">搜索所有字段</string>
     <string name="other">其他</string>
     <string name="about">關於本應用程式</string>
@@ -31,7 +31,7 @@
     <string name="error">錯誤：%s</string>
     <string name="no_app_found">沒有找到有效應用</string>
     <string name="copy_number_to_clipboard">複製號碼到剪貼板</string>
-    <string name="value_copied_to_clipboard_show">數值已複製到剪貼板： \n%s</string>
+    <string name="value_copied_to_clipboard_show">數值已複製到剪貼板</string>
     <string name="unknown">未知</string>
     <string name="previous">上一個</string>
     <string name="next">下一個</string>
@@ -323,7 +323,7 @@
     <string name="theme_and_colors">主題和顏色</string>
     <string name="feature_locked">已鎖定</string>
     <string name="use_english_language">使用英語顯示</string>
-    <string name="language">🗣️ 語言</string>
+    <string name="language">🌏 語言</string>
     <string name="font_size">🅰️ 字體大小</string>
     <string name="small">小</string>
     <string name="medium">中</string>
@@ -340,6 +340,7 @@
     <string name="startup">啟動</string>
     <string name="migrating">遷移 📦</string>
     <string name="manage_shown_tabs">🗂️ 管理顯示的標籤頁</string>
+    <string name="calling_accounts">🔑 通話帳戶</string>
     <string name="default_tab_to_open">應用啟動時打開的標籤頁</string>
     <string name="contacts_tab">聯絡人</string>
     <string name="favorites_tab">我的最愛</string>

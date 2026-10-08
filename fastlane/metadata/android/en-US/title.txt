@@ -1,1 +1,1 @@
-Phone (cz.mts)
+MTS Dialer (cz.mts.phone)

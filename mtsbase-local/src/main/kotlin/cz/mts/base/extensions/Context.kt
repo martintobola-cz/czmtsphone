@@ -455,11 +455,11 @@ fun Context.isNumberBlockedByPattern(
     }
 
 
-fun Context.copyToClipboard(text: String) {
+fun Context.copyToClipboard(text: String, bToast: Boolean = true) {
     val clip = ClipData.newPlainText(MY_APP_NAME_GOOGLE_ID, text)
     (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
-    val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
-    toast(toastText)
+//    val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
+    if (bToast) toast(getString(R.string.value_copied_to_clipboard_show))
 }
 
 fun Context.getPhoneNumberTypeText(type: Int, label: String): String {

@@ -10,9 +10,7 @@ import android.provider.Settings
 import android.util.TypedValue
 import android.view.Menu
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
 import cz.mts.base.dialogs.ChangeDateTimeFormatDialog
-import cz.mts.base.dialogs.ExportFileDialog
 import cz.mts.base.dialogs.RadioGroupDialog
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
@@ -21,22 +19,11 @@ import cz.mts.base.helpers.FastPhoneNumberFormatter.invalidateRegionCache
 import cz.mts.base.models.RadioItem
 import cz.mts.phone.R
 import cz.mts.phone.databinding.ActivitySettingsBinding
-import cz.mts.phone.dialogs.FilterContactSourceDialogMTs
 import cz.mts.phone.dialogs.ManageVisibleTabsDialog
-import cz.mts.phone.dialogs.NameTypeDialog
 import cz.mts.phone.extensions.canLaunchAccountsConfiguration
 import cz.mts.phone.extensions.launchAccountsConfiguration
-import cz.mts.phone.helpers.BlockedNumbersImportExportHelper
 import cz.mts.phone.helpers.OverlayColors
-import cz.mts.phone.helpers.RecentsHelper
 import cz.mts.phone.helpers.SmsQuickReplyOverlay
-import cz.mts.phone.models.RecentCall
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
-import java.io.OutputStream
 import java.util.Locale
 import kotlin.system.exitProcess
 import cz.mts.base.extensions.baseConfig as config
@@ -45,60 +32,10 @@ import cz.mts.base.extensions.baseConfig as config
 class SettingsActivity : SimpleActivity() {
 
     override var customNavBarLightIcons: Boolean? = null
-    companion object {
-        private const val CALL_HISTORY_FILE_TYPE = "application/json"
-        private const val CONTACT_VCF_FILE_TYPE = "text/x-vcard"
-
-        private val IMPORT_CALL_HISTORY_FILE_TYPES = buildList {
-            add("application/json")
-            if (!isQPlus()) add("application/octet-stream")
-        }
-
-        private val IMPORT_CONTACT_VCF_FILE_TYPE_TYPES = buildList {
-            add("text/x-vcard")
-            if (!isQPlus()) add("application/octet-stream")
-        }
-    }
     private var smsOverlay: SmsQuickReplyOverlay? = null
     private val binding by viewBinding(ActivitySettingsBinding::inflate)
 
     // ── Activity Result launchery – deklarovány před onCreate ────────────────
-
-    private val importExportHelper = BlockedNumbersImportExportHelper(this)
-
-    private val importCallHistoryLauncher =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) {
-                toast(R.string.importing)
-                importCallHistory(uri)
-            }
-        }
-
-    private val importContactsLauncher =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) importContacts(uri)
-        }
-
-    private val exportCallHistoryLauncher =
-        registerForActivityResult(ActivityResultContracts.CreateDocument(CALL_HISTORY_FILE_TYPE)) { uri ->
-            if (uri != null) {
-                toast(R.string.exporting)
-                binding.progressIndicatorSettings.beVisible()  // ← show
-                lifecycleScope.launch {
-                    val recents = withContext(Dispatchers.IO) {
-                        RecentsHelper(this@SettingsActivity).loadAllRecentsForExport()
-                    }
-                    exportCallHistory(recents, uri)
-                    binding.progressIndicatorSettings.beGone()  // ← hide
-                }
-            }
-        }
-
-    private val exportContactsLauncher =
-        registerForActivityResult(ActivityResultContracts.CreateDocument(CONTACT_VCF_FILE_TYPE)) { uri ->
-            if (uri != null) exportContacts(uri)
-        }
-
 
     override fun onBackPressedCompat(): Boolean {
 
@@ -119,9 +56,6 @@ class SettingsActivity : SimpleActivity() {
             setupEdgeToEdge(padBottomSystem = listOf(settingsNestedScrollview))
             setupMaterialScrollListener(settingsNestedScrollview, settingsAppbar)
         }
-
-        setupOptionsMenu()
-        refreshMenuItems()
 
         // Listenery patří do onCreate – registrují se jen jednou
         setupClickListeners()
@@ -154,7 +88,7 @@ class SettingsActivity : SimpleActivity() {
                 settingsStartupLabel,
                 settingsCallsLabel,
                 settingsDialpadSectionLabel,
-                settingsMigrationSectionLabel
+                settingsTransfersSectionLabel
             ).forEach { it.setTextColor(getProperPrimaryColor()) }
         }
     }
@@ -164,25 +98,8 @@ class SettingsActivity : SimpleActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    // ── Options menu ─────────────────────────────────────────────────────────
 
-    private fun setupOptionsMenu() {
-        binding.settingsToolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.calling_accounts -> launchAccountsConfiguration()
-                else -> return@setOnMenuItemClickListener false
-            }
-            true
-        }
-    }
 
-    private fun refreshMenuItems() {
-        binding.settingsToolbar.menu.apply {
-            findItem(R.id.calling_accounts).isVisible = canLaunchAccountsConfiguration()
-        }
-    }
-
-    // ── UI hodnoty – voláno z onResume ───────────────────────────────────────
 
     private fun refreshUiValues() {
         binding.apply {
@@ -217,6 +134,8 @@ class SettingsActivity : SimpleActivity() {
             settingsShakeCallEffect.isChecked = config.shakeEffectConfirmingCall
             settingsHideNumberForSavedContact.isChecked = config.hideNumberForSavedContact
             settingsAllowRecordCalls.isChecked = config.allowRecordCalls
+            settingsHighlightCallButtons.isChecked = config.highlightCallButtons
+            settingsCallingAccountsHolder.beVisibleIf(canLaunchAccountsConfiguration())
         }
     }
 
@@ -248,15 +167,22 @@ class SettingsActivity : SimpleActivity() {
         setupSwhowDeclineAndSMSbutton()
         setupShakeEffect()
         setupHideNumberForSavedContact()
-        setupCallsExport()
-        setupCallsImport()
-        setupContactsExport()
-        setupContactsImport()
-        setupBlockedNumbersExport()
-        setupBlockedNumbersImport()
-        setupAllPerfsExport()
-        setupAllPerfsImport()
+        setupTransfers()
+        setupHighlightCallButtons()
+        setupCallingAccounts()
 
+    }
+
+    private fun setupCallingAccounts() {
+        binding.settingsCallingAccountsHolder.setOnClickListener {
+            launchAccountsConfiguration()
+        }
+    }
+    private fun setupHighlightCallButtons() {
+        binding.settingsHighlightCallButtonsHolder.setOnClickListener {
+            binding.settingsHighlightCallButtons.toggle()
+            config.highlightCallButtons = binding.settingsHighlightCallButtons.isChecked
+        }
     }
 
     private fun setupCustomizeColors() {
@@ -584,248 +510,14 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    private fun setupCallsExport() {
-        binding.settingsExportCallsHolder.setOnClickListener {
-            ExportFileDialog(
-                activity = this,
-                titleRes = R.string.export_call_history,
-                defaultFilename = "call_history_${getCurrentFormattedDateTime()}",
-            ) { filename ->
-                exportCallHistoryLauncher.launch("$filename.json")
-            }
+    // ── Přenosy (import / export) – vlastní obrazovka ────────────────────────
+
+    private fun setupTransfers() {
+        binding.settingsTransferImportHolder.setOnClickListener {
+            TransferActivity.start(this, TransferActivity.MODE_IMPORT)
         }
-    }
-
-    private fun setupCallsImport() {
-        binding.settingsImportCallsHolder.setOnClickListener {
-            importCallHistoryLauncher.launch(IMPORT_CALL_HISTORY_FILE_TYPES.toTypedArray())
-        }
-    }
-
-    private fun setupContactsExport() {
-        binding.settingsExportContactsHolder.setOnClickListener {
-            ExportFileDialog(
-                activity = this,
-                titleRes = R.string.export_contacts,
-                defaultFilename = "contacts_${getCurrentFormattedDateTime()}",
-            ) { filename ->
-                exportContactsLauncher.launch("$filename.vcf")
-            }
-        }
-    }
-
-    private fun setupContactsImport() {
-        binding.settingsImportContactsHolder.setOnClickListener {
-            importContactsLauncher.launch(IMPORT_CONTACT_VCF_FILE_TYPE_TYPES.toTypedArray())
-        }
-    }
-
-    // ── Import / Export ──────────────────────────────────────────────────────
-
-    private fun importCallHistory(uri: Uri) {
-        binding.progressIndicatorSettings.beVisible()  // ← show
-        try {
-            val jsonString = contentResolver.openInputStream(uri)!!.use { it.bufferedReader().readText() }
-            val objects = Json.decodeFromString<List<RecentCall>>(jsonString)
-
-            if (objects.isEmpty()) {
-                binding.progressIndicatorSettings.beGone()
-                toast(R.string.no_entries_for_importing)
-                return
-            }
-            RecentsHelper(this).restoreRecentCalls(
-                activity = this,
-                calls = objects,
-                showImportingToast = true
-            ) { result ->
-                runOnUiThread {
-                    binding.progressIndicatorSettings.beGone()
-
-                    if (result is RecentsHelper.RestoreRecentsResult.Error) {
-                        showErrorToast(Exception(result.message))
-                    }
-                }
-            }
-        } catch (_: SerializationException) {
-            binding.progressIndicatorSettings.beGone()
-            toast(R.string.invalid_file_format)
-        } catch (_: IllegalArgumentException) {
-            binding.progressIndicatorSettings.beGone()
-            toast(R.string.invalid_file_format)
-        } catch (e: Exception) {
-            binding.progressIndicatorSettings.beGone()
-            showErrorToast(e)
-        }
-    }
-
-    private fun exportCallHistory(recents: List<RecentCall>, uri: Uri) {
-        if (recents.isEmpty()) {
-            toast(R.string.no_entries_for_exporting)
-            return
-        }
-        try {
-            contentResolver.openOutputStream(uri)!!.use {
-                it.write(Json.encodeToString(recents).toByteArray())
-            }
-            toast(R.string.exporting_successful)
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
-    }
-
-    /**
-     * Vstupní bod pro import kontaktů – výběr cílového účtu + samotný import.
-     */
-    fun importContacts(uri: Uri) {
-        VcfImportSource.sSourceName = ""
-        VcfImportSource.sSourceType = ""
-
-        FilterContactSourceDialogMTs(this, true) {
-            val sourceName = VcfImportSource.sSourceName
-            val sourceType = VcfImportSource.sSourceType
-
-            when {
-                sourceName == MTS_NONE && sourceType == MTS_NONE -> {
-                    // Uživatel chce nový účet – zobraz dialog pro zadání názvu a typu
-                    NameTypeDialog.show(this, object : NameTypeDialog.NameTypeDialogCallback {
-                        override fun onConfirmed(name: String, type: String) {
-                            // Čitelná pozitivní podmínka místo 4 negací
-                            val isValid = name.isNotBlank()
-                                && type.isNotBlank()
-                                && type != MTS_PHONE
-                                && name != MTS_PHONE
-                            if (isValid) startVcfImport(uri, name, type)
-                            else toast(R.string.invalid_name_or_type)
-                        }
-                    })
-                }
-                sourceName.isNotBlank() && sourceType.isNotBlank() ->
-                    startVcfImport(uri, sourceName, sourceType)
-                else ->
-                    toast(R.string.invalid_target_for_import)
-            }
-        }
-    }
-
-    private fun startVcfImport(uri: Uri, sourceName: String, sourceType: String) {
-        runOnUiThread { binding.progressIndicatorSettings.beVisible() }
-        lifecycleScope.launch {
-            VcfImporter.import(
-                activity = this@SettingsActivity,
-                uri = uri,
-                showExportingToast = true,
-                accountName = sourceName,
-                accountType = sourceType,
-                onProgress = { /* progress callback – progress.current / progress.total */ }
-            )
-            binding.progressIndicatorSettings.beGone()
-        }
-    }
-
-    fun exportContacts(uri: Uri) {
-        // Oprava: openOutputStream může vrátit null – ošetřeno try/catch
-        try {
-            val outputStream = contentResolver.openOutputStream(uri)
-                ?: run { showErrorToast(Exception("Cannot open output stream")); return }
-            exportVisibleContacts(outputStream)
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
-    }
-
-    private fun exportVisibleContacts(outputStream: OutputStream) {
-        runOnUiThread { binding.progressIndicatorSettings.beVisible() }
-        val onlyWithNumbers = binding.settingsShowOnlyContactsWithNumbers.isChecked
-        ContactsHelper(this).getContacts(getAll = false) { allContacts ->
-            lifecycleScope.launch {
-                VcfExporter().exportContacts(
-                    activity = this@SettingsActivity,
-                    outputStream = outputStream,
-                    contacts = ArrayList(allContacts),
-                    showExportingToast = true,
-                    exportOnlyContactsWithNumbers = onlyWithNumbers
-                )
-                binding.progressIndicatorSettings.beGone()
-            }
-        }
-    }
-
-    private fun setupBlockedNumbersExport() {
-        binding.settingsExportBlockedNumbersHolder.setOnClickListener {
-            importExportHelper.tryExportBlockedNumbers()
-        }
-    }
-
-    private fun setupBlockedNumbersImport() {
-        binding.settingsImportBlockedNumbersHolder.setOnClickListener {
-            importExportHelper.tryImportBlockedNumbers()
-        }
-    }
-
-    private fun setupAllPerfsExport() {
-        binding.settingsExportPerfsHolder.setOnClickListener {
-            ExportFileDialog(
-                activity = this,
-                titleRes = R.string.export_settings,
-                defaultFilename = "mts_prefs_backup_${getCurrentFormattedDateTime()}",
-            ) { filename ->
-                exportPrefsLauncher.launch("$filename.json")
-            }
-        }
-    }
-
-    private fun setupAllPerfsImport() {
-        if (iSaveDebugMode == 1) {
-            binding.settingsImportPerfsHolder.setOnClickListener {
-                importPrefsLauncher.launch(arrayOf("application/json"))
-            }
-        }
-    }
-
-    // launcher
-    private val exportPrefsLauncher =
-        registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
-            if (uri != null) exportSharedPrefs(uri)
-        }
-
-    private val importPrefsLauncher =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) importSharedPrefs(uri)
-        }
-
-
-    // export
-    private fun exportSharedPrefs(uri: Uri) {
-        try {
-            val json = org.json.JSONObject().apply {
-                getSharedPrefs().all.forEach { (key, value) -> put(key, value) }
-            }.toString(2)
-            contentResolver.openOutputStream(uri)?.use { it.write(json.toByteArray()) }
-            toast(R.string.exporting_successful)
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
-    }
-
-    // import
-    private fun importSharedPrefs(uri: Uri) {
-        try {
-            val json = contentResolver.openInputStream(uri)!!.use { it.bufferedReader().readText() }
-            val obj = org.json.JSONObject(json)
-            val editor = getSharedPrefs().edit()
-            obj.keys().forEach { key ->
-                when (val value = obj.get(key)) {
-                    is Boolean -> editor.putBoolean(key, value)
-                    is Int     -> editor.putInt(key, value)
-                    is Long    -> editor.putLong(key, value)
-                    is Float   -> editor.putFloat(key, value)
-                    is String  -> editor.putString(key, value)
-                }
-            }
-            editor.apply()
-            toast(R.string.importing_successful)
-        } catch (e: Exception) {
-            showErrorToast(e)
+        binding.settingsTransferExportHolder.setOnClickListener {
+            TransferActivity.start(this, TransferActivity.MODE_EXPORT)
         }
     }
 

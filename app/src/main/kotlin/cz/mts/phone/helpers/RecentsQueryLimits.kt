@@ -9,6 +9,12 @@ object RecentsQueryLimits {
     private var bIsPreview = false
 
     public var recentcount = 0
+
+    private val clearGeneration = java.util.concurrent.atomic.AtomicInteger(0)
+
+    fun getClearGeneration(): Int = clearGeneration.get()
+    fun markCallLogCleared() { clearGeneration.incrementAndGet() }
+
     fun getFastLimit() : Int { return QUERY_RECENT_FAST_FIRST_LIMIT}
     fun getChunkLimit() : Int { return QUERY_RECENT_CHUNK_LIMIT}
 

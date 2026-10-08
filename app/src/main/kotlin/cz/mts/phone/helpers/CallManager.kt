@@ -14,7 +14,6 @@ import cz.mts.base.compose.extensions.config
 import cz.mts.base.extensions.isAppInstalled
 import cz.mts.base.helpers.DIALPAD_TONE_LENGTH_MS
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
-import cz.mts.phone.activities.mtsGlobalAll.checkNumberForRating
 import cz.mts.phone.extensions.getAvailableSIMCardLabels
 import cz.mts.phone.extensions.getStateCompat
 import cz.mts.phone.extensions.hasCapability

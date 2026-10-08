@@ -54,6 +54,8 @@ object CallRecordingManager {
     fun init(context: Context) {
         if (appContext != null) return
         appContext = context.applicationContext
+        // Jednorázový přesun starých nahrávek z externí složky (dál už jen levná kontrola).
+        scope.launch { RecordingPaths.migrateLegacyIfNeeded(context.applicationContext) }
     }
 
     fun isRecording(): Boolean = recordingActive
@@ -89,7 +91,7 @@ object CallRecordingManager {
         authKeyInUse = authKey
 
         val safeLabel = callLabel.ifBlank { "call" }.filter { it.isLetterOrDigit() }
-        val dir = File(context.getExternalFilesDir(null), "recordings").apply { mkdirs() }
+        val dir = RecordingPaths.dir(context)
         val stamp = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(Date())
         val file = File(dir, "${safeLabel}_${stamp}${HARDCODED_CODEC.containerExtension}")
 

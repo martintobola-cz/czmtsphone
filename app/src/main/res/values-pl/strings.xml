@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
 <string name="app_launcher_name">Telefon</string>
+<string name="transfers">Przenoszenie danych</string>
+<string name="transfer_import">Import 📦→📱</string>
+<string name="transfer_export">Eksport 📱→📦</string>
+<string name="transfer_contacts">👤 Kontakty</string>
+<string name="transfer_contacts_sim">👤 Kontakty (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Zablokowane numery</string>
+<string name="transfer_call_history">🕒 Historia połączeń</string>
+<string name="transfer_settings">⚙️ Ustawienia</string>
+<string name="transfer_no_active_sim">Brak aktywnej karty SIM</string>
+<string name="transfer_sim_import_message">Spowoduje to zaimportowanie kontaktów z karty SIM do ukrytej pamięci (niewidocznej dla innych aplikacji). Import można przeprowadzać wielokrotnie; nie powstaną duplikaty. Wybierz kartę SIM i naciśnij OK.</string>
+<string name="highlight_call_buttons">Wyróżnij przyciski na ekranie połączenia</string>
 
 <string name="allow_record_calls">Zezwól na nagrywanie rozmów</string>
 <string name="call_recording_title">Nagrywanie rozmów</string>
@@ -22,7 +34,7 @@
 <string name="send_message">Wyślij wiadomość</string>
 <string name="hide_number_for_saved_contact">Nie wyświetlaj numeru telefonu podczas połączenia, jeśli jest to zapisany kontakt</string>
 <string name="privacy_acknowledge">Przyjmuję to do wiadomości</string>
-<string name="block_confirmation">Czy na pewno chcesz zablokować "%s"?</string>
+<string name="block_confirmation">Czy na pewno chcesz zablokować \"%s\"?</string>
 <string name="block_unknown_calls">Blokuj połączenia z numerów, których nie ma w kontaktach</string>
 <string name="block_hidden_calls">Blokuj połączenia z numerów zastrzeżonych</string>
 <string name="block_unknown_messages">Blokuj wiadomości z numerów, których nie ma w kontaktach</string>
@@ -160,8 +172,8 @@
     <string name="decline">Odrzuć</string>
     <string name="decline_call">Odrzuć połączenie</string>
     <string name="unknown_caller">Ukryty numer</string>
-    <string name="is_calling">Dzwoni…</string>
-    <string name="dialing">Dzwonię…</string>
+    <string name="is_calling">Dzwoni</string>
+    <string name="dialing">Dzwonię</string>
     <string name="call_ended">Połączenie zakończone</string>
     <string name="call_ending">Kończenie połączenia</string>
     <string name="ongoing_call">Połączenie wychodzące</string>
@@ -207,5 +219,4 @@
     <string name="call_is_being_connected">Trwa nawiązywanie połączenia…</string>
     <string name="call_notification_channel">Status połączenia</string>
     <string name="call_notification_channel_high_priority">Status połączenia (wysoki priorytet)</string>
-    <string name="calling_accounts">SIM do połączeń</string>
 </resources>

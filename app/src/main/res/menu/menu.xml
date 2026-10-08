@@ -53,14 +53,9 @@
         android:title="@string/settings"
         app:showAsAction="never" />
 <item
-        android:id="@+id/settings2"
-        android:icon="@drawable/ic_settings_cog_vector"
-        android:title="@string/calling_accounts"
-        app:showAsAction="never" />
-<item
         android:id="@+id/settings3"
         android:icon="@drawable/ic_settings_cog_vector"
-        android:title="@string/fast_dial_mts"
+        android:title="@string/speed_dial"
         app:showAsAction="never" />
 <item
         android:id="@+id/settingsBlocked"

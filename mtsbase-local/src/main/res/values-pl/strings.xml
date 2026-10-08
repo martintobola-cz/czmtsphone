@@ -9,7 +9,7 @@
     <string name="customization_navbar_color_label">Kolor nawigacji</string>
     <string name="search_all_fields">Rozszerzone wyszukiwanie</string>
     <string name="invalid_name_or_type">Nieprawidłowa nazwa lub typ!</string>
-    <string name="view_all_call_history">Wyświetl całą historię</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="invalid_target_for_import">Wybierz tylko jeden cel (lub żaden, aby utworzyć własny)!</string>
 <string name="use_custom_sim_color">Własny kolor SIM</string>
 <string name="customization_sim1_color_label">Kolor SIM1</string>
@@ -22,7 +22,7 @@
     <string name="error">Błąd: %s</string>
     <string name="no_app_found">Nie znaleziono odpowiedniej aplikacji</string>
     <string name="copy_number_to_clipboard">Skopiuj numer do schowka</string>
-    <string name="value_copied_to_clipboard_show">Wartość skopiowano do schowka:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Wartość skopiowano do schowka</string>
     <string name="unknown">Nieznane</string>
     <string name="previous">Poprzedni</string>
     <string name="next">Następny</string>
@@ -413,7 +413,7 @@
     <string name="customize_colors">🎨 Dostosuj kolory aplikacji</string>
     <string name="feature_locked">Zablokowane</string>
     <string name="use_english_language">Wymuszaj używanie przez aplikację języka angielskiego</string>
-    <string name="language">🗣️ Język</string>
+    <string name="language">🌏 Język</string>
     <string name="font_size">🅰️ Rozmiar czcionki</string>
     <string name="small">Mała</string>
     <string name="medium">Średnia</string>
@@ -428,6 +428,7 @@
     <string name="startup">Uruchamianie</string>
     <string name="migrating">Migracja 📦</string>
     <string name="manage_shown_tabs">🗂️ Zarządzaj pokazywanymi kartami</string>
+    <string name="calling_accounts">🔑 Konta do połączeń (SIM)</string>
     <string name="default_tab_to_open">Karta otwierana przy uruchomieniu aplikacji</string>
     <string name="contacts_tab">Kontakty</string>
     <string name="favorites_tab">Ulubione</string>

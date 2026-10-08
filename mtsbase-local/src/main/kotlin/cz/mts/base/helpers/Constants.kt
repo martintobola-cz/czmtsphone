@@ -177,6 +177,7 @@ const val VIEW_TYPE = "view_type"
 const val CONTACTS_GRID_COLUMN_COUNT = "contacts_grid_column_count"
 const val LAST_UNLOCK_TIMESTAMP_MS = "last_unlock_timestamp_ms"
 const val UNLOCK_TIMEOUT_DURATION_MS = "unlock_timeout_duration_ms"
+const val HIGHLIGHT_CALL_FULSCREEN_BUTTONS = "highlight_call_fulscreen_buttons"
 const val SHOW_CHECKMARKS_ON_SWITCHES = "show_checkmarks_on_switches"
 const val DEFAULT_UNLOCK_TIMEOUT_DURATION = 30000L
 

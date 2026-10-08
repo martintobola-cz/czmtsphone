@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -32,9 +33,7 @@ import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.phone.R
-import cz.mts.phone.activities.mtsGlobalAll.checkNumberForRating
 import cz.mts.phone.activities.mtsGlobalAll.fakeAvatar
-import cz.mts.phone.activities.mtsGlobalAll.openSpamNumberWeb
 import cz.mts.phone.databinding.ActivityCallBinding
 import cz.mts.phone.extensions.*
 import cz.mts.phone.fragments.ConferenceFragment
@@ -44,6 +43,9 @@ import cz.mts.phone.models.CallContact
 import cz.mts.phone.recorder.CallRecordingManager
 import me.grantland.widget.AutofitHelper
 import cz.mts.base.extensions.baseConfig as config
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 
 class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
@@ -58,6 +60,17 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     // ── NOVÉ: swipe handler a SMS overlay ────────────────────────────────────
     private val swipeHandler by lazy { CallSwipeHandler(binding, this) }
     private var smsOverlay: SmsQuickReplyOverlay? = null
+
+    private val recBlinkHandler = Handler(Looper.getMainLooper())
+    private var recBlinkRunning = false
+    private var recBlinkRed = false
+
+    private val dialingHandler = Handler(Looper.getMainLooper())
+    private var dialingRunning = false
+    private var dialingVisibleDots = 0
+    private var dialingBaseText = ""
+    private val dialingDots = "..."
+
 
     // ── NOVÉ: implementace CallSwipeHandler.Host ──────────────────────────────
     override fun onAcceptCall() = acceptCall()
@@ -152,11 +165,13 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     override fun onPause() {
         super.onPause()
         CallActivityUI.markPaused()
+        stopDialingAnimation()
         stopCallDurationUpdates()
     }
 
     override fun onDestroy() {
         CallActivityUI.markDestroyed()
+        stopDialingAnimation()
         stopCallDurationUpdates()
         super.onDestroy()
         CallManager.removeListener(callCallback)
@@ -270,7 +285,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         ).forEach { imageView ->
             imageView.setOnLongClickListener {
                 if (!imageView.contentDescription.isNullOrEmpty()) {
-                    toast(imageView.contentDescription.toString())
+                    toast("F1\uD83D\uDCA1: " + imageView.contentDescription.toString())
                 }
                 true
             }
@@ -330,13 +345,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         }
 
         val bgColor = getProperBackgroundColor()
-        val inactiveColor = getInactiveButtonColor()
         arrayOf(
             callToggleMicrophone, callToggleSpeaker, callDialpad,
-            callToggleHold, callSwap, callMerge, callManage, callSendSms //callToggleHold, callAdd, callSwap, callMerge, callManage
+            callToggleHold, callSwap, callMerge, callManage, callSendSms, callRecord
         ).forEach {
             it.applyColorFilter(bgColor.getContrastColor())
-            it.background.applyColorFilter(inactiveColor)
+            it.background.applyColorFilter(getCallButtonCircleColor(false))
         }
 
         callSimId.setTextColor(getProperTextColor().getContrastColor())
@@ -496,13 +510,10 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     }
 
     private fun reportRecordingFailure() {
+        toast(R.string.recording_start_failed)
         val error = CallRecordingManager.lastError
-        if (iSaveDebugMode == 1 && error != null) {
-            copyToClipboard(error)
-            //toast("Nahrávání selhalo (chyba zkopírována do schránky): $error")
-        } else {
-            toast(R.string.recording_start_failed)
-        }
+        if (iSaveDebugMode == 1 && error != null) copyToClipboard(error)
+        
     }
 
 
@@ -518,6 +529,25 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     }
 
     private fun updateRecordButton() {
+        val allowRecording = config.allowRecordCalls
+        binding.callRecord.beVisibleIf(allowRecording)
+
+        if (!allowRecording) {
+            if (CallRecordingManager.isRecording()) {
+                CallRecordingManager.stopRecording()
+            }
+            stopRecBlink()
+            return
+        }
+
+        val recording = CallRecordingManager.isRecording()
+        if (recording) startRecBlink() else stopRecBlink()
+        renderRecordIcon(recording)
+        binding.callRecord.contentDescription =
+            getString(if (recording) R.string.stop_call_recording else R.string.start_call_recording)
+    }
+
+    private fun updateRecordButtonOLD() {
         val allowRecording = config.allowRecordCalls
         binding.callRecord.beVisibleIf(allowRecording)
 
@@ -862,8 +892,15 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
         binding.apply {
             callStatusLabel.beVisible()
-            if (statusTextId != null)  callStatusLabel.text = getString(statusTextId)
-            else  callStatusLabel.text = "" //naskočí tam časomíra
+            if (statusTextId == R.string.dialing || statusTextId == R.string.is_calling) {
+                startDialingAnimation(statusTextId)
+            } else {
+                stopDialingAnimation()
+                callStatusLabel.text = if (statusTextId != null) getString(statusTextId) else ""
+            }
+
+            //if (statusTextId != null)  callStatusLabel.text = getString(statusTextId)
+            //else  callStatusLabel.text = "" //naskočí tam časomíra
 
 
             country.beInvisible()
@@ -1029,7 +1066,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
                             //invertovat barvy
                             val colorBackground = withCcAlpha(getProperTextColor())
-                            val colorText = config.backgroundColor
+                            val colorText = getProperBackgroundColor()
                             val colorPrimary = getProperPrimaryColor()
 
                             val bg = topOverlay.background
@@ -1055,7 +1092,9 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                             if (iSimSlot == 0) callNotification.notificationSimInfo.beGone()
                             else callNotification.notificationSimInfo.beVisible()
 
-                            callNotification.notificationCallStatus.setText(getString(contentTextId))
+                            val statusText = getString(contentTextId) +
+                                if (contentTextId == R.string.dialing) "..." else ""
+                            callNotification.notificationCallStatus.setText(statusText)
                             if (bCanBeAccepted)  {
                                 callNotification.notificationAcceptCall.beVisible()
                                 callNotification.notificationButtonsGap.beVisible()
@@ -1134,22 +1173,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         if (!isFinishing && !isDestroyed && stateNow != Call.STATE_DISCONNECTING && stateNow != Call.STATE_DISCONNECTED) {
             val canBeAccepted = stateNow == Call.STATE_RINGING || stateNow == Call.STATE_SIMULATED_RINGING
             callNotificationManager.doNotification(call, false, false, false, canBeAccepted)
-        }
-    }
-
-
-    private fun checkNumberForSpamOLD(number: String) {
-        if (isFinishing || isDestroyed) return
-        getCallFilterInfo(applicationContext, number) { result ->
-            runOnUiThread {
-                if ((!isFinishing) && (!isDestroyed) && (result != null)) {
-                    binding.callerNumber.text = checkNumberForRating(result, number, false)
-                    if (iSaveDebugMode != 0) {
-                        binding.spamcheck.beVisible()
-                        binding.spamcheck.text = result.toString()
-                    }
-                }
-            }
         }
     }
 
@@ -1245,6 +1268,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 //    }
 
     private fun endCall() {
+        stopDialingAnimation()
         CallManager.reject(sMyUUIDcall)
         sMyUUIDcall = ""
         sMyUUIDcallOverlay = ""
@@ -1416,7 +1440,16 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
     private fun getInactiveButtonColor() = getProperTextColor().adjustAlpha(0.10f)
 
+
     private fun toggleButtonColor(view: ImageView, enabled: Boolean) {
+        view.background.applyColorFilter(getCallButtonCircleColor(enabled))
+        view.applyColorFilter(
+            if (enabled) getProperPrimaryColor()
+            else getProperBackgroundColor().getContrastColor()
+        )
+    }
+
+    private fun toggleButtonColorOLD(view: ImageView, enabled: Boolean) {
         if (enabled) {
             val color = getActiveButtonColor()
             view.background.applyColorFilter(color)
@@ -1602,4 +1635,88 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
     private fun isConferenceOpen(): Boolean =
         supportFragmentManager.findFragmentByTag(sConferenceFragmentTag) != null
+
+
+    private val recBlinkTask = object : Runnable {
+        override fun run() {
+            if (!recBlinkRunning || isFinishing || isDestroyed) return
+            if (!CallRecordingManager.isRecording()) {   // nahrávání skončilo (hovor spadl apod.)
+                updateRecordButton()
+                return
+            }
+            recBlinkRed = !recBlinkRed
+            renderRecordIcon(true)
+            recBlinkHandler.postDelayed(this, 1000L)
+        }
+    }
+
+    private fun startRecBlink() {
+        if (recBlinkRunning) return
+        recBlinkRunning = true
+        recBlinkRed = true                               // začne rovnou červeně
+        recBlinkHandler.postDelayed(recBlinkTask, 1000L)
+    }
+
+    private fun stopRecBlink() {
+        recBlinkRunning = false
+        recBlinkRed = false
+        recBlinkHandler.removeCallbacks(recBlinkTask)
+    }
+
+    private fun renderRecordIcon(recording: Boolean) {
+        val btn = binding.callRecord
+        btn.background.applyColorFilter(getCallButtonCircleColor(recording))
+
+        if (recording) {
+            val frame = AppCompatResources.getDrawable(this, R.drawable.ic_call_rec_vector)?.mutate()
+            val back = AppCompatResources.getDrawable(this, R.drawable.ic_call_rec_blink_vector)?.mutate()
+            if (frame != null && back != null) {
+                frame.setTint(getProperPrimaryColor())
+                back.setTint(if (recBlinkRed) Color.RED else Color.WHITE)
+                btn.clearColorFilter()   // jinak by filtr přebarvil i spodní vrstvu
+                btn.setImageDrawable(LayerDrawable(arrayOf(back, frame)))
+                return
+            }
+        }
+        btn.setImageResource(R.drawable.ic_call_rec_vector)
+        toggleButtonColor(btn, recording)
+    }
+
+
+    private val dialingTask = object : Runnable {
+        override fun run() {
+            if (!dialingRunning || isFinishing || isDestroyed) return
+
+            val text = SpannableString(dialingBaseText + dialingDots)
+            val firstHidden = dialingBaseText.length + dialingVisibleDots
+            if (dialingVisibleDots < dialingDots.length) {
+                text.setSpan(
+                    ForegroundColorSpan(Color.TRANSPARENT),
+                    firstHidden, text.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            binding.callStatusLabel.text = text
+
+            val atEnd = dialingVisibleDots >= dialingDots.length
+            dialingVisibleDots = if (atEnd) 0 else dialingVisibleDots + 1
+            dialingHandler.postDelayed(this, if (atEnd) 500L else 300L)
+        }
+    }
+
+    private fun startDialingAnimation(textResId: Int) {
+        val base = getString(textResId)
+        if (dialingRunning && dialingBaseText == base) return   // stejný text už běží, nerestartovat
+
+        dialingHandler.removeCallbacks(dialingTask)
+        dialingRunning = true
+        dialingVisibleDots = 0
+        dialingBaseText = base
+        dialingHandler.post(dialingTask)
+    }
+
+    private fun stopDialingAnimation() {
+        dialingRunning = false
+        dialingHandler.removeCallbacks(dialingTask)
+    }
 }

@@ -73,6 +73,13 @@
             android:parentActivityName=".activities.SettingsActivity" />
 
         <activity
+            android:name=".activities.TransferActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:parentActivityName=".activities.SettingsActivity" />
+
+
+        <activity
             android:name=".activities.RecordedFilesActivity"
             android:configChanges="orientation"
             android:exported="false"
@@ -247,6 +254,14 @@
             android:enabled="true"
             android:exported="false" />
 
+<receiver
+    android:name=".receivers.ShowMissedCallsReceiver"
+    android:enabled="true"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="android.telecom.action.SHOW_MISSED_CALLS_NOTIFICATION" />
+    </intent-filter>
+</receiver>
 
         <activity-alias
             android:name=".activities.SplashActivity.Red"

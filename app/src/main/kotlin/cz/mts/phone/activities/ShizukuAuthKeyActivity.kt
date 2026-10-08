@@ -5,6 +5,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import cz.mts.base.dialogs.ConfirmationAdvancedDialog
 import cz.mts.base.extensions.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.NavigationIcon
 import cz.mts.base.helpers.SAVE_DISCARD_PROMPT_INTERVAL
 import cz.mts.phone.R
@@ -179,12 +180,16 @@ class ShizukuAuthKeyActivity : SimpleActivity() {
                     setResult(RESULT_OK)
                     finish()
                 } catch (e: Exception) {
-                    copyToClipboard(e.message.toString())
+                    val sError = e.message.toString()
+                    toast(sError)
+                    if (iSaveDebugMode == 1) copyToClipboard(sError, false)
                 }
             }.onFailure { e ->
                 // Klíč se NEUKLÁDÁ a switch v SettingsActivity zůstane vypnutý
                 // (finish() se nevolá, RESULT_CANCELED zůstává v platnosti).
-                copyToClipboard(e.message.toString())
+                val sError = e.message.toString()
+                toast(sError)
+                if (iSaveDebugMode == 1) copyToClipboard(sError, false)
             }
         }
     }

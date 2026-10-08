@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_primary"
-            app:menu="@menu/menu_settings"
             app:title="@string/settings"
             app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
@@ -130,6 +129,22 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/settings_font_size_label"
                     tools:text="@string/medium" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_calling_accounts_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/settings_calling_accounts_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calling_accounts" />
 
             </RelativeLayout>
 
@@ -373,6 +388,20 @@
 
             </RelativeLayout>
 
+<RelativeLayout
+    android:id="@+id/settings_highlight_call_buttons_holder"
+    style="@style/SettingsHolderSwitchStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <cz.mts.base.views.MyMaterialSwitch
+        android:id="@+id/settings_highlight_call_buttons"
+        style="@style/SettingsSwitchStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/highlight_call_buttons" />
+</RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/settings_swhow_decline_and_sms_button_holder"
                 style="@style/SettingsHolderSwitchStyle"
@@ -523,137 +552,45 @@
 
 
             <include
-                android:id="@+id/settings_migration_divider"
+                android:id="@+id/settings_transfers_divider"
                 layout="@layout/divider" />
 
             <TextView
-                android:id="@+id/settings_migration_section_label"
+                android:id="@+id/settings_transfers_section_label"
                 style="@style/SettingsSectionLabelStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/migrating" />
+                android:text="@string/transfers" />
 
             <RelativeLayout
-                android:id="@+id/settings_export_calls_holder"
+                android:id="@+id/settings_transfer_import_holder"
                 style="@style/SettingsHolderTextViewOneLinerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_export_calls"
+                    android:id="@+id/settings_transfer_import"
                     style="@style/SettingsTextLabelStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/export_call_history" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/settings_import_calls_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_import_calls"
-                    style="@style/SettingsTextLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/import_call_history" />
-
-            </RelativeLayout>
-
-<RelativeLayout
-                android:id="@+id/settings_export_blocked_numbers_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_export_blocked_numbers"
-                    style="@style/SettingsTextLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/export_blocked_numbers" />
-
-            </RelativeLayout>
-
-<RelativeLayout
-                android:id="@+id/settings_import_blocked_numbers_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_import_blocked_numbers"
-                    style="@style/SettingsTextLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/import_blocked_numbers" />
-
-            </RelativeLayout>
-
-   <RelativeLayout
-                android:id="@+id/settings_export_contacts_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_export_contacts"
-                    style="@style/SettingsTextLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/export_contacts" />
+                    android:text="@string/transfer_import" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/settings_import_contacts_holder"
+                android:id="@+id/settings_transfer_export_holder"
                 style="@style/SettingsHolderTextViewOneLinerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_import_contacts"
+                    android:id="@+id/settings_transfer_export"
                     style="@style/SettingsTextLabelStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/import_contacts" />
+                    android:text="@string/transfer_export" />
 
             </RelativeLayout>
-
-   <RelativeLayout
-                android:id="@+id/settings_export_perfs_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_export_perfs"
-                    style="@style/SettingsTextLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/export_perfs" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/settings_import_perfs_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyTextView
-                    android:id="@+id/settings_import_perfs"
-                    style="@style/SettingsTextLabelStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/import_perfs" />
-
-            </RelativeLayout>
-
-
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

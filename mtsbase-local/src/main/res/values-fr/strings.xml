@@ -14,7 +14,7 @@
     <string name="use_dayofweek_in_time_format">Afficher le jour de la semaine</string>
     <string name="invalid_target_for_import">Sélectionnez une seule cible (ou aucune pour créer un personnalisé) !</string>
     <string name="invalid_name_or_type">Nom ou type invalide !</string>
-    <string name="view_all_call_history">Voir tout l\'historique</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Recherche avancée</string>
     <string name="other">Autre</string>
     <string name="about">À propos de l\'application</string>
@@ -31,7 +31,7 @@
     <string name="error">Erreur : %s</string>
     <string name="no_app_found">Aucune application valide n\'a été trouvée</string>
     <string name="copy_number_to_clipboard">Copier le numéro dans le presse-papiers</string>
-    <string name="value_copied_to_clipboard_show">Valeur copiée dans le presse-papiers :\n%s</string>
+    <string name="value_copied_to_clipboard_show">Valeur copiée dans le presse-papiers</string>
     <string name="unknown">Inconnu</string>
     <string name="previous">Précédent</string>
     <string name="next">Suivant</string>
@@ -414,7 +414,7 @@
     <string name="theme_and_colors">Thème et couleurs</string>
     <string name="feature_locked">Verrouillé</string>
     <string name="use_english_language">Utiliser la langue anglaise</string>
-    <string name="language">🗣️ Langue</string>
+    <string name="language">🌏 Langue</string>
     <string name="font_size">🅰️ Taille des caractères</string>
     <string name="small">Petite</string>
     <string name="medium">Moyenne</string>
@@ -431,6 +431,7 @@
     <string name="startup">Démarrage</string>
     <string name="migrating">Migration 📦</string>
     <string name="manage_shown_tabs">🗂️ Gérer les onglets affichés</string>
+    <string name="calling_accounts">🔑 Comptes d\'appel (SIM)</string>
     <string name="default_tab_to_open">Onglet à ouvrir au démarrage de l\'application</string>
     <string name="contacts_tab">Contacts</string>
     <string name="favorites_tab">Favoris</string>

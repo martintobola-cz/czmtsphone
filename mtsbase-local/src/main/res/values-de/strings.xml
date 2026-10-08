@@ -15,7 +15,7 @@
     <string name="invalid_name_or_type">Ungültiger Name oder Typ!</string>
     <string name="invalid_target_for_import">Bitte nur ein Ziel auswählen!</string>
     <string name="show_only_contacts_with_numbers">Nur Kontakte mit Telefonnummer anzeigen</string>
-    <string name="view_all_call_history">Gesamte Anrufliste anzeigen</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Erweiterte Suche</string>
     <string name="close">Schließen</string>
     <string name="back">Zurück</string>
@@ -23,7 +23,7 @@
     <string name="error">Fehler: %s</string>
     <string name="no_app_found">Keine passende App gefunden</string>
     <string name="copy_number_to_clipboard">Nummer in Zwischenablage kopieren</string>
-    <string name="value_copied_to_clipboard_show">Wert in Zwischenablage kopiert:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Wert in Zwischenablage kopiert</string>
     <string name="unknown">Versteckter Anruf</string>
     <string name="previous">Vorheriger</string>
     <string name="next">Nächster</string>
@@ -341,7 +341,7 @@
     <string name="customize_colors">🎨 Farben anpassen</string>
     <string name="feature_locked">Gesperrt</string>
     <string name="use_english_language">App in Englisch verwenden</string>
-    <string name="language">🗣️ Sprache</string>
+    <string name="language">🌏 Sprache</string>
     <string name="font_size">🅰️ Schriftgröße</string>
     <string name="small">Klein</string>
     <string name="medium">Mittel</string>
@@ -356,6 +356,7 @@
     <string name="startup">Beim Starten</string>
     <string name="migrating">Migrieren 📦</string>
     <string name="manage_shown_tabs">🗂️ Anzuzeigende Tabs festlegen</string>
+    <string name="calling_accounts">🔑 Anrufkonten (SIM)</string>
     <string name="default_tab_to_open">Tab, der beim App-Start geöffnet werden soll</string>
     <string name="contacts_tab">Kontakte</string>
     <string name="favorites_tab">Favoriten</string>

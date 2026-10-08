@@ -21,12 +21,14 @@ class SelectNumbersAdapter(
     companion object {
         private const val VIEW_TYPE_HEADER = 0
         private const val VIEW_TYPE_NUMBER = 1
+        private const val VIEW_TYPE_EMAIL = 2
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is PhonePickerItem.Header -> VIEW_TYPE_HEADER
             is PhonePickerItem.Number -> VIEW_TYPE_NUMBER
+            is PhonePickerItem.Email -> VIEW_TYPE_EMAIL
         }
     }
 
@@ -52,6 +54,16 @@ class SelectNumbersAdapter(
                 NumberViewHolder(view)
             }
 
+            VIEW_TYPE_EMAIL -> {
+                // e-mail řádek používá stejný layout jako číslo
+                val view = inflater.inflate(
+                    R.layout.item_phone_picker_number,
+                    parent,
+                    false
+                )
+                EmailViewHolder(view)
+            }
+
             else -> error("Unknown viewType $viewType")
         }
     }
@@ -71,6 +83,10 @@ class SelectNumbersAdapter(
 
             is PhonePickerItem.Number -> {
                 (holder as NumberViewHolder).bind(item, textColor, format)
+            }
+
+            is PhonePickerItem.Email -> {
+                (holder as EmailViewHolder).bind(item, textColor)
             }
         }
     }
@@ -115,7 +131,7 @@ class SelectNumbersAdapter(
                     val pos = bindingAdapterPosition
                     if (pos != RecyclerView.NO_POSITION) {
                         findHeaderPositionFor(pos)?.let {
-                            uncheckOtherNumbers(it, item)
+                            uncheckOtherOptions(it, item)
                         }
                     }
                 }
@@ -130,6 +146,46 @@ class SelectNumbersAdapter(
         }
     }
 
+    private inner class EmailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        val checkBox: CheckBox = view.findViewById(R.id.checkbox)
+        val typeText: TextView = view.findViewById(R.id.phoneType)
+        val addressText: TextView = view.findViewById(R.id.phoneNumber)
+        val separator: MyTextView = view.findViewById(R.id.phoneSeparator)
+
+        fun bind(item: PhonePickerItem.Email, textColor: Int) {
+            // u e-mailu se zobrazuje jen adresa, typ (domů/práce...) a oddělovač se skryjí;
+            // hodnota item.typeLabel zůstává v modelu pro budoucí použití
+            typeText.visibility = View.GONE
+            separator.visibility = View.GONE
+            addressText.text = item.address
+            addressText.setTextColor(textColor)
+
+            // nutné kvůli recyclingu
+            checkBox.setOnCheckedChangeListener(null)
+            checkBox.isChecked = item.isSelected
+
+            checkBox.setOnCheckedChangeListener { _, checked ->
+                if (item.isSelected == checked) return@setOnCheckedChangeListener
+
+                item.isSelected = checked
+
+                if (checked && !allowMultipleNumbersPerContact) {
+                    val pos = bindingAdapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        findHeaderPositionFor(pos)?.let {
+                            uncheckOtherOptions(it, item)
+                        }
+                    }
+                }
+            }
+
+            itemView.setOnClickListener {
+                checkBox.toggle()
+            }
+        }
+    }
+
     private fun findHeaderPositionFor(position: Int): Int? {
         for (i in position downTo 0) {
             if (items[i] is PhonePickerItem.Header) return i
@@ -137,16 +193,28 @@ class SelectNumbersAdapter(
         return null
     }
 
-    private fun uncheckOtherNumbers(
+    /**
+     * Odznačí všechny ostatní možnosti (čísla i e-maily) u stejného kontaktu.
+     */
+    private fun uncheckOtherOptions(
         headerPos: Int,
-        exceptItem: PhonePickerItem.Number
+        exceptItem: PhonePickerItem
     ) {
         var i = headerPos + 1
-        while (i < items.size && items[i] is PhonePickerItem.Number) {
-            val numberItem = items[i] as PhonePickerItem.Number
-            if (numberItem !== exceptItem && numberItem.isSelected) {
-                numberItem.isSelected = false
-                notifyItemChanged(i)
+        while (i < items.size && items[i] !is PhonePickerItem.Header) {
+            val other = items[i]
+            if (other !== exceptItem) {
+                when (other) {
+                    is PhonePickerItem.Number -> if (other.isSelected) {
+                        other.isSelected = false
+                        notifyItemChanged(i)
+                    }
+                    is PhonePickerItem.Email -> if (other.isSelected) {
+                        other.isSelected = false
+                        notifyItemChanged(i)
+                    }
+                    is PhonePickerItem.Header -> Unit
+                }
             }
             i++
         }

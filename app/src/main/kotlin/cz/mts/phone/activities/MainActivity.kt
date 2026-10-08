@@ -413,7 +413,7 @@ class MainActivity : SimpleActivity() {
                     R.id.sort -> showSortingDialog(showCustomSorting = getCurrentFragment() is FavoritesFragment)
                     R.id.filter -> showFilterDialog()
                     R.id.settings -> launchSettings()
-                    R.id.settings2 -> launchAccountsConfiguration()
+//                    R.id.settings2 -> launchAccountsConfiguration()
                     R.id.settings3 -> manageSpeedDial()
                     R.id.settingsBlocked -> manageBlockNumbers()
                     R.id.showRecorded -> manageRecordedFiles()
@@ -882,7 +882,7 @@ class MainActivity : SimpleActivity() {
         5 -> config.navBarColor  //custom chceme vlastní navbar
         8 -> Color.parseColor("#D62D73") //T-mobile
         9 -> Color.parseColor("#FED900") //Kaktus
-        else -> config.backgroundColor //jinak bereme barvu pozadí a nijak ji neupravujeme
+        else -> getProperBackgroundColor()  //jinak bereme barvu pozadí a nijak ji neupravujeme
     }
 
     //pojistka kdyby byla černá na černé, nebo bílá na bílé, tak ať je menu vidět
@@ -1034,7 +1034,7 @@ class MainActivity : SimpleActivity() {
                 bCheckContactDuplicityIsRunning = false
 
                 if (hasDuplicates) {
-                    copyToClipboard(log.toString())
+                    copyToClipboard(log.toString(), false)
                     showSnackBar(getString(R.string.contacts_duplicity), 9, bAllOK)
                 }
                 else showSnackBar("👍 " + getString(R.string.error_allok_mts), 99, bAllOK)

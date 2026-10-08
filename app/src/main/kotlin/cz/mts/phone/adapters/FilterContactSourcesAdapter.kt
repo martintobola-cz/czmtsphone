@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.extensions.getProperPrimaryColor
 import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.helpers.MTS_PHONE
 import cz.mts.base.models.contacts.ContactSource
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.databinding.ItemFilterContactSourceBinding
@@ -14,22 +13,13 @@ import cz.mts.phone.databinding.ItemFilterContactSourceBinding
 class FilterContactSourcesAdapter(
     private val activity: SimpleActivity,
     private val contactSources: List<ContactSource>,
-    private val displayContactSources: List<String>
+    initiallySelected: List<ContactSource>
 ) : RecyclerView.Adapter<FilterContactSourcesAdapter.ViewHolder>() {
 
     private val selectedKeys = HashSet<String>()
 
     init {
-        contactSources.forEach { contactSource ->
-            if (displayContactSources.contains(contactSource.name)) {
-                selectedKeys.add(contactSource.selectionKey())
-            }
-            // Pokud source NAME i TYPE == MTS_PHONE, první podmínka to zachytí.
-            // Tato větev pokrývá případ, kdy type == MTS_PHONE, ale name se liší.
-            if (contactSource.type == MTS_PHONE && displayContactSources.contains(MTS_PHONE)) {
-                selectedKeys.add(contactSource.selectionKey())
-            }
-        }
+        initiallySelected.forEach { selectedKeys.add(it.selectionKey()) }
     }
 
     private fun toggleItemSelection(select: Boolean, contactSource: ContactSource, position: Int) {

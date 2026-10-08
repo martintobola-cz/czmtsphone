@@ -14,7 +14,7 @@
     <string name="use_dayofweek_in_time_format">Haftanın gününü görüntüle</string>
     <string name="invalid_target_for_import">Yalnızca bir hedef seçin (veya özel oluşturmak için hiçbirini seçmeyin)!</string>
     <string name="invalid_name_or_type">Geçersiz ad veya tür!</string>
-    <string name="view_all_call_history">Tüm geçmişi görüntüle</string>
+    <string name="view_all_call_history">Refresh</string>
     <string name="search_all_fields">Tüm alanlarda ara</string>
     <string name="other">Diğer</string>
     <string name="about">Uygulama hakkında</string>
@@ -31,7 +31,7 @@
     <string name="error">Hata: %s</string>
     <string name="no_app_found">Geçerli bir uygulama bulunamadı</string>
     <string name="copy_number_to_clipboard">Numarayı panoya kopyala</string>
-    <string name="value_copied_to_clipboard_show">Değer panoya kopyalandı:\n%s</string>
+    <string name="value_copied_to_clipboard_show">Değer panoya kopyalandı</string>
     <string name="unknown">Bilinmeyen Çağrı</string>
     <string name="previous">Önceki</string>
     <string name="next">Sonraki</string>
@@ -360,7 +360,7 @@
     <string name="theme_and_colors">Tema ve renkler</string>
     <string name="feature_locked">Kilitli</string>
     <string name="use_english_language">İngilizce dilini kullan</string>
-    <string name="language">🗣️ Dil</string>
+    <string name="language">🌏 Dil</string>
     <string name="font_size">🅰️ Yazı tipi boyutu</string>
     <string name="small">Küçük</string>
     <string name="medium">Orta</string>
@@ -377,6 +377,7 @@
     <string name="startup">Başlangıç</string>
     <string name="migrating">Geçiş 📦</string>
     <string name="manage_shown_tabs">🗂️ Gösterilen sekmeleri yönet</string>
+    <string name="calling_accounts">🔑 Arama hesapları</string>
     <string name="default_tab_to_open">Uygulama başlatıldığında açılacak sekme</string>
     <string name="contacts_tab">Kişiler</string>
     <string name="favorites_tab">Favoriler</string>

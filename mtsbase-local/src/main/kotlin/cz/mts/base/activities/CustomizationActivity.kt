@@ -547,7 +547,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         notSavedThemeId = savedThemeId
         initColorVariables()
         setupColorsPickers()
-        updateBackgroundColor()
+        updateBackgroundColor(baseConfig.backgroundColor)
         // MTSX updateActionbarColor()
         refreshMenuItems()
         updateLabelColors(getCurrentTextColor())

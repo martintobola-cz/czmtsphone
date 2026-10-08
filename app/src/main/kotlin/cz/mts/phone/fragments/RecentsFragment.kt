@@ -36,35 +36,35 @@ class RecentsFragment(
     attrs: AttributeSet
 ) : MyViewPagerFragment<MyViewPagerFragment.RecentsInnerBinding>(context, attrs) {
 
-    // -----------------------------
-    // STATE
-    // -----------------------------
     private enum class State { INIT, LOADING, READY }
     private var state = State.INIT
     private var searchQuery: String? = null
-
-
-
-
-    // -----------------------------
-    // DATA
-    // -----------------------------
     private var anchorTs: Long = 0L
     private var allItems: List<CallLogItem> = emptyList()
+
+    private lateinit var binding: FragmentRecentsBinding
+    private var adapter: RecentCallsAdapter? = null
+    private val recentsHelper = RecentsHelper(context)
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var scrollHideJob: Job? = null
 
     // callback volaný po každém přijatém (ne-posledním) chunku – pro UI feedback typu "stále běží"
     var onChunkProgress: (() -> Unit)? = null
 
-    // -----------------------------
-    // HISTORIE HOVORŮ PRO KONKRÉTNÍ KONTAKT (ContactCallHistoryDialog)
-    // -----------------------------
-    // Menší, negroupovaný seznam - jen hovory, u kterých byl rozpoznán konkrétní kontakt
-    // (tj. name != phoneNumber/specificNumber a nejde o neznámé/blokované číslo).
-    // Odvozuje se z allItems při každé jeho změně, takže se plní stejně postupně (chunky).
-    private var knownContactCalls: List<RecentCall> = emptyList()
-
     // callback volaný pokaždé, když se knownContactCalls změní (i po částech, dokud recents dobíhá)
     var onKnownContactCallsChanged: (() -> Unit)? = null
+
+    private var knownContactCalls: List<RecentCall> = emptyList() // HISTORIE HOVORŮ PRO KONKRÉTNÍ KONTAKT (ContactCallHistoryDialog)
+
+    // deleted za běhu (když ještě není celá historie vyčtena)
+    private val pendingDeletedIds: MutableSet<Int> =
+        java.util.concurrent.ConcurrentHashMap.newKeySet()
+
+    private fun List<CallLogItem>.withoutPendingDeleted(): List<CallLogItem> {
+        if (pendingDeletedIds.isEmpty()) return this
+        return filterNot { it is RecentCall && it.id in pendingDeletedIds }
+            .let { removeUnusedDateHeaders(it) }
+    }
 
     /** Vrátí aktuální (negroupovaný) seznam hovorů pro daný zobrazovaný název kontaktu. */
     fun getCallsForContact(contactName: String): List<RecentCall> =
@@ -79,25 +79,6 @@ class RecentsFragment(
             .sortedByDescending { it.startTS }
         onKnownContactCallsChanged?.invoke()
     }
-
-    // -----------------------------
-    // UI
-    // -----------------------------
-    private lateinit var binding: FragmentRecentsBinding
-    private var adapter: RecentCallsAdapter? = null
-
-    // -----------------------------
-    // HELPERS
-    // -----------------------------
-    private val recentsHelper = RecentsHelper(context)
-    private val mainHandler = Handler(Looper.getMainLooper())
-
-    // -----------------------------
-    // SCROLL INDICATOR
-    // -----------------------------
-    private var scrollHideJob: Job? = null
-
-
 
     private fun applyGrouping(calls: List<RecentCall>): List<RecentCall> {
         return if (context.config.groupSubsequentCalls) {
@@ -122,12 +103,11 @@ class RecentsFragment(
         when (state) {
             State.INIT -> {
                 // fragment ještě nebyl inicializován → nic nedělej
-                callback?.invoke() // můžeš zavolat hned, pokud chceš signalizovat "hotovo"
+                callback?.invoke()
             }
 
             State.LOADING -> {
                 // už se načítá → ignoruj (žádné pending flagy)
-                // callback nemusíš volat, nebo můžeš uložit do fronty pro pozdější zavolání
             }
 
             State.READY -> {
@@ -146,8 +126,6 @@ class RecentsFragment(
             }
         }
     }
-
-
 
     override fun setupColors(
         textColor: Int,
@@ -172,7 +150,6 @@ class RecentsFragment(
         searchQuery = text
         applySearch()
     }
-
 
     private fun applySearch() {
         val query = searchQuery?.trim()?.replace("\\s+".toRegex(), " ").orEmpty()
@@ -225,14 +202,10 @@ class RecentsFragment(
         loadInitialData()
     }
 
-
-    // -----------------------------
-    // INITIAL LOAD
-    // -----------------------------
-
-
     private fun loadInitialData(onDone: (() -> Unit)? = null) {
         state = State.LOADING
+        pendingDeletedIds.clear()
+        val startGen = RecentsQueryLimits.getClearGeneration()
         //hideProgress()
         if (context.hasPermission(PERMISSION_READ_CALL_LOG)) showProgress()
         else hideProgress()
@@ -297,18 +270,24 @@ class RecentsFragment(
             mainHandler.post {
                 hideProgress()  // i kdyz jeste neni nacteny cely log, progress schovame
 
-                allItems = snapshot
+                val cleared = RecentsQueryLimits.getClearGeneration() != startGen
+                val visible = if (cleared) emptyList() else snapshot.withoutPendingDeleted()
+
+                allItems = visible //snapshot
                 updateKnownContactCalls()
 
                 if (searchQuery.isNullOrEmpty()) {
-                    adapter?.updateItems(snapshot)
-                    showPlaceholder(snapshot.isEmpty())
+                    adapter?.updateItems(visible)
+                    showPlaceholder(visible.isEmpty())
+                    //adapter?.updateItems(snapshot)
+                    //showPlaceholder(snapshot.isEmpty())
                 } else {
                     applySearch()   // aplikuje aktualni filtr i na tenhle dilci chunk
                 }
 
                 if (isLast) {
-                    anchorTs = snapshotMaxTs
+                    pendingDeletedIds.clear()
+                    anchorTs = if (cleared) 0L else snapshotMaxTs
                     state = State.READY
                     onDone?.invoke()
                 } else {
@@ -474,9 +453,8 @@ class RecentsFragment(
                             result.addAll(allItems.drop(firstOldIndex + 1))
 
                             allItems = result
-                            submitList(allItems)
+                            submitList(allItems) { scrollToTop() }
                             anchorTs = maxOf(anchorTs, newCalls.maxOf { it.startTS })
-                            scrollToTop()
                             finish()
                             return@post
                         }
@@ -499,16 +477,14 @@ class RecentsFragment(
                         preparedFiltered.forEach(::addItem)
 
                         val oldItemsSource =
-                            if (bRemoveDate && dateIndexOld != -1)
-                                allItems.drop(dateIndexOld + 1)
+                            if (bRemoveDate) allItems.drop(dateIndexOld + 1)
                             else allItems
 
                         oldItemsSource.forEach(::addItem)
 
                         allItems = result
-                        submitList(allItems)
+                        submitList(allItems) { scrollToTop() }
                         anchorTs = maxOf(anchorTs, newCalls.maxOf { it.startTS })
-                        scrollToTop()
                         finish()
                     }
                 }
@@ -558,6 +534,12 @@ class RecentsFragment(
                 }
             },
             itemDelete = { deletedItems ->
+                    if (state == State.LOADING) {
+                        deletedItems.filterIsInstance<RecentCall>().forEach { c ->
+                            pendingDeletedIds.add(c.id)
+                            c.groupedCalls?.forEach { pendingDeletedIds.add(it.id) }
+                        }
+                    }
                 val deletedIds = deletedItems
                     .filterIsInstance<RecentCall>()
                     .map { it.getItemId() }
@@ -581,12 +563,13 @@ class RecentsFragment(
     }
 
 
-    private fun submitList(list: List<CallLogItem>) {
+    private fun submitList(list: List<CallLogItem>, onCommitted: (() -> Unit)? = null) {
         allItems = list
         updateKnownContactCalls()
-        adapter?.updateItems(list)
+        adapter?.updateItems(list, onCommitted = onCommitted)
         showPlaceholder(list.isEmpty())
     }
+
 
     private fun showProgress() {
         binding.progressIndicator.beVisible()
@@ -755,17 +738,13 @@ class RecentsFragment(
     }
 
     fun scrollToTop() {
+        adapter?.updateTodayCode()
 
-        adapter?.updateTodayCode() //změna dnes, včera hlaviček
-
-        binding.recentsList.post {
-            val lm = binding.recentsList.layoutManager
-            when (lm) {
-                is LinearLayoutManager ->
-                    lm.scrollToPositionWithOffset(0, 0)
-                else ->
-                    binding.recentsList.scrollToPosition(0)
-            }
+        binding.recentsList.apply {
+            stopScroll()
+            (layoutManager as? LinearLayoutManager)
+                ?.scrollToPositionWithOffset(0, 0)
+                ?: scrollToPosition(0)
         }
     }
 
