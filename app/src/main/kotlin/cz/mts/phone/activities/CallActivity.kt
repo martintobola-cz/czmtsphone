@@ -15,6 +15,9 @@ import android.os.*
 import android.telecom.Call
 import android.telephony.SmsManager
 import android.telephony.SubscriptionManager
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -31,7 +34,6 @@ import com.bumptech.glide.request.RequestOptions
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
-import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.phone.R
 import cz.mts.phone.activities.mtsGlobalAll.fakeAvatar
 import cz.mts.phone.databinding.ActivityCallBinding
@@ -43,9 +45,6 @@ import cz.mts.phone.models.CallContact
 import cz.mts.phone.recorder.CallRecordingManager
 import me.grantland.widget.AutofitHelper
 import cz.mts.base.extensions.baseConfig as config
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 
 class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
@@ -112,7 +111,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
         AutofitHelper.create(binding.callerNameLabel).apply {
             setMinTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.call_status_text_size))
-            //setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.caller_name_text_size))
+            setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.caller_name_text_size))
+        }
+
+        AutofitHelper.create(binding.callerNumber).apply {
+            setMinTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.call_status_min_text_size))
+            setMaxTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.call_status_text_size))
         }
 
         handleIntent(intent)
@@ -395,7 +399,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         val call = CallManager.getCallById(sMyUUIDcall) ?: return
         val callerNumber = call.details?.handle?.schemeSpecificPart ?: return
 
-        val subscriptionId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val subscriptionId = if (isQPlus()) {
             call.details.extras?.getInt(
                 "android.telecom.extra.SUBSCRIPTION_ID",
                 SubscriptionManager.INVALID_SUBSCRIPTION_ID
@@ -406,16 +410,15 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
         try {
             val smsManager = if (subscriptionId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    getSystemService(SmsManager::class.java)
-                        ?.createForSubscriptionId(subscriptionId)
+                if (isSPlus()) {
+                    smsManager?.createForSubscriptionId(subscriptionId)
                 } else {
                     @Suppress("DEPRECATION")
                     SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
                 }
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    getSystemService(SmsManager::class.java)
+                if (isSPlus()) {
+                    smsManager
                 } else {
                     @Suppress("DEPRECATION")
                     SmsManager.getDefault()
@@ -635,43 +638,31 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
 
     @SuppressLint("ClickableViewAccessibility") // performClick() se volá níže v ACTION_UP, lint to i tak hlásí u ImageView
-    private fun updateOtherPersonsInfo(callContact : CallContact, avatarUri: String?, isConference : Boolean) {
+    private fun updateOtherPersonsInfo(callContact : CallContact, avatarUri: String?, isConference : Boolean, call: Call?) {
         binding.apply {
-            spamcheck.beGone()
-            val (id, name, _, number, numberLabel, presentation, source) = callContact
+
+            callerNumber.setOnClickListener(null)
+            callerNumber.isClickable = false
+
+            // jednotná logika zobrazení (CallDisplayHelper) - stejná pro fullscreen, overlay i notifikaci
+            val display = buildCallDisplay(this@CallActivity, call, callContact, config.hideNumberForSavedContact)
+
             callerNameLabel.beVisible()
-            callerNameLabel.text = name.ifEmpty { getString(R.string.unknown_caller) }
-            val isHiddenNumber = (id.toInt() == 0 && (presentation == 3 || presentation == 2))  //skryté čslo
+            callerNameLabel.text = display.name
+            val isHiddenNumber = display.isHidden  //skryté číslo (číslo chybí)
             // SMS tlačítko: jen pokud je povolené v nastavení a zároveň číslo není skryté
             if (config.swhowDeclineAndSMSbutton && !isHiddenNumber) {
                 callDeclineSms.beVisible()
             } else {
                 callDeclineSms.beGone()
             }
-            val isSavedContact = id.toInt() != 0
-            val hideNumberForSavedContact = config.hideNumberForSavedContact && isSavedContact
-            if (!isHiddenNumber && number.isNotBlank()) {
-                if (numberLabel.isNotEmpty()) {
-                    callerNumber.text = if (hideNumberForSavedContact) numberLabel else "$number - $numberLabel"
-                    callerNumber.beVisible()
-                } else if (hideNumberForSavedContact) {
-                    //nechceme schovávat pole, aby neodskakovala tlačítka pod tím, jen vyprázdníme text
-                    callerNumber.text = " "
-                    callerNumber.beVisible()
-                } else {
-                    callerNumber.text = number
-                    if (CacheContacts.bSpamChecking && id.toInt() == 0) { // kontakt nesmí existovat
-                        val sSpamEmoji = CallManager.getSpamEmojiByCallId(sMyUUIDcall)
-                        if (sSpamEmoji != null)
-                        {
-                            callerNumber.text = number + " " + sSpamEmoji
-                            callerNumber.setOnClickListener { openSpamNumberWeb(this@CallActivity, number ) }
-                        }
-                        callerNumber.beVisible()
-                    } else {
-                        if (normalizeDigitsOnly(name) == normalizeDigitsOnly(number)) callerNumber.beGone()
-                        else callerNumber.beVisible()
-                    }
+
+            if (display.numberVisible) {
+                callerNumber.text = display.number
+                callerNumber.beVisible()
+                if (display.numberClickable) {
+                    callerNumber.isClickable = true
+                    callerNumber.setOnClickListener { openSpamNumberWeb(this@CallActivity, display.webNumber) }
                 }
             } else {
                 callerNumber.beGone()
@@ -806,67 +797,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         } catch (_: Exception) {}
     }
 
-    @SuppressLint("MissingPermission")
-    private fun checkCalledSIMCardOLD(call: Call?) {
-        try {
-            val simLabels = getAvailableSIMCardLabels()
-                .sortedBy { it.indexid}
-                .take(2)
-            binding.callSimImage.beInvisible()
-            binding.callSimId.beInvisible()
-
-            if (simLabels.size <= 1) return
-
-            simLabels.forEachIndexed { index, sim ->
-                if (sim.handle != call?.details?.accountHandle) return@forEachIndexed
-
-                val acceptDrawableId = when (index) {
-                    0 -> R.drawable.ic_call_accept_simone
-                    1 -> R.drawable.ic_call_accept_simtwo
-                    else -> R.drawable.ic_call_accept
-                }
-
-                val simColor = sim.color
-                val iconRes = if (index == 1) R.drawable.ic_sim2 else R.drawable.ic_sim1
-                var useFallback = index !in 0..1
-
-                try {
-                    if (!useFallback) {
-                        val drawable = AppCompatResources
-                            .getDrawable(binding.callSimImage.context, iconRes)
-                            ?.mutate()
-
-                        if (drawable != null) {
-                            val fixedColor = simColor or 0xFF000000.toInt()
-                            drawable.setTintMode(PorterDuff.Mode.SRC_IN)
-                            drawable.setTint(fixedColor)
-
-                            binding.callSimImage.setImageDrawable(drawable)
-                            binding.callSimImage.applyColorFilter(fixedColor)
-                            binding.callSimImage.beVisible()
-                        } else {
-                            useFallback = true
-                        }
-                    }
-                } catch (_: Exception) {
-                    useFallback = true
-                }
-
-                if (useFallback) {
-                    binding.callSimId.text = sim.indexid.toString()
-                    binding.callSimId.beVisible()
-                    binding.callSimImage.beVisible()
-                    binding.callSimId.setTextColor(getProperBackgroundColor())
-                    binding.callSimImage.applyColorFilter(simColor)
-                }
-
-                binding.callAccept.setImageResource(acceptDrawableId)
-            }
-        } catch (_: Exception) {
-            // zachováno původní chování – tiché potlačení chyby
-        }
-    }
-
 
     private fun updateCallState(call: Call) {
         val state = call.getStateCompat()
@@ -899,18 +829,15 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                 callStatusLabel.text = if (statusTextId != null) getString(statusTextId) else ""
             }
 
-            //if (statusTextId != null)  callStatusLabel.text = getString(statusTextId)
-            //else  callStatusLabel.text = "" //naskočí tam časomíra
-
-
-            country.beInvisible()
+            var countryText = ""
             // Country label
             if (state == Call.STATE_RINGING || state == Call.STATE_SIMULATED_RINGING) {
                 val incomingNumber = call.details.handle?.schemeSpecificPart.orEmpty()
-                val countryText = PhoneNumberHelper.getCountryWithFlag(incomingNumber)
+                val region = if (incomingNumber.isNotBlank()) getCallRegion(call.details.accountHandle) else null
+                countryText = PhoneNumberHelper.getCountryWithFlag(incomingNumber, region)
                 country.text = countryText
-                country.beVisibleIf(!countryText.isNullOrEmpty())
             }
+            country.beVisibleIf(countryText.isNotBlank())
 
             // Buttons
             val controlsEnabled =
@@ -999,41 +926,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                 getCallContact(applicationContext, call) { contact ->
                     runOnUiThread {
                         if (isFinishing || isDestroyed) return@runOnUiThread
-                        val isUnknown = (contact.id.toInt() == 0) && (contact.presentation == 3)
+                        // jednotná logika zobrazení (CallDisplayHelper) - stejná pro fullscreen, overlay i notifikaci
+                        val display = buildCallDisplay(this@CallActivity, call, contact, config.hideNumberForSavedContact)
+                        val isUnknown = display.isHidden
                         binding.apply {
-                            var callerName = contact.name.ifEmpty { getString(R.string.unknown_caller) }
-                            var callerNumber = contact.number
-                            var sSpamEmoji = ""
-                            val bSpamEmoji = ((contact.id.toInt() == 0) && (CacheContacts.bSpamChecking))
-                            val isSavedContactOverlay = contact.id.toInt() != 0
-                            val hideNumberForSavedContactOverlay = config.hideNumberForSavedContact && isSavedContactOverlay
-                            var bForceShowNumber = false
-
-                            if ((callerNumber.isBlank()) || (normalizeDigitsOnly(callerNumber) == normalizeDigitsOnly(callerName)))
-                                callerNumber = ""
-
-                            if (hideNumberForSavedContactOverlay && callerNumber.isNotBlank()) {
-                                //nechceme schovávat pole, aby neodskakovaly prvky pod tím, jen vyprázdníme text
-                                if (contact.numberLabel.isNotEmpty()) {
-                                    callerNumber = contact.numberLabel
-                                } else {
-                                    callerNumber = " "
-                                    bForceShowNumber = true
-                                }
-                            }
-
-                            val isConfenerce = CallManager.isConference(call)
-                            if (isConfenerce) {
-                                callerNumber = ""
-                            }
-
-                            if ((bSpamEmoji) && (!isConfenerce) && (!isUnknown)) {
-                                sSpamEmoji = CallManager.getSpamEmojiByCall(call) ?: ""
-                            }
-                            if ((sSpamEmoji.isNotBlank()) && (!isConfenerce) ) {
-                                if  (callerNumber.isBlank()) {callerName += " " + sSpamEmoji}
-                                else callerNumber += " " + sSpamEmoji
-                            }
+                            val callerName = display.name
+                            val callerNumber = display.number
 
                             val callstate = call.getStateCompat()
                             val isNotSupported = callstate == Call.STATE_DISCONNECTING
@@ -1064,24 +962,29 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                                 dpx
                             )
 
+                            val highlightsButtons = config.highlightCallButtons
                             //invertovat barvy
-                            val colorBackground = withCcAlpha(getProperTextColor())
-                            val colorText = getProperBackgroundColor()
-                            val colorPrimary = getProperPrimaryColor()
+                            //pokud je aktivní volba zvýraznění tak dáme žluté pozadí a černé tlčítka a text ať je to dobře vidět
+                            val colorBackgroundOverlay = if (!highlightsButtons) withCcAlpha(getProperTextColor())
+                                                         else withCcAlpha(Color.parseColor("#FFC90E"))
+                            val colorTextOverlay = if (!highlightsButtons) getProperBackgroundColor()
+                                                   else withCcAlpha(Color.parseColor("#000000"))
+                            val colorStatusOverlay = if (!highlightsButtons) getProperPrimaryColor()
+                                                      else withCcAlpha(Color.parseColor("#7F7F7F"))
 
                             val bg = topOverlay.background
-                            if (bg is GradientDrawable) bg.setColor(colorBackground)
-                            else topOverlay.setBackgroundColor(colorBackground)
+                            if (bg is GradientDrawable) bg.setColor(colorBackgroundOverlay)
+                            else topOverlay.setBackgroundColor(colorBackgroundOverlay)
 
-                            callNotification.notificationCallerName.setTextColor(colorText)
-                            callNotification.notificationPhoneNumber.setTextColor(colorText)
-                            callNotification.notificationSimInfo.setTextColor(colorText)
-                            callNotification.notificationCallStatus.setTextColor(colorPrimary)
+                            callNotification.notificationCallerName.setTextColor(colorTextOverlay)
+                            callNotification.notificationPhoneNumber.setTextColor(colorTextOverlay)
+                            callNotification.notificationSimInfo.setTextColor(colorTextOverlay)
+                            callNotification.notificationCallStatus.setTextColor(colorStatusOverlay)
 
                             callNotification.notificationCallerName.setText(callerName)
                             callNotification.notificationPhoneNumber.setText(callerNumber)
 
-                            if (callerNumber.isBlank() && !bForceShowNumber) callNotification.notificationPhoneNumber.beGone()
+                            if (!display.numberVisible) callNotification.notificationPhoneNumber.beGone()
                             else callNotification.notificationPhoneNumber.beVisible()
 
                             val iSimSlot = CallManager.getSimSlotByCall(call)
@@ -1106,9 +1009,9 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
                             //pozadí tlačítek, aby to hezky ladilo s textem
                             (callNotification.notificationAcceptCall.background.mutate() as? GradientDrawable)
-                                ?.setColor(colorText)
+                                ?.setColor(colorTextOverlay)
                             (callNotification.notificationDeclineCall.background.mutate() as? GradientDrawable)
-                                ?.setColor(colorText)
+                                ?.setColor(colorTextOverlay)
 
                             callNotification.notificationAcceptCall.setImageResource(R.drawable.ic_phone_green_vector)
                             callNotification.notificationDeclineCall.setImageResource(R.drawable.ic_phone_down_red_vector)
@@ -1141,13 +1044,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                                 sMyListPosition += 1
                                 updateState()
                             }
-                            //callNotification.notificationCallerName.setOnClickListener {
-                            //    switchCallOverlay(call)
-                            //}
-                            //callNotification.notificationThumbnail.setOnClickListener {
-                            //    switchCallOverlay(call)
-                            //}
-
                         }
                     }
                 }
@@ -1180,7 +1076,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         getCallContact(applicationContext, call) { contact ->
             val avatar = if (!CallManager.isConference(call)) contact.photoUri else null
             runOnUiThread {
-                updateOtherPersonsInfo(contact,avatar, CallManager.isConference(call))
+                updateOtherPersonsInfo(contact, avatar, CallManager.isConference(call), call)
                 checkCalledSIMCard(call)
                 bIsUpdating = false
             }
@@ -1235,7 +1131,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         }
 
 
-        val v = getSystemService(Vibrator::class.java) ?: return
+        val v = vibrator ?: return
         if (!v.hasVibrator()) return
 
         val effect = VibrationEffect.createOneShot(
@@ -1367,7 +1263,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         {
             try {
                 // zavolat co nejdříve, ještě před setContentView
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                if (isOreoMr1Plus()) {
                     setShowWhenLocked(true)
                     setTurnScreenOn(true)
                 }
@@ -1554,7 +1450,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         callStatusLabel.beGone()
         holdStatusLabel.beGone()
         country.beGone()
-        spamcheck.beGone()
     }
 
     private fun setVars() {

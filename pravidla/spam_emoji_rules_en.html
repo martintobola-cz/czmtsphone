@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dialer rules (EN)</title>
+<style>
+:root{--bg:#fff;--fg:#1d2330;--mut:#667;--bd:#d8dce6;--hd:#eef1f7;--ac:#2557d6;--ok:#e3f5e8;--okf:#13602b;--ko:#fde8e8;--kof:#9b1c1c;--cd:#f4f5f8}
+@media(prefers-color-scheme:dark){:root{--bg:#14171f;--fg:#e4e7ee;--mut:#9aa1b3;--bd:#2c3242;--hd:#202636;--ac:#8fb0ff;--ok:#16301f;--okf:#7fdc9c;--ko:#3a1c1e;--kof:#ff9a9a;--cd:#1c2130}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px}
+h1{font-size:24px;border-bottom:3px solid var(--ac);padding-bottom:6px;margin-top:48px}
+h1:first-child{margin-top:0}
+h2{font-size:17px;margin:28px 0 8px;color:var(--ac)}
+h3{font-size:14px;margin:18px 0 6px}
+code{background:var(--cd);padding:1px 5px;border-radius:4px;font-size:13px}
+.w{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid var(--bd);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--hd)}
+td.s{background:var(--hd);font-weight:600}
+td.p{background:var(--ok);color:var(--okf)}
+td.b{background:var(--ko);color:var(--kof)}
+.n{color:var(--mut);font-size:13px}
+.box{background:var(--cd);border-left:4px solid var(--ac);padding:8px 12px;border-radius:4px}
+</style></head><body><main>
+<h1>cz.mts.phone Call display rules (fullscreen, overlay, notification, watch)</h1>
+
+<h2>Legend</h2>
+<ul>
+<li>Fullscreen and overlay have the same rules (row 1, row 2; row 3 is always the call state).</li>
+<li>Notification and watch share the same title; text = SIM + call state (unchanged).</li>
+<li>"-" = empty row.</li>
+<li>[E] = text from checkNumberForRating (e.g. 🟢, ❔, 🟢 2x, ⛔ 5x …).</li>
+<li><code>R.string.unknown_caller</code> and <code>R.string.is_spam_call</code> = hard-coded stored strings.</li>
+<li>Sample: number +420 603 123 456, CNAP "Financni urad", contact "Jan Novak".</li>
+</ul>
+
+<h2>A. Saved contact (never spam-checked, CNAP ignored, row 2 not clickable)</h2>
+<div class="w"><table>
+<tr><th>#</th><th>Situation</th><th>Row 1</th><th>Row 2</th><th>Notification + watch</th></tr>
+<tr><td>1a</td><td>normal</td><td>Jan Novak</td><td>+420 603 123 456</td><td>Jan Novak</td></tr>
+<tr><td>1b</td><td>multiple numbers, label</td><td>Jan Novak</td><td>+420 603 123 456 - Mobil</td><td>Jan Novak</td></tr>
+<tr><td>1c</td><td>hideNumberForSavedContact=TRUE, label</td><td>Jan Novak</td><td>Mobil</td><td>Jan Novak</td></tr>
+<tr><td>1d</td><td>hideNumberForSavedContact=TRUE,</td><td>Jan Novak</td><td>empty text (the row remains)</td><td>Jan Novak</td></tr>
+</table></div>
+
+<h2>B. Unsaved, number unknown (empty number or handle other than tel:) – row 2 is never clickable!</h2>
+<div class="w"><table>
+<tr><th>#</th><th>CNAP</th><th>Spam check</th><th>Row 1</th><th>Row 2</th><th>Notification + watch</th></tr>
+<tr><td>2</td><td>empty</td><td>on</td><td>R.string.unknown_caller</td><td>-</td><td>R.string.unknown_caller</td></tr>
+<tr><td>3</td><td>empty</td><td>off</td><td>R.string.unknown_caller</td><td>-</td><td>R.string.unknown_caller</td></tr>
+<tr><td>4</td><td>filled</td><td>on</td><td>Financni urad</td><td>R.string.is_spam_call</td><td>Financni urad</td></tr>
+<tr><td>5</td><td>filled</td><td>off</td><td>Financni urad</td><td>R.string.unknown_caller</td><td>Financni urad</td></tr>
+<tr><td>10</td><td>conference</td><td>-</td><td>Konference</td><td>-</td><td>Konference</td></tr>
+</table></div>
+
+<h2>C. Unsaved, number known, no spam check (off, or outgoing call) – row 2 not clickable</h2>
+<div class="w"><table>
+<tr><th>#</th><th>CNAP</th><th>Row 1</th><th>Row 2</th><th>Notification + watch</th></tr>
+<tr><td>7</td><td>empty or identical to number</td><td>+420 603 123 456</td><td>-</td><td>+420 603 123 456</td></tr>
+<tr><td>9</td><td>filled</td><td>Financni urad</td><td>+420 603 123 456</td><td>Financni urad · +420 603 123 456</td></tr>
+</table></div>
+
+<h2>D. Unsaved, number known, spam check active – row 2 is always clickable to the web (even the R.string.is_spam_call text), because the number is known</h2>
+<div class="w"><table>
+<tr><th>#</th><th>CNAP</th><th>State</th><th>Row 1</th><th>Row 2</th><th>Notification + watch</th></tr>
+<tr><td>6</td><td>empty</td><td>waiting</td><td>+420 603 123 456</td><td>+420 603 123 456</td><td>+420 603 123 456</td></tr>
+<tr><td>6</td><td>empty</td><td>not spam</td><td>+420 603 123 456</td><td>+420 603 123 456 [E]</td><td>[E] +420 603 123 456</td></tr>
+<tr><td>6</td><td>empty</td><td>spam</td><td>+420 603 123 456</td><td>R.string.is_spam_call ⛔🎣</td><td>⛔🎣 +420 603 123 456</td></tr>
+<tr><td>6</td><td>empty</td><td>error</td><td>+420 603 123 456</td><td>+420 603 123 456 💥😕</td><td>💥😕 +420 603 123 456</td></tr>
+<tr><td>8</td><td>Financni urad</td><td>waiting</td><td>Financni urad</td><td>+420 603 123 456</td><td>Financni urad · +420 603 123 456</td></tr>
+<tr><td>8</td><td>Financni urad</td><td>not spam</td><td>Financni urad</td><td>+420 603 123 456 [E]</td><td>[E] Financni urad · +420 603 123 456</td></tr>
+<tr><td>8</td><td>Financni urad</td><td>spam</td><td>Financni urad</td><td>R.string.is_spam_call ⛔🎣</td><td>⛔🎣 Financni urad · +420 603 123 456</td></tr>
+<tr><td>8</td><td>Financni urad</td><td>error</td><td>Financni urad</td><td>+420 603 123 456 💥😕</td><td>💥😕 Financni urad · +420 603 123 456</td></tr>
+</table></div>
+
+<h2>Rules</h2>
+<ol>
+<li>Saved contact = contact found in CacheContacts. CNAP is ignored, no spam check runs.</li>
+<li>Unsaved contact: name = CNAP &gt; number &gt; R.string.unknown_caller.</li>
+<li>A CNAP identical to the number (after normalizeDigitsOnly) is treated as if there were no CNAP.</li>
+<li>Hidden number = number is missing (empty, handle null, or handle other than tel:, e.g. sip:). With presentation 2/3 but a number in the handle, the number is used (not "unknown"). The distinction between presentation 2/3/4 is not used.</li>
+<li>The spam check runs only for an incoming call, an unsaved contact, a known number, and CacheContacts.bSpamChecking == true.</li>
+<li>Spam = bSpamCallfilterApp || bSpam.</li>
+<li>State "waiting" = emoji is empty (result has not arrived yet). For #6 the number is shown (clickable), for #8 the number on row 2; no emoji.</li>
+<li>State "error" = result.ok == false, empty/mismatching number (∅😕, ≠😕), or the getCallFilterInfo callback returns null (exception etc.). 💥😕 is shown, also in the notification.</li>
+<li>#4 and #5: row 2 is governed by bSpamChecking and the presence of CNAP (not by CallEntry.isSpam). Row 2 is not clickable because it is not a number.</li>
+<li>Notification: never contains <i>R.string.is_spam_call</i>; title = [emoji] name · number; when space is short, the number is truncated (the name has priority).</li>
+<li>The watch uses the same title as the notification; text = SIM + state (unchanged).</li>
+<li>The rating emoji in the notification title is at the beginning so truncation does not cut it off.</li>
+</ol>
+
+<h2>Implementation notes (from code analysis)</h2>
+<ul>
+<li>CNAP is currently stored in CallEntry.cnapName but is not used anywhere.</li>
+<li>Later: extend CallEntry with getCallerNumberVerificationStatus() (API 30+; default value on API 28–29). Not used for now.</li>
+<li>call.details.contactDisplayName is NOT used (the source of truth is CacheContacts).</li>
+<li>With an empty number, getCallContact currently hard-codes presentation = 3 – replace it with a "hidden" flag and a CNAP item.</li>
+<li>Hidden number (isHiddenNumber) is governed by an empty number – this changes the SMS button and the anonymous avatar for presentation 2/3 with a number.</li>
+<li>CallManager.onCallAdded: when result == null, nothing is written today; newly write emoji = 💥😕, isSpam = false and call the listener.</li>
+</ul>
+
+</main></body></html>

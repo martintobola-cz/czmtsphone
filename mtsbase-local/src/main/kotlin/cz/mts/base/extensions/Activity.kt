@@ -1,7 +1,6 @@
 package cz.mts.base.extensions
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -19,7 +18,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cz.mts.base.R
 import cz.mts.base.databinding.DialogTitleBinding
 import cz.mts.base.helpers.isOnMainThread
@@ -106,11 +104,7 @@ fun Activity.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Activity.getAlertDialogBuilder() = if (isDynamicTheme()) {
-    MaterialAlertDialogBuilder(this)
-} else {
-    AlertDialog.Builder(this)
-}
+fun Activity.getAlertDialogBuilder() =  AlertDialog.Builder(this)
 
 fun Activity.setupDialogStuff(
     view: View,
@@ -133,25 +127,6 @@ fun Activity.setupDialogStuff(
         view.setColors(textColor, primaryColor, backgroundColor)
     }
 
-    if (dialog is MaterialAlertDialogBuilder) {
-        dialog.create().apply {
-            if (titleId != 0) {
-                setTitle(titleId)
-            } else if (titleText.isNotEmpty()) {
-                setTitle(titleText)
-            }
-
-            setView(view)
-            setCancelable(cancelOnTouchOutside)
-            if (!isFinishing) {
-                show()
-            }
-            getButton(Dialog.BUTTON_POSITIVE)?.setTextColor(primaryColor)
-            getButton(Dialog.BUTTON_NEGATIVE)?.setTextColor(primaryColor)
-            getButton(Dialog.BUTTON_NEUTRAL)?.setTextColor(primaryColor)
-            callback?.invoke(this)
-        }
-    } else {
         var title: DialogTitleBinding? = null
         if (titleId != 0 || titleText.isNotEmpty()) {
             title = DialogTitleBinding.inflate(layoutInflater, null, false)
@@ -196,7 +171,7 @@ fun Activity.setupDialogStuff(
             window?.setBackgroundDrawable(bgDrawable)
             callback?.invoke(this)
         }
-    }
+
 }
 
 fun Activity.onApplyWindowInsets(callback: (WindowInsetsCompat) -> Unit) {

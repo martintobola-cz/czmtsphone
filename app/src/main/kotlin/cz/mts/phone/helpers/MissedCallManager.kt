@@ -5,9 +5,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import cz.mts.base.helpers.TAB_CALL_HISTORY
+import cz.mts.base.helpers.isSPlus
 import cz.mts.phone.R
 import cz.mts.phone.activities.MainActivity
 import cz.mts.phone.extensions.notificationManager
@@ -22,20 +22,21 @@ object MissedCallManager {
     // Zabezpečeno proti souběžnému přístupu z více vláken
     private val missedCalls = mutableListOf<String>()
 
-    fun registerMissedCall(context: Context, number: String, sSpamEmoji: String, iSim: Int, iRingSec: Int = -1) {
+    fun registerMissedCall(context: Context, number: String, sSpamEmoji: String, iSim: Int, iRingSec: Int = -1, sCnap: String = "") {
         getCallContact(context, null, number) { callContact ->
+            // jednotná logika zobrazení (CallDisplayHelper); u zmeškaných hovorů je hodnocení (emoji) na konci
+            // číslo v parametru už je zformátované (numberForRecents v CallService), nesmí se formátovat podruhé;
+            // u skrytého čísla (callContact.number je prázdné) zůstává prázdné
+            val displayContact = if (callContact.number.isBlank()) callContact else callContact.copy(number = number)
+            val display = buildCallDisplayFromData(
+                context = context,
+                contact = displayContact,
+                cnap = sCnap,
+                spamCheck = CacheContacts.bSpamChecking,
+                spamEmoji = sSpamEmoji
+            )
             synchronized(missedCalls) {
-                var sTextToDisplay : String
-                if (callContact.id.toInt() != 0) {
-                    sTextToDisplay = callContact.name.ifEmpty { number }
-
-                } else {
-                    if (CacheContacts.bSpamChecking) {
-                        sTextToDisplay = if (sSpamEmoji.isNotBlank()) "$number $sSpamEmoji" else number
-                    } else {
-                        sTextToDisplay = number
-                    }
-                }
+                var sTextToDisplay = display.missedCallText
                 if (iRingSec >= 0) sTextToDisplay = "(${iRingSec}s) $sTextToDisplay"
                 if (iSim == 1) { sTextToDisplay = "📞¹ " + sTextToDisplay }
                 else if (iSim == 2) { sTextToDisplay = "📞² " + sTextToDisplay }
@@ -86,10 +87,10 @@ object MissedCallManager {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra("start_tab", TAB_CALL_HISTORY)
-            putExtra("from_missed_call_notification", true)
+//            putExtra("from_missed_call_notification", true)
         }
 
-        val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val pendingFlags = if (isSPlus()) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         } else {
             PendingIntent.FLAG_UPDATE_CURRENT

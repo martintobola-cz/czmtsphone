@@ -3,8 +3,10 @@ package cz.mts.phone.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.*
-import android.telephony.TelephonyManager
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.VibrationEffect
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -23,6 +25,8 @@ import cz.mts.phone.R
 import cz.mts.phone.adapters.ContactsAdapter
 import cz.mts.phone.databinding.ActivityDialpadBinding
 import cz.mts.phone.extensions.*
+import cz.mts.phone.helpers.CallHelper
+import cz.mts.phone.helpers.CallHelper.EXTRA_PHONE_NUMBER
 import cz.mts.phone.helpers.ToneGeneratorHelper
 import kotlinx.coroutines.*
 import java.util.Locale
@@ -100,6 +104,13 @@ class DialpadActivity : SimpleActivity() {
     }
 
     // ────────────────────────────────────────────────────────────────────────
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+
+        checkDialIntent(intent)
+    }
 
     @Suppress("LongMethod")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -285,26 +296,29 @@ class DialpadActivity : SimpleActivity() {
 
     // ── Dialpad logika ───────────────────────────────────────────────────────
 
-    private fun checkDialIntent(): String? {
+    private fun checkDialIntent(intent: Intent = this.intent): String? {
         var cleanedNumber = ""
 
-        val numberMTS = intent.getStringExtra("EXTRA_PHONE_NUMBER")
+        val numberMTS = intent.getStringExtra(EXTRA_PHONE_NUMBER)
+
         if (numberMTS.isNullOrEmpty()) {
-            if ((intent.action == Intent.ACTION_DIAL || intent.action == Intent.ACTION_VIEW)
-                && intent.data != null
-                && intent.dataString?.contains("tel:") == true
+            if (
+                (intent.action == Intent.ACTION_DIAL ||
+                    intent.action == Intent.ACTION_VIEW) &&
+                intent.data != null &&
+                intent.dataString?.contains("tel:") == true
             ) {
-                cleanedNumber = Uri.decode(intent.dataString).substringAfter("tel:")
+                cleanedNumber = Uri.decode(intent.dataString!!).substringAfter("tel:")
             }
         } else {
             cleanedNumber = normalizeDigitsOnly(
                 numberMTS
                     .replace("tel:", "")
                     .replace(" ", "")
-                    .replace("%20", "")   // mezera
-                    .replace("%2B", "+")  // +
-                    .replace("%3A", "")   // :
-            )
+                    .replace("%20", "")
+                    .replace("%2B", "+")
+                    .replace("%3A", "")
+            , true) // pokud *# tak s číslem nic nedělá a vrátí ho jak bylo!!!
         }
 
         return if (cleanedNumber.isNotBlank()) {
@@ -315,6 +329,7 @@ class DialpadActivity : SimpleActivity() {
             null
         }
     }
+
 
     private fun sendMessage() {
         val number = binding.dialpadInput.value
@@ -334,44 +349,6 @@ class DialpadActivity : SimpleActivity() {
         }
     }
 
-    private fun dialpadValueChangedOLD(text: String) {
-        val len = text.length
-        if (len > 8 && text.startsWith("*#*#") && text.endsWith("#*#*")) {
-            handleSecretCode(text.substring(4, text.length - 4))
-            return
-        }
-
-        (binding.dialpadList.adapter as? ContactsAdapter)?.finishActMode()
-
-        val filtered: List<Contact> = if (config.enableT9dialpad) {
-            filterContactsT9(text)
-        } else {
-            filterContactsNumeric(text)
-        }
-
-        binding.letterFastscroller.setupWithContacts(binding.dialpadList, filtered)
-
-        ContactsAdapter(
-            activity = this,
-            contacts = ArrayList(filtered),
-            recyclerView = binding.dialpadList,
-            highlightText = text,
-            itemClick = {
-                mtsGlobalAll.showNumberPickerDialog(this, it as Contact, -2, onDismiss = { finish() })
-                clearInputWithDelay()
-            },
-            profileIconClick = {
-                val contact = it as Contact
-                startContactDetailsIntentID(contact.rawId.toLong(), contact.source)
-            }
-        ).apply {
-            binding.dialpadList.adapter = this
-        }
-
-        binding.dialpadPlaceholder.beVisibleIf(filtered.isEmpty())
-        binding.dialpadList.beVisibleIf(filtered.isNotEmpty())
-        bLongClick = false
-    }
 
     private fun dialpadValueChanged(text: String) {
         val len = text.length
@@ -471,7 +448,7 @@ class DialpadActivity : SimpleActivity() {
     private fun handleSecretCode(secretCode: String) {
         if (isOreoPlus()) {
             if (isDefaultDialer()) {
-                getSystemService(TelephonyManager::class.java)?.sendDialerSpecialCode(secretCode)
+                telephonyManager?.sendDialerSpecialCode(secretCode)
             } else {
                 launchSetDefaultDialerIntent()
             }
@@ -514,7 +491,7 @@ class DialpadActivity : SimpleActivity() {
 
     @Suppress("DEPRECATION") // Vibrator API 31+ = VibratorManager; ponecháno pro jednoduchost
     private fun zavibruj() {
-        val v = getSystemService(Vibrator::class.java)
+        val v = vibrator
         if (v?.hasVibrator() == true) {
             v.vibrate(VibrationEffect.createOneShot(80, VibrationEffect.DEFAULT_AMPLITUDE))
         }
@@ -541,7 +518,7 @@ class DialpadActivity : SimpleActivity() {
                 clearInputWithDelay()
             }
             number == "*#06#" -> {
-                mtsGlobalAll.showIMEIDialog(this)
+                CallHelper.showIMEIDialog(this)
                 return
             }
             else -> {

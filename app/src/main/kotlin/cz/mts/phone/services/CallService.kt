@@ -1,6 +1,5 @@
 package cz.mts.phone.services
 
-import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
 import android.os.Handler
@@ -98,6 +97,11 @@ class CallService : InCallService(), CallManagerListener {
         call.registerCallback(callListener)
         callCallbacks[call] = callListener
 
+        //pokud není vybrána sim pro hovor, tak tiše vyhodíme (nemělo by nikdy nastat, potože handle je vždy přiřazen před vytáčením)
+        if (call.getStateCompat() == Call.STATE_SELECT_PHONE_ACCOUNT) {
+            call.disconnect()
+            return
+        }
 
         val isIncoming = call.isIncoming()
         val isOutgoing = call.isOutgoing()
@@ -109,6 +113,10 @@ class CallService : InCallService(), CallManagerListener {
         determineEsimThenProceed(call, isIncoming, isOutgoing)
     }
 
+    //číslo jen z handle se schématem tel: (sip: apod. = číslo neznáme), shodně s getCallContact
+    private fun telNumberOrBlank(handle: android.net.Uri?): String =
+        if (handle?.scheme.equals("tel", ignoreCase = true)) handle?.schemeSpecificPart.orEmpty() else ""
+
     private fun determineEsimThenProceed(call: Call, isIncoming: Boolean, isOutgoing: Boolean) {
         tryDetermineEsim(call, 0) { isEsim ->
             val callState = call.getStateCompat()
@@ -117,7 +125,7 @@ class CallService : InCallService(), CallManagerListener {
             }
 
            val handle = call.details?.handle
-           val number = handle?.schemeSpecificPart ?: ""
+           val number = telNumberOrBlank(handle)
 
            proceedCallFlow(call, isIncoming, isOutgoing, isEsim, number)
         }
@@ -317,13 +325,15 @@ class CallService : InCallService(), CallManagerListener {
 
         val wasNotAnswered = disconnectCause?.code == DisconnectCause.MISSED
         if (isIncoming && wasNotAnswered) {
-            val numberX = handle?.schemeSpecificPart
-            val number = if (numberX.isNullOrBlank()) getString(R.string.unknown_caller)
+            val numberX = telNumberOrBlank(handle)
+            val number = if (numberX.isBlank()) getString(R.string.unknown_caller)
                          else numberForRecents(numberX, config.formatPhoneNumbers)
             val sEmoji = CallManager.getSpamEmojiByCall(call) ?: ""
             val iSim = CallManager.getSimSlotByCall(call)
             val iRingSec = CallManager.getRingSeconds(call)
-            MissedCallManager.registerMissedCall(applicationContext, number, sEmoji, iSim, iRingSec)
+            //CNAP čteme teď, dokud hovor ještě existuje v CallManageru (smaže se až níže)
+            val sCnap = CallManager.getCnapByCall(call)
+            MissedCallManager.registerMissedCall(applicationContext, number, sEmoji, iSim, iRingSec, sCnap)
         }
 
         callCallbacks.remove(call)?.let { callback ->
@@ -407,7 +417,7 @@ class CallService : InCallService(), CallManagerListener {
 
 
     private fun hasDndPolicyAccess(): Boolean {
-    val nm = applicationContext.getSystemService(NotificationManager::class.java)
+    val nm = applicationContext.notificationManager
     return nm?.isNotificationPolicyAccessGranted == true
 }
 

@@ -1,10 +1,8 @@
 package cz.mts.phone.extensions
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.ContactsContract
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
@@ -12,13 +10,14 @@ import cz.mts.base.extensions.launchActivityIntent
 import cz.mts.base.extensions.launchViewContactIntent
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.MTS_PHONE
-import cz.mts.base.helpers.PERMISSION_READ_PHONE_STATE
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.SimpleContactsHelper
 import cz.mts.base.helpers.ensureBackgroundThread
+import cz.mts.base.helpers.isTiramisuPlus
 import cz.mts.phone.activities.DialpadActivity
 import cz.mts.phone.activities.EditLocalContactActivity
 import cz.mts.phone.activities.SimpleActivity
+import cz.mts.phone.helpers.CallHelper
 import cz.mts.phone.helpers.getCallContact
 import cz.mts.phone.models.RecentCall
 import java.lang.ref.WeakReference
@@ -87,22 +86,29 @@ fun Activity.startContactDetailsIntentY(recent: RecentCall) {
     }
 }
 
-// Používá se na zařízeních s více SIM kartami
-@SuppressLint("MissingPermission")
-fun SimpleActivity.getHandleToUse(
-    intent: Intent?,
-    phoneNumber: String,
-    forceSimSelector: Boolean = false,
-    callback: (handle: PhoneAccountHandle?) -> Unit
-) {
-    handlePermission(PERMISSION_READ_PHONE_STATE) { granted ->
-        if (!granted) {
+    /**
+     * Vrátí handle SIM, přes kterou se má volat.
+     *
+     * - Handle je v intentu (vlastní hovor z launchCallIntentNew) → callback(handle).
+     * - Jinak (nebo při forceSimSelector) se otevře číselník s předvyplněným číslem,
+     *   uživatel zvolí SIM sám a callback dostane null.
+     *
+     * Čtení extra z intentu oprávnění nevyžaduje, proto už není závislé na READ_PHONE_STATE
+     * (dřív při zamítnutí oprávnění hovor potichu skončil).
+     */
+    fun SimpleActivity.getHandleToUse(
+        intent: Intent?,
+        phoneNumber: String,   // dekódované číslo, ne Uri.toString()
+        forceSimSelector: Boolean = false,
+        callback: (handle: PhoneAccountHandle?) -> Unit
+    ) {
+        if (phoneNumber.isBlank()) {
             callback(null)
-            return@handlePermission
+            return
         }
 
         val handleFromIntent: PhoneAccountHandle? =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (isTiramisuPlus()) {
                 intent?.getParcelableExtra(
                     TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE,
                     PhoneAccountHandle::class.java
@@ -112,19 +118,18 @@ fun SimpleActivity.getHandleToUse(
                 intent?.getParcelableExtra(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE)
             }
 
-        when {
-            phoneNumber.isBlank() -> callback(null)
-
-            handleFromIntent != null -> callback(handleFromIntent)
-
-            // Výchozí handle není k dispozici — otevřeme dialpad pro výběr SIM
-            else -> {
-                val dialIntent = Intent(this, DialpadActivity::class.java).apply {
-                    putExtra("EXTRA_PHONE_NUMBER", phoneNumber)
-                }
-                startActivity(dialIntent)
-                callback(null)
-            }
+        if (handleFromIntent != null && !forceSimSelector) {
+            callback(handleFromIntent)
+            return
         }
+
+        try {
+            startActivity(
+                Intent(this, DialpadActivity::class.java)
+                    .putExtra(CallHelper.EXTRA_PHONE_NUMBER, phoneNumber)
+            )
+        } catch (_: Exception) {
+        }
+        callback(null)
     }
-}
+

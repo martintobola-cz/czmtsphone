@@ -42,6 +42,11 @@ fun Call.isIncoming(): Boolean {
     }
 }
 
+fun Call.Details.isIncoming(): Boolean {
+    // Před Androidem 10 se screenují jen příchozí hovory; neznámý směr se bere jako příchozí.
+    return if (isQPlus()) callDirection != Call.Details.DIRECTION_OUTGOING else true
+}
+
 fun Call.isOutgoing(): Boolean {
     return if (isQPlus()) {
         details.callDirection == Call.Details.DIRECTION_OUTGOING

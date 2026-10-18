@@ -153,6 +153,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/normal_margin"
         android:gravity="center_horizontal"
+        android:ellipsize="middle"
+        android:maxLines="1"
         android:textSize="@dimen/call_status_text_size"
         app:layout_constraintBottom_toTopOf="@id/call_status_label"
         app:layout_constraintEnd_toEndOf="parent"
@@ -204,19 +206,6 @@
         android:ellipsize="end"
         tools:text="Prague" />
 
-    <cz.mts.base.views.MyTextView
-        android:id="@+id/spamcheck"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/dialpad_letters_text_size"
-        app:layout_constraintTop_toBottomOf="@id/country"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
-        tools:text="spam" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -243,7 +232,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/medium_margin"
-            app:constraint_referenced_ids="call_toggle_microphone,call_toggle_speaker,call_dialpad,call_toggle_hold,call_add,call_manage,call_swap,call_merge,call_send_sms,call_record"
+            app:constraint_referenced_ids="call_toggle_microphone,call_toggle_speaker,call_dialpad,call_toggle_hold,call_manage,call_swap,call_merge,call_send_sms,call_record"
             app:flow_horizontalGap="@dimen/activity_margin"
             app:flow_maxElementsWrap="3"
             app:flow_verticalGap="@dimen/activity_margin"
@@ -360,7 +349,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="call_toggle_hold,call_add"
+            app:constraint_referenced_ids="call_toggle_hold"
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
@@ -559,7 +548,7 @@ android:visibility="gone"
                 android:contentDescription="@string/hide_dialpad"
                 android:elevation="@dimen/medium_margin"
                 android:padding="@dimen/medium_margin"
-                android:src="@drawable/ic_cross_vector" />
+                android:src="@drawable/ic_hide_keyboard_vector" />
 
             <cz.mts.base.views.MyEditText
                 android:id="@+id/dialpad_input"

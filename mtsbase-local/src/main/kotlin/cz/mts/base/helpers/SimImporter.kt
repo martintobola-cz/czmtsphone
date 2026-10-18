@@ -1,13 +1,13 @@
 package cz.mts.base.helpers
 
 import android.net.Uri
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import cz.mts.base.activities.BaseSimpleActivity
+import cz.mts.base.extensions.copyToClipboard
 import cz.mts.base.extensions.hasPermission
 import cz.mts.base.extensions.toast
-import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.models.PhoneNumber
 import cz.mts.base.models.contacts.Contact
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -102,7 +102,7 @@ object SimImporter {
 
         val sInfo2 = "Imported: $imported (total $total, duplicates skipped $duplicates)"
         if (failed > 0) {
-            copyTextToClipboard(activity, "Import", sInfo2 + sInfo)
+            activity.copyToClipboard(sInfo2 + sInfo, false , "Import")
         }
         if (showToast) {
             activity.toast(sInfo2)
@@ -113,7 +113,7 @@ object SimImporter {
 
     // stejný vzor jako VcfImporter: detail chyby do schránky, výsledek Error(IMPORT_FAIL)
     private fun fail(activity: BaseSimpleActivity, message: String, showToast: Boolean): VcfImporter.Result {
-        copyTextToClipboard(activity, "Import", message)
+        activity.copyToClipboard(message, false, "Import")
         if (showToast) activity.toast("SIM import failed: $message")
         return VcfImporter.Result.Error(ExportResult.IMPORT_FAIL)
     }

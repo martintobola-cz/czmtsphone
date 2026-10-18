@@ -254,6 +254,12 @@ fun String.getDateTimeFromDateString(
 
 fun String.isBlockedNumberPattern() = contains("*")
 
+/** Negativní pravidlo: "!" na začátku, např. "!+420*" = zablokuj vše, co na masku NEsedí (whitelist). */
+fun String.isNegativeBlockedNumberMask() = length > 1 && this[0] == '!'
+
+/** Cokoliv, co není přesné číslo: maska s * nebo ?, případně negativní pravidlo (!...). */
+fun String.isAnyBlockedNumberMask() = isNegativeBlockedNumberMask() || contains('*') || contains('?')
+
 fun String?.fromHtml(): Spanned =
     when {
         this == null -> SpannableString("")

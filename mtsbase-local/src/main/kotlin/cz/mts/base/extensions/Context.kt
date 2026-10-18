@@ -3,12 +3,10 @@ package cz.mts.base.extensions
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
-import android.app.NotificationManager
 import android.app.role.RoleManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.content.pm.ShortcutManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -20,7 +18,9 @@ import android.provider.ContactsContract.CommonDataKinds.BaseTypes
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.OpenableColumns
 import android.provider.Settings
+import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
+import android.telephony.TelephonyManager
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -33,6 +33,7 @@ import cz.mts.base.helpers.*
 import cz.mts.base.helpers.PhoneNumberHelper.isPhoneNumber
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeNumberE164
+import cz.mts.base.helpers.PhoneNumberHelper.toE164OrNull
 import cz.mts.base.models.BlockedNumber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -87,6 +88,8 @@ val Context.otgPath: String get() = baseConfig.OTGPath
 
 fun Context.hasPermission(permId: Int) = ContextCompat.checkSelfPermission(this, getPermissionString(permId)) == PERMISSION_GRANTED
 
+
+
 fun Context.getPermissionString(id: Int) = when (id) {
     PERMISSION_READ_STORAGE -> Manifest.permission.READ_EXTERNAL_STORAGE
     PERMISSION_WRITE_STORAGE -> Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -122,7 +125,8 @@ fun Context.launchActivityIntent(intent: Intent) {
     } catch (e: ActivityNotFoundException) {
         toast(R.string.no_app_found)
     } catch (e: Exception) {
-        showErrorToast(e)
+        copyToClipboard(e.message.toString(), true)
+        //showErrorToast(e)
     }
 }
 
@@ -259,20 +263,32 @@ fun Context.getTextSize() = when (baseConfig.fontSize) {
     FONT_SIZE_LARGE -> resources.getDimension(R.dimen.big_text_size)
     else -> resources.getDimension(R.dimen.extra_big_text_size)
 }
+fun Context.isDefaultDialer(): Boolean =
+    if (isQPlus()) isRoleHeld(RoleManager.ROLE_DIALER)
+    else getSystemService(TelecomManager::class.java)?.defaultDialerPackage == packageName
 
-val Context.telecomManager: TelecomManager get() = getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-val Context.notificationManager: NotificationManager get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-val Context.shortcutManager: ShortcutManager get() = getSystemService(ShortcutManager::class.java) as ShortcutManager
+val Context.roleManagerBase: RoleManager?
+    get() = if (isQPlus()) getSystemService(RoleManager::class.java) else null
 
-fun Context.isDefaultDialer(): Boolean {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        val roleManager = getSystemService(RoleManager::class.java)
-        roleManager?.isRoleHeld(RoleManager.ROLE_DIALER) == true
+fun Context.isRoleHeld(role: String): Boolean =
+    isQPlus() && roleManagerBase?.isRoleHeld(role) == true
+
+fun Context.createRequestRoleIntent(role: String): Intent? =
+    if (isQPlus()) {
+        roleManagerBase
+            ?.takeIf { it.isRoleAvailable(role) }
+            ?.createRequestRoleIntent(role)
     } else {
-        val telecomManager = getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-        telecomManager.defaultDialerPackage == packageName
+        null
     }
-}
+
+fun Context.createSetDefaultDialerIntent(): Intent? =
+    if (isQPlus()) {
+        createRequestRoleIntent(RoleManager.ROLE_DIALER)
+    } else {
+        Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER)
+            .putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
+    }
 
 fun Context.getContactsHasMap(withComparableNumbers: Boolean, callback: (HashMap<String, String>) -> Unit) {
     ContactsHelper(this).getContacts(showOnlyContactsWithNumbers = true) { contactList ->
@@ -293,6 +309,7 @@ fun Context.getBlockedNumbersWithContact(callback: (ArrayList<BlockedNumber>) ->
         val blockedNumbers = ArrayList<BlockedNumber>()
         if (!isNougatPlus() || !isDefaultDialer()) {
             callback(blockedNumbers)
+            return@getContactsHasMap
         }
 
         val uri = BlockedNumbers.CONTENT_URI
@@ -306,9 +323,12 @@ fun Context.getBlockedNumbersWithContact(callback: (ArrayList<BlockedNumber>) ->
             val id = cursor.getLongValue(BlockedNumbers.COLUMN_ID)
             val number = cursor.getStringValue(BlockedNumbers.COLUMN_ORIGINAL_NUMBER) ?: ""
             val normalizedNumber = cursor.getStringValue(BlockedNumbers.COLUMN_E164_NUMBER) ?: number
-            val comparableNumber = normalizeDigitsOnly(normalizedNumber)
+            // U masky (*, ?, !) je "srovnatelné číslo" přímo text masky, aby nikdy náhodou nevyšlo jako reálné
+            // číslo (normalizeDigitsOnly by z "+420?" udělalo "+420"); masce se nehledá jméno v kontaktech.
+            val isMask = number.isAnyBlockedNumberMask()
+            val comparableNumber = if (isMask) number else normalizeDigitsOnly(normalizedNumber)
 
-            val contactName = contacts[comparableNumber]
+            val contactName = if (isMask) null else contacts[comparableNumber]
             val blockedNumber = BlockedNumber(id, number, normalizedNumber, comparableNumber, contactName)
             blockedNumbers.add(blockedNumber)
         }
@@ -342,7 +362,8 @@ fun Context.getBlockedNumbers(): ArrayList<BlockedNumber> {
         val id = cursor.getLongValue(BlockedNumbers.COLUMN_ID)
         val number = cursor.getStringValue(BlockedNumbers.COLUMN_ORIGINAL_NUMBER) ?: ""
         val normalizedNumber = cursor.getStringValue(BlockedNumbers.COLUMN_E164_NUMBER) ?: number
-        val comparableNumber = normalizeDigitsOnly(normalizedNumber)
+        // U masky (*, ?, !) je "srovnatelné číslo" přímo text masky (viz getBlockedNumbersWithContact)
+        val comparableNumber = if (number.isAnyBlockedNumberMask()) number else normalizeDigitsOnly(normalizedNumber)
         val blockedNumber = BlockedNumber(id, number, normalizedNumber, comparableNumber)
         blockedNumbers.add(blockedNumber)
     }
@@ -352,7 +373,7 @@ fun Context.getBlockedNumbers(): ArrayList<BlockedNumber> {
 
 @TargetApi(Build.VERSION_CODES.N)
 fun Context.addBlockedNumber(number: String): Boolean {
-    val isPattern = number.isBlockedNumberPattern() || '*' in number || '?' in number
+    val isPattern = number.isAnyBlockedNumberMask()
     return addBlockedNumber(number, isPattern)
 }
 
@@ -361,9 +382,12 @@ fun Context.addBlockedNumber(number: String, isPattern: Boolean): Boolean {
     val value = number.trim()
     if (value.isEmpty()) return false
 
+    // maska (*, ?, nebo negativní !...) se nikdy nesmí uložit jako "přesné číslo", ani když volající pošle isPattern=false
+    val storeAsPattern = isPattern || value.isAnyBlockedNumberMask()
+
     ContentValues().apply {
-        if (isPattern) {
-            // Masku musíme uložit přesně. normalizeDigitsOnly() by odstranilo * / ? / +.
+        if (storeAsPattern) {
+            // Masku musíme uložit přesně. normalizeDigitsOnly() by odstranilo ? / ! a u "+" na začátku bez * i to.
             put(BlockedNumbers.COLUMN_ORIGINAL_NUMBER, value)
         } else {
             val normalizedOriginal = normalizeDigitsOnly(value)
@@ -387,57 +411,107 @@ fun Context.addBlockedNumber(number: String, isPattern: Boolean): Boolean {
 
 @TargetApi(Build.VERSION_CODES.N)
 fun Context.deleteBlockedNumber(number: String): Boolean {
+    // bez role výchozího dialeru provider přístup odmítne -> není co mazat (stejné chování jako dřív)
+    if (!isNougatPlus() || !isDefaultDialer()) return true
+
+    // Maže se přímo podle uloženého textu. Dřívější předkontrola přes isNumberBlocked() u masek nefunguje
+    // (maska "!+420*" ani "+420?" není "zablokované číslo"), smazání by se tiše přeskočilo.
     val selection = "${BlockedNumbers.COLUMN_ORIGINAL_NUMBER} = ?"
-    val selectionArgs = arrayOf(number)
-
-    return if (isNumberBlocked(number)) {
-        val deletedRowCount = contentResolver.delete(BlockedNumbers.CONTENT_URI, selection, selectionArgs)
-
-        deletedRowCount > 0
-    } else {
-        true
+    val deletedRowCount = try {
+        contentResolver.delete(BlockedNumbers.CONTENT_URI, selection, arrayOf(number))
+    } catch (e: Exception) {
+        showErrorToast(e)
+        return false
     }
+    if (deletedRowCount > 0) return true
+
+    // nic se nesmazalo: v pořádku jen tehdy, když záznam v seznamu už není
+    return getBlockedNumbers().none { it.number == number }
 }
 
-fun Context.isNumberBlocked(number: String, blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers()): Boolean {
+/**
+ * @param region ISO kód země SIM, přes kterou hovor přichází (viz PhoneNumberHelper.resolveRegion);
+ *               null = region z jazyka telefonu (nespolehlivé, jen záchrana).
+ * @param includeNegativeRules false = negativní pravidla ("!+420*") se přeskočí (např. u odchozích hovorů).
+ */
+fun Context.isNumberBlocked(
+    number: String,
+    blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers(),
+    region: String? = null,
+    includeNegativeRules: Boolean = true,
+): Boolean {
     if (!isNougatPlus())  return false
     if (number.isBlank()) return false
 
     val numberToCompare = normalizeDigitsOnly(number)
-    val normalizeE164 = normalizeNumberE164(number, null, false)
+    val normalizeE164 = normalizeNumberE164(number, region, false)
 
-    return blockedNumbers.any {
+    // Přesné shody jen u přesných čísel. Masky (*, ?, !...) se vyhodnocují zvlášť v isNumberBlockedByPattern();
+    // jejich uložený text ani e164 sloupec (provider ho může dopočítat i z "+420602123456?") se s číslem srovnávat nesmí.
+    val exactMatch = blockedNumbers.any {
+        !it.number.isAnyBlockedNumberMask() && (
             normalizeE164 == it.normalizedNumber ||
             numberToCompare == it.numberToCompare ||
             numberToCompare == it.number ||
             number == it.number
-    } || isNumberBlockedByPattern(number, blockedNumbers)
+        )
+    }
+
+    return exactMatch || isNumberBlockedByPattern(number, blockedNumbers, region, includeNegativeRules)
 }
 
+/**
+ * Masky (*, ?) blokují, když číslo na masku sedí. Negativní pravidla ("!" + maska, např. "!+420*")
+ * fungují jako whitelist: číslo se zablokuje, když nesedí na ŽÁDNÉ negativní pravidlo.
+ * Negativní pravidla se vyhodnocují jen u čísel, která jdou převést na E.164 (jinak se číslo pustí).
+ * Skrytá čísla sem nikdy nepřijdou (řeší je jen vlastní přepínač).
+ */
 fun Context.isNumberBlockedByPattern(
     number: String,
     blockedNumbers: ArrayList<BlockedNumber> = getBlockedNumbers(),
+    region: String? = null,
+    includeNegativeRules: Boolean = true,
 ): Boolean {
     if (number.isBlank()) return false
+
+    // E.164 jen když je číslo platné pro daný region, jinak null ("nejde převést", nic se nedomýšlí)
+    val e164 = toE164OrNull(number, region)
 
     // Zkusíme původní Caller ID i normalizované varianty. Maska s + tak funguje
     // proti E.164, maska bez + zase proti čistým číslicím.
     val candidates = LinkedHashSet<String>().apply {
         add(number)
         normalizeDigitsOnly(number).takeIf { it.isNotEmpty() }?.let(::add)
-        normalizeNumberE164(number, null, false).takeIf { it.isNotEmpty() }?.let(::add)
+        e164?.let(::add)
     }
+
+    val negativeRegexes = ArrayList<Regex>()
 
     for (blockedNumber in blockedNumbers) {
         val mask = blockedNumber.number
-        if (mask.isBlockedNumberPattern() || '*' in mask || '?' in mask) {
-            val regex = blockedNumberMaskToRegex(mask)
-            if (candidates.any(regex::matches)) {
-                return true
+        when {
+            mask.isNegativeBlockedNumberMask() -> {
+                // maska za "!" (bez vykřičníku); prázdná = neplatné pravidlo, ignoruje se
+                val body = mask.substring(1).trim()
+                if (body.isNotEmpty()) negativeRegexes.add(blockedNumberMaskToRegex(body))
+            }
+
+            mask.isBlockedNumberPattern() || '*' in mask || '?' in mask -> {
+                val regex = blockedNumberMaskToRegex(mask)
+                if (candidates.any(regex::matches)) {
+                    return true
+                }
             }
         }
     }
-    return false
+
+    if (!includeNegativeRules || negativeRegexes.isEmpty()) return false
+
+    // číslo nejde převést na E.164 (krátké / servisní / neplatné) -> negativní pravidla se na něj nevztahují
+    if (e164 == null) return false
+
+    // whitelist: zablokovat, pokud číslo nesedí na žádné negativní pravidlo
+    return negativeRegexes.none { regex -> candidates.any(regex::matches) }
 }
     private fun blockedNumberMaskToRegex(mask: String): Regex {
         val regex = buildString {
@@ -455,10 +529,8 @@ fun Context.isNumberBlockedByPattern(
     }
 
 
-fun Context.copyToClipboard(text: String, bToast: Boolean = true) {
-    val clip = ClipData.newPlainText(MY_APP_NAME_GOOGLE_ID, text)
-    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(clip)
-//    val toastText = String.format(getString(R.string.value_copied_to_clipboard_show), text)
+fun Context.copyToClipboard(text: String, bToast: Boolean = true, label: String = MY_APP_NAME_GOOGLE_ID) {
+    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(label, text))
     if (bToast) toast(getString(R.string.value_copied_to_clipboard_show))
 }
 
@@ -522,6 +594,36 @@ fun Context.getTempFile(folderName: String, filename: String): File? {
     return File(folder, filename)
 }
 
+
+/**
+* Region (ISO 3166-1 alpha-2, velkými písmeny) pro vyložení národních čísel hovoru, jedno místo pro blokování
+* i zobrazení (vlajka). Pořadí: SIM přijímající hovor -> síť této SIM -> výchozí SIM / síť telefonu
+* (jen když konkrétní SIM nejde určit, např. handle == null) -> jazyk telefonu jako poslední záchrana.
+*
+* Kódy ze systému jsou malými písmeny, PhoneNumberHelper.resolveRegion() je převede a neznámé zahodí.
+* Při chybě (např. SecurityException bez READ_PHONE_STATE) se spadne na jazyk telefonu.
+*/
+
+fun Context.getCallRegion(handle: PhoneAccountHandle? = null): String {
+    return try {
+        val telephony = getSystemService(TelephonyManager::class.java)
+        val perSim = if (telephony != null && handle != null) { //&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            telephony.createForPhoneAccountHandle(handle)
+        } else {
+            null
+        }
+
+        PhoneNumberHelper.resolveRegion(
+            perSim?.simCountryIso,
+            perSim?.networkCountryIso,
+            telephony?.simCountryIso,
+            telephony?.networkCountryIso,
+        )
+    } catch (_: Exception) {
+        PhoneNumberHelper.resolveRegion()
+    }
+}
+
 fun Context.openDeviceSettings() {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
         data = Uri.fromParts("package", packageName, null)
@@ -532,10 +634,6 @@ fun Context.openDeviceSettings() {
     } catch (e: Exception) {
         showErrorToast(e)
     }
-}
-
-fun Context.canUseFullScreenIntent(): Boolean {
-    return !isUpsideDownCakePlus() || notificationManager.canUseFullScreenIntent()
 }
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -557,7 +655,7 @@ fun Context.openFullScreenIntentSettings(appId: String) {
 fun Context.isAppInstalled(packageName: String): Boolean {
     val pm = this.packageManager
     return try {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (isTiramisuPlus()) {
             pm.getApplicationInfo(packageName, PackageManager.ApplicationInfoFlags.of(0))
         } else {
             @Suppress("DEPRECATION")

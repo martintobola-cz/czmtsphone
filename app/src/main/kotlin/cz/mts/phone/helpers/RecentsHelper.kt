@@ -7,7 +7,6 @@ import android.provider.CallLog.Calls
 import android.provider.CallLog.Calls.PRESENTATION_UNAVAILABLE
 import android.provider.CallLog.Calls.PRESENTATION_UNKNOWN
 import cz.mts.base.extensions.*
-import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PERMISSION_READ_CALL_LOG
 import cz.mts.base.helpers.PERMISSION_WRITE_CALL_LOG
@@ -428,10 +427,10 @@ class RecentsHelper(private val context: Context) {
                 val summary = "Imported: $imported, Failed: $failed (total $total)"
 
                 if (failed > 0) {
-                    copyTextToClipboard(
-                        activity,
-                        "Import",
-                        summary + errorInfo.toString()
+                    activity.copyToClipboard(
+                        summary + errorInfo.toString(),
+                        false,
+                        "Import"
                     )
                 }
 

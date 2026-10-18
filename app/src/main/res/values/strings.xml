@@ -3,7 +3,8 @@
 <string name="app_launcher_name">MTS Dialer</string>
 
 <string name="recents_still_loading">You have to wait until the entire history loads...</string>
-
+<string name="is_spam_call">Probably a spam call</string>
+<string name="blocked_calls_mts">Blocked calls</string>
 
 <string name="transfers">Transfers</string>
 <string name="transfer_import">Import 📦→📱</string>

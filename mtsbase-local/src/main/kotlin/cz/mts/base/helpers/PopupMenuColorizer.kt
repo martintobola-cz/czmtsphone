@@ -16,6 +16,18 @@ import cz.mts.base.extensions.copyToClipboard
 import cz.mts.base.extensions.toast
 import kotlin.math.roundToInt
 
+
+//val colorWhenSelectItem = blendColors(backgroundColor, ContextCompat.getColor(activity, R.color.activated_item_foreground))
+//val colorSearchBar = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA))
+//o chlup sytější barva, aby byl action bar lépe vidět a odlišil barvu od pulldown menu
+//val colorSearchBar2 = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA), 2f)
+
+
+// pozor!! popup menu pozadí zde má adjustColor(), takže nesedí přesně s customization activity popupMenuBackgroundColorId
+// je to proto, aby bylo rozevřené mene lépe vidět!!!
+
+//tuto třídu vůbec nevyužívá Danymic (you), tam se colorizer disabluje a čtou se vždy živé aktuální barvy!!!
+
 object PopupMenuColorizer {
 
     private fun debugReport(context: Context, message: String, debug: Boolean): String {

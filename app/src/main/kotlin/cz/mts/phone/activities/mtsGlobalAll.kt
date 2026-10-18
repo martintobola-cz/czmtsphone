@@ -9,7 +9,6 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
-import android.telecom.TelecomManager
 import android.telephony.SubscriptionManager
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -28,9 +27,7 @@ import androidx.core.content.ContextCompat
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
-import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
 import cz.mts.base.helpers.MySIMcountryISO
-import cz.mts.base.helpers.PERMISSION_CALL_PHONE
 import cz.mts.base.helpers.PhoneNumberHelper.getCountryWithFlag
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
@@ -40,15 +37,8 @@ import cz.mts.phone.R
 import cz.mts.phone.extensions.areMultipleSIMsAvailable
 import cz.mts.phone.extensions.getAvailableSIMCardLabels
 import cz.mts.phone.extensions.startContactDetailsIntentID
-import cz.mts.phone.extensions.telephonyService
-import cz.mts.phone.helpers.AppUpdateNotificationManager
-import cz.mts.phone.helpers.checkCustomSimMts
-import cz.mts.phone.helpers.checkNumberForRating
-import cz.mts.phone.helpers.getCallContact
-import cz.mts.phone.helpers.getCallFilterInfo
-import cz.mts.phone.helpers.openSpamNumberWeb
-import cz.mts.phone.helpers.removeCustomSimMts
-import cz.mts.phone.helpers.saveCustomSimMts
+import cz.mts.phone.extensions.telecomManager2
+import cz.mts.phone.helpers.*
 import cz.mts.phone.models.RecentCall
 import java.text.Normalizer
 import cz.mts.base.extensions.baseConfig as config
@@ -163,46 +153,27 @@ object mtsGlobalAll {
     }
 
 
-    //context musí být typu Activity!! jinak crash...
-    fun showMyAlertDialog(context: Context, sMytext: String, sMyTitle: String, bShowTitle: Boolean, iButtonText: Int) {
-
-      val sButtontext = when (iButtonText){
-           0 -> context.getString(R.string.dialog_ok)
-          else -> context.getString(R.string.dialog_close)
-      }
-
-      if (bShowTitle) {
-          AlertDialog.Builder(context)
-              .setTitle(sMyTitle)
-              .setMessage(sMytext)
-              .setPositiveButton(sButtontext) { dialog, _ -> dialog.dismiss() }
-              .show()
-      } else {
-          AlertDialog.Builder(context)
-              .setMessage(sMytext)
-              .setPositiveButton(sButtontext) { dialog, _ -> dialog.dismiss() }
-              .show()
-      }
-    }
-    fun showIMEIDialog(context: Context) {
-      try {
-            val telephonyService = context.telephonyService
-            val imeiList = mutableListOf<String>()
-            val slotCount =  telephonyService.phoneCount
-            for (slotIndex in 0 until slotCount) {
-                val imei = telephonyService.getImei(slotIndex)
-                imei?.let {
-                    val text = "SIM ${slotIndex + 1}:  $imei"
-                    imeiList.add(text)
-                }
-            }
-             if (imeiList.isEmpty()) {
-                 imeiList.add(context.getString(R.string.none_simslot2_mts))
-            }
-          showMyAlertDialog(context, imeiList.joinToString("\n"), "IMEI", true, 0)
-        } catch (e: Exception) {
-          showMyAlertDialog(context, e.message.toString(), "IMEI", true, 0)
+    fun showMyAlertDialog(
+        context: Context,
+        sMytext: String,
+        sMyTitle: String,
+        bShowTitle: Boolean,
+        iButtonText: Int,
+        onOk: (() -> Unit)? = null
+    ) {
+        val sButtontext = when (iButtonText) {
+            0 -> context.getString(R.string.dialog_ok)
+            else -> context.getString(R.string.dialog_close)
         }
+
+        val builder = AlertDialog.Builder(context)
+            .setMessage(sMytext)
+            .setPositiveButton(sButtontext) { dialog, _ ->
+                dialog.dismiss()
+                onOk?.invoke()
+            }
+        if (bShowTitle) builder.setTitle(sMyTitle)
+        builder.show()
     }
 
     //zde pokud v iSimSlot bude 1 nebo 2 jde o funkcionalitu "volej poslední volané číslo z dialeru" a jde o číslo SIM
@@ -278,7 +249,7 @@ object mtsGlobalAll {
             //1. vstupní bod - volání přes dialer ručně vyťukáním čísla anebo URI intentem předaným jinou aplikací
             if (bShowDialog) mtsCallShowDialog(activity, true, true, onDismiss = { onDismiss?.invoke() })
             else {
-                callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
+                CallHelper.callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
                 onDismiss?.invoke()
             }
         }
@@ -355,7 +326,7 @@ object mtsGlobalAll {
 
         //2. bod volání z recents
         if ((activity.config.showCallConfirmation) || (bShowDialog)) mtsCallShowDialog(activity, true, true)
-        else callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
+        else CallHelper.callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
     }
 
     fun showNumberPickerDialog(
@@ -430,7 +401,7 @@ object mtsGlobalAll {
         //3. bod z kontaktů
         if ((activity.config.showCallConfirmation) || (bShowDialog) || (count > 1))  mtsCallShowDialog(activity, true, false, onDismiss = { onDismiss?.invoke() })
         else {
-            callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
+            CallHelper.callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
             onDismiss?.invoke()
         }
     }
@@ -685,7 +656,8 @@ object mtsGlobalAll {
             simIconTwo.visibility = View.GONE
             sim2Info.text = ""
             country.visibility = View.VISIBLE
-            country.text = getCountryWithFlag(mtsGlobalAll.sSaveNumber)
+            val handleOfRecent: PhoneAccountHandle? = if (mtsGlobalAll.iSaveSim in 0..1) handleActiveSimSlot[mtsGlobalAll.iSaveSim] else null
+            country.text = getCountryWithFlag(mtsGlobalAll.sSaveNumber, activity.getCallRegion(handleOfRecent))
             drawSim(simIcon, simInfo,  mtsGlobalAll.iSaveSim,iProperTextColor, false)
 
             //neuložené číslo, nevyskytující se v kontaktech
@@ -694,7 +666,7 @@ object mtsGlobalAll {
                     if (result != null) {
                         val sSpamPin = checkNumberForRating(result, mtsGlobalAll.sSaveNumber, true)
                         if (spamrating.isAttachedToWindow) {
-                            spamrating.text = sSpamPin
+                            spamrating.text = sSpamPin.text
                             spamrating.visibility = View.VISIBLE
                             spamrating.setOnClickListener {
                                 openSpamNumberWeb(activity, mtsGlobalAll.sSaveNumber)
@@ -807,7 +779,7 @@ object mtsGlobalAll {
             if (bEvasControlMode) {
                // klik znamená volání z SIM1 a né přepínání SIMek
                 dialog.dismiss()
-                callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, 0)
+                CallHelper.callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, 0)
             }
             else if ((bDoCall) && (iActiveSimSlot[0] == 1) && (iActiveSimSlot[1] == 1)) {
                     if (mtsGlobalAll.iSaveSim == 0) mtsGlobalAll.iSaveSim = 1
@@ -832,11 +804,11 @@ object mtsGlobalAll {
             if (bEvasControlMode) {
                 // klik znamená volání z druhé simky v bEvasControlMode
                 dialog.dismiss()
-                callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, 1)
+                CallHelper.callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, 1)
             } else {
                 dialog.dismiss()
                 //pokud není žádná aktivní SIM tak pouze zde je v iSaveSim -1
-                callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
+                CallHelper.callNumber(activity, mtsGlobalAll.sSaveNumber, mtsGlobalAll.sSaveName, mtsGlobalAll.iSaveSim)
             }
         }
 
@@ -969,108 +941,6 @@ object mtsGlobalAll {
         if (sNumber.isNotBlank()) activity.launchSendSMSIntent( normalizeDigitsOnly(sNumber))
     }
 
-        private fun callNumber(activity: BaseSimpleActivity, sNumber: String, name: String, iSimSlot: Int) {
-
-        resetVars()
-
-        if (sNumber == "*#06#") {
-            showIMEIDialog(activity)
-            return
-        }
-
-        val number = sNumber  //MTSXXX TODO normalizovat, zkontrolovat?????
-
-        if (number.isEmpty()) {
-            val sBody = activity.getString(R.string.call_error1_number_mts) + " " + activity.getString(R.string.call_empty_string_mts)
-            showMyAlertDialog(activity, sBody, "Error", true, 0)
-            return
-        }
-
-        if (iSimSlot > 1) {
-            showMyAlertDialog(activity, "index_call_ID > 1 ", "SIM error", true, 0)
-            return
-        }
-
-      //  if (iSimSlot < 0)
-      //  {
-      //      showMyAlertDialog(activity, "Sim slot < 0 ", "SIM error", true, 0)
-      //      return
-      //  }
-
-        if (activity.isNumberBlocked(number, activity.getBlockedNumbers())) {
-            val sTitle = activity.getString(R.string.call_error1_title_mts)
-            val sBody = activity.getString(R.string.call_error1_text_mts)
-            showMyAlertDialog(activity, "\n" + activity.getString(R.string.call_error1_number_mts) + " " + numberForRecents(number,  activity.config.formatPhoneNumbers) + " " +  sBody, sTitle, true, 0)
-            return
-        }
-
-      //  && (isAnySimReady(activity, false)
-      if ( (numberOfReadySim(activity) > 0) && (iSimSlot >= 0) ) {
-
-        val handleForCall = handleActiveSimSlot[iSimSlot]
-        //požadovaný simslot a jeho handle je dostupný
-        if ((iActiveSimSlot[iSimSlot] == 1) && (handleForCall != null)) {
-
-       //     val useSimOne: Boolean = when (iSimSlot) {
-       //         0 -> true
-       //         else -> false
-       //     }
-
-            var sHelpText = "( " + iSimSlot.toString() +  " index_call_ID )"
-
-            if (iActiveSimSlot[0] == 1) {
-                sHelpText += "\n\nindex_call_ID: 0\nhandle_id = " + sActiveSimSlotID[0] +
-                    "\nidreal: " + iActiveSimSlotIDreal[0].toString() +
-                    "\nnumber: " + sActiveSimSlotPhoneNumber[0] +
-                    "\noperator: " + sActiveSimSlotOperator[0] +
-                    "\nlabel: " + sActiveSimSlotLabel[0] +
-                    "\ncolor: " + iActiveSimSlotColor[0].toString() +
-                    "\ncountry: " + sActiveSimSlotCountry[0] +
-                    "\nhandle: " + (handleActiveSimSlot[0].toString())
-            }
-
-            if (iActiveSimSlot[1] == 1) {
-                sHelpText += "\n\nindex_call_ID: 1\nhandle_id = " + sActiveSimSlotID[1] +
-                    "\nidreal: " + iActiveSimSlotIDreal[1].toString() +
-                    "\nnumber: " + sActiveSimSlotPhoneNumber[1] +
-                    "\noperator: " + sActiveSimSlotOperator[1] +
-                    "\nlabel: " + sActiveSimSlotLabel[1] +
-                    "\ncolor: " + iActiveSimSlotColor[1].toString() +
-                    "\ncountry: " + sActiveSimSlotCountry[1] +
-                    "\nhandle: " + (handleActiveSimSlot[1].toString())
-            }
-
-
-            if (iSaveDebugMode == 1) {
-
-                var defaultHandle: PhoneAccountHandle? = null
-                try {defaultHandle = activity.telecomManager.getDefaultOutgoingPhoneAccount(PhoneAccount.SCHEME_TEL) }
-                catch (e : Exception) {}
-
-                val defaultVoiceID = "\n\ndefault voice: " + SubscriptionManager.getDefaultVoiceSubscriptionId()
-                val defaultOutgoingID = if (defaultHandle != null) "\ndefault OUT: " + defaultHandle.id
-                                        else ""
-
-                showMyAlertDialog(
-                    activity,
-                    sHelpText + defaultVoiceID + defaultOutgoingID,
-                    "Volám... " + number,
-                    true,
-                    0
-                )
-            }
-            else activity.launchCallIntentNew(number, handleForCall) //activity.callContactWithSim(number, useSimOne)
-
-        }  else { //požadovaný simslot není dostupný
-            showMyAlertDialog(activity, "index_call_ID " + (iSimSlot).toString() + " not ready !" , "Error", true, 0)
-            }
-
-      } else {
-            showMyAlertDialog(activity, activity.getString(R.string.none_simslot_mts), "SIM", true, 0)
-      }
-
-    }
-
 
   //  Hodnota	Význam
   //  0	Výchozí SIM1
@@ -1087,7 +957,7 @@ object mtsGlobalAll {
         else if (iSimActiveCount == 1) return iActiveSimSlot.indexOf(1) //jen jedna SIM
 
         var defaultHandle: PhoneAccountHandle? = null
-        try {defaultHandle = activity.telecomManager.getDefaultOutgoingPhoneAccount(PhoneAccount.SCHEME_TEL) }
+        try {defaultHandle = activity.telecomManager2.getDefaultOutgoingPhoneAccount(PhoneAccount.SCHEME_TEL) }
         catch (e : Exception) {}
 
         //máme více SIM v telefonu
@@ -1265,7 +1135,7 @@ object mtsGlobalAll {
 
 
 
-    fun drawSim(imageView: ImageView, tw: TextView?, iSimSlot: Int, ifallBackColor: Int, bDoCalltype: Boolean) {
+    fun drawSim(imageView: ImageView, tw: TextView?, iSimSlot: Int, ifallBackColor: Int, bDoCalltype: Boolean) : String {
 
         // Vyber správnou ikonu podle SIM slotu
         val iconRes = when (iSimSlot) {
@@ -1303,8 +1173,11 @@ object mtsGlobalAll {
             } catch (e: Exception) {}
         }
 
-        if (iconRes == R.drawable.ic_sim_alert) return
+        if (iconRes == R.drawable.ic_sim_alert) return ""
         if (bOnlyOneSimAvailable) imageView.visibility = View.GONE
+
+        return if (iSimSlot in 0..1)  sActiveSimSlotCountry[iSimSlot]
+               else ""
     }
 
 
@@ -1374,26 +1247,6 @@ fun newsnotify(activity: BaseSimpleActivity) {
         return false
     }
 
-    fun BaseSimpleActivity.launchCallIntentNew(recipient: String, handle: PhoneAccountHandle? = null) {
-        handlePermission(PERMISSION_CALL_PHONE) {
-            val action = if (it) Intent.ACTION_CALL else Intent.ACTION_DIAL
-            Intent(action).apply {
-                data = Uri.fromParts("tel", recipient, null)
-
-                if (handle != null) {
-                    putExtra(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, handle)
-                }
-
-                if (isDefaultDialer()) {
-                    val packageName = if (config.appId.contains(".debug", true)) MY_APP_NAME_GOOGLE_ID+".debug" else MY_APP_NAME_GOOGLE_ID
-                    val className = MY_APP_NAME_GOOGLE_ID+".activities.DialerActivity"
-                    setClassName(packageName, className)
-                }
-
-                launchActivityIntent(this)
-            }
-        }
-    }
 
 
 }

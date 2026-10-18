@@ -161,6 +161,7 @@
 
         <activity
             android:name=".activities.DialpadActivity"
+            android:launchMode="singleTop"
             android:exported="true"
             android:label="@string/dialpad"
             android:parentActivityName=".activities.MainActivity"
@@ -206,7 +207,6 @@
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/dialer"
-            android:launchMode="singleTop"
             android:theme="@style/Theme.Transparent">
 
             <intent-filter>
@@ -253,6 +253,12 @@
             android:name=".receivers.MissedCallDismissReceiver"
             android:enabled="true"
             android:exported="false" />
+
+        <receiver
+    android:name=".receivers.BlockedCallDismissReceiver"
+    android:enabled="true"
+    android:exported="false" />
+
 
 <receiver
     android:name=".receivers.ShowMissedCallsReceiver"

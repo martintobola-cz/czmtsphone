@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dialer rules (EN)</title>
+<style>
+:root{--bg:#fff;--fg:#1d2330;--mut:#667;--bd:#d8dce6;--hd:#eef1f7;--ac:#2557d6;--ok:#e3f5e8;--okf:#13602b;--ko:#fde8e8;--kof:#9b1c1c;--cd:#f4f5f8}
+@media(prefers-color-scheme:dark){:root{--bg:#14171f;--fg:#e4e7ee;--mut:#9aa1b3;--bd:#2c3242;--hd:#202636;--ac:#8fb0ff;--ok:#16301f;--okf:#7fdc9c;--ko:#3a1c1e;--kof:#ff9a9a;--cd:#1c2130}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px}
+h1{font-size:24px;border-bottom:3px solid var(--ac);padding-bottom:6px;margin-top:48px}
+h1:first-child{margin-top:0}
+h2{font-size:17px;margin:28px 0 8px;color:var(--ac)}
+h3{font-size:14px;margin:18px 0 6px}
+code{background:var(--cd);padding:1px 5px;border-radius:4px;font-size:13px}
+.w{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid var(--bd);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:var(--hd)}
+td.s{background:var(--hd);font-weight:600}
+td.p{background:var(--ok);color:var(--okf)}
+td.b{background:var(--ko);color:var(--kof)}
+.n{color:var(--mut);font-size:13px}
+.box{background:var(--cd);border-left:4px solid var(--ac);padding:8px 12px;border-radius:4px}
+</style></head><body><main>
+
+<h1>cz.mts.phone number-blocking rules</h1>
+
+<h2>1. What can be added to the blocked items list</h2>
+<ul>
+<li><b>a) exact number</b> – <code>602123456</code>, <code>+420602123456</code></li>
+<li><b>b) mask</b> – <code>+420602*</code> (<code>*</code> = any number of characters, <code>?</code> = exactly one)</li>
+<li><b>c) negative rule</b> – <code>!mask</code>, e.g. <code>!+420*</code> = block everything that does NOT start with +420</li>
+</ul>
+<p><b>Entries are stored as text in the system blocked-number store (BlockedNumberContract)</b>. The system never matches masks and negative rules against a real number (it only compares equality); they are evaluated exclusively by the app <code>cz.mts.phone</code>.</p>
+
+<h2>2. Evaluation order for an incoming call</h2>
+<ol>
+<li><b>Hidden number (no number):</b> only when "block calls for hidden numbers" or "block calls from numbers not in conatcts" is ON. The blocked list and negative rules do not apply.</li>
+<li><b>Blocked list.</b> Blocking ALWAYS !!! (even if the number is in the contacts):
+<ul><li> exact match with a stored number → block</li>
+<li> match with a positive mask (<code>*</code> <code>?</code>) → block</li>
+<li> negative rules → block if the number matches none of them</li></ul></li>
+<li><b>"Block calls from numbers not in conatcts" switch:</b> blocks every number that is not in contacts.</li>
+<li>Otherwise the call goes through.</li>
+</ol>
+
+<h2>3. Negative rules <code> ! </code></h2>
+<ul>
+<li>Syntax: <code> !</code>  always in first position, followed by a mask. The mask after <code> !</code>  behaves like a regular mask.</li>
+<li>Multiple negative rules → the number is blocked only if it matches NONE of them. Example: <code>!+49*</code> and <code>!+420*</code> let +49… and +420… through, everything else is blocked.</li>
+<li>The number is compared in three forms:
+<br>a) as received;
+<br>b) digits only (with a leading "+" if there was one);
+<br>c) E.164 (with country code number), if the libphonenumber library could validly convert it.</li>
+<li>Negative rules are evaluated ONLY for numbers that libphonenumber can validly convert to E.164. <b>What cannot be converted is not blocked and goes through:</b> short and service numbers, codes like <code>*123#</code>, invalid numbers (including invalid numbers starting with +), spoofed numbers.</li>
+<li>An exact number and a positive mask take precedence over a negative rule. A number matching them is blocked even if a negative rule would let it through.</li>
+<li><b>Outgoing calls: negative rules are not applied</b>. Exact numbers and positive masks apply to outgoing calls as before = a dialog is shown saying the number is blocked and the call cannot be made.</li>
+<li>The prefix 00 is not converted manually. If the region is known (see section 4), it is converted to "+" automatically. If the region is not known, the number "cannot be converted" and goes through. You can, however, create an additional rule for the 00 form, e.g. <code>!00420*</code>.</li>
+</ul>
+
+<h2>4. Region (how the country code is determined for numbers not starting with "+")</h2>
+<p>Order:</p>
+<ol>
+<li>country stored in the SIM that receives the call</li>
+<li>country of that SIM's network</li>
+<li>default SIM / phone network (only when the specific SIM cannot be determined)</li>
+<li>phone language – last resort</li>
+</ol>
+<p>Of course, for numbers with "+" in first position the region does not need to be determined.</p>
+<p>The phone language can therefore only come into play when the SIM cannot be determined (accountHandle == null, missing READ_PHONE_STATE permission …), which in practice will probably never happen…</p>
+
+<h2>5. Entry in the dialog and import</h2>
+<p>Allowed: digits, <code>*</code>, <code>?</code>, <code>+</code> (only at the start or right after <code>!</code>), <code>!</code> (only as the first character). Other characters are discarded. A negative rule must contain at least one digit (otherwise e.g. "!?" would block almost everything). The JSON import performs the same check. An entry with "!" is treated as a mask (type "pattern") on both import and export.</p>
+
+<h2>6. Known limitations</h2>
+<ul>
+<li>A number that libphonenumber considers invalid (wrong digit count, a spoof such as +1 555 555 0123) is not blocked by negative rules. Positive masks do catch it (example D in the table).</li>
+<li>When the region cannot be determined (see section 4), numbers written nationally or with 00 go through because they are not converted. Language "en" without a country behaves like en_US.</li>
+<li>Deleting and saving masks containing <code>* ? !</code> in the system store is somewhat fragile: it depends on the specific vendor's implementation, and it may happen that they cannot be inserted into the store at all.</li>
+</ul>
+
+<h2>7. Table of examples</h2>
+<p><b>Scenario:</b> phone language EN (en_US), German SIM (+49), blocked list: <code>!+49*</code> <code>!+420*</code> (i.e. only German and Czech numbers pass, all others are blocked).</p>
+<ul>
+<li>Column "SIM DE" = normal state, region determined from the SIM (DE).</li>
+<li>Column "SIM unknown" = fallback, SIM could not be determined, region taken from the phone language (US).</li>
+<li>"!rule" = negative rule; "cannot convert" = the number could not be validly converted to E.164.</li>
+</ul>
+
+<div class="w"><table>
+<tr><th>#</th><th>Number (as received)</th><th>What it is</th><th>E.164 (SIM DE)</th><th>SIM DE</th><th>SIM unknown (region US)</th></tr>
+<tr><td class="s" colspan="6">A. International form (+), region irrelevant</td></tr>
+<tr><td>1</td><td>+4915123456789</td><td>German mobile</td><td>+4915123456789</td><td class="p">PASSES (matches !+49*)</td><td class="p">PASSES (matches !+49*)</td></tr>
+<tr><td>2</td><td>+493012345678</td><td>German landline (Berlin)</td><td>+493012345678</td><td class="p">PASSES (matches !+49*)</td><td class="p">PASSES (matches !+49*)</td></tr>
+<tr><td>3</td><td>+420602123456</td><td>Czech mobile</td><td>+420602123456</td><td class="p">PASSES (matches !+420*)</td><td class="p">PASSES (matches !+420*)</td></tr>
+<tr><td>4</td><td>+421905123456</td><td>Slovak mobile</td><td>+421905123456</td><td class="b">BLOCKED (matches no !rule)</td><td class="b">BLOCKED (matches no !rule)</td></tr>
+<tr><td>5</td><td>+436641234567</td><td>Austrian mobile</td><td>+436641234567</td><td class="b">BLOCKED (matches no !rule)</td><td class="b">BLOCKED (matches no !rule)</td></tr>
+<tr><td>6</td><td>+12125552368</td><td>USA (New York)</td><td>+12125552368</td><td class="b">BLOCKED (matches no !rule)</td><td class="b">BLOCKED (matches no !rule)</td></tr>
+<tr><td>7</td><td>+442071838750</td><td>United Kingdom (London)</td><td>+442071838750</td><td class="b">BLOCKED (matches no !rule)</td><td class="b">BLOCKED (matches no !rule)</td></tr>
+<tr><td>8</td><td>+80012345678</td><td>international toll-free (non-geographic)</td><td>+80012345678</td><td class="b">BLOCKED (matches no !rule)</td><td class="b">BLOCKED (matches no !rule)</td></tr>
+<tr><td class="s" colspan="6">B. National form without country code (SIM region decides)</td></tr>
+<tr><td>9</td><td>015123456789</td><td>German mobile, national</td><td>+4915123456789</td><td class="p">PASSES (matches !+49*)</td><td class="p">PASSES (cannot convert to E.164)</td></tr>
+<tr><td>10</td><td>03012345678</td><td>German landline, national</td><td>+493012345678</td><td class="p">PASSES (matches !+49*)</td><td class="p">PASSES (cannot convert to E.164)</td></tr>
+<tr><td class="s" colspan="6">C. Prefix 00 (SIM region decides)</td></tr>
+<tr><td>11</td><td>004915123456789</td><td>Germany with 00</td><td>+4915123456789</td><td class="p">PASSES (matches !+49*)</td><td class="p">PASSES (cannot convert to E.164)</td></tr>
+<tr><td>12</td><td>00420602123456</td><td>Czechia with 00</td><td>+420602123456</td><td class="p">PASSES (matches !+420*)</td><td class="p">PASSES (cannot convert to E.164)</td></tr>
+<tr><td>13</td><td>00436641234567</td><td>Austria with 00</td><td>+436641234567</td><td class="b">BLOCKED (matches no !rule)</td><td class="p">PASSES (cannot convert to E.164)</td></tr>
+<tr><td>14</td><td>0012125552368</td><td>USA with 00</td><td>+12125552368</td><td class="b">BLOCKED (matches no !rule)</td><td class="p">PASSES (cannot convert to E.164)</td></tr>
+<tr><td class="s" colspan="6">D. Cannot be validly converted to E.164</td></tr>
+<tr><td>15</td><td>112</td><td>short emergency number</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td>16</td><td>11880</td><td>short number (directory)</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td>17</td><td>*123#</td><td>service code</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td>18</td><td>+49151</td><td>invalid with +, too short</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td>19</td><td>+4915123456789012</td><td>invalid with +, too long</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td>20</td><td>+15555550123</td><td>spoofed US number (invalid)</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td>21</td><td>+999123456</td><td>non-existent country code</td><td>-</td><td class="p">PASSES (cannot convert)</td><td class="p">PASSES (cannot convert)</td></tr>
+<tr><td class="s" colspan="6">E. Other situations</td></tr>
+<tr><td>22</td><td>+12125552368</td><td>OUTGOING call to USA</td><td>+12125552368</td><td class="p">PASSES (outgoing: no negative rules)</td><td class="p">PASSES (outgoing: no negative rules)</td></tr>
+<tr><td>23</td><td>+436641234567</td><td>from Austria, caller IS in contacts (a)</td><td>+436641234567</td><td class="b">BLOCKED (matches no !rule)</td><td class="b">BLOCKED (matches no !rule)</td></tr>
+<tr><td>24</td><td>(hidden / no number)</td><td>number not shown (b)</td><td>-</td><td class="p">PASSES (hidden-numbers switch only)</td><td class="p">PASSES (hidden-numbers switch only)</td></tr>
+</table></div>
+
+<div class="box n"><b>Notes to the table:</b><br>
+(a) Contact row: blocking takes precedence over contacts; the number is blocked even if the caller is in contacts.<br>
+(b) Hidden numbers: negative rules do not apply, only the "block hidden / unknown" switch decides.<br>
+Rows 9–12: the result is the same in both columns, but for a different reason. With a known region the number is converted and matches the rule; in the fallback it is not converted at all and passes.<br>
+Rows 13 and 14: the only cases where the fallback gives a different result. With region US, "00…" is not converted (the international prefix in the USA is 011), so a number that should have been blocked passes.</div>
+
+<h2>8. Appendix: extra entries</h2>
+<p>Same scenario; the blocked list additionally contains: <code>+4917612345678</code> (exact number), <code>+49900*</code> (positive mask), <code>+420602*</code> (positive mask), together with <code>!+49*</code> and <code>!+420*</code>.</p>
+<div class="w"><table>
+<tr><th>#</th><th>Number</th><th>What it is</th><th>E.164 (SIM DE)</th><th>SIM DE</th><th>SIM unknown (region US)</th></tr>
+<tr><td>D1</td><td>+4917612345678</td><td>German mobile, stored exactly</td><td>+4917612345678</td><td class="b">BLOCKED (exact match)</td><td class="b">BLOCKED (exact match)</td></tr>
+<tr><td>D2</td><td>+4990012345678</td><td>German 0900 (invalid), mask +49900*</td><td>-</td><td class="b">BLOCKED (matches mask +49900*)</td><td class="b">BLOCKED (matches mask +49900*)</td></tr>
+<tr><td>D3</td><td>+420602123456</td><td>Czech mobile, mask +420602*</td><td>+420602123456</td><td class="b">BLOCKED (matches mask +420602*)</td><td class="b">BLOCKED (matches mask +420602*)</td></tr>
+<tr><td>D4</td><td>+420777123456</td><td>Czech mobile outside mask +420602*</td><td>+420777123456</td><td class="p">PASSES (matches !+420*)</td><td class="p">PASSES (matches !+420*)</td></tr>
+</table></div>
+
+
+</main></body></html>

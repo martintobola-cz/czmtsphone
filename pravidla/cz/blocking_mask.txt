@@ -1,0 +1,154 @@
+PRAVIDLA BLOKOVÁNÍ ČÍSEL V DIALERU
+==================================
+
+1. CO MŮŽE BÝT V SEZNAMU BLOKOVANÝCH
+-------------------------------------
+  a) přesné číslo          602123456, +420602123456
+  b) maska                 +420602*     (* = libovolný počet znaků, ? = právě jeden znak)
+  c) negativní pravidlo    !maska       např. !+420*  =  "blokuj vše, co NEzačíná +420"
+
+Záznamy se ukládají do systémového úložiště blokovaných čísel (BlockedNumberContract) jako text.
+Masky a negativní pravidla systém nikdy nespáruje s reálným číslem (porovnává jen rovnost),
+vyhodnocuje je výhradně aplikace cz.mts.phone
+
+
+2. POŘADÍ VYHODNOCENÍ PŘÍCHOZÍHO HOVORU
+---------------------------------------
+  1. Skryté číslo (žádné číslo): rozhoduje jen přepínač "blokovat skryté / neznámé".
+     Seznam ani negativní pravidla se ho netýkají.
+  2. Seznam blokovaných. Blokování má VŽDY přednost před uloženými kontakty:
+       a) přesná shoda s uloženým číslem            -> blokovat
+       b) shoda s pozitivní maskou (* ?)            -> blokovat
+       c) negativní pravidla                        -> blokovat, pokud číslo nesedí na žádné z nich
+  3. Přepínač "blokovat všechna čísla mimo uložené kontakty": blokuje všechna čísla, která nejsou v kontaktech.
+  4. Jinak hovor projde.
+
+
+3. NEGATIVNÍ PRAVIDLA (!)
+-------------------------
+  - Zápis: "!" vždy na první pozici, za ním následuje maska. Maska za "!" se chová stejně jako běžná maska.
+  - Více negativních pravidel -> číslo se zablokuje, jen když nesedí na ŽÁDNÉ z nich.
+    Příklad: !+49* a !+420* projdou +49... a +420..., vše ostatní se blokuje.
+  - Číslo se porovnává ve třech tvarech: 
+    a) tak, jak přišlo; 
+    b) jen číslice (s "+" na začátku, pokud bylo);
+    c) E.164 (+předvolba číslo), pokud jej knihovna libphonenumber platně dokázala převést
+  - Negativní pravidla se vyhodnocují JEN u čísel, která jdou knihovnou libphonenumber platně převést na E.164.
+    Co nejde převést, se nezablokuje a projde: krátká a servisní čísla, kódy typu *123#, neplatná čísla (i neplatná čísla začínající +), spoofnutá čísla.
+  - Přesné číslo a pozitivní maska mají přednost před negativním pravidlem. Číslo, které na ně sedí,se zablokuje i tehdy, když by ho negativní pravidlo pustilo.
+  - Odchozí hovory: negativní pravidla se nepoužijí (jinak by blokovala vlastní hovory do zahraničí).
+    Přesná čísla a pozitivní masky platí u odchozích hovorů jako dosud = zobrazí se dialog, že čísloje blokované a hovor tedy nelze provést
+  - Prefix 00 se ručně nepřevádí. Je-li znám region (bod 4), pak se převede se na "+" samo.
+    Není-li region znám, číslo "nejde převést" a projde. Je však možné vytvořit si další pravidlo i pro tvar zapsaný s 00, např. !00420*.
+
+
+4. REGION (jak zjišťuji předvolbu u čísel, která nepřijdou s "+" na začátku)
+--------------------------------------------------------------------------
+  Pořadí:
+    1. země uložená v SIM, která hovor přijímá
+    2. země sítě této SIM
+    3. výchozí SIM / síť telefonu (jen když konkrétní SIM nejde určit)
+    4. jazyk telefonu - poslední záchrana; 
+
+  U čísel s "+" na první pozici se region zjišťovat nemusí. 
+  
+  Jazyk telefonu se tedy může dostat ke slovu jen tehdy, 
+  když SIM nejde zjistit (accountHandle == null, chybí oprávnění READ_PHONE_STATE ...) 
+  což v praxi asi nikdy nenastane...
+ 
+
+5. ZADÁNÍ V DIALOGU A IMPORT
+----------------------------
+  Povoleno: číslice, *, ?, "+" (jen na začátku nebo hned za "!"), "!" (jen jako první znak).
+  Ostatní znaky se zahodí. Negativní pravidlo musí obsahovat aspoň jednu číslici (jinak by např. "!?"
+  blokovalo téměř všechno). Stejnou kontrolu dělá import JSON. Záznam s "!" se při importu i exportu
+  bere jako maska (typ "pattern").
+
+
+6. ZNÁMÁ OMEZENÍ
+----------------
+  - Číslo, které libphonenumber považuje za neplatné (špatný počet číslic, spoof jako +1 555 555 0123),
+    negativní pravidla nezablokují. Pozitivní masky ho ale zachytí (příklad D2 v dodatku).
+  - Když region nejde zjistit (viz bod 4), čísla zapsaná národně nebo s 00 projdou, protože se nepřevedou.
+    Jazyk "en" bez země se chová stejně jako en_US.
+  - Mazání a ukládání masek s * ? ! do systémovém úložišti je poěkud křehké, záleží totiž na
+    implementaci konkétního vendora a může se stát, že vůbec do úložiště nepůjdou vložit 
+
+
+7. TABULKA PŘÍKLADŮ
+-------------------
+Scénář:  telefon s jazykem EN (en_US), SIM německá (+49), v seznamu blokovaných:  !+49*   !+420*
+         (tj. projdou jen německá a česká čísla, ostatní se zablokují)
+Sloupec "SIM DE" = běžný stav, region se zjistil ze SIM (DE).
+Sloupec "SIM neznámá" = záchrana, SIM se nepodařilo určit, region se vezme z jazyka telefonu (US).
+"!pravidlo" = negativní pravidlo, 
+"nejde převést" = číslo se nepodařilo platně převést na E.164.
+
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| #    | Číslo (jak přijde)     | Co to je                                 | E.164 (SIM DE) | SIM DE                                     | SIM neznámá (region US)                    |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| A. Mezinárodní tvar (+), region nehraje roli                                                                                                                                        |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| 1    | +4915123456789         | německý mobil                            | +4915123456789 | PROJDE (sedí na !+49*)                     | PROJDE (sedí na !+49*)                     |
+| 2    | +493012345678          | německá pevná linka (Berlín)             | +493012345678  | PROJDE (sedí na !+49*)                     | PROJDE (sedí na !+49*)                     |
+| 3    | +420602123456          | český mobil                              | +420602123456  | PROJDE (sedí na !+420*)                    | PROJDE (sedí na !+420*)                    |
+| 4    | +421905123456          | slovenský mobil                          | +421905123456  | BLOKOVÁNO (nesedí na žádné !pravidlo)      | BLOKOVÁNO (nesedí na žádné !pravidlo)      |
+| 5    | +436641234567          | rakouský mobil                           | +436641234567  | BLOKOVÁNO (nesedí na žádné !pravidlo)      | BLOKOVÁNO (nesedí na žádné !pravidlo)      |
+| 6    | +12125552368           | USA (New York)                           | +12125552368   | BLOKOVÁNO (nesedí na žádné !pravidlo)      | BLOKOVÁNO (nesedí na žádné !pravidlo)      |
+| 7    | +442071838750          | Velká Británie (Londýn)                  | +442071838750  | BLOKOVÁNO (nesedí na žádné !pravidlo)      | BLOKOVÁNO (nesedí na žádné !pravidlo)      |
+| 8    | +80012345678           | mezinárodní bezplatné (nezeměpisné)      | +80012345678   | BLOKOVÁNO (nesedí na žádné !pravidlo)      | BLOKOVÁNO (nesedí na žádné !pravidlo)      |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| B. Národní tvar bez předvolby (rozhoduje region SIM)                                                                                                                                |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| 9    | 015123456789           | německý mobil, národně                   | +4915123456789 | PROJDE (sedí na !+49*)                     | PROJDE (nejde převést na E.164)            |
+| 10   | 03012345678            | německá pevná linka, národně             | +493012345678  | PROJDE (sedí na !+49*)                     | PROJDE (nejde převést na E.164)            |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| C. Předvolba 00 (rozhoduje region SIM)                                                                                                                                              |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| 11   | 004915123456789        | Německo s 00                             | +4915123456789 | PROJDE (sedí na !+49*)                     | PROJDE (nejde převést na E.164)            |
+| 12   | 00420602123456         | Česko s 00                               | +420602123456  | PROJDE (sedí na !+420*)                    | PROJDE (nejde převést na E.164)            |
+| 13   | 00436641234567         | Rakousko s 00                            | +436641234567  | BLOKOVÁNO (nesedí na žádné !pravidlo)      | PROJDE (nejde převést na E.164)            |
+| 14   | 0012125552368          | USA s 00                                 | +12125552368   | BLOKOVÁNO (nesedí na žádné !pravidlo)      | PROJDE (nejde převést na E.164)            |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| D. Nejde platně převést na E.164                                                                                                                                                    |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| 15   | 112                    | krátké tísňové číslo                     | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
+| 16   | 11880                  | krátké číslo (informace)                 | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
+| 17   | *123#                  | servisní kód                             | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
+| 18   | +49151                 | neplatné s +, příliš krátké              | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
+| 19   | +4915123456789012      | neplatné s +, příliš dlouhé              | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
+| 20   | +15555550123           | spoofnuté US číslo (neplatné)            | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
+| 21   | +999123456             | neexistující předvolba země              | -              | PROJDE (nejde převést na E.164)            | PROJDE (nejde převést na E.164)            |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| E. Ostatní situace                                                                                                                                                                  |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+| 22   | +12125552368           | ODCHOZÍ hovor do USA                     | +12125552368   | PROJDE (odchozí: bez negativních pravidel) | PROJDE (odchozí: bez negativních pravidel) |
+| 23   | +436641234567          | z Rakouska, volající JE v kontaktech (a) | +436641234567  | BLOKOVÁNO (nesedí na žádné !pravidlo)      | BLOKOVÁNO (nesedí na žádné !pravidlo)      |
+| 24   | (skryté / žádné číslo) | číslo se nezobrazí (b)                   | -              | PROJDE (jen přepínač skrytých)             | PROJDE (jen přepínač skrytých)             |
++------+------------------------+------------------------------------------+----------------+--------------------------------------------+--------------------------------------------+
+
+Poznámky k tabulce:
+  (a) Řádek s kontaktem: blokování má přednost před kontakty, číslo se zablokuje, i když je volající v kontaktech.
+  (b) Skrytá čísla: negativní pravidla se jich netýkají, rozhoduje jen přepínač "blokovat skryté / neznámé".
+  Řádky 9 až 12: výsledek je stejný v obou sloupcích, ale z jiného důvodu. Se známým regionem se číslo převede
+  a sedí na pravidlo, v záchraně se nepřevede vůbec a projde.
+  Řádky 13 a 14: jediné případy, kde záchrana dává jiný výsledek. S regionem US se "00..." nepřevede
+  (v USA je mezinárodní předvolba 011) a číslo, které mělo být blokováno, projde.
+
+
+8. DODATEK: ZÁZNAMY NAVÍC
+-------------------------
+Scénář stejný, v seznamu blokovaných je navíc:
+  +4917612345678   (přesné číslo)
+  +49900*          (pozitivní maska)
+  +420602*         (pozitivní maska)
+spolu s !+49* a !+420*.
+
++----+----------------+----------------------------------------+----------------+------------------------------------+------------------------------------+
+| #  | Číslo          | Co to je                               | E.164 (SIM DE) | SIM DE                             | SIM neznámá (region US)            |
++----+----------------+----------------------------------------+----------------+------------------------------------+------------------------------------+
+| D1 | +4917612345678 | německý mobil, uložený přesně          | +4917612345678 | BLOKOVÁNO (přesná shoda)           | BLOKOVÁNO (přesná shoda)           |
+| D2 | +4990012345678 | německé 0900 (neplatné), maska +49900* | -              | BLOKOVÁNO (sedí na masku +49900*)  | BLOKOVÁNO (sedí na masku +49900*)  |
+| D3 | +420602123456  | český mobil, maska +420602*            | +420602123456  | BLOKOVÁNO (sedí na masku +420602*) | BLOKOVÁNO (sedí na masku +420602*) |
+| D4 | +420777123456  | český mobil mimo masku +420602*        | +420777123456  | PROJDE (sedí na !+420*)            | PROJDE (sedí na !+420*)            |
++----+----------------+----------------------------------------+----------------+------------------------------------+------------------------------------+

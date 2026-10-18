@@ -1,55 +1,76 @@
 package cz.mts.phone.activities
 
 import android.annotation.SuppressLint
-import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.telecom.TelecomManager
+import android.telecom.VideoProfile
 import android.widget.Toast
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
-import cz.mts.base.helpers.MY_APP_NAME_GOOGLE_ID
-import cz.mts.base.helpers.REQUEST_CODE_SET_DEFAULT_DIALER
 import cz.mts.phone.R
-import cz.mts.phone.extensions.clipboardManager
 import cz.mts.phone.extensions.getHandleToUse
+import cz.mts.phone.extensions.telecomManager2
+import cz.mts.phone.helpers.CallHelper
 
 class DialerActivity : SimpleActivity() {
 
     override var customNavBarLightIcons: Boolean? = null
     private var callNumber: Uri? = null
 
+    // dekódované číslo (z "tel:*31%23123" udělá "*31#123")
+    private val number: String
+        get() = callNumber?.schemeSpecificPart.orEmpty()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (intent.action == Intent.ACTION_CALL && intent.data != null)
-        {
-            callNumber = intent.data
-            val sIntent =  callNumber.toString() + "\n" + buildString {
-                try {
-                    intent.extras?.keySet()?.forEach { key ->
-                        @Suppress("DEPRECATION")
-                        val value = intent.extras?.get(key)
-                        append("$key = $value\n")
-                    }
-                } catch (_: Exception) { }
-            }
+        val data = intent.data
+        val action = intent.action
 
-            if (iSaveDebugMode == 1) {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText("Intent", sIntent))
-            }
+        // DEBUG: celý intent do schránky hned na začátku, ještě před jakoukoli validací,
+        // takže se zaznamená i intent, který se vzápětí odmítne
+        if (iSaveDebugMode == 1) {
+            dumpIntentToClipboard()
+            finish()
+            return
+        }
 
-
-            if (!isDefaultDialer()) {
-                launchSetDefaultDialerIntent()
-            } else {
-                initOutgoingCall()
-            }
-        } else {
+        // manifest registruje jen android.intent.action.CALL
+        if (action != Intent.ACTION_CALL || data == null ||
+            data.scheme?.equals("tel", ignoreCase = true) != true
+        ) {
             toast(R.string.unknown_error_occurred)
             finish()
+            return
+        }
+
+        callNumber = data
+
+        // 1) TÍSŇOVÉ ČÍSLO – vždy první, bez blokace, bez dialpadu, bez výchozího dialeru
+        if (CallHelper.isEmergency(this, number)) {
+            placeEmergencyCall(data)
+            finish()
+            return
+        }
+
+        // 2) INTENT Z JINÉ APLIKACE – otevři vlastní číselník s předvyplněným číslem,
+        //    SIM zvolí uživatel
+        val isInternalCall = intent.getBooleanExtra(CallHelper.EXTRA_INTERNAL_CALL, false)
+        if (!isInternalCall) {
+            openDialpad(number)
+            finish()
+            return
+        }
+
+        // 3) VLASTNÍ HOVOR (z launchCallIntentNew), SIM už je vybraná
+        if (isDefaultDialer()) {
+            initOutgoingCall()
+        } else {
+            requestDefaultDialerThenCall()
         }
     }
 
@@ -58,52 +79,153 @@ class DialerActivity : SimpleActivity() {
         super.onResume()
     }
 
+    // ------------------------------------------------------------------
+    // Výchozí dialer
+    // ------------------------------------------------------------------
+
+    /**
+     * Aplikace není výchozí dialer, takže její InCallService by hovor nedostal.
+     * Požádáme o roli a výsledek přijde do callbacku (BaseSimpleActivity používá
+     * Activity Result API, takže onActivityResult se tu nevolá).
+     * Callback přijde vždy, i když role není dostupná, takže aktivita nezůstane viset.
+     */
+    private fun requestDefaultDialerThenCall() {
+        launchSetDefaultDialerIntent { granted ->
+            if (granted || isDefaultDialer()) {
+                initOutgoingCall()
+            } else {
+                openDefaultAppsSettings()
+                finish()
+            }
+        }
+    }
+
+    private fun openDefaultAppsSettings() {
+        try {
+            hideKeyboard()
+            startActivity(Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS))
+            toast(R.string.default_phone_app_prompt, Toast.LENGTH_LONG)
+        } catch (_: Exception) {
+            try {
+                startActivity(
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", packageName, null)
+                    }
+                )
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Vytáčení
+    // ------------------------------------------------------------------
+
+    private fun openDialpad(number: String) {
+        try {
+            startActivity(
+                Intent(this, DialpadActivity::class.java)
+                    .putExtra(CallHelper.EXTRA_PHONE_NUMBER, number)
+            )
+        } catch (e: Exception) {
+            toast("Error")
+            copyToClipboard(e.message.toString(), false)
+        }
+    }
+
+    /**
+     * Tísňové volání z DialerActivity. Záložní cesta je záměrně ACTION_DIAL a ne ACTION_CALL:
+     * ACTION_CALL by se mohl vrátit do téhle aktivity a zacyklit se.
+     */
+    @SuppressLint("MissingPermission")
+    private fun placeEmergencyCall(uri: Uri) {
+        try {
+            telecomManager2.placeCall(uri, Bundle())
+        } catch (e: Exception) {
+            try {
+                startActivity(Intent(Intent.ACTION_DIAL, uri))
+            } catch (_: Exception) {
+                toast("Cannot place emergency call")
+            }
+        }
+    }
+
     @SuppressLint("MissingPermission")
     private fun initOutgoingCall() {
         try {
-            if (isNumberBlocked(callNumber.toString().replace("tel:", ""), getBlockedNumbers())) {
+            // MMI kódy se neblokují
+            if (!CallHelper.isMmiCode(number) && isNumberBlocked(number, getBlockedNumbers())) {
                 toast(R.string.calling_blocked_number)
                 finish()
                 return
             }
 
-            getHandleToUse(intent, callNumber.toString()) { handle ->
-                if (handle != null) {
-                    Bundle().apply {
-                        putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, handle)
-                        putBoolean(TelecomManager.EXTRA_START_CALL_WITH_VIDEO_STATE, false)
-                        putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, false)
-                        telecomManager.placeCall(callNumber, this)
+            getHandleToUse(intent, number) { handle ->
+                try {
+                    // handle == null: getHandleToUse už otevřel číselník k výběru SIM
+                    if (handle != null) {
+                        val extras = Bundle().apply {
+                            putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, handle)
+                            // klíč očekává int (VideoProfile.STATE_*), ne boolean
+                            putInt(
+                                TelecomManager.EXTRA_START_CALL_WITH_VIDEO_STATE,
+                                VideoProfile.STATE_AUDIO_ONLY
+                            )
+                            putBoolean(TelecomManager.EXTRA_START_CALL_WITH_SPEAKERPHONE, false)
+                        }
+                        telecomManager2.placeCall(callNumber, extras)
                     }
+                } catch (e: Exception) {
+                    toast("Error")
+                    copyToClipboard(e.message.toString(), false)
                 }
                 finish()
             }
         } catch (e: Exception) {
-            mtsGlobalAll.showMyAlertDialog(this, e.message.toString(), "Error", false, 0)
-           // showErrorToast(e)
+            toast("Error")
+            copyToClipboard(e.message.toString(), false)
             finish()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, resultData)
-        if (requestCode == REQUEST_CODE_SET_DEFAULT_DIALER) {
-            if (!isDefaultDialer()) {
-                try {
-                    hideKeyboard()
+    // ------------------------------------------------------------------
+    // Debug
+    // ------------------------------------------------------------------
 
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        data = Uri.fromParts("package", MY_APP_NAME_GOOGLE_ID, null)
-                    }
-                    startActivity(intent)
-                    toast(R.string.default_phone_app_prompt, Toast.LENGTH_LONG)
-                } catch (_: Exception) {
-                }
-                finish()
+    /** Zkopíruje do schránky všechno podstatné z příchozího intentu. */
+    @Suppress("DEPRECATION")
+    private fun dumpIntentToClipboard() {
+        val sb = StringBuilder()
+        try {
+            sb.appendLine("action = ${intent.action}")
+            sb.appendLine("data = ${intent.data}")
+            sb.appendLine("decoded = ${intent.data?.schemeSpecificPart}")
+            sb.appendLine("type = ${intent.type}")
+            sb.appendLine("categories = ${intent.categories}")
+            sb.appendLine("component = ${intent.component}")
+            sb.appendLine("package = ${intent.`package`}")
+            sb.appendLine("flags = 0x${Integer.toHexString(intent.flags)}")
+            sb.appendLine("referrer = $referrer")
+            sb.appendLine("isDefaultDialer = ${isDefaultDialer()}")
+            sb.appendLine("sdk = ${Build.VERSION.SDK_INT}")
+            sb.appendLine("--- extras ---")
+
+            val extras = intent.extras
+            if (extras == null) {
+                sb.appendLine("(none)")
             } else {
-                initOutgoingCall()
+                for (key in extras.keySet()) {
+                    val value = extras.get(key)
+                    sb.appendLine("$key = $value (${value?.javaClass?.simpleName})")
+                }
             }
+        } catch (e: Exception) {
+            sb.appendLine("dump error: ${e.message}")
+        }
+
+        try {
+            copyToClipboard(sb.toString(), false)
+        } catch (_: Exception) {
         }
     }
-
 }

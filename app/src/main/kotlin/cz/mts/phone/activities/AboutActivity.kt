@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.core.net.toUri
 import cz.mts.base.extensions.*
-import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.NavigationIcon
 import cz.mts.phone.databinding.ActivityAboutBinding
@@ -134,7 +133,7 @@ class AboutActivity : SimpleActivity() {
     }
 
     private fun onDonateClick() {
-        copyTextToClipboard(this, "BTC address", BTC_ADDRESS)
+        copyToClipboard(BTC_ADDRESS, false, "BTC address")
         openUrl(URL_DONATE)
     }
 

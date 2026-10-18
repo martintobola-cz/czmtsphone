@@ -1,5 +1,6 @@
 package cz.mts.base.helpers
 
+import cz.mts.base.extensions.isAnyBlockedNumberMask
 import cz.mts.base.models.BlockedNumber
 import org.json.JSONArray
 import org.json.JSONException
@@ -32,8 +33,8 @@ object BlockedNumbersJson {
     class InvalidFormatException(message: String, cause: Throwable? = null) :
         IllegalArgumentException(message, cause)
 
-    fun isPatternValue(value: String): Boolean =
-        value.indexOf('*') >= 0 || value.indexOf('?') >= 0
+    // maska = obsahuje * nebo ?, nebo je to negativní pravidlo (!...) – jedna definice pro celou appku
+    fun isPatternValue(value: String): Boolean = value.isAnyBlockedNumberMask()
 
     fun write(blockedNumbers: Collection<BlockedNumber>, outputStream: OutputStream) {
         val items = JSONArray()
@@ -109,6 +110,10 @@ object BlockedNumbersJson {
             }
             if (type == EntryType.EXACT && value.none { it.isDigit() }) {
                 throw InvalidFormatException("Item $i is not a phone number")
+            }
+            // negativní pravidlo bez jediné číslice (např. "!?") by zablokovalo skoro všechno
+            if (value.startsWith("!") && value.none { it.isDigit() }) {
+                throw InvalidFormatException("Item $i is a negative rule without any digit")
             }
 
             val key = "${type.jsonValue}:$value"

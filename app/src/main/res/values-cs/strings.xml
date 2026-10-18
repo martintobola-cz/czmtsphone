@@ -3,6 +3,8 @@
     <string name="app_launcher_name">Telefon</string>
 
 <string name="recents_still_loading">Operaci nelze provést dokud se historie nenačte celá...</string>
+<string name="is_spam_call">Podezření na spam</string>
+<string name="blocked_calls_mts">Zablokované hovory</string>
 
 <string name="transfers">Přenosy</string>
 <string name="transfer_import">Import 📦→📱</string>

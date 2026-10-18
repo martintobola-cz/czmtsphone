@@ -1,8 +1,6 @@
 package cz.mts.base.compose.alert_dialog
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,26 +34,21 @@ val dialogContainerColor
         }
     }
 
-val Modifier.dialogBackgroundShapeAndBorder: Modifier
-    @ReadOnlyComposable
-    @Composable get() = this
-        .fillMaxWidth()
-        .background(dialogContainerColor, dialogShape)
-        .dialogBorder
-
 val dialogShape = Shapes.extraLarge
 
 val dialogElevation = 0.dp
 
 val dialogTextColor @Composable @ReadOnlyComposable get() = SimpleTheme.colorScheme.onSurface
 
+@Suppress("ModifierFactoryUnreferencedReceiver")
 val Modifier.dialogBorder: Modifier
     @ReadOnlyComposable
-    @Composable get() =
+    @Composable get() = this.then(
         when (LocalTheme.current) {
-            is Theme.BlackAndWhite -> this.border(1.dp, light_grey_stroke, dialogShape)
-            else -> this
+            is Theme.BlackAndWhite -> Modifier.border(1.dp, light_grey_stroke, dialogShape)
+            else -> Modifier
         }
+    )
 
 @Composable
 fun DialogSurface(

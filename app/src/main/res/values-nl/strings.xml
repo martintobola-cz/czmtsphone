@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+<string name="app_launcher_name">MTS Dialer</string>
+
+<string name="recents_still_loading">Je moet wachten tot de volledige geschiedenis is geladen...</string>
+
+
+<string name="transfers">Overdrachten</string>
+<string name="transfer_import">Importeren 📦→📱</string>
+<string name="transfer_export">Exporteren 📱→📦</string>
+<string name="transfer_contacts">👤 Contacten</string>
+<string name="transfer_contacts_sim">👤 Contacten (SIM)</string>
+<string name="transfer_blocked_numbers">⛔ Geblokkeerde nummers</string>
+<string name="transfer_call_history">🕒 Gespreksgeschiedenis</string>
+<string name="transfer_settings">⚙️ Instellingen</string>
+<string name="transfer_no_active_sim">Geen actieve SIM</string>
+<string name="transfer_sim_import_message">Hiermee worden de contacten die op de SIM zijn opgeslagen geïmporteerd naar de verborgen opslag (onzichtbaar voor andere applicaties). Je kunt de import herhaaldelijk uitvoeren; er worden geen duplicaten gemaakt. Selecteer de SIM en tik op OK.</string>
+<string name="highlight_call_buttons">Knoppen markeren op het gespreksscherm</string>
+
+<string name="allow_record_calls">Gesprekken opnemen toestaan</string>
+<string name="call_recording_title">Gesprekken opnemen</string>
+<string name="call_recording_info">Opmerking over het opnemen van gesprekken:\n\nHet opnemen van telefoongesprekken kan in sommige landen of onder bepaalde omstandigheden onderhevig zijn aan wettelijke voorschriften, beperkingen of de verplichting om deelnemers aan het gesprek te informeren of hun toestemming te verkrijgen.\n\nZorg er vóór gebruik van deze functie voor dat het gebruik ervan in overeenstemming is met de wetten en andere regels die in jouw land of op jouw locatie van toepassing zijn.\n\nJij bent als enige verantwoordelijk voor de manier waarop je de functie voor het opnemen van gesprekken gebruikt, inclusief de naleving van alle toepasselijke wettelijke verplichtingen en het verkrijgen van de vereiste toestemming.\n\nDe ontwikkelaar van de app geeft geen juridisch advies en is niet verantwoordelijk voor het gebruik van deze functie in strijd met de toepasselijke wetgeving.\n\nDoor de functie voor het opnemen van gesprekken te gebruiken, bevestig je dat je deze opmerking hebt gelezen en begrepen en dat je ermee akkoord gaat.\n\nHet opnemen is geïmplementeerd met de app Shizuku (moe.shizuku.privileged.api), die je kunt downloaden via https://github.com/thedjchi/Shizuku/releases/tag/v13.7.0-thedjchi\n\nMijn telefoon-app start en stopt Shizuku via een intent (moe.shizuku.privileged.api.START / STOP). Maar je moet hier de authenticatiesleutel van Shizuku invoeren. Je vindt de sleutel na het installeren van Shizuku door in de sectie Control Shizuku using automation apps op Show intents te tikken.</string>
+<string name="call_recording_agree">Ik erken en ga akkoord</string>
+<string name="call_recording_key_hint">Authenticatiesleutel van Shizuku</string>
+<string name="call_recording_key_invalid">Ongeldige sleutel</string>
+<string name="call_recording_key_saved">Test succesvol voltooid, sleutel opgeslagen</string>
+<string name="call_recording_files">Opgenomen gesprekken</string>
+<string name="start_call_recording">Opname starten</string>
+<string name="stop_call_recording">Opname stoppen</string>
+<string name="recording_start_failed">Opname starten mislukt</string>
+<string name="recorded_files_missing">Het bestand bestaat niet meer</string>
+<string name="recorded_files_delete_failed">Bestand verwijderen mislukt</string>
+<string name="recorded_files_play">Afspelen</string>
+<string name="recorded_files_export">Exporteren</string>
+<string name="recorded_files_refresh">Vernieuwen</string>
+<string name="call_recording_files_empty">Geen opnamen gevonden...</string>
+
+
+<string name="send_message">Bericht versturen</string>
+<string name="hide_number_for_saved_contact">Telefoonnummer niet weergeven tijdens een gesprek als het een opgeslagen contact is</string>
+<string name="privacy_acknowledge">Ik neem hiervan kennis</string>
+    <string name="block_confirmation">Weet je zeker dat je \"%s\" wilt blokkeren?</string>
+    <string name="block_unknown_calls">Gesprekken blokkeren van nummers die niet in contacten staan</string>
+    <string name="block_hidden_calls">Gesprekken blokkeren van verborgen nummers</string>
+    <string name="block_unknown_messages">Berichten blokkeren van nummers die niet in contacten staan</string>
+    <string name="block_hidden_messages">Berichten blokkeren van verborgen nummers</string>
+    <string name="add_blocked_number_helper_text">Voer een exact nummer in of een patroon met * of ? (bijv. *333*, +1*8888, +42?777*) om alle gesprekken van overeenkomende nummers te blokkeren. Een asterisk staat voor een willekeurig aantal tekens, een vraagteken voor precies één teken.</string>
+    <string name="must_make_default_caller_id_app">Kan onbekende nummers niet blokkeren zonder machtiging voor beller-ID.</string>
+    <string name="block_contact">Contact blokkeren</string>
+    <string name="block_contact_success">Contact geblokkeerd</string>
+    <string name="block_contact_fail">Contact kon niet worden geblokkeerd</string>
+    <string name="unblock_contact">Contact deblokkeren</string>
+    <string name="unblock_contact_success">Contact gedeblokkeerd</string>
+    <string name="unblock_contact_fail">Contact kon niet worden gedeblokkeerd</string>
+<string name="block_error_string_value">Alleen cijfers en ? * zijn toegestaan</string>
+
+<string name="update_done">Bijgewerkt naar v</string>
+<string name="not_permissions_info">De applicatie beschikt niet over de benodigde machtigingen en werkt mogelijk niet correct.</string>
+<string name="edit_sms_templates"> 🔤 Sms-sjablonen bewerken</string>
+<string name="sms_edit_hint_double_tap">Dubbeltik of houd lang ingedrukt om te bewerken</string>
+<string name="sms_add_new_template">+ Nieuw sjabloon toevoegen</string>
+<string name="could_not_send_sms">Je hebt de functie om een gesprek met een sms te weigeren ingeschakeld, maar de applicatie heeft geen toestemming om sms-berichten te versturen...</string>
+<string name="show_decline_and_sms_button">Knop Weigeren en sms versturen inschakelen</string>
+<string name="decline_with_sms">Weigeren en sms versturen</string>
+<string name="contacts_duplicity">Het lijkt erop dat je contacten uit meerdere bronnen hebt ingeschakeld, omdat er dubbele nummers zijn gevonden...</string>
+
+<string name="import_perfs">Instellingen importeren</string>
+<string name="export_perfs">Instellingen exporteren</string>
+<string name="choose_audio_route">Audioroute kiezen</string>
+<string name="show_grouped_calls">Gegroepeerde gesprekken tonen</string>
+
+
+<string name="mts_active_call">Actief gesprek</string>
+<string name="shake_call_effect">Schudeffect ter bevestiging van een uitgaand gesprek</string>
+<string name="mts_none"> </string>
+<string name="change_photo">Foto wijzigen</string>
+<string name="toggle_favorite">Favoriet in-/uitschakelen</string>
+<string name="prefix">Voorvoegsel</string>
+<string name="nickname">Bijnaam</string>
+<string name="suffix">Achtervoegsel</string>
+<string name="pobox">Postbus</string>
+<string name="neighborhood">Wijk</string>
+<string name="address">Adres</string>
+<string name="street">Straat</string>
+<string name="skype">Skype</string>
+<string name="im">IM</string>
+<string name="no_groups">Geen groepen</string>
+<string name="email">E-mail</string>
+<string name="job_position">Functie</string>
+<string name="company">Bedrijf</string>
+<string name="notes">Notities</string>
+<string name="postcode">Postcode</string>
+<string name="city">Plaats</string>
+<string name="region">Regio</string>
+<string name="country">Land</string>
+<string name="website">Website</string>
+<string name="birthday">Verjaardag</string>
+<string name="anniversary">Jubileum</string>
+<string name="aim">AIM</string>
+<string name="windows_live">Windows Live</string>
+<string name="yahoo">Yahoo</string>
+<string name="qq">QQ</string>
+<string name="hangouts">Hangouts</string>
+<string name="icq">ICQ</string>
+<string name="jabber">Jabber</string>
+<string name="fields_empty">Geen velden ingevuld</string>
+<string name="contact_date_events"> datum toevoegen...</string>
+
+<string name="import_target_name">Naam</string>
+<string name="import_target_type">Type</string>
+<string name="filter_only_contacts_without_numbers">Alleen zonder nummers</string>
+<string name="tap_to_view_missed_calls">Tik om gemiste gesprekken te bekijken</string>
+<string name="tap_to_view_next">Tik om oudere gesprekken te bekijken...</string>
+<string name="speed_dial">Snelkeuze</string>
+<string name="dialer">Nummerkiezer</string>
+ <string name="fast_dial_mts">Snelkiezen</string>
+ <string name="blocked_numbers_mts">Blokkeren &amp; spam</string>
+<string name="error_autoremoveperm_mts">Je hebt het automatisch intrekken van machtigingen ingeschakeld voor deze applicatie. Schakel deze optie uit.</string>
+ <string name="perm_mts">Machtigingen controleren</string>
+ <string name="speaker_mts">Ingebouwde luidspreker</string>
+ <string name="ear_mts">Ingebouwde oorluidspreker</string>
+<string name="select_audio_mts">Selecteer een apparaat</string>
+<string name="cancel_mts">Annuleren</string>
+<string name="missed_call1_mts">Gemiste gesprekken</string>
+<string name="missed_call2_mts">Gemist gesprek</string>
+<string name="missed_call3_mts">gemiste gesprekken</string>
+<string name="number_type1_mts">handmatig ingevoerd</string>
+<string name="number_type2_mts">niet-opgeslagen nummer</string>
+<string name="number_type3_mts">geblokkeerd!</string>
+<string name="number_type4_mts">hoofdnummer</string>
+<string name="number_type5_mts">verborgen nummer</string>
+<string name="number_type6_mts">laatst gekozen nummer</string>
+<string name="call_type1_mts">inkomend gesprek</string>
+<string name="call_type2_mts">uitgaand gesprek</string>
+<string name="call_type3_mts">gemist gesprek</string>
+<string name="call_type4_mts">voicemail</string>
+<string name="call_type5_mts">geweigerd gesprek</string>
+<string name="call_type6_mts">geblokkeerd gesprek</string>
+<string name="call_type7_mts">ontvangen op een ander apparaat</string>
+<string name="call_type8_mts">onbekend type</string>
+<string name="save_custom_sim1_mts">voor nummer</string>
+<string name="save_custom_sim2_mts">is opgeslagen</string>
+<string name="delete_custom_sim1_mts">Standaard-SIM voor nummer</string>
+<string name="delete_custom_sim2_mts">is verwijderd</string>
+<string name="call_now_mts_a">Start het gesprek</string>
+<string name="call_now_mts_b">door hier te tikken</string>
+<string name="none_sim_mts">geen (e)SIM</string>
+<string name="none_simslot_mts">Geen account/SIM beschikbaar voor gesprekken !</string>
+<string name="none_simslot2_mts">Geen SIM-sleuf beschikbaar!</string>
+<string name="call_error1_text_mts">staat op de lijst met geblokkeerde nummers. Het gesprek kan niet worden gestart totdat je het nummer deblokkeert.</string>
+<string name="call_error1_title_mts">Geblokkeerd nummer</string>
+<string name="call_error1_number_mts">Nummer</string>
+<string name="call_empty_string_mts">is een lege tekenreeks !</string>
+<string name="dialog_back">Terug</string>
+<string name="dialog_ok">OK</string>
+<string name="dialog_close">Sluiten</string>
+<string name="dialog_call">Bellen</string>
+<string name="dialog_sms">SMS</string>
+<string name="call_from_sim_mts">bellen vanaf SIM </string>
+<string name="about_mts">Over</string>
+<string name="error_default_dialer_mts">Stel deze app in als je standaard belapp. Op sommige telefoons moet je dit handmatig doen in de Android-systeeminstellingen!</string>
+<string name="error_default_app_mts">Stel de app in als standaardapp voor beller- en spamidentificatie. Op sommige telefoons moet je dit handmatig doen in de Android-systeeminstellingen!</string>
+<string name="error_allok_mts">Alle benodigde machtigingen zijn correct toegewezen</string>
+    <string name="default_phone_app_prompt">Maak van deze app de standaard Telefoon-app. Op sommige telefoons moet je dit handmatig doen in de Android-systeeminstellingen!</string>
+    <string name="allow_displaying_over_other_apps">Sta weergave over andere apps toe voor betrouwbaar gedrag</string>
+
+    
+    <string name="could_not_access_contacts">Kan geen toegang krijgen tot je contacten</string>
+
+    
+    <string name="no_previous_calls">Er zijn geen eerdere gesprekken gevonden</string>
+    <string name="could_not_access_the_call_history">Kan geen toegang krijgen tot de gespreksgeschiedenis</string>
+    <string name="request_access">Toegang aanvragen</string>
+    <string name="remove_confirmation">Weet je zeker dat je de geselecteerde items wilt verwijderen?</string>
+    <string name="clear_history_confirmation">Weet je zeker dat je alles uit de gespreksgeschiedenis wilt verwijderen?</string>
+    <string name="clear_call_history">Gespreksgeschiedenis wissen</string>
+    <string name="show_call_details">Gespreksdetails tonen</string>
+
+    
+    <string name="dialpad">Toetsenblok</string>
+    <string name="asterisk">Sterretje</string>
+    <string name="hashtag">Hekje</string>
+    <string name="call_number">Nummer bellen</string>
+    <string name="dialpad_beeps">Pieptonen bij het indrukken van toetsen op het toetsenblok inschakelen</string>
+    <string name="dialpad_t9">T9-zoeken inschakelen</string>
+    <string name="dialpad_vibrations">Trillingen bij het indrukken van toetsen op het toetsenblok inschakelen</string>
+
+    
+    <string name="accept">Accepteren</string>
+    <string name="accept_call">Gesprek aannemen</string>
+    <string name="decline">Weigeren</string>
+    <string name="decline_call">Gesprek weigeren</string>
+    <string name="unknown_caller">Onbekende beller</string>
+    <string name="is_calling">Belt</string>
+    <string name="dialing">Kiezen</string>
+    <string name="call_ended">Gesprek beëindigd</string>
+    <string name="call_ending">Gesprek wordt beëindigd</string>
+    <string name="ongoing_call">Uitgaand gesprek</string>
+    <string name="select_sim">Selecteer een SIM voor dit gesprek</string>
+    <string name="always_use_this_sim">Altijd deze SIM gebruiken voor dit nummer</string>
+    <string name="unset_default_sim">Standaard-SIM wissen</string>
+    <string name="calls">Gesprekken</string>
+    <string name="turn_microphone_on">Microfoon inschakelen</string>
+    <string name="turn_microphone_off">Microfoon uitschakelen</string>
+    <string name="turn_speaker_on">Luidspreker inschakelen</string>
+    <string name="turn_speaker_off">Luidspreker uitschakelen</string>
+    <string name="show_dialpad">Toetsenblok tonen</string>
+    <string name="hide_dialpad">Toetsenblok verbergen</string>
+    <string name="end_call">Gesprek beëindigen</string>
+    <string name="hold_call">Gesprek in de wacht zetten</string>
+    <string name="resume_call">Gesprek hervatten</string>
+    <string name="call_on_hold">In de wacht</string>
+    <string name="call_swap">Gesprekken wisselen</string>
+    <string name="call_merge">Gesprekken samenvoegen</string>
+    <string name="call_split">Gesprek splitsen</string>
+    <string name="call_add">Gesprek toevoegen</string>
+    <string name="conference_manage">Conferentiegesprek beheren</string>
+    <string name="conference">Conferentie</string>
+    <string name="audio_route_speaker">Luidspreker</string>
+    <string name="audio_route_earpiece">Oorluidspreker</string>
+    <string name="audio_route_bluetooth">Bluetooth</string>
+    <string name="audio_route_wired_headset">Bedrade headset</string>
+    <string name="audio_route_wired_or_earpiece">Bedraad of oorluidspreker</string>
+    <string name="calling_blocked_number">Het nummer dat je belt is geblokkeerd</string>
+    <string name="call_is_being_connected">Je gesprek wordt verbonden…</string>
+    <string name="call_notification_channel">Gespreksstatus</string>
+    <string name="call_notification_channel_high_priority">Gespreksstatus (hoge prioriteit)</string>
+    <string name="other_info_notification_channel">Updates en overige info</string>
+
+    <string name="speed_dial_title">🏍️ Snelkeuze</string>
+    <string name="manage_speed_dial">🏍️ Snelkeuze</string>
+    <string name="speed_dial_label">Tik op een nummer om er een contact aan toe te wijzen. Je kunt dat contact daarna snel bellen door in het kiesscherm lang op het betreffende nummer te drukken.</string>
+    
+    <string name="group_subsequent_calls">Opeenvolgende gesprekken met hetzelfde nummer groeperen in het gesprekslogboek</string>
+    <string name="open_dialpad_by_default">Toetsenblok standaard openen wanneer de app wordt geopend</string>
+    <string name="disable_proximity_sensor">Nabijheidssensor uitschakelen tijdens gesprekken</string>
+    <string name="disable_swipe_to_answer">Vegen vervangen door tikken bij het beantwoorden van inkomende gesprekken</string>
+    <string name="show_blur_incoming_calls_full_screen">Vervagingseffect op het vergrendelscherm van Android 16+</string>
+    <string name="show_incoming_calls_full_screen">Inkomende gesprekken altijd op volledig scherm weergeven</string>
+    <string name="hide_dialpad_numbers">Cijfers op toetsenblok verbergen</string>
+    <string name="export_call_history">Gespreksgeschiedenis exporteren</string>
+    <string name="import_call_history">Gespreksgeschiedenis importeren</string>
+    <string name="export_contacts">Contacten exporteren (.vcf)</string>
+    <string name="import_contacts">Contacten importeren (.vcf)</string>
+</resources>

@@ -1,0 +1,93 @@
+PRAVIDLA ZOBRAZENI HOVORU - fullscreen, overlay, notifikace, hodinky
+=====================================================================
+
+ZNACENI
+- Fullscreen a overlay maji stejna pravidla (radek 1, radek 2, radek 3 je vzdy stav hovoru).
+- Notifikace a hodinky maji shodny titulek; text = SIM + stav hovoru (beze zmeny).
+- "-" = prazdny radek.
+- [E] = text z checkNumberForRating (napr. 🟢, ❔, 🟢 2x, ⛔ 5x ...).
+- R.string.unknown_caller a R.string.is_spam_call = napevno ulozene stringy
+- Ukazka: cislo +420 603 123 456, CNAP "Financni urad", kontakt "Jan Novak".
+
+
+A. ULOZENY KONTAKT (nikdy spamcheck, CNAP ignorovan, radek 2 neklikatelny )
+---------------------------------------------------------------------------
+| #  | Situace                                 | Radek 1   | Radek 2                              | Notifikace + hodinky |
+|----|-----------------------------------------|-----------|--------------------------------------|----------------------|
+| 1a | bezny                                   | Jan Novak | +420 603 123 456                     | Jan Novak            |
+| 1b | vice cisel, stitek                      | Jan Novak | +420 603 123 456 - Mobil             | Jan Novak            |
+| 1c | hideNumberForSavedContact=TRUE, stitek  | Jan Novak | Mobil                                | Jan Novak            |
+| 1d | hideNumberForSavedContact=TRUE,         | Jan Novak | prazdny text (radek ale zustane)     | Jan Novak            |
+
+
+B. NEULOZENY, CISLO NEZNAME (prazdne cislo nebo handle jiny nez tel:)  !!!radek 2 nikdy neni klikatelny!!!
+------------------------------------------------------------------------------------------------------------------
+| #  | CNAP      | Spamcheck | Radek 1                    | Radek 2                  | Notifikace + hodinky      |
+|----|-----------|-----------|----------------------------|--------------------------|---------------------------|
+| 2  | prazdny   | zapnuty   | R.string.unknown_caller    | -                        | R.string.unknown_caller   |
+| 3  | prazdny   | vypnuty   | R.string.unknown_caller    | -                        | R.string.unknown_caller   |
+| 4  | vyplneny  | zapnuty   | Financni urad              | R.string.is_spam_call    | Financni urad             |
+| 5  | vyplneny  | vypnuty   | Financni urad              | R.string.unknown_caller  | Financni urad             |
+| 10 | konference| -         | Konference                 | -                        | Konference                |
+
+
+C. NEULOZENY, CISLO ZNAME, BEZ SPAMCHECKU (vypnuty, nebo jde o odchozi hovor) radek 2 neklikatelny !!!
+---------------------------------------------------------------------------------------------------------------
+| #  | CNAP                          | Radek 1          | Radek 2          | Notifikace + hodinky             |
+|----|-------------------------------|------------------|------------------|----------------------------------|
+| 7  | prazdny nebo shodny s cislem  | +420 603 123 456 | -                | +420 603 123 456                 |
+| 9  | vyplneny                      | Financni urad    | +420 603 123 456 | Financni urad · +420 603 123 456 |
+
+
+D. NEULOZENY, CISLO ZNAME, SPAMCHECK AKTIVNI radek 2 je vzdy klikatelny na web (i text R.string.is_spam_call), protoze cislo zname
+------------------------------------------------------------------------------------------------------------------------------
+| #  | CNAP          | Stav   | Radek 1          | Radek 2                          | Notifikace + hodinky                   |
+|----|---------------|--------|------------------|----------------------------------|----------------------------------------|
+| 6  | prazdny       | ceka   | +420 603 123 456 | +420 603 123 456                 | +420 603 123 456                       |
+| 6  | prazdny       | nespam | +420 603 123 456 | +420 603 123 456 [E]             | [E] +420 603 123 456                   |
+| 6  | prazdny       | spam   | +420 603 123 456 | R.string.is_spam_call ⛔🎣      | ⛔🎣 +420 603 123 456                 |
+| 6  | prazdny       | chyba  | +420 603 123 456 | +420 603 123 456 💥😕           | 💥😕 +420 603 123 456                 |
+| 8  | Financni urad | ceka   | Financni urad    | +420 603 123 456                 | Financni urad · +420 603 123 456       |
+| 8  | Financni urad | nespam | Financni urad    | +420 603 123 456 [E]             | [E] Financni urad · +420 603 123 456   |
+| 8  | Financni urad | spam   | Financni urad    | R.string.is_spam_call ⛔🎣      | ⛔🎣 Financni urad · +420 603 123 456 |
+| 8  | Financni urad | chyba  | Financni urad    | +420 603 123 456 💥😕           | 💥😕 Financni urad · +420 603 123 456 |
+
+
+PRAVIDLA
+---------------------------------------------------------------------------
+1. Ulozeny kontakt = kontakt nalezeny v CacheContacts. CNAP se ignoruje, spamcheck neprobehne.
+2. Neulozeny kontakt: jmeno = CNAP > cislo > R.string.unknown_caller
+3. CNAP shodny s cislem (po normalizeDigitsOnly) se bere, jako by CNAP nebyl.
+4. Skryte cislo = cislo chybi (prazdne, handle null nebo handle jiny nez tel:, napr. sip:).
+   Pri presentation 2/3, ale s cislem v handle, se pracuje s cislem (neni "neznamy").
+   Rozliseni presentation 2/3/4 se nepouziva.
+5. Spamcheck bezi jen pro prichozi hovor, neulozeny kontakt, znamé cislo a
+   CacheContacts.bSpamChecking == true.
+6. Spam = bSpamCallfilterApp || bSpam.
+   Oprava v checkNumberForRating:
+   return if (!bRecent) RatingResult(sRetText, bSpamCallfilterApp || bSpam)
+7. Stav "ceka" = emoji je prazdne (vysledek jeste neprisel). U #6 se zobrazi cislo
+   (klikatelne), u #8 cislo na radku 2; zadne emoji.
+8. Stav "chyba" = result.ok == false, prazdne/nesouhlasici cislo (∅😕, ≠😕),
+   nebo callback getCallFilterInfo vrati null (vyjimka apod.). Zobrazi se 💥😕
+   i v notifikaci.
+9. #4 a #5: radek 2 se ridi bSpamChecking a pritomnosti CNAP (nejde o CallEntry.isSpam).
+   Radek 2 neni klikatelny, protoze neni cislo.
+10. Notifikace: nikdy neobsahuje *R.string.is_spam_call*; titulek = [emoji] jmeno · cislo;
+    pri nedostatku mista se orizne cislo (jmeno ma prednost).
+11. Hodinky pouzivaji stejny titulek jako notifikace; text = SIM + stav (beze zmeny).
+12. Rating emoji v titulku notifikace je na zacatku, aby ho zkraceni neodriznulo.
+
+
+POZNAMKY K IMPLEMENTACI (z analyzy kodu)
+---------------------------------------------------------------------------
+- CNAP je dnes ulozen v CallEntry.cnapName, ale nikde se nepouziva.
+- Pozdeji: CallEntry rozsirit o getCallerNumberVerificationStatus() (API 30+,
+  na API 28-29 vychozi hodnota). Zatim se nepouzije.
+- call.details.contactDisplayName se NEPOUZIVA (pravda je CacheContacts).
+- getCallContact dnes pri prazdnem cisle natvrdo vraci presentation = 3 -
+  nahradit priznakem "skryte" a polozkou CNAP.
+- Skryte cislo (isHiddenNumber) se ridi prazdnym cislem - zmeni se SMS tlacitko
+  a anonymni avatar u presentation 2/3 s cislem.
+- CallManager.onCallAdded: pri result == null dnes nic nezapise; nove zapsat
+  emoji = 💥😕, isSpam = false a zavolat listener.

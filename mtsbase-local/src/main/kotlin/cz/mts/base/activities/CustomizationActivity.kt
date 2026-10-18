@@ -1,6 +1,5 @@
 package cz.mts.base.activities
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -13,6 +12,7 @@ import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.models.MyTheme
 import cz.mts.base.models.RadioItem
+import cz.mts.base.views.MyMaterialSwitch
 import kotlin.math.abs
 
 class CustomizationActivity : BaseSimpleActivity() {
@@ -81,21 +81,44 @@ class CustomizationActivity : BaseSimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        // ikony navbaru podle aktuálního (neuloženého) pozadí
+        customNavBarLightIcons = shouldUseLightIcons(getCurrentBackgroundColor())
         super.onResume()
-        setTheme(getThemeId(getCurrentPrimaryColor()))
 
-        if (!isDynamicTheme()) {
-            updateBackgroundColor(getCurrentBackgroundColor())
-        }
+        val accent = getCurrentAccentOrPrimaryColor()
+
+        // super.onResume přebarvil podle uložených hodnot, náhled tedy vždy znovu aplikujeme
+        setTheme(getThemeId(accent))
+        updateBackgroundColor(getCurrentBackgroundColor())
 
         curPrimaryLineColorPicker?.getSpecificColor()?.apply {
             setTheme(getThemeId(this))
         }
 
-        setupTopAppBarWithBackPrompt(getColoredMaterialStatusBarColor())
-
+        updateMenuItemColors(binding.customizationToolbar.menu, accent)
+        setupTopAppBarWithBackPrompt(accent)
+        updateLabelColors(getCurrentTextColor())
+        updateHeaderColors(accent)
+        setupColorsPickers()          // kolečka s barvami
+        updateDynamicThemeVisibility() // přebarví switche a náhled dynamických barev
     }
+
+ //   override fun onResume() {
+ //       customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+ //       super.onResume()
+ //       setTheme(getThemeId(getCurrentAccentOrPrimaryColor()))
+
+ //       if (!isDynamicTheme()) {
+ //           updateBackgroundColor(getCurrentBackgroundColor())
+ //       }
+
+ //       curPrimaryLineColorPicker?.getSpecificColor()?.apply {
+ //           setTheme(getThemeId(this))
+ //       }
+
+//        setupTopAppBarWithBackPrompt(getColoredMaterialStatusBarColor())
+//        updateDynamicColorsPreview()
+//    }
 
     /**
      * Wrapper kolem setupTopAppBar, co vždy zapojí naši promptSaveDiscard logiku na šipku zpět.
@@ -154,7 +177,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                         appIconColorId = R.color.color_primary,
                         navBarColorId = getDynamicBackgroundColors(),
                         popupMenuTextColorId = R.color.you_neutral_text_color,
-                        popupMenuBackgroundColorId = R.color.you_dialog_background_color
+                        popupMenuBackgroundColorId = R.color.you_selected_item_background_color
                     )
             )
             put(
@@ -382,8 +405,8 @@ class CustomizationActivity : BaseSimpleActivity() {
                 //  toast(R.string.changing_color_description)
             }
 
-            updateMenuItemColors(binding.customizationToolbar.menu, getCurrentTopBarColor())
-            setupTopAppBarWithBackPrompt(getCurrentTopBarColor())
+            updateMenuItemColors(binding.customizationToolbar.menu, getCurrentAccentOrPrimaryColor())
+            setupTopAppBarWithBackPrompt(getCurrentAccentOrPrimaryColor())
 
         }
     }
@@ -429,7 +452,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                 curBackgroundColor = getColor(getDynamicBackgroundColors(curUseDynamicTheme))
                 curNavBarColor = curBackgroundColor
                 curPopupMenuTextColor = if (isSPlus() && curUseDynamicTheme) getColor(R.color.you_neutral_text_color) else curTextColor
-                curPopupMenuBackgroundColor = if (isSPlus() && curUseDynamicTheme) getColor(R.color.you_dialog_background_color) else curBackgroundColor
+                curPopupMenuBackgroundColor = if (isSPlus() && curUseDynamicTheme) getColor(R.color.you_selected_item_background_color) else curBackgroundColor
             } else {
                 curTextColor = getColor(theme.textColorId)
                 curBackgroundColor = getColor(theme.backgroundColorId)
@@ -444,10 +467,10 @@ class CustomizationActivity : BaseSimpleActivity() {
                 if (curAccentColor == 0) curAccentColor = getColor(R.color.color_primary)
             }
 
-            setTheme(getThemeId(getCurrentPrimaryColor()))
+            setTheme(getThemeId(getCurrentAccentOrPrimaryColor()))
             colorChanged()
-            updateMenuItemColors(binding.customizationToolbar.menu, getCurrentTopBarColor())
-            setupTopAppBarWithBackPrompt(getCurrentTopBarColor())
+            updateMenuItemColors(binding.customizationToolbar.menu, getCurrentAccentOrPrimaryColor())
+            setupTopAppBarWithBackPrompt(getCurrentAccentOrPrimaryColor())
 
         }
 
@@ -585,7 +608,7 @@ class CustomizationActivity : BaseSimpleActivity() {
     private fun setupColorsPickers() {
         val textColor = getCurrentTextColor()
         val backgroundColor = getCurrentBackgroundColor()
-        val primaryColor = getCurrentPrimaryColor()
+        val primaryColor = getCurrentAccentOrPrimaryColor()
         binding.customizationTextColor.setFillWithStroke(textColor, backgroundColor)
         binding.customizationPrimaryColor.setFillWithStroke(primaryColor, backgroundColor)
         binding.customizationAccentColor.setFillWithStroke(curAccentColor, backgroundColor)
@@ -692,15 +715,10 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     private fun isCurrentWhiteTheme(): Boolean {
         return notSavedThemeId == THEME_WHITE
-        //curTextColor == DARK_GREY
-        // && curPrimaryColor == Color.WHITE
-        // && curBackgroundColor == Color.WHITE
     }
 
     private fun isCurrentBlackAndWhiteTheme(): Boolean {
         return notSavedThemeId == THEME_BLACK_WHITE //curTextColor == Color.WHITE
-        // && curPrimaryColor == Color.BLACK
-        // && curBackgroundColor == Color.BLACK
     }
 
     private fun pickTextColor() {
@@ -823,7 +841,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                     curAccentColor = color
                     colorChanged()
                     updateHeaderColors(curAccentColor)
-                    updateTopBarColors(binding.appBar, getCurrentTopBarColor())
+                    updateTopBarColors(binding.appBar, getCurrentAccentOrPrimaryColor())
                 }
             }
         }
@@ -886,41 +904,26 @@ class CustomizationActivity : BaseSimpleActivity() {
         else -> curBackgroundColor
     }
 
-    private fun getCurrentPrimaryColor() = when {
-        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) -> getColor(R.color.you_primary_color)
-        else -> curPrimaryColor
-    }
+//    private fun getCurrentPrimaryColor() = when {
+//        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) -> getColor(R.color.you_primary_color)
+//        else -> curPrimaryColor
+//    }
 
-    private fun getCurrentTopBarColor() = when {
-        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) ->  getColor(R.color.you_status_bar_color)
-        (isCurrentWhiteTheme() || isCurrentBlackAndWhiteTheme()) ->  curAccentColor
-        else -> curPrimaryColor
-    }
+//    private fun getCurrentTopBarColor() = when {
+//        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) ->  getColor(R.color.you_status_bar_color)
+//        (isCurrentWhiteTheme() || isCurrentBlackAndWhiteTheme()) ->  curAccentColor
+//        else -> curPrimaryColor
+//    }
 
     private fun getCurrentAccentOrPrimaryColor() = when {
         isCurrentWhiteTheme() || isCurrentBlackAndWhiteTheme() -> curAccentColor
-        else -> getCurrentPrimaryColor()
+        (notSavedThemeId == THEME_SYSTEM && isSPlus() && curUseDynamicTheme) -> resources.getColor(R.color.you_primary_color, theme)
+        else -> curPrimaryColor
     }
 
     private fun setupCustomizeSimColors() {
 
-        val switch = binding.settingsUseCustomSimColor
-        val trackStates = arrayOf(
-            intArrayOf(android.R.attr.state_checked),
-            intArrayOf()
-        )
-        //pozadí switche
-        val trackColors = intArrayOf(
-            curPrimaryColor,   // ON
-            Color.GRAY     // OFF
-        )
-        switch.trackTintList = ColorStateList(trackStates, trackColors)
-        //tečka
-        val thumbColors = intArrayOf(
-            Color.WHITE,   // ON
-            Color.DKGRAY   // OFF
-        )
-        switch.thumbTintList = ColorStateList(trackStates, thumbColors)
+        tintSwitch(binding.settingsUseCustomSimColor)
 
         binding.apply {
             settingsUseCustomSimColorHolder.beVisibleIf(notSavedThemeId == THEME_CUSTOM)
@@ -940,27 +943,51 @@ class CustomizationActivity : BaseSimpleActivity() {
     private fun updateDynamicThemeVisibility() {
         binding.settingsUseDynamicThemeHolder.beVisibleIf(notSavedThemeId == THEME_SYSTEM)
         setupUseDynamicTheme()
+        updateDynamicColorsPreview()
     }
 
+    private fun updateDynamicColorsPreview() {
+        val show = isSPlus() && notSavedThemeId == THEME_SYSTEM && curUseDynamicTheme
+        binding.customizationDynamicColorsHolder.beVisibleIf(show)
+        if (!show) return
+
+        val backgroundColor = getCurrentBackgroundColor()
+        val colors = listOf(
+            backgroundColor, //pozadí
+            resources.getColor(R.color.you_status_bar_color, this.theme), //top status bar
+            getCurrentAccentOrPrimaryColor(), //primary/accent
+            resources.getColor(R.color.you_dialog_background_color, this.theme), //popup menu pozadí
+            getCurrentTextColor() //barva textu
+        )
+
+        // popisky ve stejném pořadí jako barvy
+        val labels = listOf(
+            "Background",
+            "TopStatusBar",
+            "Primary/Accent",
+            "PopUpmenu background",
+            "Text"
+        )
+
+        listOf(
+            binding.dynamicColor1,
+            binding.dynamicColor2,
+            binding.dynamicColor3,
+            binding.dynamicColor4,
+            binding.dynamicColor5
+        ).forEachIndexed { index, view ->
+            view.setFillWithStroke(colors[index], backgroundColor)
+
+            view.setOnLongClickListener {
+                val hex = String.format("#%06X", colors[index] and 0xFFFFFF)
+                toast("${labels[index]}: $hex")
+                true
+            }
+        }
+    }
     private fun setupUseDynamicTheme() {
 
-        val switch = binding.settingsUseDynamicTheme
-        val trackStates = arrayOf(
-            intArrayOf(android.R.attr.state_checked),
-            intArrayOf()
-        )
-        //pozadí switche
-        val trackColors = intArrayOf(
-            curPrimaryColor,   // ON
-            Color.GRAY     // OFF
-        )
-        switch.trackTintList = ColorStateList(trackStates, trackColors)
-        //tečka
-        val thumbColors = intArrayOf(
-            Color.WHITE,   // ON
-            Color.DKGRAY   // OFF
-        )
-        switch.thumbTintList = ColorStateList(trackStates, thumbColors)
+        tintSwitch(binding.settingsUseDynamicTheme)
 
         binding.apply {
             settingsUseDynamicTheme.isChecked = curUseDynamicTheme
@@ -972,6 +999,14 @@ class CustomizationActivity : BaseSimpleActivity() {
                 updateColorTheme() //přepočítá text/background barvy podle nového stavu přepínače
             }
         }
+    }
+
+    private fun tintSwitch(switch: MyMaterialSwitch) {
+        switch.setColors(
+            getCurrentTextColor(),
+            getCurrentAccentOrPrimaryColor(),
+            getCurrentBackgroundColor()
+        )
     }
 
 }

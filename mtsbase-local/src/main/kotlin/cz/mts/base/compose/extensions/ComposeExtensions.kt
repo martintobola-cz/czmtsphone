@@ -3,31 +3,21 @@ package cz.mts.base.compose.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.compose.LifecycleEventEffect
-import androidx.lifecycle.compose.LifecycleResumeEffect
-import androidx.lifecycle.compose.LifecycleStartEffect
 import cz.mts.base.compose.system_ui_controller.rememberSystemUiController
-import cz.mts.base.compose.theme.SimpleTheme
-import cz.mts.base.compose.theme.isLitWell
-import cz.mts.base.extensions.darkenColor
 
-//import cz.mts.base.extensions.launchViewIntent
 
 fun Context.getActivity(): Activity {
     return when (this) {
@@ -39,55 +29,6 @@ fun Context.getActivity(): Activity {
 
 @Composable
 fun rememberMutableInteractionSource() = remember { MutableInteractionSource() }
-
-@Composable
-fun AdjustNavigationBarColors() {
-    val systemUiController = rememberSystemUiController()
-    val isSystemInDarkTheme = isSystemInDarkTheme()
-    val isSurfaceLitWell = SimpleTheme.colorScheme.surface.isLitWell()
-    val navigationBarColor = Color(SimpleTheme.colorScheme.surface.toArgb().darkenColor()).copy(alpha = 0.5f)
-    DisposableEffect(systemUiController, isSystemInDarkTheme, navigationBarColor) {
-        systemUiController.setNavigationBarColor(color = navigationBarColor, darkIcons = !isSystemInDarkTheme)
-        systemUiController.navigationBarDarkContentEnabled = isSurfaceLitWell
-        onDispose {}
-    }
-}
-
-@Composable
-fun <T : Any> onEventValue(event: Lifecycle.Event = Lifecycle.Event.ON_START, value: () -> T): T {
-    val rememberLatestUpdateState by rememberUpdatedState(newValue = value)
-    var rememberedValue by remember { mutableStateOf(value()) }
-    LifecycleEventEffect(event = event) {
-        rememberedValue = rememberLatestUpdateState()
-    }
-    return rememberedValue
-}
-
-@Composable
-fun <T : Any> onStartEventValue(vararg keys: Any?, onStopOrDispose: (LifecycleOwner.() -> Unit)? = null, value: () -> T): T {
-    val rememberLatestUpdateState by rememberUpdatedState(newValue = value)
-    var rememberedValue by remember { mutableStateOf(value()) }
-    LifecycleStartEffect(keys = keys, effects = {
-        rememberedValue = rememberLatestUpdateState()
-        onStopOrDispose {
-            onStopOrDispose?.invoke(this)
-        }
-    })
-    return rememberedValue
-}
-
-@Composable
-fun <T : Any> onResumeEventValue(vararg keys: Any?, onPauseOrDispose: (LifecycleOwner.() -> Unit)? = null, value: () -> T): T {
-    val rememberLatestUpdateState by rememberUpdatedState(newValue = value)
-    var rememberedValue by remember { mutableStateOf(value()) }
-    LifecycleResumeEffect(keys = keys, effects = {
-        rememberedValue = rememberLatestUpdateState()
-        onPauseOrDispose {
-            onPauseOrDispose?.invoke(this)
-        }
-    })
-    return rememberedValue
-}
 
 @Composable
 operator fun PaddingValues.plus(otherPaddingValues: PaddingValues): PaddingValues {
@@ -140,9 +81,6 @@ private fun Sequence<Dp>.sumOfDps(): Dp {
     return sum
 }
 
-fun ComponentActivity.enableEdgeToEdgeSimple() {
-    WindowCompat.setDecorFitsSystemWindows(window, false)
-}
 
 @Composable
 internal fun TransparentSystemBars(darkIcons: Boolean = !isSystemInDarkTheme()) {

@@ -2,7 +2,7 @@ package cz.mts.phone.recorder
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.os.Build
+import cz.mts.base.helpers.isOreoPlus
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -142,7 +142,7 @@ class SimpleAudioPlayer(
         if (!isPrepared) return
         val target = positionMs.coerceIn(0, durationMs)
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (isOreoPlus()) {
                 // SEEK_CLOSEST = přesně na zvolené místo, ne na nejbližší předchozí keyframe
                 mp.seekTo(target.toLong(), MediaPlayer.SEEK_CLOSEST)
             } else {

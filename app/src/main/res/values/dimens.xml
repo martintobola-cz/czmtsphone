@@ -20,6 +20,8 @@
 
     <dimen name="caller_name_text_size">34sp</dimen>
     <dimen name="call_status_text_size">20sp</dimen>
+    <dimen name="call_status_min_text_size">15sp</dimen>
+
 
     <!-- keep these 2 values in dp to avoid scaling -->
     <dimen name="dialpad_text_size">28dp</dimen>

@@ -1,0 +1,9 @@
+<resources>
+    <color name="you_background_color">@android:color/system_background_light</color>
+    <color name="you_surface_color">@android:color/system_surface_light</color>
+    <color name="you_bottom_bar_color">@android:color/system_surface_container_light</color>
+    <color name="you_dialog_background_color">@android:color/system_surface_container_high_light</color>
+    <color name="you_neutral_text_color">@android:color/system_on_surface_light</color>
+    <color name="you_primary_color">@android:color/system_primary_light</color>
+    <color name="you_selected_item_background_color">@android:color/system_secondary_container_light</color>
+</resources>

@@ -15,8 +15,8 @@ import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.contactsDB
+import cz.mts.base.extensions.copyToClipboard
 import cz.mts.base.extensions.toast
-import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.models.PhoneNumber
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.models.contacts.Email
@@ -67,14 +67,14 @@ object VcfImporter {
             activity.contentResolver.openInputStream(uri)
                 ?: throw IllegalStateException("open file error !")
         } catch (e: Exception) {
-            copyTextToClipboard(activity, "Import", e.message.toString())
+            activity.copyToClipboard(e.message.toString(), false, "Import")
             return@withContext Result.Error(ExportResult.IMPORT_FAIL)
         }
 
         val cards = try {
             Ezvcard.parse(input).all()
         } catch (e: Exception) {
-            copyTextToClipboard(activity, "Import", e.message.toString())
+            activity.copyToClipboard(e.message.toString(), false, "Import")
             return@withContext Result.Error(ExportResult.IMPORT_FAIL)
         }
 
@@ -100,7 +100,7 @@ object VcfImporter {
 
         val sInfo2 = "Imported: $imported (total $total)"
         if (failed > 0)
-            copyTextToClipboard(activity, "Import", sInfo2 + sInfo)
+            activity.copyToClipboard(sInfo2 + sInfo, false, "Import")
 
         if (showExportingToast) {
             activity.toast(sInfo2)

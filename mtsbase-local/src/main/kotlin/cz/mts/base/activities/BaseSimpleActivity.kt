@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.telecom.TelecomManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -30,6 +29,7 @@ import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.views.MyAppBarLayout
 
+
 abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
 
     var actionOnPermission: ((granted: Boolean) -> Unit)? = null
@@ -40,9 +40,7 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
 
     private val setDefaultDialerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val granted = result.resultCode == RESULT_OK
-            onDefaultDialerResult?.invoke(granted)
-            onDefaultDialerResult = null
+            deliverDefaultDialerResult(result.resultCode == RESULT_OK || isDefaultDialer())
         }
 
     private val setDefaultCallerIdLauncher =
@@ -166,7 +164,7 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
                 ?.findViewById<View>(androidx.appcompat.R.id.search_plate)
                 ?.background
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (isQPlus()) {
                 background?.colorFilter =
                     BlendModeColorFilter(contrastColor, BlendMode.MULTIPLY)
             } else {
@@ -193,7 +191,7 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
 
     fun updateMenuItemColors(
         menu: Menu?,
-        baseColor: Int = getProperStatusBarColor(),
+        baseColor: Int = getProperBackgroundColor(), //getProperStatusBarColor(),
         forceWhiteIcons: Boolean = false,
     ) {
         if (menu == null) return
@@ -299,27 +297,35 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
     }
 
     // ─── Default dialer / caller ID ───────────────────────────────────────────
+    /** Zavolá a vynuluje callback žádosti o výchozí dialer (vždy nejvýš jednou). */
+    private fun deliverDefaultDialerResult(granted: Boolean) {
+        val callback = onDefaultDialerResult
+        onDefaultDialerResult = null
+        callback?.invoke(granted)
+    }
+
+    /**
+     * Požádá o roli výchozího dialeru. Callback [onResult] přijde VŽDY, i když role
+     * není dostupná nebo dialog nejde otevřít (dřív v těchto případech nepřišel nikdy
+     * a volající aktivita zůstala viset).
+     */
     fun launchSetDefaultDialerIntent(onResult: ((granted: Boolean) -> Unit)? = null) {
         onDefaultDialerResult = onResult
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val roleManager = getSystemService(RoleManager::class.java) ?: return
-            if (!roleManager.isRoleAvailable(RoleManager.ROLE_DIALER)) return
-            if (roleManager.isRoleHeld(RoleManager.ROLE_DIALER)) {
-                onResult?.invoke(true)
-                return
-            }
-            setDefaultDialerLauncher.launch(
-                roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER)
-            )
-        } else {
-            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER)
-                .putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
-            try {
-                setDefaultDialerLauncher.launch(intent)
-            } catch (e: Exception) {
-                showErrorToast(e)
-            }
+        if (isDefaultDialer()) {
+            deliverDefaultDialerResult(true)
+            return
+        }
+        val intent = createSetDefaultDialerIntent()
+        if (intent == null) {
+            deliverDefaultDialerResult(false)
+            return
+        }
+        try {
+            setDefaultDialerLauncher.launch(intent)
+        } catch (e: Exception) {
+            showErrorToast(e)
+            deliverDefaultDialerResult(false)
         }
     }
 
@@ -329,18 +335,17 @@ abstract class BaseSimpleActivity : EdgeToEdgeActivity() {
      * nebo zařízení roli nepodporuje.
      */
     fun setDefaultCallerIdApp(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
+        if (isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) return true
 
-        val roleManager = getSystemService(RoleManager::class.java) ?: return false
-        if (roleManager.isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) return true
-
-        if (roleManager.isRoleAvailable(RoleManager.ROLE_CALL_SCREENING)) {
-            setDefaultCallerIdLauncher.launch(
-                roleManager.createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING)
-            )
+        val intent = createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING) ?: return false
+        try {
+            setDefaultCallerIdLauncher.launch(intent)
+        } catch (e: Exception) {
+            copyToClipboard(e.message.toString(), false)
         }
         return false
     }
+
 
     open fun onSelectionModeChanged(isActive: Boolean) {}
 }

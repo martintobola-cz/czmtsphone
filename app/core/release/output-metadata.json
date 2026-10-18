@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 992,
-      "versionName": "9.9.2",
-      "outputFile": "phone-992-core-release.apk"
+      "versionCode": 1018,
+      "versionName": "10.1.8",
+      "outputFile": "phone-1018-core-release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/phone-992-core-release.dm"
+        "baselineProfiles/1/phone-1018-core-release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/phone-992-core-release.dm"
+        "baselineProfiles/0/phone-1018-core-release.dm"
       ]
     }
   ],

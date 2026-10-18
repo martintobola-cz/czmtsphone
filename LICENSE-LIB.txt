@@ -92,8 +92,8 @@ com.github.tibbi:RecyclerView-FastScroller ......... 1.0.0 (Apache 2.0) (before 
 com.github.naveensingh:rtl-viewpager ............... 2.0.2 (Apache 2.0)
 com.googlecode.ez-vcard:ez-vcard ................... 0.12.2 (BSD)
 com.google.code.gson:gson .......................... 2.14.0 (Apache 2.0)
-com.googlecode.libphonenumber:libphonenumber ....... 9.0.40 (Apache 2.0)
-com.googlecode.libphonenumber:geocoder ............. 3.40 (Apache 2.0)
+com.googlecode.libphonenumber:libphonenumber ....... 9.0.41 (Apache 2.0)
+com.googlecode.libphonenumber:geocoder ............. 3.41 (Apache 2.0)
 org.fossify:IndicatorFastScroll .................... c7873f7168 (Apache 2.0)
 me.grantland:autofittextview ....................... 0.2.1 (Apache 2.0)
 

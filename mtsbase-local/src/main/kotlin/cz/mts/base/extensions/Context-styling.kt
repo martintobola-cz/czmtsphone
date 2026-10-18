@@ -6,8 +6,11 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.google.android.material.color.MaterialColors
 import cz.mts.base.R
+import cz.mts.base.helpers.LOWER_ALPHA
+import cz.mts.base.helpers.PopupMenuColorizer.blendColors
 import cz.mts.base.helpers.appIconColorStrings
 import cz.mts.base.helpers.isSPlus
 import cz.mts.base.views.*
@@ -19,7 +22,7 @@ fun Context.isDynamicTheme(useDynamicTheme: Boolean = baseConfig.useDynamicTheme
 
 fun Context.isWhiteTheme() = baseConfig.themeIdSaved == 6
 
-fun Context.isSystemInDarkModeOLD() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
+//fun Context.isSystemInDarkModeOLD() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
 
 fun Context.isSystemInDarkMode(): Boolean {
     val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
@@ -56,6 +59,14 @@ fun Context.getProperBackgroundColor() = when {
     else -> baseConfig.backgroundColor
 }
 
+fun Context.getProperSelectedItemBackgroundColor(): Int {
+    return blendColors(getProperBackgroundColor(), ContextCompat.getColor(this, R.color.activated_item_foreground))
+}
+
+fun Context.getProperMySearchBarColor(): Int {
+  return blendColors(getProperBackgroundColor(), getProperPrimaryColor().adjustAlpha(LOWER_ALPHA))
+}
+
 fun Context.getProperPrimaryColor() = when {
     baseConfig.easterEggMode -> Color.parseColor("#347A2F")
     isDynamicTheme() -> resources.getColor(R.color.you_primary_color, theme)
@@ -70,11 +81,15 @@ fun Context.getProperStatusBarColor() = when {
 
 // get the color of the status bar with material activity, if the layout is scrolled down a bit
 fun Context.getColoredMaterialStatusBarColor(): Int {
-    return when {
-        isDynamicTheme() -> resources.getColor(R.color.you_status_bar_color, theme)
-        else -> getProperPrimaryColor()
-    }
+    return getProperPrimaryColor()
 }
+
+//fun Context.getColoredMaterialStatusBarColorOLD(): Int {
+//    return when {
+//        isDynamicTheme() -> resources.getColor(R.color.you_status_bar_color, theme)
+//        else -> getProperPrimaryColor()
+//    }
+//}
 
 /** Barva kruhu za tlačítky na obrazovce hovoru. OFF = plně průhledná. */
 fun Context.getCallButtonCircleColor(active: Boolean): Int {

@@ -416,7 +416,7 @@
     <string name="default_tab_to_open">Fila implicită cu care se deschide aplicația</string>
     <string name="contacts_tab">Contacte</string>
     <string name="favorites_tab">Favorite</string>
-    <string name="call_history_tab">Istoriclul apelurilor</string>
+    <string name="call_history_tab">Recente</string>
     <string name="last_used_tab">Ultimul folosit</string>
     <plurals name="moving_items_into_bin">
         <item quantity="one">Mutarea elementului %d în coşul de recilare</item>

@@ -1,6 +1,8 @@
 package cz.mts.phone.recorder
 
 import android.content.Context
+import cz.mts.phone.recorder.RecordingPaths.dir
+import cz.mts.phone.recorder.RecordingPaths.migrateLegacyIfNeeded
 import java.io.File
 
 /**

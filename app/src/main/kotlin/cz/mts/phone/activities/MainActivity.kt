@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -75,7 +74,7 @@ class MainActivity : SimpleActivity() {
     private var storedShowOnlyContactsWithNumbers = false
     private var baseConfigbackgroundColor = 0
     private var currentTabType: Int = -1
-    private var openedFromMissedCallNotification = false //kód zatím nepoužívá
+    private var openedFromMissedCallNotification = false
     private var openedFromMissedPermNotification = false
     private var openedFromNewsNotification = false
     private var bFilterOnlyContactsWithoutNumbers = false
@@ -140,8 +139,6 @@ class MainActivity : SimpleActivity() {
             setDefaultCallerIdApp()
         }
 
-       MissedCallManager.clear(this)
-
         setupTabs()
 
         binding.mainDialpadButton.setOnClickListener {
@@ -155,11 +152,14 @@ class MainActivity : SimpleActivity() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         if (storedVisibleTabs != visibleTabs) {
             config.lastUsedViewPagerPage = 0
-            System.exit(0)
+            CacheContacts.bInvalidateCache = true
+            iSaveDebugMode = 0
+            finishAffinity() // finishAndRemoveTask()
             return
         }
 
@@ -245,8 +245,6 @@ class MainActivity : SimpleActivity() {
             }
         }
 
-        MissedCallManager.clear(this)
-
         checkShortcuts()
 
         mtsGlobalAll.numberOfReadySim(this)
@@ -262,12 +260,8 @@ class MainActivity : SimpleActivity() {
             checkPerm(true, false)
         }
 
-
         openedFromMissedCallNotification = false
         openedFromMissedPermNotification = false
-
-
-
     }
 
     override fun onPause() {
@@ -278,7 +272,9 @@ class MainActivity : SimpleActivity() {
         storedStartNameWithSurname = config.startNameWithSurname
         storedFormatPhoneNumbers = config.formatPhoneNumbers
         storedShowOnlyContactsWithNumbers = config.showOnlyContactsWithNumbers
-        config.lastUsedViewPagerPage = binding.viewPager.currentItem
+        if (!isFinishing) {
+            config.lastUsedViewPagerPage = binding.viewPager.currentItem
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -310,7 +306,8 @@ class MainActivity : SimpleActivity() {
             binding.mainMenu.closeSearch()
             true
         } else {
-            false
+            moveTaskToBack(true) //minimalizace
+            true   // Back je spotřebován, aktivitu systém neukončí
         }
     }
 
@@ -493,7 +490,6 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-
     private fun refreshRecetCalls() {
         CacheContacts.bInvalidateCache = true
         loadingIconToggle = true
@@ -504,6 +500,7 @@ class MainActivity : SimpleActivity() {
             }
         }
     }
+
 
 
     private fun clearCallHistory() {
@@ -536,7 +533,7 @@ class MainActivity : SimpleActivity() {
     private fun getLaunchDialpadShortcut(appIconColor: Int): ShortcutInfo {
         val newEvent = getString(R.string.dialpad)
 
-        val drawable: LayerDrawable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val drawable: LayerDrawable = if (isQPlus()) {
             // Nové API 29+
             val d = resources.getDrawable(R.drawable.shortcut_dialpad, theme) as LayerDrawable
             d.findDrawableByLayerId(R.id.shortcut_dialpad_background)?.colorFilter =
@@ -843,6 +840,17 @@ class MainActivity : SimpleActivity() {
         if (fragment.onChunkProgress == null) {
             fragment.onChunkProgress = { toggleViewAllHistoryLoadingIcon() }
         }
+        if (fragment.onFirstRecentsLoaded == null) {
+            fragment.onFirstRecentsLoaded = {
+                if (getCurrentFragment() is RecentsFragment &&
+                    //!bPermissionNotificationOn &&
+                    !isDestroyed && !isFinishing
+                ) {
+                    MissedCallManager.clear(this)
+                    BlockedCallManager.clear(this)
+                }
+            }
+        }
     }
 
     private fun launchSettings() {
@@ -893,8 +901,8 @@ class MainActivity : SimpleActivity() {
     //to ale musíme ošetřit až při samotném přepínání tabu... Context.updateBottomTabItemColors()
     customNavBarLightIcons = shouldUseLightIcons(baseConfigbackgroundColor)
     applyNavigationBar(
-    color = baseConfigbackgroundColor,
-    lightIcons = shouldUseLightIcons(baseConfigbackgroundColor) ,  //MTSX true/false na základě té barvy
+      color = baseConfigbackgroundColor,
+      lightIcons = shouldUseLightIcons(baseConfigbackgroundColor) ,  //MTSX true/false na základě té barvy
     )
     }
 
@@ -916,23 +924,23 @@ class MainActivity : SimpleActivity() {
 
     @Suppress("DEPRECATION")
     private fun isAutoRevokeEnabled(context: Context): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            return false
-        }
+        if (isSPlus()) {
 
-        val appOps = appOpsManager ?: return false
+            val appOps = appOpsManager ?: return false
 
-        // OP string není dostupný ve starších API – definujeme ručně
-        val OP_AUTO_REVOKE = "android:auto_revoke_permissions_if_unused"
+            // OP string není dostupný ve starších API – definujeme ručně
+            val OP_AUTO_REVOKE = "android:auto_revoke_permissions_if_unused"
 
-        val mode = appOps.unsafeCheckOpNoThrow(
-            OP_AUTO_REVOKE,
-            android.os.Process.myUid(),
-            context.packageName
-        )
+            val mode = appOps.unsafeCheckOpNoThrow(
+                OP_AUTO_REVOKE,
+                android.os.Process.myUid(),
+                context.packageName
+            )
 
-        return mode == AppOpsManager.MODE_ALLOWED
-    }
+            return mode == AppOpsManager.MODE_ALLOWED
+        } else return false
+   }
+
 
     private fun checkPerm(bForce : Boolean = false, bInvisibleCheck : Boolean = false, bCheckContactDuplicity : Boolean = false) : Boolean {
     if (bCheckContactDuplicityIsRunning) return true
@@ -1067,6 +1075,7 @@ class MainActivity : SimpleActivity() {
             //fulscreen API 34+
             else if (iType == 2) {
                 bSnackBarOn = false
+                @SuppressLint("NewApi")
                 this.openFullScreenIntentSettings(MY_APP_NAME_GOOGLE_ID)
             }
             //API x-32
@@ -1114,13 +1123,14 @@ class MainActivity : SimpleActivity() {
         snackbarText.maxLines = 4
         snackbarText.ellipsize = null // aby se text nekrátil
         snackbarText.textAlignment = View.TEXT_ALIGNMENT_TEXT_START // optional, aby byl text zarovnán vlevo
-        snackbar.setBackgroundTint(getProperBackgroundColor().adjustColor())
+
+        snackbar.setBackgroundTint(getProperMySearchBarColor())
+        //snackbar.setBackgroundTint(getProperBackgroundColor().adjustColor())
         snackbar.setTextColor(getProperTextColor())
         snackbar.setActionTextColor(getProperTextColor())
         snackbar.show()
         if (bPermissionNotificationOn) AppUpdateNotificationManager(this).cancelNotification()
         bSnackBarOn = true
-
     }
 
 
@@ -1131,11 +1141,12 @@ class MainActivity : SimpleActivity() {
 
     private fun handleStartIntent(intent: Intent) {
         setIntent(intent)
-        if (intent.getBooleanExtra("from_missed_call_notification", false)) {
-            openedFromMissedCallNotification = true
-            intent.removeExtra("from_missed_call_notification")
-            return
-        }
+
+//        if (intent.getBooleanExtra("from_missed_call_notification", false)) {
+//            openedFromMissedCallNotification = true
+//            intent.removeExtra("from_missed_call_notification")
+//            return
+//        }
         if (intent.getBooleanExtra("from_missed_perm_notification", false)) {
             openedFromMissedPermNotification = true
             intent.removeExtra("from_missed_perm_notification")
@@ -1147,11 +1158,11 @@ class MainActivity : SimpleActivity() {
             return
         }
 
-        if (intent.action == Intent.ACTION_VIEW &&
-            intent.data?.authority == "call_log"
-        ) {
+        // content://call_log/calls - může vyvolat jakákoliv appka androidu
+        // cz.mts.phone to odchytí (MainActivity má intent-filter pro ACTION_VIEW s MIME vnd.android.cursor.dir/calls)
+        // a ukáže historii volání
+        if (intent.action == Intent.ACTION_VIEW && intent.data?.authority == "call_log") {
             openedFromMissedCallNotification = true
-            // nastav start_tab ručně
             intent.putExtra("start_tab", TAB_CALL_HISTORY)
         }
     }

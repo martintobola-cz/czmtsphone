@@ -627,7 +627,6 @@ class RecentCallsAdapter(
                 true
             }
             show()
-
             if (colorizerEnabled) {
                 PopupMenuColorizer.applyBackground(iSaveDebugMode == 1,this, activity, activity.baseConfig.popupMenuBackgroundColor)
             }
@@ -813,13 +812,15 @@ class RecentCallsAdapter(
                 }
                 else
                 {
-                itemRecentsLocation.apply {
-                    val location = getLocationSafeForUI(call.phoneNumber, call.simID)
-                    text = location
-                    beVisibleIf(location.isNotBlank())
-                    setTextColor(textColorInt)
-                    setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
-                }
+                itemRecentsLocation.beGone()
+                    //.apply {
+                    //MTSXX dočasně zakomentováno
+                    //val location = getLocationSafeForUI(call.phoneNumber, call.simID)
+                    //text = location
+                    //beVisibleIf(location.isNotBlank())
+                    //setTextColor(textColorInt)
+                    //setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
+                //}
                 }
 
                 val hasSim = areMultipleSIMsAvailable && call.simID != -1

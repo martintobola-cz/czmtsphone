@@ -49,15 +49,7 @@ abstract class EdgeToEdgeActivity : AppCompatActivity() {
     }
 
     fun applyNavigationBar(color: Int, lightIcons: Boolean) {
-      //  if (Build.VERSION.SDK_INT >= 35) {
-            // Na API 35+ barvu nelze přepsat – nastavíme jen appearance ikon
             window.setSystemBarsAppearance(getProperBackgroundColor(), customNavBarLightIcons)
-            //WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = lightIcons
-      //  } else {
-      //      window.navigationBarColor = color
-      //      WindowInsetsControllerCompat(window, window.decorView)
-      //          .isAppearanceLightNavigationBars = lightIcons
-      //  }
     }
 
     fun setupEdgeToEdge(

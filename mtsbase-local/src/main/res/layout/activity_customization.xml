@@ -75,6 +75,53 @@
                     android:layout_height="wrap_content"
                     android:text="@string/use_dynamic_theme" />
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/customization_dynamic_colors_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/bigger_margin"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingEnd="@dimen/bigger_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <ImageView
+                    android:id="@+id/dynamic_color_1"
+                    android:layout_width="@dimen/color_sample_size"
+                    android:layout_height="@dimen/color_sample_size"
+                    android:layout_marginEnd="@dimen/medium_margin"
+                    android:contentDescription="colorPrimary"
+                    tools:src="@drawable/circle_background" />
+                <ImageView
+                    android:id="@+id/dynamic_color_2"
+                    android:layout_width="@dimen/color_sample_size"
+                    android:layout_height="@dimen/color_sample_size"
+                    android:layout_marginEnd="@dimen/medium_margin"
+                    android:contentDescription="colorAccent"
+                    tools:src="@drawable/circle_background" />
+                <ImageView
+                    android:id="@+id/dynamic_color_3"
+                    android:layout_width="@dimen/color_sample_size"
+                    android:layout_height="@dimen/color_sample_size"
+                    android:layout_marginEnd="@dimen/medium_margin"
+                    android:contentDescription="system_accent1_600"
+                    tools:src="@drawable/circle_background" />
+                <ImageView
+                    android:id="@+id/dynamic_color_4"
+                    android:layout_width="@dimen/color_sample_size"
+                    android:layout_height="@dimen/color_sample_size"
+                    android:layout_marginEnd="@dimen/medium_margin"
+                    android:contentDescription="system_accent2_600"
+                    tools:src="@drawable/circle_background" />
+                <ImageView
+                    android:id="@+id/dynamic_color_5"
+                    android:layout_width="@dimen/color_sample_size"
+                    android:layout_height="@dimen/color_sample_size"
+                    android:contentDescription="system_accent3_600"
+                    tools:src="@drawable/circle_background" />
+            </LinearLayout>
             <RelativeLayout
                 android:id="@+id/settings_use_custom_sim_color_holder"
                 style="@style/SettingsHolderSwitchStyle"

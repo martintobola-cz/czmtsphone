@@ -3,8 +3,8 @@ package cz.mts.phone.helpers
 
 object RecentsQueryLimits {
 
-    private const val QUERY_RECENT_FAST_FIRST_LIMIT = 5
-    private const val QUERY_RECENT_CHUNK_LIMIT = 33
+    private const val QUERY_RECENT_FAST_FIRST_LIMIT = 5 //pouze pro observer
+    private const val QUERY_RECENT_CHUNK_LIMIT = 33 //pro vyčítání
     private var bFullRefreshIsNeeded = false
     private var bIsPreview = false
 

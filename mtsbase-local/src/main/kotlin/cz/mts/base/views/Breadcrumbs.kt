@@ -21,8 +21,6 @@ import cz.mts.base.helpers.MEDIUM_ALPHA
 import cz.mts.base.models.FileDirItem
 
 class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(context, attrs) {
-    private val inflater =
-        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private val itemsLayout: LinearLayout
     private var textColor = context.getProperTextColor()
     private var accentColor = context.getProperPrimaryColor()
@@ -172,7 +170,7 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
     }
 
     private fun addBreadcrumb(item: FileDirItem, index: Int, isLast: Boolean) {
-        ItemBreadcrumbBinding.inflate(inflater, itemsLayout, false).apply {
+        ItemBreadcrumbBinding.inflate(LayoutInflater.from(context), itemsLayout, false).apply {
             breadcrumbText.isActivated = isLast && index != 0
 
             breadcrumbText.text = item.name

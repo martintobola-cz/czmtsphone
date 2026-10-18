@@ -385,7 +385,6 @@ fun isSPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
 fun isTiramisuPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun isUpsideDownCakePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 

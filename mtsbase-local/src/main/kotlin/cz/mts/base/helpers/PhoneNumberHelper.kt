@@ -13,7 +13,10 @@ object PhoneNumberHelper {
     private val phoneUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance()
     private val geocoder: PhoneNumberOfflineGeocoder = PhoneNumberOfflineGeocoder.getInstance()
     private val locale: Locale = Locale.getDefault()
-    private val defaultRegion: String = locale.country
+
+    // Jazyk telefonu je jen POSLEDNÍ záchrana pro region (nemusí odpovídat zemi SIM, může být i prázdný).
+    // Čte se vždy znovu, ne jen jednou při startu procesu.
+    private val defaultRegion: String get() = Locale.getDefault().country
     private val parseCache = LruCache<String, Phonenumber.PhoneNumber>(200)
     private const val NONE = "\u0000"
     private val locationCache = LruCache<String, String>(200)
@@ -25,7 +28,8 @@ object PhoneNumberHelper {
         val normalized = normalizeDigitsOnly(number)
         if (normalized.isBlank() || normalized.length < 4) return null
 
-        val reg = region?.takeIf { it.length == 2 } ?: defaultRegion
+        // region může přijít malými písmeny ("cz" z TelephonyManageru); neznámý se ignoruje a použije se jazyk telefonu
+        val reg = normalizeRegionOrNull(region) ?: defaultRegion
         val key = "$normalized|$reg"
 
         parseCache.get(key)?.let { return it }
@@ -40,12 +44,18 @@ object PhoneNumberHelper {
         return parsed
     }
 
-    /** 1) Geolokace + vlajka */
-    fun getCountryWithFlag(number: String?): String {
-        val parsed = parseNumber(number) ?: return ""
-        val region = phoneUtil.getRegionCodeForNumber(parsed) ?: return ""
+    /**
+     * 1) Geolokace + vlajka
+     *
+     * @param region země SIM, přes kterou hovor jde (viz Context.getCallRegion()). Určuje, jak se vyloží číslo
+     *               v národním formátu (602123456, 0905123456) nebo s mezinárodní předvolbou 00. U čísla s "+"
+     *               nehraje roli. null = region z jazyka telefonu (nespolehlivé, jako dosud).
+     */
+    fun getCountryWithFlag(number: String?, region: String? = null): String {
+        val parsed = parseNumber(number, region) ?: return ""
+        val numberRegion = phoneUtil.getRegionCodeForNumber(parsed) ?: return ""
         val description = geocoder.getDescriptionForNumber(parsed, locale) ?: ""
-        return "${regionToFlag(region)} $region ($description)"
+        return "${regionToFlag(numberRegion)} $numberRegion ($description)"
     }
 
     private fun regionToFlag(code: String): String {
@@ -79,6 +89,64 @@ object PhoneNumberHelper {
         return format(sInput, true)
     }
 
+    /**
+     * Dvoupísmenný ISO kód země VELKÝMI písmeny, jinak null.
+     * libphonenumber vyžaduje velká písmena a zná jen své regiony, kdežto TelephonyManager
+     * (simCountryIso / networkCountryIso) vrací malá ("cz").
+     */
+    fun normalizeRegionOrNull(iso: String?): String? =
+        iso?.trim()
+            ?.takeIf { it.length == 2 }
+            ?.uppercase(Locale.ROOT)
+            ?.takeIf { it in phoneUtil.supportedRegions }
+
+    /**
+     * První použitelný region z kandidátů v pořadí, jak je volající předá (typicky země SIM přijímající hovor,
+     * pak země sítě). Když žádný není použitelný, vrátí se region z jazyka telefonu – ten může být prázdný
+     * (např. jazyk "en" bez země); parsování národních čísel pak selže a vrátí se null / "nejde převést".
+     */
+    fun resolveRegion(vararg candidates: String?): String {
+        for (candidate in candidates) {
+            normalizeRegionOrNull(candidate)?.let { return it }
+        }
+        return defaultRegion
+    }
+
+    /**
+     * E.164 (+číslice) POUZE pokud je číslo platné pro daný region (číslo s +, resp. s mezinárodní
+     * předvolbou země, nepotřebuje region vůbec). Jinak null = "nejde převést", nic se nedomýšlí:
+     * krátká / servisní / neplatná čísla (i neplatné číslo začínající +) vrací null.
+     *
+     * Na rozdíl od normalizeNumberE164() tedy nikdy nevrací "číslice jako fallback".
+     */
+    fun toE164OrNull(number: String?, region: String? = null): String? {
+        val raw = number?.trim()
+        if (raw.isNullOrEmpty()) return null
+        // * a # jsou servisní kódy, ne telefonní číslo (normalizeDigitsOnly by je vrátilo beze změny)
+        if (raw.any { it == '*' || it == '#' }) return null
+
+        val normalized = normalizeDigitsOnly(raw)
+        if (normalized.length < 4) return null
+
+        val reg = normalizeRegionOrNull(region) ?: defaultRegion
+        val cacheKey = "e164?|$normalized|$reg"
+        phoneCache.get(cacheKey)?.let { return if (it == NONE) null else it }
+
+        val result = try {
+            val parsed = phoneUtil.parse(normalized, reg)
+            if (phoneUtil.isValidNumber(parsed)) {
+                phoneUtil.format(parsed, PhoneNumberUtil.PhoneNumberFormat.E164)
+            } else {
+                null
+            }
+        } catch (_: NumberParseException) {
+            null
+        }
+
+        phoneCache.put(cacheKey, result ?: NONE)
+        return result
+    }
+
     /** 3) E.164 s fallback region a volitelným formátováním */
       fun normalizeNumberE164(
         numberIN: String?,
@@ -89,7 +157,7 @@ object PhoneNumberHelper {
         if (number.isBlank()) return ""
         if (number.length < 4) return number
 
-        val region = isoCountry?.takeIf { it.length == 2 } ?: defaultRegion
+        val region = normalizeRegionOrNull(isoCountry) ?: defaultRegion
         val cacheKey = "$number|$region|$format"
 
         // Zkontrolovat cache
@@ -175,7 +243,7 @@ object PhoneNumberHelper {
 
     fun isPhoneNumber(sString: String, isoCountry: String? = null): Boolean {
         if ((sString.isBlank()) || (sString.length < 4))  return false
-        val region = isoCountry?.takeIf { it.length == 2 } ?: Locale.getDefault().country
+        val region = normalizeRegionOrNull(isoCountry) ?: defaultRegion
         return try {
             val parsed = phoneUtil.parse(sString, region)
             phoneUtil.isValidNumber(parsed)

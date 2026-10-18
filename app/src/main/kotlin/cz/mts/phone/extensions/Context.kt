@@ -7,47 +7,71 @@ import android.app.NotificationManager
 import android.app.role.RoleManager
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Context.KEYGUARD_SERVICE
 import android.content.Intent
+import android.content.pm.ShortcutManager
 import android.media.AudioManager
 import android.net.Uri
 import android.os.PowerManager
+import android.os.Vibrator
 import android.telecom.PhoneAccount
 import android.telecom.TelecomManager
+import android.telephony.SmsManager
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
+import android.view.inputmethod.InputMethodManager
 import cz.mts.base.extensions.baseConfig
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.base.helpers.isQPlus
-//import cz.mts.phone.helpers.Config
+import cz.mts.base.helpers.isSPlus
+import cz.mts.base.helpers.isUpsideDownCakePlus
 import cz.mts.phone.models.SIMAccount
 import java.util.Locale
 
 //val Context.config: Config
 //    get() = Config.newInstance(applicationContext)
 
-val Context.clipboardManager: ClipboardManager
-    get() = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+fun Context.canUseFullScreenIntent(): Boolean {
+    return !isUpsideDownCakePlus() || notificationManager.canUseFullScreenIntent()
+}
 
-
-val Context.audioManager: AudioManager
-    get() = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
-val Context.notificationManager: NotificationManager
-    get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-val Context.powerManager: PowerManager
-    get() = getSystemService(Context.POWER_SERVICE) as PowerManager
-
-val Context.keyguardManager: KeyguardManager
-    get() = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
-
-val Context.appOpsManager: AppOpsManager?
-    get() = getSystemService(AppOpsManager::class.java)
 
 val Context.telephonyService: TelephonyManager
     get() = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+val Context.telecomManager2: TelecomManager
+    get() = getSystemService(Context.TELECOM_SERVICE) as TelecomManager
+
+val Context.vibrator: Vibrator?
+    get() = getSystemService(Vibrator::class.java)
+
+val Context.smsManager: SmsManager?
+    get() = if (isSPlus()) getSystemService(SmsManager::class.java)
+    else @Suppress("DEPRECATION") SmsManager.getDefault()
+
+val Context.clipboardManager: ClipboardManager
+    get() = getSystemService(ClipboardManager::class.java)
+
+val Context.shortcutManager: ShortcutManager
+    get() = getSystemService(ShortcutManager::class.java)
+
+val Context.audioManager: AudioManager
+    get() = getSystemService(AudioManager::class.java)
+
+val Context.notificationManager: NotificationManager
+    get() = getSystemService(NotificationManager::class.java)
+
+val Context.powerManager: PowerManager
+    get() = getSystemService(PowerManager::class.java)
+
+val Context.keyguardManager: KeyguardManager
+    get() = getSystemService(KeyguardManager::class.java)
+
+val Context.appOpsManager: AppOpsManager
+    get() = getSystemService(AppOpsManager::class.java)
+
+val Context.telephonyManager: TelephonyManager?
+    get() = getSystemService(TelephonyManager::class.java)
 
 val Context.telecomManager: TelecomManager?
     get() = getSystemService(TelecomManager::class.java)
@@ -57,6 +81,9 @@ val Context.subscriptionManager: SubscriptionManager?
 
 val Context.roleManager: RoleManager?
     get() = if (isQPlus()) getSystemService(RoleManager::class.java) else null
+
+val Context.inputMethodManager: InputMethodManager?
+    get() = getSystemService(InputMethodManager::class.java)
 
 val Context.isDefaultCallScreeningApp: Boolean
     get() = if (isQPlus()) roleManager?.isRoleHeld(RoleManager.ROLE_CALL_SCREENING) ?: false

@@ -13,14 +13,13 @@ import android.telecom.Call
 import android.view.View
 import android.widget.RemoteViews
 import cz.mts.base.extensions.hasPermission
-import cz.mts.base.extensions.notificationManager
 import cz.mts.base.extensions.setText
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
-import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.phone.R
 import cz.mts.phone.activities.mtsGlobalAll.fakeAvatar
 import cz.mts.phone.extensions.getStateCompat
+import cz.mts.phone.extensions.notificationManager
 import cz.mts.phone.models.CallContact
 import cz.mts.phone.receivers.CallActionReceiver
 import cz.mts.phone.receivers.NotificationDismissedReceiver
@@ -145,7 +144,7 @@ class CallNotificationManagerMTs2(private val context: Context) {
         bCanBeAccepted: Boolean
     ) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !context.hasPermission(PERMISSION_POST_NOTIFICATIONS)) {
+        if (isTiramisuPlus() && !context.hasPermission(PERMISSION_POST_NOTIFICATIONS)) {
             return
         }
 
@@ -174,9 +173,8 @@ class CallNotificationManagerMTs2(private val context: Context) {
 
         ensureChannel(channelId, channelName, importance)
 
-        val callerName = if (sNumber.isNotBlank()) sNumber else context.getString(R.string.unknown_caller)
         val intents = createCallIntents(sUUID, "from_startNotificationAsync")
-        val collapsedView = buildCollapsedView(bCanBeAccepted, null, callerName, intents, call)
+        val collapsedView = buildCollapsedView(bCanBeAccepted, null, sNumber, intents, call)
 
         val builder = Notification.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_phone_vector)
@@ -241,7 +239,7 @@ class CallNotificationManagerMTs2(private val context: Context) {
         val callState = call.getStateCompat()
 
         // pokud nemáme permission (Android 13+), nevoláme notify — caller by měl o tohle vědět
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !context.hasPermission(PERMISSION_POST_NOTIFICATIONS)) {
+        if (isTiramisuPlus() && !context.hasPermission(PERMISSION_POST_NOTIFICATIONS)) {
            return
         }
 
@@ -330,7 +328,7 @@ class CallNotificationManagerMTs2(private val context: Context) {
 
 
     private val pendingIntentFlags: Int
-        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        get() = if (isSPlus()) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         } else {
             PendingIntent.FLAG_UPDATE_CURRENT
@@ -380,40 +378,39 @@ class CallNotificationManagerMTs2(private val context: Context) {
         RemoteViews(context.packageName, R.layout.call_notification).apply {
 
             val sUnknown = context.getString(R.string.unknown_caller)
-            var callerName = sNumber.ifBlank { sUnknown }
-            var callerNumber = callContact?.number ?: ""
-            var sSpamEmoji = ""
-            var bSpamEmoji = false
-            if (callContact != null) {
-                bSpamEmoji = ((callContact.id.toInt() == 0) && (CacheContacts.bSpamChecking))
-                callerName = if (callContact.name.isNotEmpty()) callContact.name else sUnknown
-            }
-            if ((callerNumber.isBlank()) || (normalizeDigitsOnly(callerNumber) == normalizeDigitsOnly(callerName)))
-                callerNumber = ""
 
-            val isConfenerce =  CallManager.isConference(call)
-            val isUnknown = (callerName.equals(sUnknown))
+            // Jednotná logika zobrazení (CallDisplayHelper) - stejná jako fullscreen a overlay.
+            // callContact == null = první notifikace ještě před dohledáním kontaktu, známe jen surové číslo.
+            val display = buildCallDisplay(
+                context,
+                call,
+                callContact ?: CallContact(
+                    id = 0L,
+                    name = sNumber,
+                    number = if (sNumber == sUnknown) "" else sNumber,
+                    numberLabel = "",
+                    photoUri = "",
+                    presentation = 3,
+                    source = ""
+                ),
+                false   // notifikace u uloženého kontaktu ukazuje jen jméno
+            )
 
-            if ((bSpamEmoji) && (!isConfenerce) && (!isUnknown)) {
-                sSpamEmoji = CallManager.getSpamEmojiByCall(call) ?: ""
-            }
+            // notifikace má jen jeden řádek: [emoji] jméno · číslo (číslo se při nedostatku místa ořízne)
+            val callerName = display.notificationTitle
+            val isConfenerce = CallManager.isConference(call)
+            val isUnknown = display.isHidden
 
-            if ((sSpamEmoji.isNotBlank()) && (!isConfenerce) ) {
-               if  (callerNumber.isBlank()) {callerName += " " + sSpamEmoji}
-                else callerNumber += " " + sSpamEmoji
-            }
-
-            if (isConfenerce) {
-                callerNumber = ""
-            }
-
-            setText(R.id.notification_phone_number, callerNumber)
             setText(R.id.notification_caller_name, callerName)
 
-            setViewVisibility(
-                R.id.notification_phone_number,
-                if ( callerNumber.isBlank() || callerName.isNotBlank() ) View.GONE else View.VISIBLE
-            ) //callerName.isNotBlank() protože více řádků nezobrazuje hezky notifikaci, takže nejsou třeba vidět tlačítka, proto je lepší zobrazovat jen jméno z kontaktu bez čísla...
+            setViewVisibility(R.id.notification_phone_number, View.GONE) // notifikace má jen jeden řádek, číslo je v titulku
+            //protože více řádků nezobrazuje hezky notifikaci, takže nejsou třeba vidět tlačítka, proto je lepší zobrazovat jen jméno z kontaktu bez čísla...
+
+
+         //   setViewVisibility(
+         //       R.id.notification_phone_number,
+         //       if ( callerNumber.isBlank() || callerName.isNotBlank() ) View.GONE else View.VISIBLE
+         //   ) //callerName.isNotBlank() protože více řádků nezobrazuje hezky notifikaci, takže nejsou třeba vidět tlačítka, proto je lepší zobrazovat jen jméno z kontaktu bez čísla...
 
             val callstate = call.getStateCompat()
             val textId = if (canBeAccepted) R.string.call_type1_mts
@@ -475,10 +472,11 @@ class CallNotificationManagerMTs2(private val context: Context) {
             val wearableText = buildString {
                 if (iSimSlot != 0) append(simText)
                 // zrcadlime viditelnost notification_phone_number vyse
-                if (callerNumber.isNotBlank() && callerName.isBlank()) {
-                    append(callerNumber)
-                    append(" ")
-                }
+//callerName není díky pouze jednořádkové notifikaci nikdy blank
+           //     if (callerNumber.isNotBlank() && callerName.isBlank()) {
+           //         append(callerNumber)
+           //         append(" ")
+           //     }
                 append(statusText)
             }
             wearableTexts = WearableTexts(title = wearableTitle, text = wearableText)

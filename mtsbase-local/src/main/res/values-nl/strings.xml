@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+<string name="use_dynamic_theme">Dynamische (You-)kleuren</string>
+<string name="theme_restart_required">Met de knop OK wordt de applicatie afgesloten; dit is nodig om de zojuist gemaakte kleurwijzigingen door te voeren.</string>
+<string name="customization_popup_menu_background_color_label">Achtergrondkleur van pop-upmenu</string>
+<string name="customization_popup_menu_text_color_label">Tekstkleur van pop-upmenu</string>
+
+<string name="callfilter_info">Beoordelingen tonen voor onbekende nummers (via callfilter.app, cz.mts.callfilter)</string>
+<string name="more_info">Meer info</string>
+<string name="tmobile_theme">T-Mobile</string>
+<string name="kaktus_theme">Kaktus</string>
+<string name="use_custom_sim_color">Aangepaste SIM-kleur</string>
+<string name="customization_sim1_color_label">Kleur SIM1</string>
+<string name="customization_sim2_color_label">Kleur SIM2</string>
+    <string name="use_dayofweek_in_time_format">Dag van de week weergeven</string>
+    <string name="invalid_target_for_import">Selecteer slechts één doel (of geen om een aangepast doel te maken)!</string>
+    <string name="invalid_name_or_type">Ongeldige naam of type!</string>
+    <string name="view_all_call_history">Vernieuwen</string>
+   <string name="search_all_fields">Alle velden doorzoeken</string>
+    <string name="other">overig</string>
+    <string name="about">Over app</string>
+    <string name="customization_navbar_color_label">Kleur van navigatiebalk</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuleren</string>
+    <string name="close">Sluiten</string>
+    <string name="back">Terug</string>
+    <plurals name="files_saved">
+        <item quantity="one">Bestand is opgeslagen</item>
+        <item quantity="other">Bestanden zijn opgeslagen</item>
+    </plurals>
+    <string name="invalid_file_format">Ongeldig bestandsformaat</string>
+    <string name="error">Fout: %s</string>
+    <string name="no_app_found">Geen geschikte app gevonden</string>
+    <string name="copy_number_to_clipboard">Nummer naar klembord kopiëren</string>
+    <string name="value_copied_to_clipboard_show">Waarde naar klembord gekopieerd</string>
+    <string name="unknown">Onbekend</string>
+    <string name="previous">Vorige</string>
+    <string name="next">Volgende</string>
+    <string name="number">Nummer</string>
+    <string name="no_contacts_found">Geen contacten gevonden</string>
+    <string name="zero">Nul</string>
+    <string name="one">Eén</string>
+    <string name="two">Twee</string>
+    <string name="three">Drie</string>
+    <string name="four">Vier</string>
+    <string name="five">Vijf</string>
+    <string name="six">Zes</string>
+    <string name="seven">Zeven</string>
+    <string name="eight">Acht</string>
+    <string name="nine">Negen</string>
+    <string name="value">Waarde</string>
+    <string name="create_new_contact">Nieuw contact maken</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="choose_contact">Contact kiezen</string>
+    <string name="record_audio">Audio opnemen</string>
+    <string name="record_video">Video opnemen</string>
+    <string name="phone_storage">Telefoonopslag</string>
+    <string name="phone_storage_hidden">Telefoonopslag (niet zichtbaar voor andere apps)</string>
+    <string name="home">Thuis</string>
+    <string name="work">Werk</string>
+
+    
+    <string name="mobile">Mobiel</string>
+    <string name="main_number">Hoofdnummer</string>
+    <string name="work_fax">Fax werk</string>
+    <string name="home_fax">Fax thuis</string>
+    <string name="pager">Pieper</string>
+    <string name="change_view_type">Weergavetype wijzigen</string>
+    <string name="grid">Raster</string>
+    <string name="list">Lijst</string>
+    <string name="column_count">Aantal kolommen</string>
+    <plurals name="column_counts">
+        <item quantity="one">%d kolom</item>
+        <item quantity="other">%d kolommen</item>
+    </plurals>
+    <plurals name="row_counts">
+        <item quantity="one">%d rij</item>
+        <item quantity="other">%d rijen</item>
+    </plurals>
+
+    
+    <string name="manage_blocked_numbers">⛔ Geblokkeerde nummers</string>
+    <string name="blocked_numbers_title">⛔ Blokkeren</string>
+
+    <string name="not_blocking_anyone">Je blokkeert niemand.</string>
+    <string name="add_a_blocked_number">Geblokkeerd nummer toevoegen</string>
+    <string name="block_number">Nummer blokkeren</string>
+    <string name="blocked_numbers">Geblokkeerde nummers</string>
+    <string name="export_blocked_numbers">Geblokkeerde nummers exporteren</string>
+    <string name="import_blocked_numbers">Geblokkeerde nummers importeren</string>
+    <string name="must_make_default_dialer">Je moet deze app als standaard belapp instellen om geblokkeerde nummers te kunnen gebruiken.</string>
+    <string name="set_as_default">Als standaard instellen</string>
+
+    
+    <string name="favorites">Favorieten</string>
+    <string name="search">Zoeken</string>
+    <string name="search_contacts">Contacten zoeken</string>
+    <string name="filter">Bronnen van contacten</string>
+    <string name="no_items_found">Geen items gevonden.</string>
+    <string name="allow_notifications_incoming_calls">Je moet de app toestemming geven om meldingen weer te geven, anders kan deze inkomende gesprekken niet tonen.</string>
+    <string name="allow_full_screen_notifications_incoming_calls">Je moet de app toestemming geven om meldingen op volledig scherm weer te geven, anders mis je mogelijk sommige inkomende gesprekken.</string>
+    <string name="grant_permission">Toestemming verlenen</string>
+    <string name="permission_required">Toestemming vereist</string>
+
+    
+    <string name="filename_cannot_be_empty">Bestandsnaam mag niet leeg zijn</string>
+    <string name="filename_invalid_characters">Bestandsnaam bevat ongeldige tekens</string>
+    <string name="prepend_filenames">Tekst vóór bestandsnamen toevoegen</string>
+    <string name="append_filenames">Tekst na bestandsnamen toevoegen</string>
+    <string name="simple_renaming">Eenvoudig hernoemen</string>
+    <string name="pattern_renaming">Patroon</string>
+    <string name="string_to_add">Toe te voegen tekst</string>
+    <string name="rename_date_time_pattern">%Y - jaar\n%M - maand\n%D - dag\n%h - uur\n%m - minuut\n%s - seconde\n%i - oplopend nummer vanaf 1</string>
+    <string name="filename_without_ext">Bestandsnaam zonder extensie</string>
+    <string name="copy">Kopiëren</string>
+    <string name="please_select_destination">Selecteer een bestemming</string>
+    <string name="could_not_create_folder">Kan map %s niet maken</string>
+    <string name="could_not_create_file">Kan bestand %s niet maken</string>
+    <string name="system_service_disabled">De systeemservice voor het selecteren van bestanden en mappen is niet beschikbaar</string>
+
+    
+    <string name="folder">Map</string>
+    <string name="create_new_folder">Nieuwe map maken</string>
+    <string name="name_taken">Er bestaat al een bestand of map met die naam</string>
+    <string name="invalid_name">De naam bevat ongeldige tekens</string>
+    <string name="empty_name">Voer een naam in</string>
+    <string name="unknown_error_occurred">Er is een onbekende fout opgetreden</string>
+
+    
+    <string name="file_already_exists">Bestand \"%s\" bestaat al</string>
+    <string name="file_already_exists_overwrite">Bestand \"%s\" bestaat al. Overschrijven?</string>
+    <string name="folder_already_exists">Map \"%s\" bestaat al</string>
+    <string name="merge">Samenvoegen</string>
+    <string name="keep_both">Beide behouden</string>
+    <string name="overwrite">Overschrijven</string>
+    <string name="skip">Overslaan</string>
+    <string name="apply_to_all">Op alles toepassen</string>
+    <string name="system_folder_restriction">Het systeem staat deze bewerking in deze map niet toe, kies een andere map</string>
+    <string name="select_folder">Selecteer een map</string>
+    <string name="select_file">Selecteer een bestand</string>
+    <string name="confirm_storage_access_title">Toegang tot externe opslag bevestigen</string>
+    <string name="confirm_folder_access_title">Maptoegang bevestigen</string>
+    <string name="confirm_storage_access_text">Kies op het volgende scherm de hoofdmap van de SD-kaart om schrijftoegang te verlenen</string>
+    <string name="confirm_storage_access_text_sd">Als je de SD-kaart niet ziet, probeer dan dit</string>
+    <string name="confirm_storage_access_android_text_specific">Geef op het volgende scherm toegang tot \'&lt;b&gt;%s&lt;/b&gt;\' door onderaan op \'&lt;b&gt;Deze map gebruiken&lt;/b&gt;\' te tikken.</string>
+    <string name="confirm_create_doc_for_new_folder_text">Tik onderaan op het volgende scherm op \'&lt;b&gt;Opslaan&lt;/b&gt;\' om de nieuwe map te maken.</string>
+    <string name="loading">Laden…</string>
+    <plurals name="items">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+
+    
+    <plurals name="delete_items">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+
+    <plurals name="deleting_items">
+        <item quantity="one">%d item wordt verwijderd</item>
+        <item quantity="other">%d items worden verwijderd</item>
+    </plurals>
+
+    
+    <plurals name="delete_contacts">
+        <item quantity="one">%d contact</item>
+        <item quantity="other">%d contacten</item>
+    </plurals>
+
+    
+    <string name="select_storage">Opslag selecteren</string>
+    <string name="internal">Intern</string>
+    <string name="sd_card">SD-kaart</string>
+    <string name="root">Root</string>
+    <string name="wrong_root_selected">Verkeerde map geselecteerd, selecteer de hoofdmap van je SD-kaart</string>
+    <string name="sd_card_usb_same">De paden van de SD-kaart en het USB-apparaat mogen niet hetzelfde zijn</string>
+    <string name="wrong_folder_selected">Verkeerde map geselecteerd, selecteer het pad \'%s\'</string>
+
+    
+    <string name="path">Pad</string>
+    <string name="background_color">Achtergrondkleur</string>
+    <string name="text_color">Tekstkleur</string>
+    <string name="primary_color">Primaire kleur</string>
+    <string name="accent_color_white">Accentkleur van het witte thema</string>
+    <string name="accent_color_black_and_white">Accentkleur van het thema Zwart &amp; Wit</string>
+    <string name="app_icon_color">Kleur van app-pictogram</string>
+    <string name="default_color">Standaard</string>
+    <string name="theme">Thema</string>
+    <string name="changing_color_description">Hier kan alleen de kleur van het app-pictogram worden gewijzigd. Elke andere kleurwijziging zet het thema op Aangepast.</string>
+    <string name="save">Opslaan</string>
+    <string name="discard">Negeren</string>
+    <string name="cannot_be_undone">Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="save_before_closing">Je hebt niet-opgeslagen wijzigingen. Opslaan voordat je afsluit?</string>
+    <string name="app_icon_color_warning">Let op: sommige launchers verwerken het aanpassen van het app-pictogram mogelijk niet correct. Als het pictogram verdwijnt, probeer de app dan te starten via Google Play of een widget, indien beschikbaar.
+        Zet na het starten de standaard groene pictogramkleur #106D1F terug. In extreme gevallen kan het nodig zijn de app opnieuw te installeren.</string>
+    <string name="light_theme">Licht</string>
+    <string name="dark_theme">Donker</string>
+    <string name="auto_light_dark_theme">Auto licht / donker</string>
+    <string name="dark_red">Donkerrood</string>
+    <string name="white">Wit</string>
+    <string name="black_white">Zwart &amp; Wit</string>
+    <string name="custom">Aangepast</string>
+    <string name="system_default">Android-systeem</string>
+
+    
+    <string name="whats_new_disclaimer">* alleen de grotere updates worden hier vermeld, er zijn altijd ook enkele kleinere verbeteringen</string>
+
+    
+    <string name="delete">Verwijderen</string>
+    <string name="remove">Weghalen</string>
+    <string name="select_all">Alles selecteren</string>
+    <string name="create_shortcut">Vastmaken aan startscherm</string>
+    <string name="add_number_to_contact">Nummer aan contact toevoegen</string>
+    <string name="view_contact_details">Contactgegevens bekijken</string>
+    <string name="call_from_sim_1">Bellen vanaf SIM 1</string>
+    <string name="call_from_sim_2">Bellen vanaf SIM 2</string>
+    <string name="send_sms">Sms versturen</string>
+    <string name="call">Bellen</string>
+    <string name="unblock">Deblokkeren</string>
+
+    
+    <string name="sort_by">Sorteren op</string>
+    <string name="date_created">Aanmaakdatum</string>
+    <string name="date_taken">Opnamedatum</string>
+    <string name="title">Titel</string>
+    <string name="extension">Extensie</string>
+    <string name="ascending">Oplopend</string>
+    <string name="descending">Aflopend</string>
+    <string name="first_name">Voornaam</string>
+    <string name="middle_name">Tweede voornaam</string>
+    <string name="surname">Achternaam</string>
+    <string name="full_name">Volledige naam</string>
+    <string name="more_options">Meer opties</string>
+    <string name="proceed_with_deletion">Weet je zeker dat je wilt doorgaan met verwijderen?</string>
+    <string name="deletion_confirmation">Weet je zeker dat je %s wilt verwijderen?</string>    
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <plurals name="delete_warning">
+        <item quantity="one">WAARSCHUWING: je verwijdert %d map</item>
+        <item quantity="other">WAARSCHUWING: je verwijdert %d mappen</item>
+    </plurals>
+
+    
+    <string name="pin">PIN</string>
+    <string name="pattern">Patroon</string>
+    <string name="go_to_settings">Naar Instellingen</string>
+    <string name="lock_folder_notice">Deze beveiliging werkt alleen in deze app en is niet bedoeld als vervanging van echte systeembrede mapversleuteling.</string>
+    <string name="enter_password">Voer wachtwoord in</string>
+    <string name="password">Wachtwoord</string>
+    <string name="empty_password">Voer het wachtwoord in</string>
+    <string name="yesterday">Gisteren</string>
+    <string name="today">Vandaag</string>
+    <string name="seconds_raw">seconden</string>
+    <string name="minutes_raw">minuten</string>
+    <string name="hours_raw">uur</string>
+    <string name="days_raw">dagen</string>
+    <string name="seconds_letter">%ds</string>
+    <string name="minutes_letter">%dm</string>
+    <string name="hours_letter">%du</string>
+    <string name="days_letter">%dd</string>
+    <plurals name="seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d seconden</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minuut</item>
+        <item quantity="other">%d minuten</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uur</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weken</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%d maand</item>
+        <item quantity="other">%d maanden</item>
+    </plurals>
+    <plurals name="years">
+        <item quantity="one">%d jaar</item>
+        <item quantity="other">%d jaar</item>
+    </plurals>
+
+    
+    <plurals name="in_seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d seconden</item>
+    </plurals>
+    <plurals name="in_minutes">
+        <item quantity="one">%d minuut</item>
+        <item quantity="other">%d minuten</item>
+    </plurals>
+    <plurals name="in_hours">
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uur</item>
+    </plurals>
+    <plurals name="in_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
+    <plurals name="in_weeks">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weken</item>
+    </plurals>
+    <plurals name="in_months">
+        <item quantity="one">%d maand</item>
+        <item quantity="other">%d maanden</item>
+    </plurals>
+    <plurals name="in_years">
+        <item quantity="one">%d jaar</item>
+        <item quantity="other">%d jaar</item>
+    </plurals>
+
+    
+    <plurals name="seconds_before">
+        <item quantity="one">%d seconde eerder</item>
+        <item quantity="other">%d seconden eerder</item>
+    </plurals>
+    <plurals name="minutes_before">
+        <item quantity="one">%d minuut eerder</item>
+        <item quantity="other">%d minuten eerder</item>
+    </plurals>
+    <plurals name="hours_before">
+        <item quantity="one">%d uur eerder</item>
+        <item quantity="other">%d uur eerder</item>
+    </plurals>
+    <plurals name="days_before">
+        <item quantity="one">%d dag eerder</item>
+        <item quantity="other">%d dagen eerder</item>
+    </plurals>
+    <plurals name="weeks_before">
+        <item quantity="one">%d week eerder</item>
+        <item quantity="other">%d weken eerder</item>
+    </plurals>
+    <plurals name="months_before">
+        <item quantity="one">%d maand eerder</item>
+        <item quantity="other">%d maanden eerder</item>
+    </plurals>
+    <plurals name="years_before">
+        <item quantity="one">%d jaar eerder</item>
+        <item quantity="other">%d jaar eerder</item>
+    </plurals>
+
+    
+    <plurals name="by_seconds">
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d seconden</item>
+    </plurals>
+    <plurals name="by_minutes">
+        <item quantity="one">%d minuut</item>
+        <item quantity="other">%d minuten</item>
+    </plurals>
+    <plurals name="by_hours">
+        <item quantity="one">%d uur</item>
+        <item quantity="other">%d uur</item>
+    </plurals>
+    <plurals name="by_days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagen</item>
+    </plurals>
+    <plurals name="by_weeks">
+        <item quantity="one">%d week</item>
+        <item quantity="other">%d weken</item>
+    </plurals>
+    <plurals name="by_months">
+        <item quantity="one">%d maand</item>
+        <item quantity="other">%d maanden</item>
+    </plurals>
+    <plurals name="by_years">
+        <item quantity="one">%d jaar</item>
+        <item quantity="other">%d jaar</item>
+    </plurals>
+
+    
+    <string name="system_sounds">Systeemgeluiden</string>
+    <string name="your_sounds">Jouw geluiden</string>
+    <string name="settings">Instellingen</string>
+    <string name="general_settings">Algemeen</string>
+    <string name="color_customization">Kleuraanpassing</string>
+    <string name="customize_colors">🎨 Kleuren aanpassen</string>
+    <string name="theme_and_colors">Thema en kleuren</string>
+    <string name="feature_locked">Vergrendeld</string>
+    <string name="use_english_language">Engels gebruiken</string>
+    <string name="language">🌏 Taal</string>
+    <string name="font_size">🅰️ Lettergrootte</string>
+    <string name="small">Klein</string>
+    <string name="medium">Gemiddeld</string>
+    <string name="large">Groot</string>
+    <string name="extra_large">Extra groot</string>
+    <string name="use_24_hour_time_format">24-uursnotatie gebruiken</string>
+    <string name="change_date_and_time_format">🕒 Datum- en tijdnotatie</string>
+    <string name="export_settings">Instellingen exporteren</string>
+    <string name="settings_exported_successfully">Instellingen zijn geëxporteerd</string>
+    <string name="start_name_with_surname">Naam beginnen met achternaam</string>
+    <string name="show_call_confirmation_dialog">Bevestigingsvenster tonen voordat een gesprek wordt gestart</string>
+    <string name="format_phone_numbers">Telefoonnummers opmaken</string>
+    <string name="show_only_contacts_with_numbers">Alleen contacten met nummers tonen</string>  
+    <string name="startup">Opstarten</string>
+    <string name="migrating">Migreren 📦</string>
+    <string name="manage_shown_tabs">🗂️ Tabbladen beheren</string>
+    <string name="calling_accounts">🔑 Belaccounts</string>
+    <string name="default_tab_to_open">Tabblad dat bij het starten van de app wordt geopend</string>
+    <string name="contacts_tab">Contacten</string>
+    <string name="favorites_tab">Favorieten</string>
+    <string name="call_history_tab">Recent</string>
+    <string name="last_used_tab">Laatst gebruikte</string>
+    <plurals name="moving_items_into_bin">
+        <item quantity="one">%d item naar de prullenbak verplaatsen</item>
+        <item quantity="other">%d items naar de prullenbak verplaatsen</item>
+    </plurals>
+
+    
+    <string name="importing">Importeren…</string>
+    <string name="exporting">Exporteren…</string>
+    <string name="importing_successful">Importeren geslaagd</string>
+    <string name="exporting_successful">Exporteren geslaagd</string>
+    <string name="exporting_failed">Exporteren mislukt</string>
+    <string name="no_entries_for_importing">Er zijn geen items gevonden om te importeren</string>
+    <string name="no_entries_for_exporting">Er zijn geen items gevonden om te exporteren</string>
+    <string name="usb">USB</string>
+    <string name="confirm_usb_storage_access_text">Kies op het volgende scherm de hoofdmap van het USB-apparaat om toegang te verlenen</string>
+    <string name="wrong_root_selected_usb">Verkeerde map geselecteerd, selecteer de hoofdmap van je USB-apparaat</string>
+    <string name="translation_english">Engels</string>
+    </resources>

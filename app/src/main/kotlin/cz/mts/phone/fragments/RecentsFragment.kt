@@ -47,12 +47,16 @@ class RecentsFragment(
     private val recentsHelper = RecentsHelper(context)
     private val mainHandler = Handler(Looper.getMainLooper())
     private var scrollHideJob: Job? = null
+    private var initDeferredByPerms = false
 
     // callback volaný po každém přijatém (ne-posledním) chunku – pro UI feedback typu "stále běží"
     var onChunkProgress: (() -> Unit)? = null
 
     // callback volaný pokaždé, když se knownContactCalls změní (i po částech, dokud recents dobíhá)
     var onKnownContactCallsChanged: (() -> Unit)? = null
+
+    // callback volaný jednou po prvních zobrazených datech (první chunk nebo výsledek observeru)
+    var onFirstRecentsLoaded: (() -> Unit)? = null
 
     private var knownContactCalls: List<RecentCall> = emptyList() // HISTORIE HOVORŮ PRO KONKRÉTNÍ KONTAKT (ContactCallHistoryDialog)
 
@@ -102,8 +106,16 @@ class RecentsFragment(
         RecentsQueryLimits.setRefreshState(false)
         when (state) {
             State.INIT -> {
-                // fragment ještě nebyl inicializován → nic nedělej
-                callback?.invoke()
+                if (initDeferredByPerms) {
+                    // právo máme až teď → dokonči odloženou inicializaci
+                    initDeferredByPerms = false
+                    setupRecycler()
+                    setupScrollIndicator()
+                    loadInitialData { callback?.invoke() }
+                } else {
+                    // fragment ještě nebyl inicializován → nic nedělej
+                    callback?.invoke()
+                }
             }
 
             State.LOADING -> {
@@ -190,17 +202,18 @@ class RecentsFragment(
         innerBinding = RecentsInnerBinding(binding)
     }
 
-    //oncreate
     override fun setupFragment() {
         if (!context.hasPermission(PERMISSION_READ_CALL_LOG)) {
+            initDeferredByPerms = true
             showPlaceholderPerms()
             return
         }
-
+        initDeferredByPerms = false
         setupRecycler()
         setupScrollIndicator()
         loadInitialData()
     }
+
 
     private fun loadInitialData(onDone: (() -> Unit)? = null) {
         state = State.LOADING
@@ -219,6 +232,7 @@ class RecentsFragment(
         // Aktualizuje se na stejnem worker threadu jeste pred zpracovanim dalsiho chunku.
         var lastAccumulatedDayCode = ""
 
+        var firstChunkNotified = false
         val chunklimit = RecentsQueryLimits.getChunkLimit()
         recentsHelper.loadAllRecentsChunked(chunkSize = chunklimit) { chunk, isLast ->
 
@@ -285,6 +299,11 @@ class RecentsFragment(
                     applySearch()   // aplikuje aktualni filtr i na tenhle dilci chunk
                 }
 
+                if (!firstChunkNotified && !cleared) {   // ← nově
+                    firstChunkNotified = true
+                    onFirstRecentsLoaded?.invoke()
+                }
+
                 if (isLast) {
                     pendingDeletedIds.clear()
                     anchorTs = if (cleared) 0L else snapshotMaxTs
@@ -344,6 +363,8 @@ class RecentsFragment(
         }
 
         recentsHelper.loadRecentsSince(anchorTs - 1) { newCalls ->
+
+            onFirstRecentsLoaded?.invoke()
 
             val validNewCallsCount = newCalls.count { nc ->
                 allItems.none { it is RecentCall && it.id == nc.id }
@@ -737,6 +758,7 @@ class RecentsFragment(
         adapter?.updateTodayCode()
     }
 
+    //pouze z refresh from observer
     fun scrollToTop() {
         adapter?.updateTodayCode()
 

@@ -8,6 +8,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.Icon
 import android.net.Uri
+import android.provider.ContactsContract.CommonDataKinds
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.*
@@ -37,11 +38,11 @@ import cz.mts.phone.activities.MainActivity
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.activities.mtsGlobalAll
 import cz.mts.phone.extensions.areMultipleSIMsAvailable
+import cz.mts.phone.extensions.shortcutManager
 import cz.mts.phone.extensions.startContactDetailsIntentID
 import cz.mts.phone.helpers.CacheContacts
 import cz.mts.phone.helpers.RecentsQueryLimits
 import cz.mts.phone.interfaces.RefreshItemsListener
-import android.provider.ContactsContract.CommonDataKinds
 import cz.mts.phone.models.PhonePickerItem
 import cz.mts.phone.models.PhoneTypeUi
 import cz.mts.phone.models.SendTarget

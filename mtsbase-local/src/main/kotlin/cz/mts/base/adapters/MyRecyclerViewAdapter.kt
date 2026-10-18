@@ -98,21 +98,16 @@ abstract class MyRecyclerViewAdapter(
                 val isDynamicTheme = activity.isDynamicTheme()
                 val colorizerEnabled = activity.baseConfig.usePopupMenuColorizer && !isDynamicTheme
 
-                //val colorWhenSelectItem = blendColors(backgroundColor, ContextCompat.getColor(activity, R.color.activated_item_foreground))
-                //val colorSearchBar = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA))
-                //o chlup sytější barva, aby byl action bar lépe vidět a odlišil barvu od pulldown menu
-                //val colorSearchBar2 = blendColors(backgroundColor, properPrimaryColor.adjustAlpha(LOWER_ALPHA), 2f)
-
-                val bgPopupMenuColor = if (isDynamicTheme) {resources.getColor(R.color.you_contextual_status_bar_color, activity.theme) }
-                                       else if (colorizerEnabled) { activity.baseConfig.popupMenuBackgroundColor }
+                val actionModeTopBgColor = if (isDynamicTheme) {resources.getColor(R.color.you_status_bar_color, activity.theme) }
+                                       else if (colorizerEnabled) properPrimaryColor //{ activity.baseConfig.popupMenuBackgroundColor }
                                        else {resources.getColor(R.color.dark_grey, activity.theme)}
 
-                val txtPopupMenuColor = if (!isDynamicTheme) getContrastingColor(properPrimaryColor)
-                                        else getContrastingColor(activity.baseConfig.popupMenuTextColor)
+                val actionModeTopTextColor = if (!isDynamicTheme) getContrastingColor(properPrimaryColor)
+                                        else getContrastingColor(actionModeTopBgColor)
 
-                actBarTextView!!.setTextColor(txtPopupMenuColor)
+                actBarTextView!!.setTextColor(actionModeTopTextColor)
 
-                activity.updateMenuItemColors(menu, baseColor = bgPopupMenuColor)
+                activity.updateMenuItemColors(menu, baseColor = actionModeTopBgColor)
 
                 if (colorizerEnabled) {
                         menu?.let { PopupMenuColorizer.colorizeTitles(it, activity.baseConfig.popupMenuTextColor) }
@@ -125,7 +120,7 @@ abstract class MyRecyclerViewAdapter(
              //   if (isDynamicTheme) {
                     actBarTextView?.onGlobalLayout {
                         val backArrow = activity.findViewById<ImageView>(androidx.appcompat.R.id.action_mode_close_button)
-                        backArrow?.applyColorFilter(txtPopupMenuColor)
+                        backArrow?.applyColorFilter(actionModeTopTextColor)
                     }
                // }
 

@@ -6,14 +6,12 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.telecom.Call
-import android.telecom.CallAudioState
-import android.telecom.InCallService
-import android.telecom.VideoProfile
+import android.telecom.*
 import cz.mts.base.compose.extensions.config
 import cz.mts.base.extensions.isAppInstalled
 import cz.mts.base.helpers.DIALPAD_TONE_LENGTH_MS
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
+import cz.mts.base.helpers.isRPlus
 import cz.mts.phone.extensions.getAvailableSIMCardLabels
 import cz.mts.phone.extensions.getStateCompat
 import cz.mts.phone.extensions.hasCapability
@@ -25,10 +23,14 @@ import java.util.concurrent.CopyOnWriteArraySet
 data class CallEntry(
     val id: String,
     val emoji: String = "",
+    val isSpam : Boolean = false,
     val notificationDone : Int = 0,
     val simSlot: Int = 0,   // 0 = neznámo / single SIM, 1 = SIM1, 2 = SIM2
     val simColor: Int = 0,      // barva SIM karty
     val simIndexId: Int = 0,     // index
+    val cnapName : String = "",   //caller-id přes Call.Details
+    val spamCheck : Boolean = false,  // spamcheck je pro tento hovor aktivní (příchozí + bSpamChecking), určuje rozložení řádků na displeji
+    val verificationStatus : Int = 0, // STIR/SHAKEN Call.Details.callerNumberVerificationStatus (API 30+), zatím se nepoužívá
     val ringStartMs: Long = 0L,  // elapsedRealtime při začátku vyzvánění, 0 = neznámo
     val ringEndMs: Long = 0L     // elapsedRealtime při opuštění RINGING, 0 = ještě zvoní
 )
@@ -49,7 +51,7 @@ class CallManager {
 
         fun isConference(call : Call?): Boolean =
             call != null && (
-                call.details.hasProperty(Call.Details.PROPERTY_CONFERENCE) ||
+                call.details?.hasProperty(Call.Details.PROPERTY_CONFERENCE) == true ||
                     call.children.isNotEmpty()
         )
 
@@ -152,9 +154,44 @@ class CallManager {
                 ?.value?.emoji
         }
 
+        fun getSpamResultByCallId(callId: String): Boolean? {
+            if (callId.isBlank()) return null
+            return callIds.entries
+                .firstOrNull { it.value.id == callId }
+                ?.value?.isSpam
+        }
+
         fun getSpamEmojiByCall(call: Call?): String? {
             return if (call == null) null
             else  callIds[call]?.emoji
+        }
+
+        fun getSpamResultByCall(call: Call?): Boolean? {
+            return if (call == null) null
+            else  callIds[call]?.isSpam
+        }
+
+        fun getEntryByCall(call: Call?): CallEntry? {
+            return if (call == null) null
+            else callIds[call]
+        }
+
+        //caller-id od operátora (CNAP) - jen pokud je povoleno ho zobrazit
+        private fun readCnap(call: Call): String {
+            return try {
+                if (call.details?.callerDisplayNamePresentation == TelecomManager.PRESENTATION_ALLOWED) {
+                    call.details?.callerDisplayName?.trim().orEmpty()
+                } else ""
+            } catch (_: Exception) {
+                ""
+            }
+        }
+
+        //aktuální CNAP z hovoru (může dorazit až po přidání hovoru), jinak ten uložený v CallEntry
+        fun getCnapByCall(call: Call?): String {
+            if (call == null) return ""
+            val live = readCnap(call)
+            return if (live.isNotBlank()) live else callIds[call]?.cnapName.orEmpty()
         }
 
         //počet použitelných hovorů na zásobníku
@@ -271,6 +308,21 @@ class CallManager {
 
             val isIncoming = call.isIncoming()
 
+            //CNAP a příznak spamchecku ukládáme hned (i u skrytého čísla, kde bývá handle null)
+            val verificationStatus = try {
+                if (isRPlus())
+                    call.details?.callerNumberVerificationStatus ?: 0
+                else 0
+            } catch (_: Exception) { 0 }
+
+            callIds[call]?.let {
+                callIds[call] = it.copy(
+                    cnapName = readCnap(call),
+                    spamCheck = isIncoming && CacheContacts.bSpamChecking,
+                    verificationStatus = verificationStatus
+                )
+            }
+
             val handle = try {
                 call.details?.handle?.toString()
             } catch (_: NullPointerException) {
@@ -303,18 +355,28 @@ class CallManager {
                     //pokud je příchozí a nemáme ho jako uložený kontakt, tak ihned zjistit spam status
                     if (isIncoming && isUnknownContact && CacheContacts.bSpamChecking) {
                         getCallFilterInfo(context, normalizeDigitsOnly(number)) { result ->
-                            if (result != null) {
-                                if ((getIdByCall(call)) != null) //pokud je null, hovor už neexistuje
-                                {
-                                    val emoji = checkNumberForRating(result, number, false)
-                                    val existing = callIds[call]
-                                    if (existing != null) {
-                                        callIds[call] = existing.copy(emoji = emoji)
-                                        // a dáme echo CallActivity a Callservices
-                                        for (listener in listeners) { listener.onCallFilterResult(call, result) }
-                                    }
+                            if ((getIdByCall(call)) != null) //pokud je null, hovor už neexistuje
+                            {
+                                //null (výjimka, aplikace neodpověděla) = chyba, zobrazí se 💥😕
+                                val safeResult = result ?: CallFilterResult(
+                                    ok = false,
+                                    label = "",
+                                    status = "",
+                                    normalizedNumber = "",
+                                    iResultPositive = 0,
+                                    iResultNegative = 0,
+                                    iResultNeutral = 0,
+                                    source = "",
+                                    apiVersion = 0,
+                                    error = "null result"
+                                )
+                                val spamResult = checkNumberForRating(safeResult, number, false)
+                                val existing = callIds[call]
+                                if (existing != null) {
+                                    callIds[call] = existing.copy(emoji = spamResult.text, isSpam = spamResult.isSpam)
+                                    // a dáme echo CallActivity a Callservices
+                                    for (listener in listeners) { listener.onCallFilterResult(call, safeResult) }
                                 }
-                            return@getCallFilterInfo
                             }
                         }
                     }
@@ -360,6 +422,14 @@ class CallManager {
             accept(getCallById(sUUID))}
 
         fun accept(callToAnswer: Call?) {
+            if (callToAnswer == null) return
+            val active = getCallForMeActive()
+            if (active != null && active != callToAnswer) active.hold()
+            callToAnswer.answer(VideoProfile.STATE_AUDIO_ONLY)
+            //o zbytek se postará call service, která spustí UI (onNewIntent, či oncreate)
+        }
+
+        fun acceptOLD(callToAnswer: Call?) {
             //val c = callToAnswer ?: getCallFromNotificaton() ?: getCallForUIblind()
             val activeCall = getCallForMeActive()
             if  (activeCall != null) activeCall.hold() //pokud je něco aktivního tak ho podržíme

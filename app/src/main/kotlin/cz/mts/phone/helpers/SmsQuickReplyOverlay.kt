@@ -21,6 +21,7 @@ import cz.mts.base.helpers.FONT_SIZE_MEDIUM
 import cz.mts.base.helpers.FONT_SIZE_SMALL
 import cz.mts.base.helpers.SMS_TEMPLATE_SEPARATOR
 import cz.mts.phone.R
+import cz.mts.phone.extensions.inputMethodManager
 import kotlin.math.abs
 import cz.mts.base.extensions.baseConfig as config
 
@@ -289,7 +290,7 @@ class SmsQuickReplyOverlay @JvmOverloads constructor(
             recyclerView.postDelayed({
                 val vh = recyclerView.findViewHolderForAdapterPosition(pos) as? VH ?: return@postDelayed
                 vh.etText.requestFocus()
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                val imm = context.inputMethodManager
                     as android.view.inputmethod.InputMethodManager
                 imm.showSoftInput(vh.etText, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT)
             }, 100)
@@ -332,7 +333,7 @@ class SmsQuickReplyOverlay @JvmOverloads constructor(
         fun isEditing() = editingPosition >= 0
 
         private fun hideKeyboard(view: View) {
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE)
+            val imm = context.inputMethodManager
                 as android.view.inputmethod.InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }

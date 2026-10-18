@@ -3,12 +3,12 @@ package cz.mts.phone.helpers
 import android.content.Intent
 import android.net.Uri
 import cz.mts.base.activities.BaseSimpleActivity
-import cz.mts.base.extensions.*
+import cz.mts.base.extensions.toast
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-    fun categoryToEmoji(sLabel: String, sStatus: String, bRetBlankString: Boolean = false): String {
+fun categoryToEmoji(sLabel: String, sStatus: String, bRetBlankString: Boolean = false): String {
         val statusEmoji = when (sStatus.trim().lowercase()) {
             "spam" -> "⛔"
             "safe" -> "🟢"
@@ -35,10 +35,13 @@ import java.nio.charset.StandardCharsets
         return if (!bRetBlankString) result.ifBlank { "❔" } else result
     }
 
-    fun checkNumberForRating(result: CallFilterResult, number: String, bRecent: Boolean): String {
+
+data class RatingResult(val text: String, val isSpam: Boolean)
+
+    fun checkNumberForRating(result: CallFilterResult, number: String, bRecent: Boolean): RatingResult {
 
         //error výsledek
-        if (!result.ok) return "💥😕"
+        if (!result.ok) return RatingResult("💥😕", false)
 
         val sRetNumber = normalizeDigitsOnly(result.normalizedNumber, false)
         val sVstupniNumber = normalizeDigitsOnly(number, false)
@@ -46,12 +49,12 @@ import java.nio.charset.StandardCharsets
 
         //vstupní anebo vrácené číslo je prázdné
         if (sVstupniNumber.isBlank() || sRetNumber.isBlank()) {
-            return "∅😕"
+            return RatingResult("∅😕", false)
         }
 
         //vstupní a vrácené číslo si nejsou podobné
         if (!sRetNumber.contains(sVstupniNumber) && !sVstupniNumber.contains(sRetNumber)) {
-            return "≠😕"
+            return RatingResult("≠😕", false)
         }
 
         // čísla si odpovídají takže vyhodnotíme
@@ -89,11 +92,12 @@ import java.nio.charset.StandardCharsets
             }
         }
 
-        return if (!bRecent) sRetText
+
+        return if (!bRecent) RatingResult(sRetText, bSpamCallfilterApp || bSpam)
         else when {
-            bSpamCallfilterApp -> categoryToEmoji(result.label, result.status)
-            bSpam -> "⛔"
-            else -> ""
+            bSpamCallfilterApp -> RatingResult(categoryToEmoji(result.label, result.status), true)
+            bSpam -> RatingResult("⛔", true)
+            else -> RatingResult("", false)
         }
     }
 

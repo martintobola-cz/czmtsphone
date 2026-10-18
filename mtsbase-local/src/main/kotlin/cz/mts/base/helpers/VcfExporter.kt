@@ -8,10 +8,10 @@ import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.MediaStore
 import cz.mts.base.activities.BaseSimpleActivity
+import cz.mts.base.extensions.copyToClipboard
 import cz.mts.base.extensions.getByteArray
 import cz.mts.base.extensions.getDateTimeFromDateString
 import cz.mts.base.extensions.toast
-import cz.mts.base.helpers.Clipboard.copyTextToClipboard
 import cz.mts.base.models.contacts.Contact
 import ezvcard.Ezvcard
 import ezvcard.VCard
@@ -227,7 +227,7 @@ class VcfExporter {
         }
 
         if (contactsFailed > 0)
-        copyTextToClipboard(activity, "Export", sInfo)
+            activity.copyToClipboard(sInfo, false, "Export")
 
          return@withContext when {
              contactsExported == 0 -> ExportResult.EXPORT_FAIL

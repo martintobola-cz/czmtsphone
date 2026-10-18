@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import cz.mts.base.compose.extensions.FakeVersionCheck
 import cz.mts.base.compose.extensions.TransparentSystemBars
 import cz.mts.base.compose.theme.model.Theme
 import cz.mts.base.compose.theme.model.Theme.Companion.systemDefaultMaterialYou
@@ -57,5 +56,5 @@ fun AppThemeSurface(
 
 @Composable
 private fun OnContentDisplayed() {
-    FakeVersionCheck()
+    //FakeVersionCheck()
 }

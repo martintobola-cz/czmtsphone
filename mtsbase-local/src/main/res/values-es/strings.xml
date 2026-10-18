@@ -417,7 +417,7 @@
     <string name="default_tab_to_open">Pestaña para abrir al inicio de la aplicación</string>
     <string name="contacts_tab">Contactos</string>
     <string name="favorites_tab">Favoritos</string>
-    <string name="call_history_tab">Historial de llamadas</string>
+    <string name="call_history_tab">Recientes</string>
     <string name="last_used_tab">La última usada</string>
     <plurals name="moving_items_into_bin">
         <item quantity="one">Moviendo %d elemento a la papelera</item>

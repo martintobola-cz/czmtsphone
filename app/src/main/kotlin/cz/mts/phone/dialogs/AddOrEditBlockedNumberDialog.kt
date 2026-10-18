@@ -70,9 +70,10 @@ class AddOrEditBlockedNumberDialog(
         }
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            // plná klávesnice umožní zadat cokoliv, ale povolené jsou jen číslice a wildcardy * ?
-            val number = binding.addBlockedNumberEdittext.text.toString().trim().filter { it.isDigit() || it == '*' || it == '?' }
-            if (number.isEmpty()) {
+            // plná klávesnice umožní zadat cokoliv; povolené jsou jen číslice, wildcardy * ?,
+            // "+" na začátku a "!" na začátku (negativní pravidlo, např. !+420* = zablokuj vše, co nezačíná +420)
+            val number = sanitizeBlockedNumberInput(binding.addBlockedNumberEdittext.text.toString())
+            if (!isValidBlockedNumberInput(number)) {
                 activity.toast(R.string.block_error_string_value)
                 return@setOnClickListener
             }
@@ -86,4 +87,29 @@ class AddOrEditBlockedNumberDialog(
             dialog.dismiss()
         }
     }
+}
+
+/**
+ * Nechá jen ASCII číslice, wildcardy * ?, "!" (jen jako první znak) a "+" (jen na začátku,
+ * případně hned za "!"). Mezery, pomlčky a ostatní znaky zahodí.
+ */
+private fun sanitizeBlockedNumberInput(raw: String): String {
+    val sb = StringBuilder()
+    for (c in raw.trim()) {
+        when {
+            c in '0'..'9' || c == '*' || c == '?' -> sb.append(c)
+            c == '!' && sb.isEmpty() -> sb.append(c)
+            c == '+' && (sb.isEmpty() || sb.toString() == "!") -> sb.append(c)
+        }
+    }
+    return sb.toString()
+}
+
+/**
+ * Negativní pravidlo musí obsahovat aspoň jednu číslici (jinak by např. "!?" zablokovalo skoro všechno),
+ * ostatní vstupy aspoň číslici nebo wildcard (samotné "+" se nikdy neuloží).
+ */
+private fun isValidBlockedNumberInput(value: String): Boolean {
+    if (value.startsWith("!")) return value.substring(1).any { it in '0'..'9' }
+    return value.any { it in '0'..'9' || it == '*' || it == '?' }
 }

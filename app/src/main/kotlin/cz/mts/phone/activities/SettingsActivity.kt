@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.TypedValue
@@ -203,7 +202,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupLanguage() {
         binding.settingsLanguageHolder.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (isTiramisuPlus()) {
                 launchChangeAppLanguageIntent()
             }
         }
@@ -260,7 +259,7 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun pxToSp(px: Float): Float =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        if (isUpsideDownCakePlus()) {
             TypedValue.deriveDimension(TypedValue.COMPLEX_UNIT_SP, px, resources.displayMetrics)
         } else {
             @Suppress("DEPRECATION")
