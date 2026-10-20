@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1018,
-      "versionName": "10.1.8",
-      "outputFile": "phone-1018-core-release.apk"
+      "versionCode": 1024,
+      "versionName": "10.2.4",
+      "outputFile": "phone-1024-core-release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/phone-1018-core-release.dm"
+        "baselineProfiles/1/phone-1024-core-release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/phone-1018-core-release.dm"
+        "baselineProfiles/0/phone-1024-core-release.dm"
       ]
     }
   ],

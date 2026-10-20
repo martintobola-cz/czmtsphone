@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Teléfono</string>
 
+<string name="privacy_policy_section">Política de privacidad</string>
+    <string name="revoke_consent">Retirar el consentimiento</string>
+
+<string name="recents_still_loading">Espera hasta que se cargue todo el historial de llamadas...</string>
+<string name="is_spam_call">posible spam</string>
+<string name="blocked_calls_mts">Llamadas bloqueadas</string>
+<string name="add_blocked_number_helper_text">Introduce un número exacto o un patrón con * o ? (p. ej., *333*, +1*8888, +42?607*) para bloquear todas las llamadas de números que coincidan con el patrón. El asterisco * representa cualquier cantidad de caracteres, mientras que el signo de interrogación ? representa exactamente un carácter. Ahora también es posible aplicar una regla negativa mediante el carácter !; por ejemplo, !+34* bloqueará todos los números que no coincidan con el patrón +34* (así puedes bloquear fácilmente todas las llamadas internacionales utilizando el prefijo de tu país).</string>
+<string name="block_error_string_value">Este patrón no está permitido</string>
+
 <string name="transfers">Transferencias</string>
 <string name="transfer_import">Importar 📦→📱</string>
 <string name="transfer_export">Exportar 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Bloquear llamadas de números ocultos</string>
 <string name="block_unknown_messages">Bloquear mensajes de números que no están en los contactos</string>
 <string name="block_hidden_messages">Bloquear mensajes de números ocultos</string>
-<string name="add_blocked_number_helper_text">Introduzca un número exacto o un patrón con * o ? (p. ej., *333*, +1*8888, +42?777*) para bloquear todas las llamadas de números que coincidan. Un asterisco representa cualquier cantidad de caracteres, mientras que un signo de interrogación representa exactamente un carácter.</string>
 <string name="must_make_default_caller_id_app">No se pueden bloquear números desconocidos sin el permiso de identificación de llamadas.</string>
 <string name="block_contact">Bloquear contacto</string>
 <string name="block_contact_success">Contacto bloqueado</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Desbloquear contacto</string>
 <string name="unblock_contact_success">Contacto desbloqueado</string>
 <string name="unblock_contact_fail">No se ha podido desbloquear el contacto</string>
-<string name="block_error_string_value">Solo se permiten números y ? *</string>
 
 <string name="edit_sms_templates"> ✍️ Editar plantillas de SMS</string>
 <string name="sms_edit_hint_double_tap">Mantén pulsado o toca dos veces para editar el texto</string>

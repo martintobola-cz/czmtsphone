@@ -153,18 +153,18 @@ class DialerActivity : SimpleActivity() {
     @SuppressLint("MissingPermission")
     private fun initOutgoingCall() {
         try {
-            // MMI kódy se neblokují
-            if (!CallHelper.isMmiCode(number) && isNumberBlocked(number, getBlockedNumbers())) {
-                toast(R.string.calling_blocked_number)
-                finish()
-                return
-            }
-
             getHandleToUse(intent, number) { handle ->
                 try {
                     // handle == null: getHandleToUse už otevřel číselník k výběru SIM
                     if (handle != null) {
-                        val extras = Bundle().apply {
+                        val region = getCallRegion(handle)
+                        if (!CallHelper.isMmiCode(number) &&  isNumberBlocked(number, getBlockedNumbers(), region = region, includeNegativeRules = false)) {
+                            toast(R.string.calling_blocked_number)
+                            finish()
+                            return@getHandleToUse
+                        }
+
+                            val extras = Bundle().apply {
                             putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, handle)
                             // klíč očekává int (VideoProfile.STATE_*), ne boolean
                             putInt(

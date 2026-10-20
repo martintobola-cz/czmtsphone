@@ -2,10 +2,15 @@
 <resources>
 <string name="app_launcher_name">MTS Dialer</string>
 
-<string name="recents_still_loading">You have to wait until the entire history loads...</string>
+<string name="privacy_policy_section">Privacy policy</string>
+<string name="revoke_consent">Withdraw consent</string>
+
+<string name="recents_still_loading">Please wait until the entire call history has loaded...</string>
 <string name="is_spam_call">Probably a spam call</string>
 <string name="blocked_calls_mts">Blocked calls</string>
-
+<string name="add_blocked_number_helper_text">Enter an exact number or a pattern with * or ? (e.g. *333*, +1*8888, +42?607*) to block all calls from matching numbers. An asterisk * represents any number of characters, while a question mark ? represents exactly one character. It is now also possible to apply a negative rule using the ! character; for example, !+420* will block all numbers that do not match +420* (so all international calls can be easily blocked using a negative rule with your country code)</string>
+<string name="block_error_string_value">This pattern is not allowed</string>
+  
 <string name="transfers">Transfers</string>
 <string name="transfer_import">Import 📦→📱</string>
 <string name="transfer_export">Export 📱→📦</string>
@@ -45,7 +50,6 @@
     <string name="block_hidden_calls">Block calls from hidden numbers</string>
     <string name="block_unknown_messages">Block messages from numbers not in contacts</string>
     <string name="block_hidden_messages">Block messages from hidden numbers</string>
-    <string name="add_blocked_number_helper_text">Enter an exact number or a pattern with * or ? (e.g. *333*, +1*8888, +42?777*) to block all calls from matching numbers. An asterisk represents any number of characters, while a question mark represents exactly one character.</string>
     <string name="must_make_default_caller_id_app">Can\'t block unknown numbers without caller ID permission.</string>
     <string name="block_contact">Block contact</string>
     <string name="block_contact_success">Contact blocked</string>
@@ -53,9 +57,8 @@
     <string name="unblock_contact">Unblock contact</string>
     <string name="unblock_contact_success">Contact unblocked</string>
     <string name="unblock_contact_fail">Contact could not be unblocked</string>
-<string name="block_error_string_value">Only numbers and ? * are allowed</string>
 
-<string name="last_update_info">How about arranging the bottom tabs 🗂️ just the way you like? And what about recording 🎙️ an ongoing call — wouldn\'t that come in handy? 😁Added option to highlight buttons during active calls, contact import from SIM, simple player for recorded calls. Fixed duplicate system notification for missed calls.</string>
+<string name="last_update_info">New rules to block all incoming international calls. And how about arranging the bottom tabs 🗂️ just the way you like? Or what about recording 🎙️ an ongoing call — wouldn\'t that come in handy? 😁 Fixed duplicate system notification for missed calls.</string>
 
 <string name="last_update_info960">How about arranging the bottom tabs 🗂️ just the way you like? And what about recording 🎙️ an ongoing call — wouldn\'t that come in handy? 😁</string>
 <string name="last_update_info932">Minor changes to colors and font sizes, harmonization of the graphical UI, some new values in the action menu(s). New settings option \"Do not display phone number during a call if it is a saved contact\"</string>

@@ -43,7 +43,10 @@ class PrivacyPolicyActivity : AppCompatActivity() {
         val checkbox = findViewById<CheckBox>(R.id.chkAcknowledge)
         checkbox.isChecked = fromAbout && prefs.getBoolean(PRIVACY_POLICY_ACCEPTED, false)
 
-        findViewById<Button>(R.id.btnAcknowledge).setOnClickListener {
+        val btnAcknowledge = findViewById<Button>(R.id.btnAcknowledge)
+        val btnRevoke = findViewById<Button>(R.id.btnRevokeConsent)
+
+        btnAcknowledge.setOnClickListener {
             val accepted = checkbox.isChecked
             prefs.edit().putBoolean(PRIVACY_POLICY_ACCEPTED, accepted).commit()
 
@@ -55,6 +58,12 @@ class PrivacyPolicyActivity : AppCompatActivity() {
                     finish()
                 }
             }
+        }
+
+        // Odebrat souhlas = zrušit checkbox + klik na OK (→ finishAffinity)
+        btnRevoke.setOnClickListener {
+            checkbox.isChecked = false
+            btnAcknowledge.performClick()
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

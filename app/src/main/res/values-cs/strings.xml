@@ -2,9 +2,14 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="privacy_policy_section">Zásady ochrany osobních údajů</string>
+    <string name="revoke_consent">Odebrat souhlas</string>
+
 <string name="recents_still_loading">Operaci nelze provést dokud se historie nenačte celá...</string>
 <string name="is_spam_call">Podezření na spam</string>
 <string name="blocked_calls_mts">Zablokované hovory</string>
+<string name="add_blocked_number_helper_text">Zadáním přesného čísla nebo vzoru s použitím znaků * nebo ? (např. *333*, +1*8888, +42?777*) můžete zablokovat daná čísla. Hvězdička * zastupuje libovolný počet znaků, zatímco otazník ? zastupuje přesně jeden znak. Nově lze použít i negativní pravidlo pomocí znaku ! (například !+420* zablokuje všechna čísla, která neodpovídají vzoru +420* což znamená, že takto jednoduše můžete zablokovat všechny mezinárodní hovory.</string>
+<string name="block_error_string_value">Tento vzor není povolený</string>
 
 <string name="transfers">Přenosy</string>
 <string name="transfer_import">Import 📦→📱</string>
@@ -44,7 +49,6 @@
     <string name="block_hidden_calls">Blokovat volání ze skrytých čísel</string>
     <string name="block_unknown_messages">Blokovat zprávy z neznámých čísel</string>
     <string name="block_hidden_messages">Blokovat zprávy ze skrytých čísel</string>
-    <string name="add_blocked_number_helper_text">Zadáním přesného čísla nebo vzoru s použitím znaků * nebo ? (např. *333*, +1*8888, +42?777*) můžete zablokovat daná čísla. Hvězdička značí libovolný počet znaků, otazník právě jeden znak.</string>
     <string name="must_make_default_caller_id_app">Nelze blokovat neznámá čísla pokud aplikace není nastavena jako výchozí telefonní aplikace a zároveň jako výchozí aplikace pro identifikaci volajícího.</string>
     <string name="block_contact">Zablokovat kontakt</string>
     <string name="block_contact_success">Kontakt zablokován</string>
@@ -52,9 +56,8 @@
     <string name="unblock_contact">Odblokovat kontakt</string>
     <string name="unblock_contact_success">Kontakt odblokován</string>
     <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
-<string name="block_error_string_value">Jsou dovolena pouze čísla a znaky ? *</string>
 
-<string name="last_update_info">Co takhle seřadit si spodní záložky 🗂️ podle sebe? A co nahrávání 🎙️ probíhajícího hovoru, nehodilo by se? 😁 Přidána volba Zvýraznit tlačítka na obrazovce s hovorem, možnost importu kontaktů ze SIM, jednoduchý audio player. A hlavně konečně opravena nepříjemnost, že se zobrazovala dvojí notifikace o zmeškaném hovoru.</string>
+<string name="last_update_info">Nové blokovací pravidlo, které Vám umožní zablokovat jakýkoliv příchozí mezinárodní hovor. A co takhle seřadit si spodní záložky 🗂️ podle sebe? Anebo nahrávání 🎙️ probíhajícího hovoru, nehodilo by se? 😁 A konečně opravena nepříjemnost, že se zobrazovala dvojí notifikace o zmeškaném hovoru.</string>
 
 <string name="last_update_info932">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
 <string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>

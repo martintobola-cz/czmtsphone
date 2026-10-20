@@ -8,12 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import cz.mts.base.extensions.hasPermission
-import cz.mts.base.helpers.NOTIFICATION_SOURCE
-import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
-import cz.mts.base.helpers.PlayStoreIntentHelper
-import cz.mts.base.helpers.SOURCE_UPDATE
-import cz.mts.base.helpers.isSPlus
-import cz.mts.base.helpers.isTiramisuPlus
+import cz.mts.base.helpers.*
 import cz.mts.phone.R
 import cz.mts.phone.activities.MainActivity
 import cz.mts.phone.extensions.appVersionCode

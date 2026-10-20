@@ -2,6 +2,16 @@
 <resources>
 
 <string name="app_launcher_name">Telefon</string>
+
+ <string name="privacy_policy_section">Polityka prywatności</string>
+    <string name="revoke_consent">Cofnij zgodę</string>
+
+<string name="recents_still_loading">Poczekaj, aż załaduje się cała historia...</string>
+<string name="is_spam_call">Podejrzenie spamu</string>
+<string name="blocked_calls_mts">Zablokowane połączenia</string>
+<string name="add_blocked_number_helper_text">Wpisz dokładny numer lub wzorzec zawierający * lub ? (np. *333*, +1*8888, +42?607*), aby blokować wszystkie połączenia z numerów pasujących do wzorca. Gwiazdka * oznacza dowolną liczbę znaków, a znak zapytania ? oznacza dokładnie jeden znak. Można teraz również zastosować regułę negatywną za pomocą znaku !; na przykład !+48* zablokuje wszystkie numery, które nie pasują do wzorca +48* (dzięki prefiksowi swojego kraju można w ten sposób łatwo zablokować wszystkie połączenia międzynarodowe).</string>
+<string name="block_error_string_value">Ten wzorzec jest niedozwolony</string>
+
 <string name="transfers">Przenoszenie danych</string>
 <string name="transfer_import">Import 📦→📱</string>
 <string name="transfer_export">Eksport 📱→📦</string>
@@ -39,7 +49,6 @@
 <string name="block_hidden_calls">Blokuj połączenia z numerów zastrzeżonych</string>
 <string name="block_unknown_messages">Blokuj wiadomości z numerów, których nie ma w kontaktach</string>
 <string name="block_hidden_messages">Blokuj wiadomości z numerów zastrzeżonych</string>
-<string name="add_blocked_number_helper_text">Wprowadź dokładny numer lub wzorzec zawierający * lub ? (np. *333*, +1*8888, +42?777*), aby blokować wszystkie połączenia z numerów pasujących do wzorca. Gwiazdka oznacza dowolną liczbę znaków, a znak zapytania oznacza dokładnie jeden znak.</string>
 <string name="must_make_default_caller_id_app">Nie można blokować nieznanych numerów bez uprawnienia do identyfikacji dzwoniącego.</string>
 <string name="block_contact">Zablokuj kontakt</string>
 <string name="block_contact_success">Kontakt zablokowany</string>
@@ -47,7 +56,6 @@
 <string name="unblock_contact">Odblokuj kontakt</string>
 <string name="unblock_contact_success">Kontakt odblokowany</string>
 <string name="unblock_contact_fail">Nie udało się odblokować kontaktu</string>
-<string name="block_error_string_value">Dozwolone są tylko cyfry oraz ? *</string>
 
 <string name="edit_sms_templates"> ✍️ Edytuj szablony SMS</string>
 <string name="sms_edit_hint_double_tap">Przytrzymaj lub dotknij dwukrotnie, aby edytować tekst</string>

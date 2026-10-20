@@ -76,13 +76,6 @@
     <string name="import_blocked_numbers">Blockierte Nummern importieren</string>
     <string name="must_make_default_dialer">Du musst diese App als Standardtelefonie-App einstellen, um Nummern blockieren zu können.</string>
     <string name="set_as_default">Als Standard auswählen</string>
-    <string name="block_confirmation">„%s" wirklich blockieren?</string>
-    <string name="block_unknown_calls">Anrufe von unbekannten Nummern blockieren (nur gespeicherte Kontakte dürfen anrufen)</string>
-    <string name="block_hidden_calls">Anrufe von unterdrückten Nummern blockieren</string>
-    <string name="block_unknown_messages">Nachrichten von unbekannten Nummern blockieren</string>
-    <string name="block_hidden_messages">Nachrichten von unterdrückten Nummern blockieren</string>
-    <string name="add_blocked_number_helper_text">Gib eine Nummer oder ein Muster (z. B. *12345*, +1*8888) ein, um alle Anrufe und Nachrichten von Nummern zu blockieren, die dem Muster entsprechen.</string>
-    <string name="must_make_default_caller_id_app">Unbekannte Nummern können ohne Anrufer-ID-Berechtigung nicht blockiert werden.</string>
     <string name="favorites">Favoriten</string>
     <string name="search">Suchen</string>
     <string name="search_contacts">Kontakte durchsuchen</string>
@@ -379,11 +372,6 @@
     <string name="about">Über die App</string>
     <string name="other">Anderes</string>
     <string name="block_contact">Kontakt blockieren</string>
-    <string name="block_contact_success">Kontakt blockiert</string>
-    <string name="block_contact_fail">Kontakt konnte nicht blockiert werden</string>
-    <string name="unblock_contact">Kontakt entblocken</string>
-    <string name="unblock_contact_success">Kontakt entblockt</string>
-    <string name="unblock_contact_fail">Kontakt konnte nicht entblockt werden</string>
     <string name="unblock">Entblocken</string>
     <string name="pager">Pager</string>
     <string name="root">Hauptverzeichnis</string>

@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Téléphone</string>
 
+    <string name="privacy_policy_section">Politique de confidentialité</string>
+    <string name="revoke_consent">Retirer le consentement</string>
+
+<string name="recents_still_loading">Attendez que tout l\’historique des appels soit chargé...</string>
+<string name="is_spam_call">Spam suspecté</string>
+<string name="blocked_calls_mts">Appels bloqués</string>
+<string name="add_blocked_number_helper_text">Saisissez un numéro exact ou un motif contenant * ou ? (par ex. *333*, +1*8888, +42?607*) pour bloquer tous les appels provenant de numéros correspondant au motif. L\’astérisque * représente un nombre quelconque de caractères, tandis que le point d\’interrogation ? représente exactement un caractère. Il est désormais également possible d\’appliquer une règle négative à l\’aide du caractère ! ; par exemple, !+33* bloquera tous les numéros qui ne correspondent pas au motif +33* (le préfixe de votre pays permet ainsi de bloquer facilement tous les appels internationaux).</string>
+<string name="block_error_string_value">Ce motif n\’est pas autorisé</string>
+
 <string name="transfers">Transferts</string>
 <string name="transfer_import">Importer 📦→📱</string>
 <string name="transfer_export">Exporter 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Bloquer les appels provenant de numéros masqués</string>
 <string name="block_unknown_messages">Bloquer les messages provenant de numéros qui ne sont pas dans les contacts</string>
 <string name="block_hidden_messages">Bloquer les messages provenant de numéros masqués</string>
-<string name="add_blocked_number_helper_text">Saisissez un numéro exact ou un modèle avec * ou ? (par ex. *333*, +1*8888, +42?777*) pour bloquer tous les appels provenant de numéros correspondant au modèle. Un astérisque représente un nombre quelconque de caractères, tandis qu\’un point d\’interrogation représente exactement un caractère.</string>
 <string name="must_make_default_caller_id_app">Impossible de bloquer les numéros inconnus sans l\’autorisation d\’identification de l\’appelant.</string>
 <string name="block_contact">Bloquer le contact</string>
 <string name="block_contact_success">Contact bloqué</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Débloquer le contact</string>
 <string name="unblock_contact_success">Contact débloqué</string>
 <string name="unblock_contact_fail">Impossible de débloquer le contact</string>
-<string name="block_error_string_value">Seuls les chiffres et ? * sont autorisés</string>
 
 <string name="edit_sms_templates"> ✍️ Modifier les modèles de SMS</string>
 <string name="sms_edit_hint_double_tap">Appui long ou double appui pour modifier le texte</string>

@@ -257,6 +257,17 @@ fun String.isBlockedNumberPattern() = contains("*")
 /** Negativní pravidlo: "!" na začátku, např. "!+420*" = zablokuj vše, co na masku NEsedí (whitelist). */
 fun String.isNegativeBlockedNumberMask() = length > 1 && this[0] == '!'
 
+/**
+ * Platné negativní pravidlo: "!" + maska, která obsahuje aspoň jednu číslici a aspoň jeden wildcard (* nebo ?).
+ * Bez wildcardu by "!+49" znamenalo "zablokuj vše kromě přesně +49" = zablokuje se prakticky všechno,
+ * a "!+420602123456" by pustilo jediné číslo. Takové pravidlo se proto nikdy neuloží ani nevyhodnocuje.
+ */
+fun String.isValidNegativeBlockedNumberRule(): Boolean {
+    if (!isNegativeBlockedNumberMask()) return false
+    val body = substring(1)
+    return body.any { it in '0'..'9' } && (body.contains('*') || body.contains('?'))
+}
+
 /** Cokoliv, co není přesné číslo: maska s * nebo ?, případně negativní pravidlo (!...). */
 fun String.isAnyBlockedNumberMask() = isNegativeBlockedNumberMask() || contains('*') || contains('?')
 

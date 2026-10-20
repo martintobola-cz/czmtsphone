@@ -87,7 +87,8 @@ class SettingsActivity : SimpleActivity() {
                 settingsStartupLabel,
                 settingsCallsLabel,
                 settingsDialpadSectionLabel,
-                settingsTransfersSectionLabel
+                settingsTransfersSectionLabel,
+                settingsPrivacyPolicySectionLabel
             ).forEach { it.setTextColor(getProperPrimaryColor()) }
         }
     }
@@ -167,6 +168,7 @@ class SettingsActivity : SimpleActivity() {
         setupShakeEffect()
         setupHideNumberForSavedContact()
         setupTransfers()
+        setupPrivacyPolicy()
         setupHighlightCallButtons()
         setupCallingAccounts()
 
@@ -517,6 +519,17 @@ class SettingsActivity : SimpleActivity() {
         }
         binding.settingsTransferExportHolder.setOnClickListener {
             TransferActivity.start(this, TransferActivity.MODE_EXPORT)
+        }
+    }
+
+    // ── Privacy policy – otevře obrazovku jako z About (s tlačítkem Odebrat souhlas) ──
+
+    private fun setupPrivacyPolicy() {
+        binding.settingsRevokeConsentHolder.setOnClickListener {
+            startActivity(
+                Intent(this, PrivacyPolicyActivity::class.java)
+                    .putExtra(PrivacyPolicyActivity.EXTRA_FROM_ABOUT, true)
+            )
         }
     }
 

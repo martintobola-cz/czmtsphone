@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+    <string name="privacy_policy_section">Datenschutzerklärung</string>
+    <string name="revoke_consent">Einwilligung widerrufen</string>
+
+<string name="recents_still_loading">Warte, bis der gesamte Anrufverlauf geladen ist...</string>
+<string name="is_spam_call">Mutmaßlicher Spam</string>
+<string name="blocked_calls_mts">Blockierte Anrufe</string>
+<string name="add_blocked_number_helper_text">Gib eine genaue Nummer oder ein Muster mit * oder ? ein (z. B. *333*, +1*8888, +42?607*), um alle Anrufe von Nummern zu blockieren, die dem Muster entsprechen. Ein Sternchen * steht für eine beliebige Anzahl von Zeichen, während ein Fragezeichen ? genau ein Zeichen darstellt. Du kannst jetzt auch eine negative Regel mit dem Zeichen ! verwenden; beispielsweise blockiert !+49* alle Nummern, die nicht dem Muster +49* entsprechen (mit der Landesvorwahl deines Landes lassen sich so ganz einfach alle internationalen Anrufe blockieren).</string>
+<string name="block_error_string_value">Dieses Muster ist nicht zulässig</string>
+
 <string name="transfers">Übertragungen</string>
 <string name="transfer_import">Import 📦→📱</string>
 <string name="transfer_export">Export 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Anrufe von unterdrückten Nummern blockieren</string>
 <string name="block_unknown_messages">Nachrichten von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>
 <string name="block_hidden_messages">Nachrichten von unterdrückten Nummern blockieren</string>
-<string name="add_blocked_number_helper_text">Geben Sie eine genaue Nummer oder ein Muster mit * oder ? ein (z. B. *333*, +1*8888, +42?777*), um alle Anrufe von Nummern zu blockieren, die dem Muster entsprechen. Ein Sternchen steht für eine beliebige Anzahl von Zeichen, während ein Fragezeichen genau ein Zeichen darstellt.</string>
 <string name="must_make_default_caller_id_app">Unbekannte Nummern können ohne die Berechtigung zur Anrufererkennung nicht blockiert werden.</string>
 <string name="block_contact">Kontakt blockieren</string>
 <string name="block_contact_success">Kontakt blockiert</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Blockierung des Kontakts aufheben</string>
 <string name="unblock_contact_success">Blockierung des Kontakts aufgehoben</string>
 <string name="unblock_contact_fail">Blockierung des Kontakts konnte nicht aufgehoben werden</string>
-<string name="block_error_string_value">Nur Zahlen und ? * sind zulässig</string>
 
 <string name="edit_sms_templates"> ✍️ SMS-Vorlagen bearbeiten</string>
 <string name="sms_edit_hint_double_tap">Langer Druck oder Doppeltippen öffnet die Textbearbeitung</string>

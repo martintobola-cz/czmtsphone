@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Telefón</string>
 
+<string name="privacy_policy_section">Zásady ochrany osobných údajov</string>
+    <string name="revoke_consent">Odobrať súhlas</string>
+
+<string name="recents_still_loading">Počkajte, kým sa načíta celá história...</string>
+<string name="is_spam_call">Podozrenie na spam</string>
+<string name="blocked_calls_mts">Blokované hovory</string>
+<string name="add_blocked_number_helper_text">Zadajte presné číslo alebo vzor s * či ? (napr. *333*, +1*8888, +42?607*) na blokovanie všetkých hovorov z čísel, ktoré zodpovedajú vzoru. Hviezdička * zastupuje ľubovoľný počet znakov, zatiaľ čo otáznik ? zastupuje presne jeden znak. Teraz je možné použiť aj negatívné pravidlo pomocou znaku !; napríklad !+421* zablokuje všetky čísla, ktoré nezodpovedajú vzoru +421* (pomocou predvoľby vašej krajiny tak možno jednoducho zablokovať všetky medzinárodné hovory).</string>
+<string name="block_error_string_value">Tento vzor nie je povolený</string>
+
 <string name="transfers">Prenosy</string>
 <string name="transfer_import">Import 📦→📱</string>
 <string name="transfer_export">Export 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Blokovať hovory zo skrytých čísel</string>
 <string name="block_unknown_messages">Blokovať správy z neznámych čísel</string>
 <string name="block_hidden_messages">Blokovať správy zo skrytých čísel</string>
-<string name="add_blocked_number_helper_text">Zadaním presného čísla alebo vzoru s použitím znakov * alebo ? (napr. *333*, +1*8888, +42?777*) môžete zablokovať dané čísla. Hviezdička označuje ľubovoľný počet znakov, otáznik označuje práve jeden znak.</string>
 <string name="must_make_default_caller_id_app">Nie je možné blokovať neznáme čísla, ak aplikácia nie je nastavená ako predvolená telefónna aplikácia a zároveň ako predvolená aplikácia na identifikáciu volajúceho.</string>
 <string name="block_contact">Zablokovať kontakt</string>
 <string name="block_contact_success">Kontakt zablokovaný</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Odblokovať kontakt</string>
 <string name="unblock_contact_success">Kontakt odblokovaný</string>
 <string name="unblock_contact_fail">Kontakt sa nepodarilo odblokovať</string>
-<string name="block_error_string_value">Povolené sú iba čísla a znaky ? *</string>
 
 <string name="edit_sms_templates"> ✍️ Upraviť SMS texty</string>
 <string name="sms_edit_hint_double_tap">Dlhým stlačením alebo dvojitým ťuknutím vyvoláte úpravu textu</string>

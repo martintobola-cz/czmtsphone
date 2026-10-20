@@ -1,6 +1,7 @@
 package cz.mts.base.helpers
 
 import cz.mts.base.extensions.isAnyBlockedNumberMask
+import cz.mts.base.extensions.isValidNegativeBlockedNumberRule
 import cz.mts.base.models.BlockedNumber
 import org.json.JSONArray
 import org.json.JSONException
@@ -111,9 +112,9 @@ object BlockedNumbersJson {
             if (type == EntryType.EXACT && value.none { it.isDigit() }) {
                 throw InvalidFormatException("Item $i is not a phone number")
             }
-            // negativní pravidlo bez jediné číslice (např. "!?") by zablokovalo skoro všechno
-            if (value.startsWith("!") && value.none { it.isDigit() }) {
-                throw InvalidFormatException("Item $i is a negative rule without any digit")
+            // negativní pravidlo musí mít číslici i wildcard (jinak by např. "!+49" zablokovalo skoro všechno)
+            if (value.startsWith("!") && !value.isValidNegativeBlockedNumberRule()) {
+                throw InvalidFormatException("Item $i is a negative rule without a digit or a wildcard")
             }
 
             val key = "${type.jsonValue}:$value"

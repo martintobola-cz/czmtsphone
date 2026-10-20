@@ -592,6 +592,32 @@
 
             </RelativeLayout>
 
+            <include
+                android:id="@+id/settings_privacy_policy_divider"
+                layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/settings_privacy_policy_section_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_policy_section" />
+
+            <RelativeLayout
+                android:id="@+id/settings_revoke_consent_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/settings_revoke_consent"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/revoke_consent" />
+
+            </RelativeLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

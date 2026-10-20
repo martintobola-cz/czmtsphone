@@ -382,6 +382,9 @@ fun Context.addBlockedNumber(number: String, isPattern: Boolean): Boolean {
     val value = number.trim()
     if (value.isEmpty()) return false
 
+    // negativní pravidlo bez číslice nebo bez wildcardu (např. "!+49") se neukládá nikdy, ať volá kdokoli
+    if (value.isNegativeBlockedNumberMask() && !value.isValidNegativeBlockedNumberRule()) return false
+
     // maska (*, ?, nebo negativní !...) se nikdy nesmí uložit jako "přesné číslo", ani když volající pošle isPattern=false
     val storeAsPattern = isPattern || value.isAnyBlockedNumberMask()
 
@@ -491,9 +494,11 @@ fun Context.isNumberBlockedByPattern(
         val mask = blockedNumber.number
         when {
             mask.isNegativeBlockedNumberMask() -> {
-                // maska za "!" (bez vykřičníku); prázdná = neplatné pravidlo, ignoruje se
-                val body = mask.substring(1).trim()
-                if (body.isNotEmpty()) negativeRegexes.add(blockedNumberMaskToRegex(body))
+                // neplatné negativní pravidlo (bez číslice nebo bez * / ?, např. už dříve uložené "!+49")
+                // se ignoruje, jinak by zablokovalo skoro všechno
+                if (mask.isValidNegativeBlockedNumberRule()) {
+                    negativeRegexes.add(blockedNumberMaskToRegex(mask.substring(1)))
+                }
             }
 
             mask.isBlockedNumberPattern() || '*' in mask || '?' in mask -> {

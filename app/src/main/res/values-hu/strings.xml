@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+    <string name="privacy_policy_section">Adatvédelmi irányelvek</string>
+    <string name="revoke_consent">Hozzájárulás visszavonása</string>
+
+<string name="recents_still_loading">Várja meg, amíg a teljes híváselőzmény betöltődik...</string>
+<string name="is_spam_call">Gyanús spam</string>
+<string name="blocked_calls_mts">Letiltott hívások</string>
+<string name="add_blocked_number_helper_text">Adjon meg egy pontos telefonszámot vagy egy * vagy ? karaktert tartalmazó mintát (pl. *333*, +1*8888, +42?607*) az adott mintának megfelelő számokról érkező összes hívás letiltásához. A csillag (*) tetszőleges számú karaktert helyettesít, míg a kérdőjel (?) pontosan egy karaktert jelent. Mostantól a ! karakterrel negatív szabály is megadható; például a !+36* letilt minden olyan számot, amely nem felel meg a +36* mintának (így az ország hívószámának használatával egyszerűen letiltható az összes nemzetközi hívás).</string>
+<string name="block_error_string_value">Ez a minta nem engedélyezett</string>
+
 <string name="transfers">Átvitel</string>
 <string name="transfer_import">Importálás 📦→📱</string>
 <string name="transfer_export">Exportálás 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Rejtett számokról érkező hívások letiltása</string>
 <string name="block_unknown_messages">A névjegyek között nem szereplő számokról érkező üzenetek letiltása</string>
 <string name="block_hidden_messages">Rejtett számokról érkező üzenetek letiltása</string>
-<string name="add_blocked_number_helper_text">Adjon meg egy pontos számot vagy * vagy ? jelet tartalmazó mintát (pl. *333*, +1*8888, +42?777*) az egyező számokról érkező összes hívás letiltásához. A csillag tetszőleges számú karaktert, a kérdőjel pedig pontosan egy karaktert helyettesít.</string>
 <string name="must_make_default_caller_id_app">Ismeretlen számok nem tilthatók le hívóazonosítási engedély nélkül.</string>
 <string name="block_contact">Névjegy letiltása</string>
 <string name="block_contact_success">Névjegy letiltva</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Névjegy tiltásának feloldása</string>
 <string name="unblock_contact_success">Névjegy tiltása feloldva</string>
 <string name="unblock_contact_fail">A névjegy tiltását nem sikerült feloldani</string>
-<string name="block_error_string_value">Csak számok és ? * használhatók</string>
 
 <string name="edit_sms_templates"> ✍️ SMS-sablonok szerkesztése</string>
 <string name="sms_edit_hint_double_tap">Hosszú érintés vagy dupla koppintás a szöveg szerkesztéséhez</string>

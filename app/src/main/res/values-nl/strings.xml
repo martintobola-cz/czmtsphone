@@ -2,8 +2,14 @@
 <resources>
 <string name="app_launcher_name">MTS Dialer</string>
 
-<string name="recents_still_loading">Je moet wachten tot de volledige geschiedenis is geladen...</string>
+    <string name="privacy_policy_section">Privacybeleid</string>
+    <string name="revoke_consent">Toestemming intrekken</string>
 
+<string name="recents_still_loading">Wacht tot de volledige oproepgeschiedenis is geladen...</string>
+<string name="is_spam_call">Vermoedelijke spam</string>
+<string name="blocked_calls_mts">Geblokkeerde oproepen</string>
+<string name="add_blocked_number_helper_text">Voer een exact nummer of een patroon met * of ? in (bijv. *333*, +1*8888, +42?607*) om alle oproepen van nummers die overeenkomen met het patroon te blokkeren. Een sterretje * staat voor een willekeurig aantal tekens, terwijl een vraagteken ? precies één teken vertegenwoordigt. Je kunt nu ook een negatieve regel toepassen met het teken !; bijvoorbeeld, !+31* blokkeert alle nummers die niet overeenkomen met het patroon +31* (zo kun je met de landcode van je eigen land eenvoudig alle internationale oproepen blokkeren).</string>
+<string name="block_error_string_value">Dit patroon is niet toegestaan</string>
 
 <string name="transfers">Overdrachten</string>
 <string name="transfer_import">Importeren 📦→📱</string>
@@ -44,7 +50,6 @@
     <string name="block_hidden_calls">Gesprekken blokkeren van verborgen nummers</string>
     <string name="block_unknown_messages">Berichten blokkeren van nummers die niet in contacten staan</string>
     <string name="block_hidden_messages">Berichten blokkeren van verborgen nummers</string>
-    <string name="add_blocked_number_helper_text">Voer een exact nummer in of een patroon met * of ? (bijv. *333*, +1*8888, +42?777*) om alle gesprekken van overeenkomende nummers te blokkeren. Een asterisk staat voor een willekeurig aantal tekens, een vraagteken voor precies één teken.</string>
     <string name="must_make_default_caller_id_app">Kan onbekende nummers niet blokkeren zonder machtiging voor beller-ID.</string>
     <string name="block_contact">Contact blokkeren</string>
     <string name="block_contact_success">Contact geblokkeerd</string>
@@ -52,7 +57,6 @@
     <string name="unblock_contact">Contact deblokkeren</string>
     <string name="unblock_contact_success">Contact gedeblokkeerd</string>
     <string name="unblock_contact_fail">Contact kon niet worden gedeblokkeerd</string>
-<string name="block_error_string_value">Alleen cijfers en ? * zijn toegestaan</string>
 
 <string name="update_done">Bijgewerkt naar v</string>
 <string name="not_permissions_info">De applicatie beschikt niet over de benodigde machtigingen en werkt mogelijk niet correct.</string>

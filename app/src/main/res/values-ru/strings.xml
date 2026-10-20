@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="privacy_policy_section">Политика конфиденциальности</string>
+    <string name="revoke_consent">Отозвать согласие</string>
+
+<string name="recents_still_loading">Дождитесь загрузки всей истории вызовов...</string>
+<string name="is_spam_call">Возможный спам</string>
+<string name="blocked_calls_mts">Заблокированные вызовы</string>
+<string name="add_blocked_number_helper_text">Введите точный номер или шаблон с символами * или ? (например, *333*, +1*8888, +42?607*), чтобы блокировать все вызовы с номеров, соответствующих шаблону. Звёздочка * обозначает любое количество символов, а вопросительный знак ? — ровно один символ. Теперь также можно использовать отрицательное правило с помощью символа !; например, !+7* заблокирует все номера, не соответствующие шаблону +7* (таким образом, с помощью кода своей страны можно легко заблокировать все международные вызовы).</string>
+<string name="block_error_string_value">Этот шаблон недопустим</string>
+
 <string name="transfers">Перенос данных</string>
 <string name="transfer_import">Импорт 📦→📱</string>
 <string name="transfer_export">Экспорт 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Блокировать звонки со скрытых номеров</string>
 <string name="block_unknown_messages">Блокировать сообщения с неизвестных номеров</string>
 <string name="block_hidden_messages">Блокировать сообщения со скрытых номеров</string>
-<string name="add_blocked_number_helper_text">Введите точный номер или шаблон с использованием символов * или ? (например, *333*, +1*8888, +42?777*), чтобы заблокировать соответствующие номера. Звёздочка обозначает любое количество символов, а вопросительный знак — ровно один символ.</string>
 <string name="must_make_default_caller_id_app">Невозможно блокировать неизвестные номера, если приложение не установлено как телефонное приложение по умолчанию и одновременно как приложение по умолчанию для идентификации вызывающего абонента.</string>
 <string name="block_contact">Заблокировать контакт</string>
 <string name="block_contact_success">Контакт заблокирован</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Разблокировать контакт</string>
 <string name="unblock_contact_success">Контакт разблокирован</string>
 <string name="unblock_contact_fail">Не удалось разблокировать контакт</string>
-<string name="block_error_string_value">Разрешены только цифры и символы ? *</string>
 
 <string name="edit_sms_templates"> ✍️ Редактировать шаблоны SMS</string>
 <string name="sms_edit_hint_double_tap">Долгое нажатие или двойное касание для редактирования текста</string>

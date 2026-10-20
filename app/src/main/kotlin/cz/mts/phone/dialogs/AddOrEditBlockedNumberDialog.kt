@@ -8,6 +8,7 @@ import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.extensions.getProperPrimaryColor
 import cz.mts.base.extensions.getProperTextColor
+import cz.mts.base.extensions.isValidNegativeBlockedNumberRule
 import cz.mts.base.extensions.toast
 import cz.mts.base.models.BlockedNumber
 import cz.mts.phone.R
@@ -106,10 +107,11 @@ private fun sanitizeBlockedNumberInput(raw: String): String {
 }
 
 /**
- * Negativní pravidlo musí obsahovat aspoň jednu číslici (jinak by např. "!?" zablokovalo skoro všechno),
- * ostatní vstupy aspoň číslici nebo wildcard (samotné "+" se nikdy neuloží).
+ * Negativní pravidlo musí obsahovat aspoň jednu číslici a aspoň jeden wildcard * nebo ?
+ * (viz isValidNegativeBlockedNumberRule), ostatní vstupy aspoň číslici nebo wildcard
+ * (samotné "+" se nikdy neuloží).
  */
 private fun isValidBlockedNumberInput(value: String): Boolean {
-    if (value.startsWith("!")) return value.substring(1).any { it in '0'..'9' }
+    if (value.startsWith("!")) return value.isValidNegativeBlockedNumberRule()
     return value.any { it in '0'..'9' || it == '*' || it == '?' }
 }

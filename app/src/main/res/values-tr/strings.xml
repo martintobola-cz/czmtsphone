@@ -2,6 +2,15 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="privacy_policy_section">Gizlilik politikası</string>
+    <string name="revoke_consent">Rızayı geri çek</string>
+
+<string name="recents_still_loading">Tüm arama geçmişinin yüklenmesini bekleyin...</string>
+<string name="is_spam_call">Şüpheli spam</string>
+<string name="blocked_calls_mts">Engellenen aramalar</string>
+<string name="add_blocked_number_helper_text">Eşleşen numaralardan gelen tüm aramaları engellemek için tam bir numara veya * ya da ? içeren bir desen girin (ör. *333*, +1*8888, +42?607*). Yıldız (*) herhangi sayıda karakteri, soru işareti (?) ise tam olarak bir karakteri temsil eder. Artık ! karakterini kullanarak negatif bir kural da uygulayabilirsiniz; örneğin, !+90* deseni +90* ile eşleşmeyen tüm numaraları engeller (böylece ülkenizin telefon kodunu kullanarak tüm uluslararası aramaları kolayca engelleyebilirsiniz).</string>
+<string name="block_error_string_value">Bu desene izin verilmiyor</string>
+
 <string name="transfers">Aktarımlar</string>
 <string name="transfer_import">İçe Aktar 📦→📱</string>
 <string name="transfer_export">Dışa Aktar 📱→📦</string>
@@ -39,7 +48,6 @@
 <string name="block_hidden_calls">Gizli numaralardan gelen aramaları engelle</string>
 <string name="block_unknown_messages">Kişilerde kayıtlı olmayan numaralardan gelen mesajları engelle</string>
 <string name="block_hidden_messages">Gizli numaralardan gelen mesajları engelle</string>
-<string name="add_blocked_number_helper_text">Eşleşen numaralardan gelen tüm aramaları engellemek için tam bir numara veya * ya da ? içeren bir desen girin (ör. *333*, +1*8888, +42?777*). Yıldız işareti herhangi bir sayıda karakteri, soru işareti ise tam olarak bir karakteri temsil eder.</string>
 <string name="must_make_default_caller_id_app">Arayan kimliği izni olmadan bilinmeyen numaralar engellenemez.</string>
 <string name="block_contact">Kişiyi engelle</string>
 <string name="block_contact_success">Kişi engellendi</string>
@@ -47,7 +55,6 @@
 <string name="unblock_contact">Kişinin engellemesini kaldır</string>
 <string name="unblock_contact_success">Kişinin engellemesi kaldırıldı</string>
 <string name="unblock_contact_fail">Kişinin engellemesi kaldırılamadı</string>
-<string name="block_error_string_value">Yalnızca rakamlara ve ? * karakterlerine izin verilir</string>
 
 <string name="edit_sms_templates"> ✍️ SMS şablonlarını düzenle</string>
 <string name="sms_edit_hint_double_tap">Metni düzenlemek için uzun basın veya çift dokunun</string>

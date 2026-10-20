@@ -986,7 +986,7 @@ class MainActivity : SimpleActivity() {
         }
 
 //výchozí aplikace k identifikaci volajícího a spamu
-        if (isQPlus() && (config.blockUnknownNumbers || config.blockHiddenNumbers)) //|| hasAnyBlockedNumber())) EE to nás nezajímá, postará se jiná výchozí spamID aplikace
+        if (isQPlus() && (config.blockUnknownNumbers || config.blockHiddenNumbers)) //|| hasAnyBlockedNumber())) to nás nezajímá, protože se to může starat úplně jiná výchozí spamID aplikace
         {
             val iIsDefaultForBlocking = isDefaultCallScreeningApp
             if (!iIsDefaultForBlocking) {

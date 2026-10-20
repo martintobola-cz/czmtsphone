@@ -1,5 +1,6 @@
 package cz.mts.phone.activities
 
+import android.app.role.RoleManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.models.BlockedNumber
 import cz.mts.phone.R
+import cz.mts.phone.activities.mtsGlobalAll.showMyAlertDialog
 import cz.mts.phone.adapters.BlockedNumbersAdapter
 import cz.mts.phone.databinding.ActivityManageBlockedNumbersBinding
 import cz.mts.phone.dialogs.AddOrEditBlockedNumberDialog
@@ -92,7 +94,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
     override fun onResume() {
         customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
         super.onResume()
-        setupTopAppBar(binding.manageBlockedNumbersAppbar, NavigationIcon.Arrow)
+        setupTopAppBarWithBackHandling()
 
         // isDefaultDialer / stav callfilter appky se mohl od posledního onResume změnit
         // (uživatel se mohl vrátit ze systémového dialogu nebo z Obchodu Play)
@@ -103,6 +105,54 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
         onCheckedSetCallerIdAsDefault(isBlockingChecked)
 
         updateUiState()
+    }
+
+    // ─── Zpět: bez role CALL_SCREENING se blokování nesmí opustit ──────────────
+
+    /**
+     * Šipka zpět jde přes onBackPressedCompat(), stejně jako v RecordedFilesActivity.
+     * Systémové "zpět" jde stejnou cestou přes onBackPressedDispatcher v BaseSimpleActivity.
+     * Volej tímhle, ne přímo setupTopAppBar().
+     */
+    private fun setupTopAppBarWithBackHandling() {
+        setupTopAppBar(
+            topAppBar = binding.manageBlockedNumbersAppbar,
+            navigationIcon = NavigationIcon.Arrow,
+            onNavigationClick = {
+                if (!onBackPressedCompat()) {
+                    finish()
+                }
+            }
+        )
+    }
+
+    /**
+     * true = zpět jsme zachytili (zobrazen dialog), false = nech systém activity zavřít.
+     * Po OK se požádá o roli CALL_SCREENING; po zrušení dialogu uživatel v activity zůstane
+     * a při dalším "zpět" se dialog ukáže znovu, dokud podmínky platí.
+     */
+    override fun onBackPressedCompat(): Boolean {
+        if (!mustBeCallScreeningApp()) return false
+
+        showMyAlertDialog(
+            context = this,
+            sMytext = getString(R.string.error_default_app_mts),
+            sMyTitle = "",
+            bShowTitle = false,
+            iButtonText = 0
+        ) { setDefaultCallerIdApp() }
+        return true
+    }
+
+    /** Stejná podmínka jako v MainActivity, rozšířená o jakékoli blokované číslo (včetně masek). */
+    private fun mustBeCallScreeningApp(): Boolean {
+        if (!isQPlus() || !isDialer) return false
+        if (isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) return false
+        if (!isDefaultDialer()) return false
+        // defenzivně: když zařízení roli nenabízí, nesmí uživatele zamknout v activity
+        if (roleManagerBase?.isRoleAvailable(RoleManager.ROLE_CALL_SCREENING) != true) return false
+
+        return config.blockUnknownNumbers || config.blockHiddenNumbers || hasAnyBlockedNumber()
     }
 
     // ─── Toolbar (nahoře) ───────────────────────────────────────────────────────

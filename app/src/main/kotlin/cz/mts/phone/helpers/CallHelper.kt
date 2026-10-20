@@ -14,11 +14,7 @@ import android.telephony.PhoneNumberUtils
 import android.telephony.SubscriptionManager
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.compose.extensions.config
-import cz.mts.base.extensions.copyToClipboard
-import cz.mts.base.extensions.getBlockedNumbers
-import cz.mts.base.extensions.isDefaultDialer
-import cz.mts.base.extensions.isNumberBlocked
-import cz.mts.base.extensions.launchActivityIntent
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PERMISSION_CALL_PHONE
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
@@ -110,8 +106,8 @@ object CallHelper {
 
         // 5) BĚŽNÁ ČÍSLA
         val number = sNumber // sem případně přijde normalizace (jen pro běžná čísla)
-
-        if (activity.isNumberBlocked(number, activity.getBlockedNumbers())) {
+        val region = activity.getCallRegion(handleActiveSimSlot.getOrNull(iSimSlot))
+        if (activity.isNumberBlocked(number, activity.getBlockedNumbers(), region = region, includeNegativeRules = false)) {
             val sTitle = activity.getString(R.string.call_error1_title_mts)
             val sBody = activity.getString(R.string.call_error1_text_mts)
             showMyAlertDialog(
