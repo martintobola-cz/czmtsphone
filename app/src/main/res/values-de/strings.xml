@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="ring_duration">klingelte %1$s</string>
+<string name="bold_dialog_buttons">Fette Schaltflächen in Dialogen</string>
+
+    <string name="default_reset">Standard</string>
+    <string name="reported_spam_numbers">Gemeldete Spam-Nummern</string>
+    <string name="no_reported_spam_numbers">Sie haben noch keine Nummern als Spam gemeldet.</string>
+    <string name="avatar_settings">🎭 Avatare</string>
+    <string name="avatar_default_title">Standard-Avatare:</string>
+    <string name="avatar_custom_title">Eigene Avatare:</string>
+    <string name="avatar_unknown_contact">Unbekannter Kontakt</string>
+    <string name="avatar_blocked_call">Blockierter Anruf</string>
+    <string name="avatar_remove">Entfernen</string>
+
+    <string name="remove_confirmation_single">Möchten Sie diesen Eintrag wirklich löschen?\n%s</string>
+
+    <string name="report_spam">Als Spam melden</string>
+    <string name="spam_report_question">Möchten Sie die Nummer %1$s als Spam-Anruf melden?</string>
+    <string name="spam_report_comment_hint">Ihr Kommentar...</string>
+    <string name="spam_category_scam">🎣 Betrug</string>
+    <string name="spam_category_telemarketing">🗣️ Telefonwerbung</string>
+    <string name="spam_category_silent_call">🤖 Stiller Anruf (Roboter)</string>
+    <string name="spam_category_financial_services">💰 Finanzdienstleistungen</string>
+    <string name="spam_category_debt_collection">🥊 Inkasso</string>
+    <string name="spam_category_business">🏢 Geschäftlich</string>
+    <string name="spam_category_retail">🛒 Einzelhandel</string>
+    <string name="spam_category_other">⛔ Sonstiges</string>
+
+    <string name="shake_effect_long_press_hint">Lange drücken, um eigenen Text festzulegen...</string>
+
     <string name="privacy_policy_section">Datenschutzerklärung</string>
-    <string name="revoke_consent">Einwilligung widerrufen</string>
+<string name="privacy_agree">Zustimmen</string>
+<string name="privacy_decline">Ablehnen</string>
+<string name="revoke_consent">Einwilligung widerrufen</string>
 
 <string name="recents_still_loading">Warte, bis der gesamte Anrufverlauf geladen ist...</string>
 <string name="is_spam_call">Mutmaßlicher Spam</string>
@@ -43,7 +74,7 @@
 <string name="send_message">SMS senden</string>
 <string name="hide_number_for_saved_contact">Telefonnummer während eines Anrufs nicht anzeigen, wenn es sich um einen gespeicherten Kontakt handelt</string>
 <string name="privacy_acknowledge">Ich bestätige dies</string>
-<string name="block_confirmation">Möchten Sie \"%s\" wirklich blockieren?</string>
+<string name="block_confirmation">Möchten Sie %s wirklich blockieren?</string>
 <string name="block_unknown_calls">Anrufe von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>
 <string name="block_hidden_calls">Anrufe von unterdrückten Nummern blockieren</string>
 <string name="block_unknown_messages">Nachrichten von Nummern blockieren, die nicht in den Kontakten gespeichert sind</string>

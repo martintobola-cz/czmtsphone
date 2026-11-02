@@ -1,14 +1,11 @@
 package cz.mts.phone.dialogs
 
-import android.app.AlertDialog
-import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
+import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import cz.mts.base.activities.BaseSimpleActivity
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.extensions.isValidNegativeBlockedNumberRule
+import cz.mts.base.extensions.styleDialog
 import cz.mts.base.extensions.toast
 import cz.mts.base.models.BlockedNumber
 import cz.mts.phone.R
@@ -52,23 +49,8 @@ class AddOrEditBlockedNumberDialog(
 
         val dialog = builder.create()
 
-        dialog.window?.setBackgroundDrawable(
-            GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                cornerRadius = 64f
-                setColor(activity.getProperBackgroundColor())
-            }
-        )
-
         dialog.show()
-
-        val primaryColor = activity.getProperPrimaryColor()
-        listOf(AlertDialog.BUTTON_POSITIVE, AlertDialog.BUTTON_NEGATIVE, AlertDialog.BUTTON_NEUTRAL).forEach { which ->
-            dialog.getButton(which)?.apply {
-                setTextColor(primaryColor)
-                setTypeface(typeface, Typeface.BOLD)
-            }
-        }
+        activity.styleDialog(dialog)
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             // plná klávesnice umožní zadat cokoliv; povolené jsou jen číslice, wildcardy * ?,
@@ -97,10 +79,10 @@ class AddOrEditBlockedNumberDialog(
 private fun sanitizeBlockedNumberInput(raw: String): String {
     val sb = StringBuilder()
     for (c in raw.trim()) {
-        when {
-            c in '0'..'9' || c == '*' || c == '?' -> sb.append(c)
-            c == '!' && sb.isEmpty() -> sb.append(c)
-            c == '+' && (sb.isEmpty() || sb.toString() == "!") -> sb.append(c)
+        when (c) {
+            in '0'..'9', '*', '?' -> sb.append(c)
+            '!' if sb.isEmpty() -> sb.append(c)
+            '+' if (sb.isEmpty() || sb.toString() == "!") -> sb.append(c)
         }
     }
     return sb.toString()

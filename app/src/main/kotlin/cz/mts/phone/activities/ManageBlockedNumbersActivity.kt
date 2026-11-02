@@ -16,6 +16,7 @@ import cz.mts.phone.activities.mtsGlobalAll.showMyAlertDialog
 import cz.mts.phone.adapters.BlockedNumbersAdapter
 import cz.mts.phone.databinding.ActivityManageBlockedNumbersBinding
 import cz.mts.phone.dialogs.AddOrEditBlockedNumberDialog
+import cz.mts.phone.dialogs.ReportedNumbersDialog
 import cz.mts.phone.helpers.BlockedNumbersImportExportHelper
 
 class ManageBlockedNumbersActivity : BaseSimpleActivity() {
@@ -179,6 +180,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
                     R.id.add_a_blocked_number -> openAddBlockedNumberDialog(null)
                     R.id.import_blocked_numbers -> importExportHelper.tryImportBlockedNumbers()
                     R.id.export_blocked_numbers -> importExportHelper.tryExportBlockedNumbers()
+                    R.id.reported_spam_numbers -> ReportedNumbersDialog(this@ManageBlockedNumbersActivity)
                     else -> return@setOnMenuItemClickListener false
                 }
                 true

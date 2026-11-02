@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="ring_duration">%1$s boyunca çaldı</string>
+<string name="bold_dialog_buttons">Diyaloglarda kalın düğmeler</string>
+
+    <string name="default_reset">Varsayılan</string>
+    <string name="reported_spam_numbers">Bildirilen spam numaraları</string>
+    <string name="no_reported_spam_numbers">Henüz hiçbir numarayı spam olarak bildirmediniz.</string>
+    <string name="avatar_settings">🎭 Avatarlar</string>
+    <string name="avatar_default_title">Varsayılan avatarlar:</string>
+    <string name="avatar_custom_title">Özel avatarlar:</string>
+    <string name="avatar_unknown_contact">Bilinmeyen kişi</string>
+    <string name="avatar_blocked_call">Engellenen arama</string>
+    <string name="avatar_remove">Kaldır</string>
+
+    <string name="remove_confirmation_single">Bu kaydı gerçekten silmek istiyor musunuz?\n%s</string>
+
+    <string name="report_spam">Spam olarak bildir</string>
+    <string name="spam_report_question">%1$s numarasını spam arama olarak bildirmek istiyor musunuz?</string>
+    <string name="spam_report_comment_hint">Yorumunuz...</string>
+    <string name="spam_category_scam">🎣 Dolandırıcılık</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Sessiz (robot) arama</string>
+    <string name="spam_category_financial_services">💰 Finansal hizmetler</string>
+    <string name="spam_category_debt_collection">🥊 Borç tahsilatı</string>
+    <string name="spam_category_business">🏢 İş</string>
+    <string name="spam_category_retail">🛒 Perakende</string>
+    <string name="spam_category_other">⛔ Diğer</string>
+
+    <string name="shake_effect_long_press_hint">Özel metin ayarlamak için uzun basın...</string>
+
 <string name="privacy_policy_section">Gizlilik politikası</string>
-    <string name="revoke_consent">Rızayı geri çek</string>
+<string name="privacy_agree">Kabul ediyorum</string>
+<string name="privacy_decline">Reddediyorum</string>
+<string name="revoke_consent">Onayı geri çek</string>
 
 <string name="recents_still_loading">Tüm arama geçmişinin yüklenmesini bekleyin...</string>
 <string name="is_spam_call">Şüpheli spam</string>
@@ -43,7 +74,7 @@
 <string name="send_message">Mesaj gönder</string>
 <string name="hide_number_for_saved_contact">Kayıtlı bir kişiyse arama sırasında telefon numarasını gösterme</string>
 <string name="privacy_acknowledge">Bunu kabul ediyorum</string>
-<string name="block_confirmation">\"%s\" numarasını engellemek istediğinizden emin misiniz?</string>
+<string name="block_confirmation">%s numarasını engellemek istediğinizden emin misiniz?</string>
 <string name="block_unknown_calls">Kişilerde kayıtlı olmayan numaralardan gelen aramaları engelle</string>
 <string name="block_hidden_calls">Gizli numaralardan gelen aramaları engelle</string>
 <string name="block_unknown_messages">Kişilerde kayıtlı olmayan numaralardan gelen mesajları engelle</string>

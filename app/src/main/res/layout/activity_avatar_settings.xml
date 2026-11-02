@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/avatar_settings_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cz.mts.base.views.MyAppBarLayout
+        android:id="@+id/avatar_settings_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/avatar_settings_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:title="@string/avatar_settings"
+            app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
+
+    </cz.mts.base.views.MyAppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/avatar_settings_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+       <!-- ===== Horní polovina: výchozí ===== -->
+<cz.mts.base.views.MyTextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:text="@string/avatar_default_title"
+    android:textStyle="bold" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivDefaultFake"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/cbDefaultFake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avatar_unknown_contact" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivDefaultBlock"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/cbDefaultBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avatar_blocked_call" />
+    </LinearLayout>
+</LinearLayout>
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginVertical="8dp"
+    android:background="?android:attr/listDivider" />
+
+<!-- ===== Dolní polovina: vlastní ===== -->
+<cz.mts.base.views.MyTextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:text="@string/avatar_custom_title"
+    android:textStyle="bold" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivCustomFake"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/cbCustomFake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avatar_unknown_contact" />
+
+<ImageView
+    android:id="@+id/btnRemoveFake"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:padding="12dp"
+    android:contentDescription="@string/avatar_remove"
+    app:srcCompat="@drawable/ic_minus_vector" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivCustomBlock"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/cbCustomBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/avatar_blocked_call" />
+
+<ImageView
+    android:id="@+id/btnRemoveBlock"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:padding="12dp"
+    android:contentDescription="@string/avatar_remove"
+    app:srcCompat="@drawable/ic_minus_vector" />
+
+    </LinearLayout>
+</LinearLayout>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,21 +26,21 @@
         android:layout_margin="16dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnAcknowledge"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/dialog_ok" />
+<Button
+        android:id="@+id/btnDecline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/privacy_decline" /> 
 
-        <!-- Viditelné pouze při spuštění z About / Nastavení -->
         <Button
-            android:id="@+id/btnRevokeConsent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="@string/revoke_consent"/>
+        android:id="@+id/btnAcknowledge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:enabled="false"
+        android:text="@string/privacy_agree" />
 
     </LinearLayout>
 

@@ -39,6 +39,12 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.content.DialogInterface
+import android.graphics.Typeface
+import android.widget.Button
+import cz.mts.base.helpers.PhoneNumberHelper.areSamePhoneNumber
+import cz.mts.base.models.contacts.Contact
+
 
 fun Context.getSharedPrefs() = getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
 
@@ -218,6 +224,42 @@ fun Context.updateSDCardPath() {
 //        "${getString(stringId)} (${getString(R.string.feature_locked)})"
 //    }
 //}
+
+
+fun Button.applyDialogButtonStyle(color: Int, bold: Boolean) {
+    setTextColor(color)
+    typeface = Typeface.create(typeface, if (bold) 700 else 450, false)
+    isAllCaps = false
+}
+
+fun Button.applyDialogButtonStyleOLD(color: Int, bold: Boolean) {
+    setTextColor(color)
+    setTypeface(typeface, if (bold) Typeface.BOLD else Typeface.NORMAL)
+    isAllCaps = false
+}
+
+//fun Context.styleDialogButtons(dialog: android.app.AlertDialog, bold : Boolean? = null) =
+//    applyDialogButtons(bold) { dialog.getButton(it) }
+
+fun Context.styleDialogButtons(dialog: androidx.appcompat.app.AlertDialog, bold : Boolean? = null) =
+    applyDialogButtons(bold) { dialog.getButton(it) }
+
+private fun Context.applyDialogButtons(bold : Boolean?, getButton: (Int) -> Button?) {
+    val color = getDialogButtonColor()
+    val bold2 = bold ?: baseConfig.boldDialogButtons
+    listOf(
+        DialogInterface.BUTTON_POSITIVE,
+        DialogInterface.BUTTON_NEGATIVE,
+        DialogInterface.BUTTON_NEUTRAL
+    ).forEach { getButton(it)?.applyDialogButtonStyle(color, bold2) }
+}
+
+fun Context.getDialogButtonColor(): Int {
+    val textColor = getProperTextColor()
+    val backgroundColor = getProperBackgroundColor()
+    val primaryColor = getProperPrimaryColor()
+    return if (primaryColor == backgroundColor) textColor else primaryColor
+}
 
 fun Context.formatSecondsToShortTimeString(totalSeconds: Int): String {
     if (totalSeconds <= 0) return ""
@@ -539,10 +581,20 @@ fun Context.copyToClipboard(text: String, bToast: Boolean = true, label: String 
     if (bToast) toast(getString(R.string.value_copied_to_clipboard_show))
 }
 
+ fun Context.resolveSpecificPhone(
+     contact: Contact?,
+     number: String
+):  String {
+    val phone = contact?.phoneNumbers?.firstOrNull { areSamePhoneNumber(it.value, number) }
+        ?: return ""
+    return getPhoneNumberTypeText(phone.type, phone.label)
+}
+
+
 fun Context.getPhoneNumberTypeText(type: Int, label: String): String {
-    return if (type == BaseTypes.TYPE_CUSTOM) {
-        label
-    } else {
+    return if (type == BaseTypes.TYPE_CUSTOM) { //uživatelem ručně pojmenovaný typ
+        label //se vrátí přesně tak jak jsi ho sám pojmenoval
+    } else { //ostatní převedeme dle stringů
         getString(
             when (type) {
                 Phone.TYPE_MOBILE -> R.string.mobile

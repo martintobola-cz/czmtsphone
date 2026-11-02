@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">MTS 撥號器</string>
 
+<string name="ring_duration">響鈴 %1$s</string>
+<string name="bold_dialog_buttons">對話方塊按鈕加粗</string>
+
+    <string name="default_reset">預設</string>
+    <string name="reported_spam_numbers">已檢舉的垃圾號碼</string>
+    <string name="no_reported_spam_numbers">您尚未將任何號碼檢舉為垃圾來電。</string>
+    <string name="avatar_settings">🎭 頭像</string>
+    <string name="avatar_default_title">預設頭像：</string>
+    <string name="avatar_custom_title">自訂頭像：</string>
+    <string name="avatar_unknown_contact">未知聯絡人</string>
+    <string name="avatar_blocked_call">已封鎖的來電</string>
+    <string name="avatar_remove">移除</string>
+
+    <string name="remove_confirmation_single">確定要刪除這筆記錄嗎？\n%s</string>
+
+    <string name="report_spam">檢舉為垃圾來電</string>
+    <string name="spam_report_question">要將號碼 %1$s 檢舉為垃圾來電嗎？</string>
+    <string name="spam_report_comment_hint">您的留言...</string>
+    <string name="spam_category_scam">🎣 詐騙</string>
+    <string name="spam_category_telemarketing">🗣️ 電話行銷</string>
+    <string name="spam_category_silent_call">🤖 靜默（機器人）來電</string>
+    <string name="spam_category_financial_services">💰 金融服務</string>
+    <string name="spam_category_debt_collection">🥊 討債</string>
+    <string name="spam_category_business">🏢 商業</string>
+    <string name="spam_category_retail">🛒 零售</string>
+    <string name="spam_category_other">⛔ 其他</string>
+
+    <string name="shake_effect_long_press_hint">長按以設定自訂文字...</string>
+
 <string name="privacy_policy_section">隱私權政策</string>
-    <string name="revoke_consent">撤回同意</string>
+<string name="privacy_agree">同意</string>
+<string name="privacy_decline">不同意</string>
+<string name="revoke_consent">撤回同意</string>
 
 <string name="recents_still_loading">請等待所有通話記錄載入完成...</string>
 <string name="is_spam_call">可能是騷擾電話</string>
@@ -43,7 +74,7 @@
 <string name="send_message">傳送簡訊</string>
 <string name="hide_number_for_saved_contact">如果是已儲存的聯絡人，通話期間不顯示電話號碼</string>
 <string name="privacy_acknowledge">我已知悉</string>
-<string name="block_confirmation">確定要封鎖「%s」嗎？</string>
+<string name="block_confirmation">確定要封鎖 %s 嗎？</string>
 <string name="block_unknown_calls">封鎖來自不在聯絡人中的號碼的來電</string>
 <string name="block_hidden_calls">封鎖來自隱藏號碼的來電</string>
 <string name="block_unknown_messages">封鎖來自不在聯絡人中的號碼的訊息</string>

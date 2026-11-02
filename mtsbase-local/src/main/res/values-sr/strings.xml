@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+<string name="use_dynamic_theme">Динамичке (You) боје</string>
+<string name="theme_restart_required">Дугме У реду затвара апликацију, што је неопходно да би измене боја које сте управо направили ступиле на снагу.</string>
+<string name="customization_popup_menu_background_color_label">Боја позадине искачућег менија</string>
+<string name="customization_popup_menu_text_color_label">Боја текста искачућег менија</string>
+
+<string name="callfilter_info">Прикажи оцене за непознате бројеве (помоћу callfilter.app, cz.mts.callfilter)</string>
+<string name="more_info">Више информација</string>
+<string name="tmobile_theme">T-Mobile</string>
+<string name="kaktus_theme">Kaktus</string>
+<string name="use_custom_sim_color">Прилагођена боја SIM-а</string>
+<string name="customization_sim1_color_label">Боја SIM 1</string>
+<string name="customization_sim2_color_label">Боја SIM 2</string>
+    <string name="use_dayofweek_in_time_format">Прикажи дан у недељи</string>
+    <string name="invalid_target_for_import">Изаберите само једну циљну ставку (или ниједну за креирање прилагођене)!</string>
+    <string name="invalid_name_or_type">Неисправан назив или тип!</string>
+    <string name="view_all_call_history">Освежи</string>
+   <string name="search_all_fields">Претражи сва поља</string>
+    <string name="other">остало</string>
+    <string name="about">О апликацији</string>
+    <string name="customization_navbar_color_label">Боја навигационе траке</string>
+    <string name="ok">У реду</string>
+    <string name="cancel">Откажи</string>
+    <string name="close">Затвори</string>
+    <string name="back">Назад</string>
+    <plurals name="files_saved">
+        <item quantity="one">Датотека је успешно сачувана</item>
+        <item quantity="few">Датотеке су успешно сачуване</item>
+        <item quantity="other">Датотеке су успешно сачуване</item>
+    </plurals>
+    <string name="invalid_file_format">Неисправан формат датотеке</string>
+    <string name="error">Грешка: %s</string>
+    <string name="no_app_found">Није пронађена одговарајућа апликација</string>
+    <string name="copy_number_to_clipboard">Копирај број у привремену меморију</string>
+    <string name="value_copied_to_clipboard_show">Вредност је копирана у привремену меморију</string>
+    <string name="unknown">Непознато</string>
+    <string name="previous">Претходно</string>
+    <string name="next">Следеће</string>
+    <string name="number">Број</string>
+    <string name="no_contacts_found">Нису пронађени контакти</string>
+    <string name="zero">Нула</string>
+    <string name="one">Један</string>
+    <string name="two">Два</string>
+    <string name="three">Три</string>
+    <string name="four">Четири</string>
+    <string name="five">Пет</string>
+    <string name="six">Шест</string>
+    <string name="seven">Седам</string>
+    <string name="eight">Осам</string>
+    <string name="nine">Девет</string>
+    <string name="value">Вредност</string>
+    <string name="create_new_contact">Направи нови контакт</string>
+    <string name="disclaimer">Одрицање одговорности</string>
+    <string name="choose_contact">Изаберите контакт</string>
+    <string name="record_audio">Сними звук</string>
+    <string name="record_video">Сними видео</string>
+    <string name="phone_storage">Меморија телефона</string>
+    <string name="phone_storage_hidden">Меморија телефона (невидљива другим апликацијама)</string>
+    <string name="home">Кућни</string>
+    <string name="work">Пословни</string>
+
+    <string name="mobile">Мобилни</string>
+    <string name="main_number">Главни</string>
+    <string name="work_fax">Пословни факс</string>
+    <string name="home_fax">Кућни факс</string>
+    <string name="pager">Пејџер</string>
+    <string name="change_view_type">Промени тип приказа</string>
+    <string name="grid">Мрежа</string>
+    <string name="list">Листа</string>
+    <string name="column_count">Број колона</string>
+    <plurals name="column_counts">
+        <item quantity="one">%d колона</item>
+        <item quantity="few">%d колоне</item>
+        <item quantity="other">%d колона</item>
+    </plurals>
+    <plurals name="row_counts">
+        <item quantity="one">%d ред</item>
+        <item quantity="few">%d реда</item>
+        <item quantity="other">%d редова</item>
+    </plurals>
+
+    <string name="manage_blocked_numbers">⛔ Блокирани бројеви</string>
+    <string name="blocked_numbers_title">⛔ Блокирање</string>
+
+    <string name="not_blocking_anyone">Не блокирате никога.</string>
+    <string name="add_a_blocked_number">Додај блокирани број</string>
+    <string name="block_number">Блокирај број</string>
+    <string name="blocked_numbers">Блокирани бројеви</string>
+    <string name="export_blocked_numbers">Извези блокиране бројеве</string>
+    <string name="import_blocked_numbers">Увези блокиране бројеве</string>
+    <string name="must_make_default_dialer">Морате ову апликацију поставити као подразумевану апликацију за позиве да бисте користили блокиране бројеве.</string>
+    <string name="set_as_default">Постави као подразумевано</string>
+
+    <string name="favorites">Омиљени</string>
+    <string name="search">Претражи</string>
+    <string name="search_contacts">Претражи контакте</string>
+    <string name="filter">Извори контаката</string>
+    <string name="no_items_found">Нису пронађене ставке.</string>
+    <string name="allow_notifications_incoming_calls">Морате дозволити апликацији приказивање обавештења, иначе не може да прикаже долазне позиве.</string>
+    <string name="allow_full_screen_notifications_incoming_calls">Морате дозволити апликацији приказивање обавештења преко целог екрана, иначе можете пропустити неке долазне позиве.</string>
+    <string name="grant_permission">Одобри дозволу</string>
+    <string name="permission_required">Потребна је дозвола</string>
+
+    <string name="filename_cannot_be_empty">Назив датотеке не може бити празан</string>
+    <string name="filename_invalid_characters">Назив датотеке садржи неисправне знакове</string>
+    <string name="prepend_filenames">Додај текст пре назива датотека</string>
+    <string name="append_filenames">Додај текст после назива датотека</string>
+    <string name="simple_renaming">Једноставно преименовање</string>
+    <string name="pattern_renaming">Шаблон</string>
+    <string name="string_to_add">Текст за додавање</string>
+    <string name="rename_date_time_pattern">%Y - година\n%M - месец\n%D - дан\n%h - сат\n%m - минут\n%s - секунда\n%i - број који расте од 1</string>
+    <string name="filename_without_ext">Назив датотеке без екстензије</string>
+    <string name="copy">Копирај</string>
+    <string name="please_select_destination">Изаберите одредиште</string>
+    <string name="could_not_create_folder">Није могуће креирати фасциклу %s</string>
+    <string name="could_not_create_file">Није могуће креирати датотеку %s</string>
+    <string name="system_service_disabled">Системска услуга за избор датотека и фасцикли није доступна</string>
+
+    <string name="folder">Фасцикла</string>
+    <string name="create_new_folder">Направи нову фасциклу</string>
+    <string name="name_taken">Датотека или фасцикла са тим називом већ постоји</string>
+    <string name="invalid_name">Назив садржи неисправне знакове</string>
+    <string name="empty_name">Унесите назив</string>
+    <string name="unknown_error_occurred">Дошло је до непознате грешке</string>
+
+    <string name="file_already_exists">Датотека „%s“ већ постоји</string>
+    <string name="file_already_exists_overwrite">Датотека „%s“ већ постоји. Желите ли да је препишете?</string>
+    <string name="folder_already_exists">Фасцикла „%s“ већ постоји</string>
+    <string name="merge">Споји</string>
+    <string name="keep_both">Задржи обе</string>
+    <string name="overwrite">Препиши</string>
+    <string name="skip">Прескочи</string>
+    <string name="apply_to_all">Примени на све</string>
+    <string name="system_folder_restriction">Систем не дозвољава ову операцију у овој фасцикли, изаберите другу</string>
+    <string name="select_folder">Изаберите фасциклу</string>
+    <string name="select_file">Изаберите датотеку</string>
+    <string name="confirm_storage_access_title">Потврдите приступ спољној меморији</string>
+    <string name="confirm_folder_access_title">Потврдите приступ фасцикли</string>
+    <string name="confirm_storage_access_text">На следећем екрану изаберите коренску фасциклу SD картице да бисте одобрили приступ за писање</string>
+    <string name="confirm_storage_access_text_sd">Ако не видите SD картицу, пробајте ово</string>
+    <string name="confirm_storage_access_android_text_specific">Дозволите приступ „&lt;b&gt;%s&lt;/b&gt;“ на следећем екрану притиском на „&lt;b&gt;Користи ову фасциклу&lt;/b&gt;“ при дну.</string>
+    <string name="confirm_create_doc_for_new_folder_text">Притисните „&lt;b&gt;Сачувај&lt;/b&gt;“ при дну следећег екрана да бисте направили нову фасциклу.</string>
+    <string name="loading">Учитавање…</string>
+    <plurals name="items">
+        <item quantity="one">%d ставка</item>
+        <item quantity="few">%d ставке</item>
+        <item quantity="other">%d ставки</item>
+    </plurals>
+
+    <plurals name="delete_items">
+        <item quantity="one">%d ставка</item>
+        <item quantity="few">%d ставке</item>
+        <item quantity="other">%d ставки</item>
+    </plurals>
+
+    <plurals name="deleting_items">
+        <item quantity="one">Брисање %d ставке</item>
+        <item quantity="few">Брисање %d ставке</item>
+        <item quantity="other">Брисање %d ставки</item>
+    </plurals>
+
+    <plurals name="delete_contacts">
+        <item quantity="one">%d контакт</item>
+        <item quantity="few">%d контакта</item>
+        <item quantity="other">%d контаката</item>
+    </plurals>
+
+    <string name="select_storage">Изаберите меморију</string>
+    <string name="internal">Интерна</string>
+    <string name="sd_card">SD картица</string>
+    <string name="root">Корен</string>
+    <string name="wrong_root_selected">Изабрана је погрешна фасцикла, изаберите главну фасциклу ваше SD картице</string>
+    <string name="sd_card_usb_same">Путање SD картице и USB уређаја не могу бити исте</string>
+    <string name="wrong_folder_selected">Изабрана је погрешна фасцикла, изаберите путању „%s“</string>
+
+    <string name="path">Путања</string>
+    <string name="background_color">Боја позадине</string>
+    <string name="text_color">Боја текста</string>
+    <string name="primary_color">Примарна боја</string>
+    <string name="accent_color_white">Акцентна боја беле теме</string>
+    <string name="accent_color_black_and_white">Акцентна боја теме Црно-бело</string>
+    <string name="app_icon_color">Боја иконице апликације</string>
+    <string name="default_color">Подразумевано</string>
+    <string name="theme">Тема</string>
+    <string name="changing_color_description">Овде се може променити само боја иконице апликације. Свака друга промена боје пребациће тему на Прилагођену.</string>
+    <string name="save">Сачувај</string>
+    <string name="discard">Одбаци</string>
+    <string name="cannot_be_undone">Ова радња се не може опозвати.</string>
+    <string name="save_before_closing">Имате несачуване измене. Сачувати пре изласка?</string>
+    <string name="app_icon_color_warning">Пажња: Неки покретачи (лаунчери) можда неће исправно подржавати прилагођавање иконице апликације. Ако икона нестане, покушајте да покренете апликацију преко Google Play-а или видџета, ако је доступан. После покретања вратите подразумевану зелену боју иконице #106D1F. У екстремним случајевима може бити потребна поновна инсталација апликације.</string>
+    <string name="light_theme">Светла</string>
+    <string name="dark_theme">Тамна</string>
+    <string name="auto_light_dark_theme">Аутоматски светла / тамна</string>
+    <string name="dark_red">Тамноцрвена</string>
+    <string name="white">Бела</string>
+    <string name="black_white">Црно-бела</string>
+    <string name="custom">Прилагођена</string>
+    <string name="system_default">Android систем</string>
+
+    <string name="whats_new_disclaimer">* овде су наведена само већа ажурирања, увек постоје и нека мања побољшања</string>
+
+    <string name="delete">Обриши</string>
+    <string name="remove">Уклони</string>
+    <string name="select_all">Изабери све</string>
+    <string name="create_shortcut">Закачи на почетни екран</string>
+    <string name="add_number_to_contact">Додај број контакту</string>
+    <string name="view_contact_details">Прикажи детаље контакта</string>
+    <string name="call_from_sim_1">Позови са SIM 1</string>
+    <string name="call_from_sim_2">Позови са SIM 2</string>
+    <string name="send_sms">Пошаљи SMS</string>
+    <string name="call">Позови</string>
+    <string name="unblock">Деблокирај</string>
+
+    <string name="sort_by">Сортирај по</string>
+    <string name="date_created">Датум креирања</string>
+    <string name="date_taken">Датум снимања</string>
+    <string name="title">Наслов</string>
+    <string name="extension">Екстензија</string>
+    <string name="ascending">Растуће</string>
+    <string name="descending">Опадајуће</string>
+    <string name="first_name">Име</string>
+    <string name="middle_name">Средње име</string>
+    <string name="surname">Презиме</string>
+    <string name="full_name">Пуно име</string>
+    <string name="more_options">Више опција</string>
+    <string name="proceed_with_deletion">Да ли сте сигурни да желите да наставите са брисањем?</string>
+    <string name="deletion_confirmation">Да ли сте сигурни да желите да обришете %s?</string>
+    <string name="yes">Да</string>
+    <string name="no">Не</string>
+    <plurals name="delete_warning">
+        <item quantity="one">УПОЗОРЕЊЕ: Бришете %d фасциклу</item>
+        <item quantity="few">УПОЗОРЕЊЕ: Бришете %d фасцикле</item>
+        <item quantity="other">УПОЗОРЕЊЕ: Бришете %d фасцикли</item>
+    </plurals>
+
+    <string name="pin">PIN</string>
+    <string name="pattern">Шаблон</string>
+    <string name="go_to_settings">Иди на подешавања</string>
+    <string name="lock_folder_notice">Ова заштита важи само у овој апликацији и није замена за право шифровање фасцикле на нивоу система.</string>
+    <string name="enter_password">Унесите лозинку</string>
+    <string name="password">Лозинка</string>
+    <string name="empty_password">Унесите лозинку</string>
+    <string name="yesterday">Јуче</string>
+    <string name="today">Данас</string>
+    <string name="seconds_raw">секунди</string>
+    <string name="minutes_raw">минута</string>
+    <string name="hours_raw">сати</string>
+    <string name="days_raw">дана</string>
+    <string name="seconds_letter">%dс</string>
+    <string name="minutes_letter">%dм</string>
+    <string name="hours_letter">%dч</string>
+    <string name="days_letter">%dд</string>
+    <plurals name="seconds">
+        <item quantity="one">%d секунда</item>
+        <item quantity="few">%d секунде</item>
+        <item quantity="other">%d секунди</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d минут</item>
+        <item quantity="few">%d минута</item>
+        <item quantity="other">%d минута</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d сат</item>
+        <item quantity="few">%d сата</item>
+        <item quantity="other">%d сати</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d дан</item>
+        <item quantity="few">%d дана</item>
+        <item quantity="other">%d дана</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="one">%d недеља</item>
+        <item quantity="few">%d недеље</item>
+        <item quantity="other">%d недеља</item>
+    </plurals>
+    <plurals name="months">
+        <item quantity="one">%d месец</item>
+        <item quantity="few">%d месеца</item>
+        <item quantity="other">%d месеци</item>
+    </plurals>
+    <plurals name="years">
+        <item quantity="one">%d година</item>
+        <item quantity="few">%d године</item>
+        <item quantity="other">%d година</item>
+    </plurals>
+
+    <plurals name="in_seconds">
+        <item quantity="one">%d секунду</item>
+        <item quantity="few">%d секунде</item>
+        <item quantity="other">%d секунди</item>
+    </plurals>
+    <plurals name="in_minutes">
+        <item quantity="one">%d минут</item>
+        <item quantity="few">%d минута</item>
+        <item quantity="other">%d минута</item>
+    </plurals>
+    <plurals name="in_hours">
+        <item quantity="one">%d сат</item>
+        <item quantity="few">%d сата</item>
+        <item quantity="other">%d сати</item>
+    </plurals>
+    <plurals name="in_days">
+        <item quantity="one">%d дан</item>
+        <item quantity="few">%d дана</item>
+        <item quantity="other">%d дана</item>
+    </plurals>
+    <plurals name="in_weeks">
+        <item quantity="one">%d недељу</item>
+        <item quantity="few">%d недеље</item>
+        <item quantity="other">%d недеља</item>
+    </plurals>
+    <plurals name="in_months">
+        <item quantity="one">%d месец</item>
+        <item quantity="few">%d месеца</item>
+        <item quantity="other">%d месеци</item>
+    </plurals>
+    <plurals name="in_years">
+        <item quantity="one">%d годину</item>
+        <item quantity="few">%d године</item>
+        <item quantity="other">%d година</item>
+    </plurals>
+
+    <plurals name="seconds_before">
+        <item quantity="one">%d секунда раније</item>
+        <item quantity="few">%d секунде раније</item>
+        <item quantity="other">%d секунди раније</item>
+    </plurals>
+    <plurals name="minutes_before">
+        <item quantity="one">%d минут раније</item>
+        <item quantity="few">%d минута раније</item>
+        <item quantity="other">%d минута раније</item>
+    </plurals>
+    <plurals name="hours_before">
+        <item quantity="one">%d сат раније</item>
+        <item quantity="few">%d сата раније</item>
+        <item quantity="other">%d сати раније</item>
+    </plurals>
+    <plurals name="days_before">
+        <item quantity="one">%d дан раније</item>
+        <item quantity="few">%d дана раније</item>
+        <item quantity="other">%d дана раније</item>
+    </plurals>
+    <plurals name="weeks_before">
+        <item quantity="one">%d недеља раније</item>
+        <item quantity="few">%d недеље раније</item>
+        <item quantity="other">%d недеља раније</item>
+    </plurals>
+    <plurals name="months_before">
+        <item quantity="one">%d месец раније</item>
+        <item quantity="few">%d месеца раније</item>
+        <item quantity="other">%d месеци раније</item>
+    </plurals>
+    <plurals name="years_before">
+        <item quantity="one">%d година раније</item>
+        <item quantity="few">%d године раније</item>
+        <item quantity="other">%d година раније</item>
+    </plurals>
+
+    <plurals name="by_seconds">
+        <item quantity="one">%d секунду</item>
+        <item quantity="few">%d секунде</item>
+        <item quantity="other">%d секунди</item>
+    </plurals>
+    <plurals name="by_minutes">
+        <item quantity="one">%d минут</item>
+        <item quantity="few">%d минута</item>
+        <item quantity="other">%d минута</item>
+    </plurals>
+    <plurals name="by_hours">
+        <item quantity="one">%d сат</item>
+        <item quantity="few">%d сата</item>
+        <item quantity="other">%d сати</item>
+    </plurals>
+    <plurals name="by_days">
+        <item quantity="one">%d дан</item>
+        <item quantity="few">%d дана</item>
+        <item quantity="other">%d дана</item>
+    </plurals>
+    <plurals name="by_weeks">
+        <item quantity="one">%d недељу</item>
+        <item quantity="few">%d недеље</item>
+        <item quantity="other">%d недеља</item>
+    </plurals>
+    <plurals name="by_months">
+        <item quantity="one">%d месец</item>
+        <item quantity="few">%d месеца</item>
+        <item quantity="other">%d месеци</item>
+    </plurals>
+    <plurals name="by_years">
+        <item quantity="one">%d годину</item>
+        <item quantity="few">%d године</item>
+        <item quantity="other">%d година</item>
+    </plurals>
+
+    <string name="system_sounds">Системски звуци</string>
+    <string name="your_sounds">Ваши звуци</string>
+    <string name="settings">Подешавања</string>
+    <string name="general_settings">Опште</string>
+    <string name="color_customization">Прилагођавање боја</string>
+    <string name="customize_colors">🎨 Прилагоди боје</string>
+    <string name="theme_and_colors">Тема и боје</string>
+    <string name="feature_locked">Закључано</string>
+    <string name="use_english_language">Користи енглески језик</string>
+    <string name="language">🌏 Језик</string>
+    <string name="font_size">🅰️ Величина фонта</string>
+    <string name="small">Мала</string>
+    <string name="medium">Средња</string>
+    <string name="large">Велика</string>
+    <string name="extra_large">Врло велика</string>
+    <string name="use_24_hour_time_format">Користи 24-часовни формат времена</string>
+    <string name="change_date_and_time_format">🕒 Формат датума и времена</string>
+    <string name="export_settings">Извези подешавања</string>
+    <string name="settings_exported_successfully">Подешавања су успешно извезена</string>
+    <string name="start_name_with_surname">Започни име презименом</string>
+    <string name="show_call_confirmation_dialog">Прикажи дијалог за потврду пре започињања позива</string>
+    <string name="format_phone_numbers">Форматирај бројеве телефона</string>
+    <string name="show_only_contacts_with_numbers">Прикажи само контакте са бројевима</string>
+    <string name="startup">Покретање</string>
+    <string name="migrating">Миграција 📦</string>
+    <string name="manage_shown_tabs">🗂️ Управљај картицама</string>
+    <string name="calling_accounts">🔑 Налози за позивање</string>
+    <string name="default_tab_to_open">Картица која се отвара при покретању</string>
+    <string name="contacts_tab">Контакти</string>
+    <string name="favorites_tab">Омиљени</string>
+    <string name="call_history_tab">Историја позива</string>
+    <string name="last_used_tab">Последње коришћена</string>
+    <plurals name="moving_items_into_bin">
+        <item quantity="one">Премештање %d ставке у корпу за отпатке</item>
+        <item quantity="few">Премештање %d ставке у корпу за отпатке</item>
+        <item quantity="other">Премештање %d ставки у корпу за отпатке</item>
+    </plurals>
+
+    <string name="importing">Увоз…</string>
+    <string name="exporting">Извоз…</string>
+    <string name="importing_successful">Увоз је успешан</string>
+    <string name="exporting_successful">Извоз је успешан</string>
+    <string name="exporting_failed">Извоз није успео</string>
+    <string name="no_entries_for_importing">Нису пронађени уноси за увоз</string>
+    <string name="no_entries_for_exporting">Нису пронађени уноси за извоз</string>
+    <string name="usb">USB</string>
+    <string name="confirm_usb_storage_access_text">На следећем екрану изаберите коренску фасциклу USB уређаја да бисте одобрили приступ</string>
+    <string name="wrong_root_selected_usb">Изабрана је погрешна фасцикла, изаберите главну фасциклу вашег USB уређаја</string>
+    <string name="translation_english">Српски</string>
+    </resources>

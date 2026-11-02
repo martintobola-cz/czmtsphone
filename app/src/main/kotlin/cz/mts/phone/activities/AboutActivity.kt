@@ -2,9 +2,12 @@ package cz.mts.phone.activities
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import android.provider.ContactsContract
 import androidx.core.net.toUri
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
@@ -156,6 +159,44 @@ class AboutActivity : SimpleActivity() {
             historyClickCount = 0
             iSaveDebugMode = if (iSaveDebugMode != 0) 0 else 1
             toast("Debug mode $iSaveDebugMode")
+            if (iSaveDebugMode == 1) {
+                ownContactDebug()
+            }
+
+        }
+    }
+
+    private fun ownContactDebug() {
+        val uri = Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, "data")
+        val cursor = contentResolver.query(uri, null, null, null, null)
+
+        if (cursor == null) {
+            copyToClipboard("Profile: cursor is null", false, "Profile")
+            return
+        }
+
+        cursor.use { c ->
+            val sb = StringBuilder()
+            var rows = 0
+
+            while (c.moveToNext()) {
+                rows++
+                sb.append("--- row $rows\n")
+                for (i in 0 until c.columnCount) {
+                    val value = when (c.getType(i)) {
+                        Cursor.FIELD_TYPE_BLOB -> "<blob ${c.getBlob(i)?.size ?: 0} B>"
+                        Cursor.FIELD_TYPE_NULL -> "null"
+                        else -> c.getString(i)
+                    }
+                    sb.append("${c.getColumnName(i)} = $value\n")
+                }
+            }
+
+            if (rows == 0) {
+                sb.append("Profile: empty\n")
+            }
+
+            copyToClipboard(sb.toString(), false, "Profile")
         }
     }
 

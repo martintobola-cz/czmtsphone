@@ -44,6 +44,7 @@ import cz.mts.base.models.RadioItem
 import cz.mts.base.models.contacts.*
 import cz.mts.phone.R
 import cz.mts.phone.databinding.*
+import cz.mts.phone.helpers.AvatarSource
 import cz.mts.phone.helpers.CacheContacts
 import java.util.Calendar
 import java.util.LinkedList
@@ -240,7 +241,8 @@ class EditLocalContactActivity : SimpleActivity() {
         val c = contact ?: return
         //     val textColor = getProperTextColor()
 
-        val placeholderDrawable = ContextCompat.getDrawable(this, R.drawable.fakeavatar)
+        val placeholderDrawable = AvatarSource.drawable(this, AvatarSource.Kind.FAKE)
+        //val placeholderDrawable = ContextCompat.getDrawable(this, R.drawable.fakeavatar)
 
         SimpleContactsHelper(this).loadContactImage(
             path = c.photoUri,

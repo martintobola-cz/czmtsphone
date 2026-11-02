@@ -1,12 +1,10 @@
 package cz.mts.phone.activities
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.provider.ContactsContract
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
 import android.telephony.SubscriptionManager
@@ -206,7 +204,7 @@ object mtsGlobalAll {
         sSaveCallType = ""  //"příchozí / odchozí ...
         sSaveDateTime = ""
 
-        mtsGlobalAll.bitmapAvatar = fakeAvatar(activity, R.drawable.fakeavatar)
+        mtsGlobalAll.bitmapAvatar = AvatarSource.bitmap(activity, AvatarSource.Kind.FAKE) //fakeAvatar(activity, R.drawable.fakeavatar)
 
         val iDefault = getDefaultSimSlotForCalls(activity)
         iSaveSim = iDefault  //-1 a 22 odstraní později setHelpTextForCall
@@ -231,7 +229,7 @@ object mtsGlobalAll {
             if (contact2.id.toInt() != 0) {
                 mtsGlobalAll.sSaveName = contact2.name
                 mtsGlobalAll.bitmapAvatar = getBitmapFromUri(activity, contact2.photoUri)
-                    ?: fakeAvatar(activity, R.drawable.fakeavatar)
+                    ?: AvatarSource.bitmap(activity, AvatarSource.Kind.FAKE) //fakeAvatar(activity, R.drawable.fakeavatar)
                 fakeRecentCall = fakeRecentCall.copy(name = contact2.name, photoUri = contact2.photoUri)
             }
 
@@ -346,7 +344,7 @@ object mtsGlobalAll {
 
         listPhoneNumber = contact.phoneNumbers
             .sortedWith(compareByDescending<PhoneNumber> { it.isPrimary }
-                .thenBy { it.type })
+                .thenBy { it.dataId})
 
         //jméno je u kontaktů o řádek v mtsGlobalAll.sSaveNumber jen proto aby se to dalo v dialogu níže a nebyla tam mezera...
         mtsGlobalAll.sSaveName = contact.getNameToDisplay()
@@ -356,7 +354,7 @@ object mtsGlobalAll {
         mtsGlobalAll.sSaveNumberType = " "
 
         mtsGlobalAll.bitmapAvatar = getBitmapFromUri(activity, contact.photoUri)
-            ?: fakeAvatar(activity, R.drawable.fakeavatar)
+            ?: AvatarSource.bitmap(activity, AvatarSource.Kind.FAKE) //fakeAvatar(activity, R.drawable.fakeavatar)
 
 
         val count = listPhoneNumber?.size ?: 0
@@ -415,7 +413,7 @@ object mtsGlobalAll {
       onDismiss: (() -> Unit)? = null) {
 
         val iAvailableSimCount = numberOfReadySim(activity) //aby se vyplnily globální proměnné
-        val bShakeOn = activity.baseContext.config.shakeEffectConfirmingCall
+        val bShakeOn = activity.config.shakeEffectConfirmingCall
         val bEvasControlMode = (iAvailableSimCount > 1) && (!bShakeOn)
         val formatPhoneNumbers = activity.config.formatPhoneNumbers
         val iProperBackgroundColor = activity.getProperBackgroundColor()
@@ -463,7 +461,7 @@ object mtsGlobalAll {
                     ?.joinToString(separator = "\n") { phone ->
                         val number = phone.value  //normalizedNumber ?: ""
                         val formatted = numberForRecents(number, formatPhoneNumbers)
-                        val label = getNumberTypeLabel2(activity, phone.type)
+                        val label = activity.getPhoneNumberTypeText(phone.type, phone.label).lowercase()
                         "$formatted ($label)"
                     }
                     ?: ""
@@ -480,7 +478,7 @@ object mtsGlobalAll {
                 ?.map {
                     val number = it.value
                     val formatted = numberForRecents(number,  formatPhoneNumbers)
-                    val label = getNumberTypeLabel2(activity, it.type)
+                    val label = activity.getPhoneNumberTypeText(it.type, it.label).lowercase()
                     formatted to label
                 } ?: emptyList()
 
@@ -645,7 +643,10 @@ object mtsGlobalAll {
             } else {
                 drawSim(simIcon, simInfo,  mtsGlobalAll.iSaveSim,iProperTextColor, true)
                 simIconTwo.visibility = View.GONE
-                sim2Info.text = if (bShakeOn) "\n   " + activity.getString(R.string.call_now_mts_a) + "   \n   " + activity.getString(R.string.call_now_mts_b) + "   \n   \u260E\n     "
+                val callNowText = activity.config.callNowMtsText
+                sim2Info.text = if (callNowText.isNotBlank() && bShakeOn) "\n   " + callNowText.replace("\n", "   \n   ") + "\n   "
+                                else if (callNowText.isNotBlank() && !bShakeOn) callNowText
+                                else if (bShakeOn) "\n   " + activity.getString(R.string.call_now_mts_a) + "   \n   " + activity.getString(R.string.call_now_mts_b) + "   \n   \u260E\n     "
                                 else activity.getString(R.string.call_now_mts_a) + " " + activity.getString(R.string.call_now_mts_b) + " \u260E "
                 sim2Info.setTypeface(null, Typeface.BOLD)
                 sim2Info.setTextColor(specificType.textColors)
@@ -709,28 +710,11 @@ object mtsGlobalAll {
                     .create()
         }
 
-            val roundedBackground = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 64f                       // ← poloměr rohů (v pixelech)
-            setColor(iProperBackgroundColor.adjustColor(8, true))    // ← barva pozadí
-        }
-
-        // Nastavení pozadí dialogu
-        dialog.window?.setBackgroundDrawable(roundedBackground)
         dialog.show()
+        activity.styleDialog(dialog)
 
-        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
         val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
-        positiveButton?.setTextColor(activity.getProperPrimaryColor())
-        negativeButton?.setTextColor(activity.getProperPrimaryColor())
-        neutralButton?.setTextColor(activity.getProperPrimaryColor())
-        positiveButton?.setTypeface(positiveButton.typeface, Typeface.BOLD)
-        negativeButton?.setTypeface(negativeButton.typeface, Typeface.BOLD)
-        neutralButton?.setTypeface(neutralButton.typeface, Typeface.BOLD)
-        positiveButton?.isAllCaps = false
-        negativeButton?.isAllCaps = false
-        neutralButton?.isAllCaps = false
 
         if (bisUnknown) {
             neutralButton?.visibility = View.GONE  // SMS
@@ -847,9 +831,7 @@ object mtsGlobalAll {
         }
   }
 
-
-
-    public fun fakeAvatar(context: Context, drawableResId: Int): Bitmap {
+    fun fakeAvatar(context: Context, drawableResId: Int): Bitmap {
         // Načtení drawable jako bitmapa
         val drawable = ContextCompat.getDrawable(context, drawableResId) ?: return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
@@ -858,38 +840,6 @@ object mtsGlobalAll {
         drawable.draw(canvas)
         return bitmap
     }
-
-    // Pokusí se zjistit typ čísla z kontaktů (mobil, práce, domů...)
-    private fun getNumberTypeLabel(context: Context, number: String): String {
-        try {
-            val uri = Uri.withAppendedPath(
-                ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
-                Uri.encode(number)
-            )
-            context.contentResolver.query(uri,
-                arrayOf(ContactsContract.CommonDataKinds.Phone.TYPE),
-                null, null, null
-            )?.use { cursor ->
-                if (cursor.moveToFirst()) {
-                    val type = cursor.getInt(0)
-                    return ContactsContract.CommonDataKinds.Phone.getTypeLabel(
-                        context.resources, type, ""
-                    ).toString()
-                }
-            }
-        } catch (_: Exception) { }
-        return ""
-    }
-
-    fun getNumberTypeLabel2(context: Context?, type: Int?): String {
-        val ctx = context ?: return " "
-        val sRet = ctx.getString(R.string.other)
-        if (type == null) return sRet
-
-        return context.getPhoneNumberTypeText(type, sRet).lowercase()
-    }
-
-
 
     fun getBitmapFromUri(context: Context, uriString: String?): Bitmap? {
         if (uriString.isNullOrBlank()) return null
@@ -998,11 +948,15 @@ object mtsGlobalAll {
         // formátované číslo mezerami pokud je formátování ON v settings...
         mtsGlobalAll.sSaveFormattedNumber = if (bisUnknown) {activity.getString(R.string.unknown) }
                                             else { numberForRecents(mtsGlobalAll.sSaveNumber,  activity.config.formatPhoneNumbers)  }
-        // typ čísla (mobile, work...)
-        val typeLabel = when {
-            recentCall.specificType.isNotBlank() -> recentCall.specificType
-            else -> getNumberTypeLabel(activity, mtsGlobalAll.sSaveNumber)
+
+        var typeLabel = recentCall.specificType // typ čísla (mobile, work...)
+        if (typeLabel.isBlank()) {
+            val contact = if (mtsGlobalAll.sSaveNumber.isBlank()) null
+                          else if (bisUnknown) null
+                          else CacheContacts.findContactByPhoneNumber(mtsGlobalAll.sSaveNumber)
+            typeLabel = activity.resolveSpecificPhone(contact, mtsGlobalAll.sSaveNumber)
         }
+
 
         mtsGlobalAll.iSaveSim = iActiveSimSlotID.indexOf(recentCall.simID)
 
@@ -1050,7 +1004,7 @@ object mtsGlobalAll {
      //   }
 
         mtsGlobalAll.bitmapAvatar = getBitmapFromUri(activity, recentCall.photoUri)
-            ?: fakeAvatar(activity, R.drawable.fakeavatar)
+            ?: AvatarSource.bitmap(activity, AvatarSource.Kind.FAKE) //fakeAvatar(activity, R.drawable.fakeavatar)
     }
 
     fun setHelpTextForCall(activity : BaseSimpleActivity, iForceSavedSim : Int = -1, areOperatorSame : Boolean = false) : Boolean {

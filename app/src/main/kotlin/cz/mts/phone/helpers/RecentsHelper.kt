@@ -227,7 +227,7 @@ class RecentsHelper(private val context: Context) {
                 .associateBy { it.handle.id }
 
         val pkg = context.packageName
-        val blockAvatar = "android.resource://$pkg/${R.drawable.blockavatar}"
+//        val blockAvatar = "android.resource://$pkg/${R.drawable.blockavatar}"
         val anonAvatar  = "android.resource://$pkg/${R.drawable.anonymousavatar}"
         val debugAvatar = "android.resource://$pkg/${R.drawable.karlavatar}"
 
@@ -287,7 +287,7 @@ class RecentsHelper(private val context: Context) {
 
                 val photoUri = when {
                     iSaveDebugMode == 2 -> "$debugAvatar?t=$startTs"
-                    type == 6 -> "$blockAvatar?t=$startTs"
+                    type == 6 -> AvatarSource.uriString(context, AvatarSource.Kind.BLOCK, startTs) //"$blockAvatar?t=$startTs"
                     isUnknown -> "$anonAvatar?t=$startTs"
                     else -> contact?.photoUri.orEmpty()
                 }
@@ -525,7 +525,7 @@ class RecentsHelper(private val context: Context) {
         val gen = RecentsQueryLimits.getClearGeneration()
 
         val pkg = context.packageName
-        val blockAvatar = "android.resource://$pkg/${R.drawable.blockavatar}"
+        //val blockAvatar = "android.resource://$pkg/${R.drawable.blockavatar}"
         val anonAvatar  = "android.resource://$pkg/${R.drawable.anonymousavatar}"
         val debugAvatar = "android.resource://$pkg/${R.drawable.karlavatar}"
 
@@ -583,7 +583,7 @@ class RecentsHelper(private val context: Context) {
 
                     val photoUri = when {
                         iSaveDebugMode == 2 -> "$debugAvatar?t=$startTs"
-                        type == 6   -> "$blockAvatar?t=$startTs"
+                        type == 6   -> AvatarSource.uriString(context, AvatarSource.Kind.BLOCK, startTs) //"$blockAvatar?t=$startTs"
                         isUnknown   -> "$anonAvatar?t=$startTs"
                         else        -> contact?.photoUri.orEmpty()
                     }

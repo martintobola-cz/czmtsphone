@@ -1,43 +1,16 @@
 package cz.mts.base.dialogs
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.BasicAlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.viewinterop.AndroidViewBinding
-import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.DialogWindowProvider
 import androidx.core.view.children
-import androidx.core.view.updateLayoutParams
 import cz.mts.base.R
-import cz.mts.base.compose.alert_dialog.AlertDialogState
-import cz.mts.base.compose.alert_dialog.DialogSurface
-import cz.mts.base.compose.alert_dialog.dialogBorder
-import cz.mts.base.compose.alert_dialog.rememberAlertDialogState
-import cz.mts.base.compose.extensions.MyDevices
-import cz.mts.base.compose.extensions.config
-import cz.mts.base.compose.theme.AppThemeSurface
-import cz.mts.base.compose.theme.SimpleTheme
+import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.databinding.DialogColorPickerBinding
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.isQPlus
@@ -57,7 +30,7 @@ private value class Hsv(val value: FloatArray) {
 }
 
 class ColorPickerDialog(
-    val activity: Activity,
+    val activity: BaseSimpleActivity,
     color: Int,
     val removeDimmedBackground: Boolean = false,
     val addDefaultColorButton: Boolean = false,
@@ -122,114 +95,6 @@ class ColorPickerDialog(
         }
         activity.addRecentColor(newColor)
         callback(true, newColor)
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ColorPickerAlertDialog(
-    alertDialogState: AlertDialogState,
-    @ColorInt color: Int,
-    modifier: Modifier = Modifier,
-    removeDimmedBackground: Boolean = false,
-    addDefaultColorButton: Boolean = false,
-    onActiveColorChange: (color: Int) -> Unit,
-    onButtonPressed: (wasPositivePressed: Boolean, color: Int) -> Unit,
-) {
-    val view = LocalView.current
-    val context = LocalContext.current
-    var wasDimmedBackgroundRemoved by remember { mutableStateOf(false) }
-
-    val currentColorHsv = remember(color) {
-        Hsv(FloatArray(3)).apply { Color.colorToHSV(color, value) }
-    }
-
-    var dialogColorPickerBinding by remember { mutableStateOf<DialogColorPickerBinding?>(null) }
-
-    BasicAlertDialog(
-        onDismissRequest = alertDialogState::hide,
-        modifier = modifier.dialogBorder,
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-    ) {
-        DialogSurface {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.95f)
-                    .padding(SimpleTheme.dimens.padding.extraLarge),
-            ) {
-                AndroidViewBinding(
-                    factory = DialogColorPickerBinding::inflate,
-                    onRelease = { dialogColorPickerBinding = null },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                ) {
-                    root.updateLayoutParams<FrameLayout.LayoutParams> {
-                        height = FrameLayout.LayoutParams.WRAP_CONTENT
-                    }
-                    dialogColorPickerBinding = this
-
-                    init(
-                        color = color,
-                        backgroundColor = context.config.backgroundColor,
-                        recentColors = context.config.colorPickerRecentColors,
-                        hsv = currentColorHsv,
-                        currentColorCallback = { updatedColor ->
-                            if (removeDimmedBackground && !wasDimmedBackgroundRemoved) {
-                                (view.parent as? DialogWindowProvider)
-                                    ?.window
-                                    ?.setDimAmount(0f)
-                                wasDimmedBackgroundRemoved = true
-                            }
-                            onActiveColorChange(updatedColor)
-                        }
-                    )
-
-                    val textColor = context.getProperTextColor()
-                    colorPickerArrow.applyColorFilter(textColor)
-                    colorPickerHexArrow.applyColorFilter(textColor)
-                    colorPickerHueCursor.applyColorFilter(textColor)
-                    context.updateTextColors(root)
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End,
-                ) {
-                    TextButton(onClick = {
-                        alertDialogState.hide()
-                        onButtonPressed(false, 0)
-                    }) {
-                        Text(text = stringResource(id = R.string.cancel))
-                    }
-
-                    if (addDefaultColorButton) {
-                        TextButton(onClick = {
-                            alertDialogState.hide()
-                            onButtonPressed(true, 0)
-                        }) {
-                            Text(text = stringResource(id = R.string.default_color))
-                        }
-                    }
-
-                    TextButton(onClick = {
-                        alertDialogState.hide()
-                        val hexValue = dialogColorPickerBinding?.colorPickerNewHex?.value
-                        val newColor = if (hexValue?.length == 6) {
-                            runCatching { Color.parseColor("#$hexValue") }
-                                .getOrElse { currentColorHsv.getColor() }
-                        } else {
-                            currentColorHsv.getColor()
-                        }
-                        context.addRecentColor(newColor)
-                        onButtonPressed(true, newColor)
-                    }) {
-                        Text(text = stringResource(id = R.string.ok))
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -393,14 +258,3 @@ fun Context.addRecentColor(color: Int) {
     baseConfig.colorPickerRecentColors = recentColors
 }
 
-@Composable
-@MyDevices
-private fun ColorPickerAlertDialogPreview() {
-    AppThemeSurface {
-        ColorPickerAlertDialog(
-            alertDialogState = rememberAlertDialogState(),
-            color = colorResource(id = R.color.color_primary).toArgb(),
-            onActiveColorChange = {},
-        ) { _, _ -> }
-    }
-}

@@ -502,14 +502,6 @@ object VcfImporter {
         }
     }
 
-    // =========================
-    // FOTO – resize
-    // =========================
-
-    // =========================
-// FOTO – resize
-// =========================
-
     const val MAX_PHOTO_DIMENSION      = 512           // px (sdílené)
     const val MAX_PHOTO_BYTES_SYSTEM   = 200 * 1024   // 200 KB – Android ContactsContract blob
     const val MAX_PHOTO_BYTES_LOCAL    = 1024 * 1024  //   1 MB – lokální DB / soubor

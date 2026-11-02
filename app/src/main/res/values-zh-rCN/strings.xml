@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">MTS 拨号器</string>
 
+<string name="ring_duration">响铃 %1$s</string>
+<string name="bold_dialog_buttons">对话框按钮加粗</string>
+
+    <string name="default_reset">默认</string>
+    <string name="reported_spam_numbers">已举报的垃圾号码</string>
+    <string name="no_reported_spam_numbers">您还没有将任何号码举报为垃圾电话。</string>
+    <string name="avatar_settings">🎭 头像</string>
+    <string name="avatar_default_title">默认头像：</string>
+    <string name="avatar_custom_title">自定义头像：</string>
+    <string name="avatar_unknown_contact">未知联系人</string>
+    <string name="avatar_blocked_call">已拦截的来电</string>
+    <string name="avatar_remove">移除</string>
+
+    <string name="remove_confirmation_single">确定要删除这条记录吗？\n%s</string>
+
+    <string name="report_spam">举报为垃圾电话</string>
+    <string name="spam_report_question">要将号码 %1$s 举报为垃圾电话吗？</string>
+    <string name="spam_report_comment_hint">您的评论...</string>
+    <string name="spam_category_scam">🎣 诈骗</string>
+    <string name="spam_category_telemarketing">🗣️ 电话营销</string>
+    <string name="spam_category_silent_call">🤖 静默（机器人）来电</string>
+    <string name="spam_category_financial_services">💰 金融服务</string>
+    <string name="spam_category_debt_collection">🥊 催债</string>
+    <string name="spam_category_business">🏢 商业</string>
+    <string name="spam_category_retail">🛒 零售</string>
+    <string name="spam_category_other">⛔ 其他</string>
+
+    <string name="shake_effect_long_press_hint">长按以设置自定义文本...</string>
+
 <string name="privacy_policy_section">隐私政策</string>
-    <string name="revoke_consent">撤回同意</string>
+<string name="privacy_agree">同意</string>
+<string name="privacy_decline">不同意</string>
+<string name="revoke_consent">撤回同意</string>
 
 <string name="recents_still_loading">请等待所有通话记录加载完成...</string>
 <string name="is_spam_call">可能是骚扰电话</string>
@@ -43,7 +74,7 @@
 <string name="send_message">发送短信</string>
 <string name="hide_number_for_saved_contact">如果是已保存的联系人，通话期间不显示电话号码</string>
 <string name="privacy_acknowledge">我已知悉</string>
-<string name="block_confirmation">确定要屏蔽\"%s\"吗？</string>
+<string name="block_confirmation">确定要屏蔽 %s 吗？</string>
 <string name="block_unknown_calls">屏蔽来自不在联系人中的号码的来电</string>
 <string name="block_hidden_calls">屏蔽来自隐藏号码的来电</string>
 <string name="block_unknown_messages">屏蔽来自不在联系人中的号码的消息</string>

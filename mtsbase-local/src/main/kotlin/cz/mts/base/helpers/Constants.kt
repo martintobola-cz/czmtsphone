@@ -137,6 +137,8 @@ const val HIDE_NUMBER_FOR_SAVED_CONTACT = "hide_number_for_saved_contact"
 const val PRIVACY_POLICY_ACCEPTED = "privacy_policy_accepted"
 const val EASTER_EGG_MODE = "Easter_egg_mode"
 const val SHOWNEWS_MTS = "showNews_mts"
+const val USE_CUSTOM_FAKE_AVATAR = "use_custom_fake_avatar"
+const val USE_CUSTOM_BLOCK_AVATAR = "use_custom_block_avatar"
 const val WAS_USE_ENGLISH_TOGGLED = "was_use_english_toggled"
 const val LAST_COPY_PATH = "last_copy_path"
 const val HAD_THANK_YOU_INSTALLED = "had_thank_you_installed"
@@ -178,6 +180,8 @@ const val CONTACTS_GRID_COLUMN_COUNT = "contacts_grid_column_count"
 const val LAST_UNLOCK_TIMESTAMP_MS = "last_unlock_timestamp_ms"
 const val UNLOCK_TIMEOUT_DURATION_MS = "unlock_timeout_duration_ms"
 const val HIGHLIGHT_CALL_FULSCREEN_BUTTONS = "highlight_call_fulscreen_buttons"
+const val BOLD_DIALOG_BUTTONS = "bold_dialog_buttons"
+const val CALL_NOW_MTS_TEXT = "call_now_mts_text"
 const val SHOW_CHECKMARKS_ON_SWITCHES = "show_checkmarks_on_switches"
 const val DEFAULT_UNLOCK_TIMEOUT_DURATION = 30000L
 
@@ -387,6 +391,12 @@ fun isSPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 fun isTiramisuPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun isUpsideDownCakePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.VANILLA_ICE_CREAM)
+fun isVanillaIceCreamPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.BAKLAVA)
+fun isBaklavaPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
 
 fun getDateFormats() = arrayListOf(
     "--MM-dd",

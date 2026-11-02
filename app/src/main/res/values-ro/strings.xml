@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="ring_duration">a sunat %1$s</string>
+<string name="bold_dialog_buttons">Butoane aldine în dialoguri</string>
+
+    <string name="default_reset">Implicit</string>
+    <string name="reported_spam_numbers">Numere de spam raportate</string>
+    <string name="no_reported_spam_numbers">Nu ai raportat încă niciun număr ca spam.</string>
+    <string name="avatar_settings">🎭 Avatare</string>
+    <string name="avatar_default_title">Avatare implicite:</string>
+    <string name="avatar_custom_title">Avatare personalizate:</string>
+    <string name="avatar_unknown_contact">Contact necunoscut</string>
+    <string name="avatar_blocked_call">Apel blocat</string>
+    <string name="avatar_remove">Elimină</string>
+
+    <string name="remove_confirmation_single">Sigur vrei să ștergi această înregistrare?\n%s</string>
+
+    <string name="report_spam">Raportează ca spam</string>
+    <string name="spam_report_question">Vrei să raportezi numărul %1$s ca apel spam?</string>
+    <string name="spam_report_comment_hint">Comentariul tău...</string>
+    <string name="spam_category_scam">🎣 Înșelăciune</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Apel mut (robot)</string>
+    <string name="spam_category_financial_services">💰 Servicii financiare</string>
+    <string name="spam_category_debt_collection">🥊 Recuperarea datoriilor</string>
+    <string name="spam_category_business">🏢 Afaceri</string>
+    <string name="spam_category_retail">🛒 Comerț cu amănuntul</string>
+    <string name="spam_category_other">⛔ Altele</string>
+
+    <string name="shake_effect_long_press_hint">Apasă lung pentru a seta un text personalizat...</string>
+
 <string name="privacy_policy_section">Politica de confidențialitate</string>
-    <string name="revoke_consent">Retrage consimțământul</string>
+<string name="privacy_agree">Sunt de acord</string>
+<string name="privacy_decline">Refuz</string>
+<string name="revoke_consent">Retrage consimțământul</string>
 
 <string name="recents_still_loading">Așteptați până când se încarcă întregul istoric al apelurilor...</string>
 <string name="is_spam_call">Spam suspectat</string>
@@ -43,7 +74,7 @@
 <string name="send_message">Trimite mesaj</string>
 <string name="hide_number_for_saved_contact">Nu afișa numărul de telefon în timpul unui apel dacă este un contact salvat</string>
 <string name="privacy_acknowledge">Confirm că am luat la cunoștință</string>
-<string name="block_confirmation">Sigur doriți să blocați \"%s\"?</string>
+<string name="block_confirmation">Sigur doriți să blocați %s?</string>
 <string name="block_unknown_calls">Blochează apelurile de la numere care nu se află în contacte</string>
 <string name="block_hidden_calls">Blochează apelurile de la numere ascunse</string>
 <string name="block_unknown_messages">Blochează mesajele de la numere care nu se află în contacte</string>

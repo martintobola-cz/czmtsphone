@@ -166,6 +166,11 @@ class BlockedNumbersAdapter(
                 val hasContactName = blockedNumber.contactName != null
                 val textColor = activity.getProperTextColor()
 
+                itemBlockedNumberType.apply {
+                    beVisibleIf(blockedNumber.number.indexOf("!") == -1)
+                    setTextColor(textColor.adjustAlpha(0.7f))
+                }
+
                 itemBlockedNumberTitle.apply {
                     text = if (hasContactName) blockedNumber.contactName else blockedNumber.number
                     setTextColor(textColor)
@@ -175,7 +180,7 @@ class BlockedNumbersAdapter(
                 itemBlockedNumberSubtitle.apply {
                     beVisibleIf(hasContactName)
                     text = blockedNumber.number
-                    setTextColor(textColor.adjustAlpha(0.7f))
+                    setTextColor(textColor)
                     //setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
                 }
 

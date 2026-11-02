@@ -2,8 +2,37 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="ring_duration">zvonilo %1$s</string>
+<string name="bold_dialog_buttons">Tučné písmo u tlačítek dialogů</string>
+
+<string name="remove_confirmation_single">Opravdu chcete odstranit tento záznam?\n%s</string>
+<string name="shake_effect_long_press_hint">Dlouhým přidržením můžete změnit text...</string>
+
+<string name="reported_spam_numbers">Nahlášené spamy</string>
+<string name="no_reported_spam_numbers">Zatím jste nenahlásili žádné číslo jako spam.</string>
+<string name="avatar_settings">🎭 Avatary</string>
+<string name="avatar_default_title">Výchozí avatary:</string>
+<string name="avatar_custom_title">Vlastní avatary: </string>
+<string name="avatar_unknown_contact">Neuložený kontakt</string>
+<string name="avatar_blocked_call">Blokovaný hovor</string>
+<string name="avatar_remove">Smazat</string>
+
+ <string name="report_spam">Nahlásit jako spam</string>
+    <string name="spam_report_question">Chcete nahlásit číslo %1$s jako spamový hovor?</string>
+    <string name="spam_report_comment_hint">Váš komentář...</string>
+    <string name="spam_category_scam">🎣 Podvod</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Tichý (robotický) hovor</string>
+    <string name="spam_category_financial_services">💰 Finanční služby</string>
+    <string name="spam_category_debt_collection">🥊 Vymáhání dluhů</string>
+    <string name="spam_category_business">🏢 Firma</string>
+    <string name="spam_category_retail">🛒 Obchod</string>
+    <string name="spam_category_other">⛔ Jiné</string>
+
 <string name="privacy_policy_section">Zásady ochrany osobních údajů</string>
-    <string name="revoke_consent">Odebrat souhlas</string>
+<string name="privacy_agree">Souhlasím</string>
+<string name="privacy_decline">Nesouhlasím</string>
+<string name="revoke_consent">Odebrat souhlas</string>
 
 <string name="recents_still_loading">Operaci nelze provést dokud se historie nenačte celá...</string>
 <string name="is_spam_call">Podezření na spam</string>
@@ -44,7 +73,7 @@
 <string name="send_message">Poslat zprávu</string>
 <string name="hide_number_for_saved_contact">Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt</string>
 <string name="privacy_acknowledge">Beru na vědomí</string>
-    <string name="block_confirmation">Opravdu chcete zablokovat  \"%s\"?</string>
+    <string name="block_confirmation">Opravdu chcete zablokovat  %s?</string>
     <string name="block_unknown_calls">Blokovat volání z neznámých čísel (volat tedy mohou pouze uložené kontakty)</string>
     <string name="block_hidden_calls">Blokovat volání ze skrytých čísel</string>
     <string name="block_unknown_messages">Blokovat zprávy z neznámých čísel</string>
@@ -57,14 +86,7 @@
     <string name="unblock_contact_success">Kontakt odblokován</string>
     <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
 
-<string name="last_update_info">Nové blokovací pravidlo, které Vám umožní zablokovat jakýkoliv příchozí mezinárodní hovor. A co takhle seřadit si spodní záložky 🗂️ podle sebe? Anebo nahrávání 🎙️ probíhajícího hovoru, nehodilo by se? 😁 A konečně opravena nepříjemnost, že se zobrazovala dvojí notifikace o zmeškaném hovoru.</string>
-
-<string name="last_update_info932">Drobné úpravy barev a velikostí písma, sjednocení grafického rozhraní. Nová volba v nastavení \"Během hovoru nezobrazovat tel. číslo pokud jde o uložený kontakt\"</string>
-<string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
-<string name="last_update_info897">⌚ Odteď se i na vašich chytrých hodinkách bude ukazovat jméno volajícího. Další novinkou je možnost klepnout na číslo, které vám volá a pokud máte zapnuto testování na spam, otevře se Vám web stránka s recenzemi toho čísla. Prosím podpořte aplikaci svým hodnocením v obchodě, nic to nestojí a ostatním pomůžete s výběrem. Každá ⭐ se počítá !</string>
-<string name="last_update_info894">🐞 Opravena historie volání, která se na některých modelech telefonů neukazovala celá. Prosím podpořte aplikaci svým hodnocením v obchodě, nic to nestojí a ostatním pomůžete s výběrem. Každá ⭐ se počítá !</string>
-    <string name="last_update_info885">V této nové verzi byl vylepšen grafický 🖌️ vzhled notifikací. Pokud máte více SIM karet, zobrazí se v notifikaci také info o SIM kartě, abyste jasně věděli, které SIMce hovor patří 💪</string>
-    <string name="last_update_info853">V této nové verzi máte možnost propojení s aplikacemi, které kontrolují neznámá čísla na spam. Díky emoji 🎣🤖🗣️🥊💰🛒🏢📓  zobrazeném hned vedle čísla budete vědět, zda jde o spam! Také jsem přidal odmítnutí hovoru SMSkou. Více info na mém webu...</string>
+<string name="last_update_info">Nově můžete nahlásit nevyžádané příchozí hovory do databáze spamu. A pokud už vás omrzel avatar 🎭 neznámého kontaktu, tak si ho můžete změnit za vlastní obrázek 💪. A budu rád, když aplikaci ohodnotíte v obchodě google.</string>
 
 <string name="edit_sms_templates"> ✍️ Upravit SMS texty</string>
 <string name="sms_edit_hint_double_tap">Dlouhým stiskem anebo dvojím ťuknutím vyvoláte editaci textu</string>

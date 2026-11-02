@@ -9,6 +9,7 @@ import android.telephony.SubscriptionManager
 import cz.mts.base.extensions.hasPermission
 import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
+import cz.mts.base.helpers.RingDurationWriter
 import cz.mts.phone.R
 import cz.mts.phone.extensions.*
 import cz.mts.phone.helpers.*
@@ -38,14 +39,19 @@ class CallService : InCallService(), CallManagerListener {
             val sIDCALLonNotification = CallActivityUI.sUUIDonNotification
             //tento hovor právě teď není zobrazen v notifikaci
             if (sIDCALLonNotification.isNotBlank() && sIDCALLonNotification != sIDCALL) return@post
+            //v jakém progressu se notifikace nachází?
             val iNotificationDone = CallManager.getNotificationDone(sIDCALL)
-            //hovor už byl touto službou zpracován
-            //pokud spamcheck byl rychlejší než iNotificationDone=1 nebo 2, tak výsledek už zapracuje notifikace 2 a tady se nebude vůbec řešit
-            if (iNotificationDone >= 2) {
-                val bCanBeAccepted = state == Call.STATE_RINGING //|| state == Call.STATE_SIMULATED_RINGING
-                if (CallActivityUI.sUUIDonUI.isBlank()) callNotificationManager.doNotification(call, bFullscreenUI, true, bCanBeAccepted, bCanBeAccepted)
-                else callNotificationManager.doNotification(call, false, false, false, bCanBeAccepted)
+            //pokud spamcheck byl rychlejší než notifikace 2 nebo 3 tak to můžeme ignorovat, protože 2 a 3 to zobrazí sama
+            if (iNotificationDone <= 1) return@post
+            val bCanBeAccepted = state == Call.STATE_RINGING
+            if (CallActivityUI.sUUIDonUI.isBlank()) { //není žádný hovor na UI CallActivity
+                //vysoká priorita
+                callNotificationManager.doNotification(call, bFullscreenUI, true, bCanBeAccepted, bCanBeAccepted)
+            } else {
+                //nízká priorita
+                callNotificationManager.doNotification(call, false, false, false, bCanBeAccepted)
             }
+
         }
     }
 
@@ -140,7 +146,7 @@ class CallService : InCallService(), CallManagerListener {
         PauseWaiter.waitUntil(
             intervalMs = 20,
             maxAttempts = 45, // ~900ms
-            condition = { forceRinging || call.getStateCompat() == Call.STATE_RINGING} //|| call.getStateCompat() == Call.STATE_SIMULATED_RINGING} //u esim se prý stavu ringing nemusíme vůbec dočkat, takže jakože už zvoní...
+            condition = { forceRinging || isOutgoing || call.getStateCompat() == Call.STATE_RINGING }
         ) {
             // abort if call gone
             val state = call.getStateCompat()
@@ -168,7 +174,7 @@ class CallService : InCallService(), CallManagerListener {
 
             if (CallManager.getAliveCallsCount() == 1) {
 
-           // 1a) send HIGH notification
+           // 1a) send HIGH notification with intent, kontakt zatím neznáme
             CallManager.setNotificationDone(call, 1)
             callNotificationManager.startNotificationAsync(
                 call = call,
@@ -178,41 +184,54 @@ class CallService : InCallService(), CallManagerListener {
                 sNumber = sNumber,
                 bCanBeAccepted = bCanBeAccepted
             )
-            //1b) na pozadí najdi kontakt a updatuj údaje (fotka, jméno, typ čísla)
-            getCallContact(applicationContext, call) { callContact ->
-                CallManager.setNotificationDone(call, 2)
-                callNotificationManager.updateNotificationWithContact(
-                    call = call,
-                    callContact = callContact
-                )
-            }
+
+            //1b zrušeno protože přepisování high priority notifikace s fullscreen intentem nemusí některé telefony rozdýchat
+            //1b) na pozadí najdi kontakt a ulož údaje (fotka, jméno, typ čísla)
+            //getCallContact(applicationContext, call) { callContact ->
+                //CallManager.setNotificationDone(call, 2)
+                //callNotificationManager.updateNotificationWithContact(
+                //    call = call,
+                //    callContact = callContact
+               // )
+            //}
 
             var isStarted : Boolean
-            // 2) small delay, then start activity
+            // 2) small delay, then start fullscreen activity
             handler.postDelayed({
                 val state = call.getStateCompat()
                 if (state == Call.STATE_DISCONNECTED || state == Call.STATE_DISCONNECTING) return@postDelayed
                 if (bFullscreenUI) {
                     isStarted = CallActivityUIstart.showInCallUI(applicationContext, "from_incall_service", call)
-                    if (!isStarted) //někdy z neznámých důvodů hodí vyjímku, takže ...
+                    if (!isStarted) //někdy z neznámých důvodů hodí vyjímku, takže nový pokus...
                         CallActivityUIstart.showInCallUI(applicationContext, "from_incall_service", call) //... druhý pokus
                 }
             }, 25L)
 
             // 3) minimize notification after short while
             handler.postDelayed({
-                //je-li fullscreen, musíme notifikaci za 300ms degradovat prioritu, aby se nezobrazovala přes call activity
-                //teoreticky by nemělo nastat, že se udělá toto (3) a až pak naběhne 1b, protože callNotificationManager.doNotification
-                //volá stejnou funkci getCallContact(applicationContext, call) pro zjištění jména a fotky, taže by neměl doběhout nikdy rychleji :)
+                val state = call.getStateCompat()
+                if (state == Call.STATE_DISCONNECTED || state == Call.STATE_DISCONNECTING) return@postDelayed
+                //je-li fullscreen aktivita, musíme notifikaci za 300ms degradovat prioritu, aby se nezobrazovala přes call activity
+                var bUpdateNotificationNow = false
                 if (bFullscreenUI)
                 {
-                    //degradovat jen když fullscreen naběhl
-                    if (CallActivityUI.isVisible()) {
+                    if (CallActivityUI.isVisible()) { //callActivity naběhla, takže můžeme degradovat na nízkou prioritu
                         CallManager.setNotificationDone(call, 3)
                         callNotificationManager.doNotification(call, false, false, false, bCanBeAccepted)
-                    }
+                    } else bUpdateNotificationNow = true //callActivity nanaběhla,
 
+                } else bUpdateNotificationNow = true //callActivity uživatel nechce - config.alwaysShowFullscreen
+
+                if (bUpdateNotificationNow) {
+                    CallManager.setNotificationDone(call, 2)
+                        getCallContact(applicationContext, call) { callContact ->
+                            callNotificationManager.updateNotificationWithContact(
+                                call = call,
+                                callContact = callContact
+                            )
+                        }
                 }
+
             }, 300L)
 
         } else {  //více živých hovorů a právě se přidal tento "call" jako další do fronty
@@ -334,6 +353,11 @@ class CallService : InCallService(), CallManagerListener {
             //CNAP čteme teď, dokud hovor ještě existuje v CallManageru (smaže se až níže)
             val sCnap = CallManager.getCnapByCall(call)
             MissedCallManager.registerMissedCall(applicationContext, number, sEmoji, iSim, iRingSec, sCnap)
+            RingDurationWriter.schedule(
+                applicationContext,
+                call.details?.creationTimeMillis ?: 0L,
+                iRingSec
+            )
         }
 
         callCallbacks.remove(call)?.let { callback ->
@@ -418,7 +442,7 @@ class CallService : InCallService(), CallManagerListener {
 
     private fun hasDndPolicyAccess(): Boolean {
     val nm = applicationContext.notificationManager
-    return nm?.isNotificationPolicyAccessGranted == true
+    return nm.isNotificationPolicyAccessGranted == true
 }
 
 private fun silenceIfDnd() {

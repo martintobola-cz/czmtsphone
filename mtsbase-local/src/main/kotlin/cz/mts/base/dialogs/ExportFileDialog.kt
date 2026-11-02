@@ -26,7 +26,7 @@ import cz.mts.base.extensions.*
 class ExportFileDialog(
     val activity: BaseSimpleActivity,
     @StringRes titleRes: Int = R.string.export_blocked_numbers,
-    defaultFilename: String = "${activity.getString(R.string.blocked_numbers)}_${activity.getCurrentFormattedDateTime()}",
+    defaultFilename: String = "${"blocked"}_${activity.getCurrentFormattedDateTime()}",
     callback: (filename: String) -> Unit,
 ) {
     init {

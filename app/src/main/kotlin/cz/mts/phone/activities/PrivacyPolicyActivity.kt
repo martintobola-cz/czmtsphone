@@ -41,29 +41,31 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
         // Při prvním spuštění vždy nezaškrtnuto; z About odráží aktuální souhlas
         val checkbox = findViewById<CheckBox>(R.id.chkAcknowledge)
+        val btnAgree = findViewById<Button>(R.id.btnAcknowledge)
+        val btnDecline = findViewById<Button>(R.id.btnDecline)
+
+// V About tlačítko odvolává dříve udělený souhlas, při prvním spuštění odmítá
+        btnDecline.setText(if (fromAbout) R.string.revoke_consent else R.string.privacy_decline)
+        // Při prvním spuštění vždy nezaškrtnuto
         checkbox.isChecked = fromAbout && prefs.getBoolean(PRIVACY_POLICY_ACCEPTED, false)
+        btnAgree.isEnabled = checkbox.isChecked
+        checkbox.setOnCheckedChangeListener { _, checked -> btnAgree.isEnabled = checked }
 
-        val btnAcknowledge = findViewById<Button>(R.id.btnAcknowledge)
-        val btnRevoke = findViewById<Button>(R.id.btnRevokeConsent)
-
-        btnAcknowledge.setOnClickListener {
-            val accepted = checkbox.isChecked
-            prefs.edit().putBoolean(PRIVACY_POLICY_ACCEPTED, accepted).commit()
-
-            when {
-                !accepted -> finishAffinity()          // bez souhlasu appka končí
-                fromAbout -> finish()                  // zpět do About
-                else -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
+        btnAgree.setOnClickListener {
+            prefs.edit().putBoolean(PRIVACY_POLICY_ACCEPTED, true).commit()
+            if (fromAbout) finish()
+            else {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
         }
 
-        // Odebrat souhlas = zrušit checkbox + klik na OK (→ finishAffinity)
-        btnRevoke.setOnClickListener {
-            checkbox.isChecked = false
-            btnAcknowledge.performClick()
+        btnDecline.setOnClickListener {
+            if (fromAbout) {
+                // v About = odvolání souhlasu (pravidlo 7.6)
+                prefs.edit().putBoolean(PRIVACY_POLICY_ACCEPTED, false).commit()
+            }
+            finishAffinity()
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

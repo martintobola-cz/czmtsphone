@@ -1,12 +1,15 @@
 package cz.mts.base.extensions
 
 import android.content.Context
+import android.graphics.Typeface
 import android.icu.text.BreakIterator
 import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.widget.TextView
 import cz.mts.base.helpers.getDateFormats
 import cz.mts.base.helpers.normalizeRegex
@@ -268,6 +271,20 @@ fun String.isValidNegativeBlockedNumberRule(): Boolean {
     return body.any { it in '0'..'9' } && (body.contains('*') || body.contains('?'))
 }
 
+fun String.formatWithBold(arg: String): CharSequence {
+    val start = indexOf("%s")
+    if (start == -1) return String.format(this, arg)
+
+    return SpannableStringBuilder(this).apply {
+        replace(start, start + 2, arg)
+        setSpan(
+            StyleSpan(Typeface.BOLD),
+            start,
+            start + arg.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+}
 /** Cokoliv, co není přesné číslo: maska s * nebo ?, případně negativní pravidlo (!...). */
 fun String.isAnyBlockedNumberMask() = isNegativeBlockedNumberMask() || contains('*') || contains('?')
 

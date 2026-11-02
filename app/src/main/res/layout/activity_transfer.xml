@@ -95,6 +95,21 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/transfer_avatar_settings_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/transfer_avatar_settings"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/avatar_settings" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/transfer_settings_holder"
                 style="@style/SettingsHolderTextViewOneLinerStyle"
                 android:layout_width="match_parent"

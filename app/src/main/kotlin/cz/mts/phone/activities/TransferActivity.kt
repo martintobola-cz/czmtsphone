@@ -1,18 +1,9 @@
 package cz.mts.phone.activities
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.core.widget.CompoundButtonCompat
 import androidx.lifecycle.lifecycleScope
 import cz.mts.base.dialogs.ExportFileDialog
 import cz.mts.base.extensions.*
@@ -22,6 +13,8 @@ import cz.mts.phone.R
 import cz.mts.phone.databinding.ActivityTransferBinding
 import cz.mts.phone.dialogs.FilterContactSourceDialogMTs
 import cz.mts.phone.dialogs.NameTypeDialog
+import cz.mts.phone.dialogs.SelectSimDialog
+import cz.mts.phone.dialogs.SimChoice
 import cz.mts.phone.helpers.BlockedNumbersImportExportHelper
 import cz.mts.phone.helpers.RecentsHelper
 import cz.mts.phone.models.RecentCall
@@ -32,7 +25,6 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.OutputStream
 import cz.mts.base.extensions.baseConfig as config
-
 
 /**
  * Univerzální obrazovka pro import i export. Položky jsou vždy stejné, liší se jen akce.
@@ -145,6 +137,7 @@ class TransferActivity : SimpleActivity() {
         // viditelnost řádků závisí na režimu (a na debug módu, ten se může změnit v About)
         binding.apply {
             transferContactsSimHolder.beVisibleIf(!isExport)                       // na SIM se nezapisuje
+            transferAvatarSettingsHolder.beVisibleIf(!isExport)                    // nastavení avatarů jen v importu (v exportu je schované)
             transferSettingsHolder.beVisibleIf(isExport || iSaveDebugMode == 1)    // import nastavení jen v debug módu
         }
     }
@@ -164,6 +157,10 @@ class TransferActivity : SimpleActivity() {
             }
             transferCallHistoryHolder.setOnClickListener {
                 if (isExport) exportCallHistoryAction() else importCallHistoryLauncher.launch(IMPORT_CALL_HISTORY_FILE_TYPES.toTypedArray())
+            }
+            transferAvatarSettingsHolder.setOnClickListener {
+                // jen import; v exportu je řádek skrytý
+                startActivity(Intent(this@TransferActivity, AvatarSettingsActivity::class.java))
             }
             transferSettingsHolder.setOnClickListener {
                 if (isExport) exportSettingsAction() else importPrefsLauncher.launch(arrayOf("application/json"))
@@ -197,8 +194,6 @@ class TransferActivity : SimpleActivity() {
 
     // ── Kontakty (SIM) ───────────────────────────────────────────────────────
 
-    private data class SimChoice(val subId: Int, val title: String)
-
     private fun chooseSimAndImport() {
         handlePermission(PERMISSION_READ_PHONE_STATE) { granted ->
             if (!granted) return@handlePermission
@@ -217,76 +212,9 @@ class TransferActivity : SimpleActivity() {
                 toast(R.string.transfer_no_active_sim)
             } else {
                 // dialog se ukáže vždy, i když je jen jedna SIM
-                showSelectSimDialog(choices) { subIds -> startSimImport(subIds) }
+                SelectSimDialog(this, choices) { subIds -> startSimImport(subIds) }
             }
         }
-    }
-
-    /** Vlastní dialog: informační text + checkbox pro každou SIM + OK / Zrušit. Nic není předvybráno. */
-    private fun showSelectSimDialog(choices: List<SimChoice>, onConfirm: (List<Int>) -> Unit) {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_select_sim, null)
-        val textColor = getProperTextColor()
-        val primaryColor = getProperPrimaryColor()
-        val density = resources.displayMetrics.density
-
-        view.findViewById<TextView>(R.id.selectSimMessage).apply {
-            setText(R.string.transfer_sim_import_message)
-            setTextColor(textColor)
-        }
-
-        val selected = HashSet<Int>()
-        var dialog: AlertDialog? = null
-
-        fun updateOkButton() {
-            dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
-                val enabled = selected.isNotEmpty()
-                it.isEnabled = enabled
-                it.alpha = if (enabled) 1f else 0.4f
-            }
-        }
-
-        val list = view.findViewById<LinearLayout>(R.id.selectSimList)
-        choices.forEach { choice ->
-            list.addView(AppCompatCheckBox(this).apply {
-                text = choice.title
-                textSize = 16f
-                setTextColor(textColor)
-                CompoundButtonCompat.setButtonTintList(this, ColorStateList.valueOf(primaryColor))
-                val pad = (8 * density).toInt()
-                setPadding(pad, pad, pad, pad)
-                setOnCheckedChangeListener { _, checked ->
-                    if (checked) selected.add(choice.subId) else selected.remove(choice.subId)
-                    updateOkButton()
-                }
-            })
-        }
-
-        val roundedBackground = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 64f
-            setColor(getProperBackgroundColor())
-        }
-
-        val d = AlertDialog.Builder(this)
-            .setView(view)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                val subIds = choices.map { it.subId }.filter { it in selected }
-                if (subIds.isNotEmpty()) onConfirm(subIds)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-
-        d.window?.setBackgroundDrawable(roundedBackground)
-        d.show()
-        dialog = d
-
-        // getButton() je dostupné až po show()
-        listOf(d.getButton(AlertDialog.BUTTON_POSITIVE), d.getButton(AlertDialog.BUTTON_NEGATIVE)).forEach {
-            it?.setTextColor(primaryColor)
-            it?.isAllCaps = false
-            it?.setTypeface(it.typeface, Typeface.BOLD)
-        }
-        updateOkButton()
     }
 
     private fun startSimImport(subIds: List<Int>) {
@@ -374,7 +302,6 @@ class TransferActivity : SimpleActivity() {
                     // Uživatel chce nový účet – zobraz dialog pro zadání názvu a typu
                     NameTypeDialog.show(this, object : NameTypeDialog.NameTypeDialogCallback {
                         override fun onConfirmed(name: String, type: String) {
-                            // Čitelná pozitivní podmínka místo 4 negací
                             val isValid = name.isNotBlank()
                                 && type.isNotBlank()
                                 && type != MTS_PHONE

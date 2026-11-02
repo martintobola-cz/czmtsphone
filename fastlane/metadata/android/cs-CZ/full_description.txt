@@ -10,6 +10,6 @@ Hledáte bezpečnou, jednoduchou a spolehlivou aplikaci pro volání, která Vá
 <br><b>🎙️ Nahrávání hovorů:<br></b> ačkoliv poslední verze Androidu nahrávání hovorů pro nesystémové aplikace přísně zakazují, tak ve spojení se Shizuku bude nahrávaní hovorů fungovat i s touto telefonní aplikací
 <br><b>💻 Open-source (GNU/GPL v3):<br></b> kód si můžete kdykoliv stáhnout z mého webu (<a href="https://mts.speccy.cz/mtsphone.htm">mts.speccy.cz/mtsphone.htm</a>) anebo <a href="https://github.com/martintobola-cz/czmtsphone">GitHubu</a> a překontrolovat
 <br><br><b>Příběh aplikace 🛠️</b>
-<br>Původní aplikaci vytvořil slovenský vývojář Tibor Kaputa (Simple Mobile Tools). Bohužel ji prodal a nová izraelská společnost ihned nasadila předražené předplatné a reklamy. Logicky na to vznikl nový směr, nejprve indický fork Fossify a následně i tento můj český 🇨🇿 fork, který vrací aplikaci zpět do správných kolejí a pružně reaguje na Vaše připomínky 💪
+<br>Původní aplikaci vytvořil slovenský vývojář Tibor Kaputa 🇸🇰 (Simple Mobile Tools). Bohužel ji prodal a nová izraelská firma ihned nasadila předražené předplatné a reklamy. Logicky na to vznikl nový směr, nejprve indický 🇮🇳 fork Fossify (Naveen Singh) a následně i tento můj český 🇨🇿 fork. Původní kód prošel zásadní přestavbou a refaktoringem, v podstatě jsem ho celý přepsal 😁.
 <br><br><b>Pomozte aplikaci růst 🚀</b>
 <br>Budu rád za každou recenzi i nápad na vylepšení. Jen prosím 🙏 myslete na hlavní myšlenku: jednoduchost a funkčnost!

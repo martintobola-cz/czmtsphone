@@ -209,6 +209,14 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(THEME_CHANGED, false)
         set(themeChanged) = prefs.edit().putBoolean(THEME_CHANGED, themeChanged).apply()
 
+    var useCustomFakeAvatar: Boolean
+        get() = prefs.getBoolean(USE_CUSTOM_FAKE_AVATAR, false)
+        set(value) = prefs.edit().putBoolean(USE_CUSTOM_FAKE_AVATAR, value).apply()
+
+    var useCustomBlockAvatar: Boolean
+        get() = prefs.getBoolean(USE_CUSTOM_BLOCK_AVATAR, false)
+        set(value) = prefs.edit().putBoolean(USE_CUSTOM_BLOCK_AVATAR, value).apply()
+
     var useCustomSimColor: Boolean
         get() = prefs.getBoolean(CUSTOM_SIM_ICON_COLOR, false)
         set(useCustomSimColor) = prefs.edit().putBoolean(CUSTOM_SIM_ICON_COLOR, useCustomSimColor).apply()
@@ -229,6 +237,13 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(HIGHLIGHT_CALL_FULSCREEN_BUTTONS, false)
         set(value) = prefs.edit().putBoolean(HIGHLIGHT_CALL_FULSCREEN_BUTTONS, value).apply()
 
+    var boldDialogButtons: Boolean
+        get() = prefs.getBoolean(BOLD_DIALOG_BUTTONS, true)   // true = zachová stávající vzhled
+        set(value) = prefs.edit().putBoolean(BOLD_DIALOG_BUTTONS, value).apply()
+
+    var callNowMtsText: String
+        get() = prefs.getString(CALL_NOW_MTS_TEXT, "").orEmpty()
+        set(value) = prefs.edit().putString(CALL_NOW_MTS_TEXT, value).apply()
     var useEnglish: Boolean
         get() = prefs.getBoolean(USE_ENGLISH, false)
         set(useEnglish) {

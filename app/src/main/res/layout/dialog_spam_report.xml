@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/big_margin"
+        android:paddingTop="@dimen/normal_margin"
+        android:paddingEnd="@dimen/big_margin"
+        android:paddingBottom="@dimen/normal_margin">
+
+        <!-- OTÁZKA -->
+        <cz.mts.base.views.MyTextView
+            android:id="@+id/spam_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:textSize="@dimen/bigger_text_size" />
+
+        <!-- KATEGORIE -->
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_scam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_scam" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_telemarketing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_telemarketing" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_silent_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_silent_call" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_financial_services"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_financial_services" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_debt_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_debt_collection" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_business"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_business" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_retail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_retail" />
+
+        <cz.mts.base.views.MyAppCompatCheckbox
+            android:id="@+id/spam_category_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/spam_category_other" />
+
+
+        <!-- KOMENTÁŘ -->
+        <cz.mts.base.views.MyEditText
+            android:id="@+id/spam_comment_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:hint="@string/spam_report_comment_hint"
+            android:inputType="textCapSentences"
+            android:maxLength="200"
+            android:maxLines="2" />
+
+    </LinearLayout>
+</ScrollView>

@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Teléfono</string>
 
+<string name="ring_duration">sonó durante %1$s</string>
+<string name="bold_dialog_buttons">Botones en negrita en los cuadros de diálogo</string>
+
+    <string name="default_reset">Predeterminado</string>
+    <string name="reported_spam_numbers">Números de spam denunciados</string>
+    <string name="no_reported_spam_numbers">Aún no has denunciado ningún número como spam.</string>
+    <string name="avatar_settings">🎭 Avatares</string>
+    <string name="avatar_default_title">Avatares predeterminados:</string>
+    <string name="avatar_custom_title">Avatares personalizados:</string>
+    <string name="avatar_unknown_contact">Contacto desconocido</string>
+    <string name="avatar_blocked_call">Llamada bloqueada</string>
+    <string name="avatar_remove">Quitar</string>
+
+    <string name="remove_confirmation_single">¿Seguro que quieres eliminar este registro?\n%s</string>
+
+    <string name="report_spam">Denunciar como spam</string>
+    <string name="spam_report_question">¿Quieres denunciar el número %1$s como llamada de spam?</string>
+    <string name="spam_report_comment_hint">Tu comentario...</string>
+    <string name="spam_category_scam">🎣 Estafa</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Llamada silenciosa (robot)</string>
+    <string name="spam_category_financial_services">💰 Servicios financieros</string>
+    <string name="spam_category_debt_collection">🥊 Cobro de deudas</string>
+    <string name="spam_category_business">🏢 Empresa</string>
+    <string name="spam_category_retail">🛒 Comercio minorista</string>
+    <string name="spam_category_other">⛔ Otro</string>
+
+    <string name="shake_effect_long_press_hint">Mantén pulsado para establecer un texto personalizado...</string>
+
 <string name="privacy_policy_section">Política de privacidad</string>
-    <string name="revoke_consent">Retirar el consentimiento</string>
+<string name="privacy_agree">Acepto</string>
+<string name="privacy_decline">Rechazar</string>
+<string name="revoke_consent">Revocar consentimiento</string>
 
 <string name="recents_still_loading">Espera hasta que se cargue todo el historial de llamadas...</string>
 <string name="is_spam_call">posible spam</string>
@@ -43,7 +74,7 @@
 <string name="send_message">Enviar mensaje</string>
 <string name="hide_number_for_saved_contact">No mostrar el número de teléfono durante una llamada si es un contacto guardado</string>
 <string name="privacy_acknowledge">Acepto esto</string>
-<string name="block_confirmation">¿Está seguro de que desea bloquear \"%s\"?</string>
+<string name="block_confirmation">¿Está seguro de que desea bloquear %s?</string>
 <string name="block_unknown_calls">Bloquear llamadas de números que no están en los contactos</string>
 <string name="block_hidden_calls">Bloquear llamadas de números ocultos</string>
 <string name="block_unknown_messages">Bloquear mensajes de números que no están en los contactos</string>

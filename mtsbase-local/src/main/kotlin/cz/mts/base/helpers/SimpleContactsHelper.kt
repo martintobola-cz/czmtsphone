@@ -22,6 +22,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import cz.mts.base.R
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
@@ -289,9 +290,14 @@ class SimpleContactsHelper(val context: Context) {
             .error(placeholder)
             .centerCrop()
 
+        // uvnitř loadContactImage:
+        val crossFade = DrawableCrossFadeFactory.Builder()
+            .setCrossFadeEnabled(true)   // placeholder se při přechodu opravdu skryje
+            .build()
+
         Glide.with(context)
             .load(path)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(DrawableTransitionOptions.withCrossFade(crossFade)) // .transition(DrawableTransitionOptions.withCrossFade())
             .placeholder(placeholder)
             .apply(options)
             .apply(RequestOptions.circleCropTransform())

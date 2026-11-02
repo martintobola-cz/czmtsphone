@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="ring_duration">дзвонив %1$s</string>
+<string name="bold_dialog_buttons">Жирні кнопки в діалогах</string>
+
+    <string name="default_reset">За замовчуванням</string>
+    <string name="reported_spam_numbers">Номери, позначені як спам</string>
+    <string name="no_reported_spam_numbers">Ви ще не позначили жодного номера як спам.</string>
+    <string name="avatar_settings">🎭 Аватари</string>
+    <string name="avatar_default_title">Аватари за замовчуванням:</string>
+    <string name="avatar_custom_title">Власні аватари:</string>
+    <string name="avatar_unknown_contact">Невідомий контакт</string>
+    <string name="avatar_blocked_call">Заблокований дзвінок</string>
+    <string name="avatar_remove">Видалити</string>
+
+    <string name="remove_confirmation_single">Ви дійсно хочете видалити цей запис?\n%s</string>
+
+    <string name="report_spam">Позначити як спам</string>
+    <string name="spam_report_question">Позначити номер %1$s як спам-дзвінок?</string>
+    <string name="spam_report_comment_hint">Ваш коментар...</string>
+    <string name="spam_category_scam">🎣 Шахрайство</string>
+    <string name="spam_category_telemarketing">🗣️ Телемаркетинг</string>
+    <string name="spam_category_silent_call">🤖 Тихий дзвінок (робот)</string>
+    <string name="spam_category_financial_services">💰 Фінансові послуги</string>
+    <string name="spam_category_debt_collection">🥊 Стягнення боргів</string>
+    <string name="spam_category_business">🏢 Бізнес</string>
+    <string name="spam_category_retail">🛒 Роздрібна торгівля</string>
+    <string name="spam_category_other">⛔ Інше</string>
+
+    <string name="shake_effect_long_press_hint">Натисніть і утримуйте, щоб задати власний текст...</string>
+
 <string name="privacy_policy_section">Політика конфіденційності</string>
-    <string name="revoke_consent">Відкликати згоду</string>
+<string name="privacy_agree">Погоджуюсь</string>
+<string name="privacy_decline">Не погоджуюсь</string>
+<string name="revoke_consent">Відкликати згоду</string>
 
 <string name="recents_still_loading">Зачекайте, поки завантажиться вся історія викликів...</string>
 <string name="is_spam_call">Ймовірний спам</string>
@@ -43,7 +74,7 @@
 <string name="send_message">Надіслати повідомлення</string>
 <string name="hide_number_for_saved_contact">Не показувати номер телефону під час дзвінка, якщо це збережений контакт</string>
 <string name="privacy_acknowledge">Беру до відома</string>
-<string name="block_confirmation">Ви дійсно хочете заблокувати \"%s\"?</string>
+<string name="block_confirmation">Ви дійсно хочете заблокувати %s?</string>
 <string name="block_unknown_calls">Блокувати дзвінки з невідомих номерів (телефонувати зможуть лише збережені контакти)</string>
 <string name="block_hidden_calls">Блокувати дзвінки з прихованих номерів</string>
 <string name="block_unknown_messages">Блокувати повідомлення з невідомих номерів</string>

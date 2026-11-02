@@ -4,13 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RadioGroup
-        android:id="@+id/dialog_radio_group"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingTop="@dimen/normal_margin"
-        android:paddingRight="@dimen/activity_margin"
-        android:paddingBottom="@dimen/normal_margin" />
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/dialog_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingTop="@dimen/normal_margin"
+            android:paddingRight="@dimen/activity_margin"
+            android:paddingBottom="@dimen/normal_margin" />
+
+        <LinearLayout
+            android:id="@+id/dialog_radio_extra_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin"
+            android:visibility="gone">
+
+            <include layout="@layout/divider" />
+
+            <cz.mts.base.views.MyAppCompatCheckbox
+                android:id="@+id/dialog_radio_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/activity_margin"
+                android:paddingBottom="@dimen/activity_margin" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </ScrollView>

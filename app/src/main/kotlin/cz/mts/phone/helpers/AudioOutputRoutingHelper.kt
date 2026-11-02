@@ -1,9 +1,7 @@
 package cz.mts.phone.helpers
 
-import android.app.AlertDialog
-import android.content.Context
+import androidx.appcompat.app.AlertDialog
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.telecom.Call
@@ -12,13 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.getProperPrimaryColor
+import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getProperTextColor
+import cz.mts.base.extensions.styleDialog
 import cz.mts.phone.R
 import cz.mts.phone.extensions.audioManager
 
-class AudioOutputRoutingHelper(private val context: Context) {
+class AudioOutputRoutingHelper(private val context: BaseSimpleActivity) {
 
     private val audioManager = context.audioManager
 
@@ -159,25 +157,10 @@ class AudioOutputRoutingHelper(private val context: Context) {
                 applyRoute(routes[which])
             }
             .setNegativeButton(R.string.dialog_back, null)
-            .show()
+            .create()
 
-
-        val roundedBackground = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 64f                  // ← poloměr rohů (v pixelech)
-            setColor(context.getProperBackgroundColor())    // ← barva pozadí
-        }
-
-        // Nastavení pozadí dialogu
-        dialog.window?.setBackgroundDrawable(roundedBackground)
         dialog.show()
-
-        val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-        negativeButton?.setTextColor(context.getProperPrimaryColor())
-        negativeButton?.setTypeface(negativeButton.typeface, Typeface.BOLD)
-
-
-
+        context.styleDialog(dialog)
     }
 
     // -----------------------------

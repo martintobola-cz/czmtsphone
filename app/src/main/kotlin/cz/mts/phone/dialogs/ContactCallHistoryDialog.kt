@@ -1,13 +1,15 @@
 package cz.mts.phone.dialogs
 
-import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.provider.CallLog.Calls
 import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import cz.mts.base.extensions.*
+import cz.mts.base.activities.BaseSimpleActivity
+import cz.mts.base.extensions.getColoredDrawableWithColor
+import cz.mts.base.extensions.getProperTextColor
+import cz.mts.base.extensions.getTextSize
+import cz.mts.base.extensions.styleDialog
 import cz.mts.base.helpers.*
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
@@ -48,12 +50,6 @@ class ContactCallHistoryDialog(
 
         recentsFragment.onKnownContactCallsChanged = { activity.runOnUiThread { refreshList() } }
 
-        val roundedBackground = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 64f
-            setColor(activity.getProperBackgroundColor().adjustColor(8, true))
-        }
-
         val dialog = AlertDialog.Builder(activity)
             .setView(binding.root)
             .setPositiveButton(R.string.dialog_close) { _, _ -> }
@@ -66,14 +62,8 @@ class ContactCallHistoryDialog(
             }
         }
 
-        dialog.window?.setBackgroundDrawable(roundedBackground)
         dialog.show()
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.apply {
-            setTextColor(activity.getProperPrimaryColor())
-            setTypeface(typeface, Typeface.BOLD)
-            isAllCaps = false
-        }
+        activity.styleDialog(dialog)
     }
 
     private fun refreshList() {

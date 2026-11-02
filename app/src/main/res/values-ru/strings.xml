@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="ring_duration">звонил %1$s</string>
+<string name="bold_dialog_buttons">Жирные кнопки в диалогах</string>
+
+    <string name="default_reset">По умолчанию</string>
+    <string name="reported_spam_numbers">Номера, отмеченные как спам</string>
+    <string name="no_reported_spam_numbers">Вы ещё не отметили ни одного номера как спам.</string>
+    <string name="avatar_settings">🎭 Аватары</string>
+    <string name="avatar_default_title">Аватары по умолчанию:</string>
+    <string name="avatar_custom_title">Свои аватары:</string>
+    <string name="avatar_unknown_contact">Неизвестный контакт</string>
+    <string name="avatar_blocked_call">Заблокированный звонок</string>
+    <string name="avatar_remove">Удалить</string>
+
+    <string name="remove_confirmation_single">Вы действительно хотите удалить эту запись?\n%s</string>
+
+    <string name="report_spam">Пометить как спам</string>
+    <string name="spam_report_question">Отметить номер %1$s как спам-звонок?</string>
+    <string name="spam_report_comment_hint">Ваш комментарий...</string>
+    <string name="spam_category_scam">🎣 Мошенничество</string>
+    <string name="spam_category_telemarketing">🗣️ Телемаркетинг</string>
+    <string name="spam_category_silent_call">🤖 Беззвучный звонок (робот)</string>
+    <string name="spam_category_financial_services">💰 Финансовые услуги</string>
+    <string name="spam_category_debt_collection">🥊 Взыскание долгов</string>
+    <string name="spam_category_business">🏢 Бизнес</string>
+    <string name="spam_category_retail">🛒 Розничная торговля</string>
+    <string name="spam_category_other">⛔ Другое</string>
+
+    <string name="shake_effect_long_press_hint">Нажмите и удерживайте, чтобы задать свой текст...</string>
+
 <string name="privacy_policy_section">Политика конфиденциальности</string>
-    <string name="revoke_consent">Отозвать согласие</string>
+<string name="privacy_agree">Согласен</string>
+<string name="privacy_decline">Не согласен</string>
+<string name="revoke_consent">Отозвать согласие</string>
 
 <string name="recents_still_loading">Дождитесь загрузки всей истории вызовов...</string>
 <string name="is_spam_call">Возможный спам</string>
@@ -43,7 +74,7 @@
 <string name="send_message">Отправить сообщение</string>
 <string name="hide_number_for_saved_contact">Не показывать номер телефона во время звонка, если это сохранённый контакт</string>
 <string name="privacy_acknowledge">Я принимаю это к сведению</string>
-<string name="block_confirmation">Вы действительно хотите заблокировать \"%s\"?</string>
+<string name="block_confirmation">Вы действительно хотите заблокировать %s?</string>
 <string name="block_unknown_calls">Блокировать звонки с неизвестных номеров (звонить смогут только сохранённые контакты)</string>
 <string name="block_hidden_calls">Блокировать звонки со скрытых номеров</string>
 <string name="block_unknown_messages">Блокировать сообщения с неизвестных номеров</string>

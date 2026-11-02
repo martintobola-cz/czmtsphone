@@ -18,4 +18,9 @@
         android:title="@string/export_blocked_numbers"
         app:showAsAction="never" />
 
+<item
+        android:id="@+id/reported_spam_numbers"
+        android:title="@string/reported_spam_numbers"
+        app:showAsAction="never" />
+
 </menu>

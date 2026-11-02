@@ -1,11 +1,8 @@
 package cz.mts.phone.adapters
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ShortcutInfo
-import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.provider.ContactsContract.CommonDataKinds
@@ -37,6 +34,8 @@ import cz.mts.phone.R
 import cz.mts.phone.activities.MainActivity
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.activities.mtsGlobalAll
+import cz.mts.phone.dialogs.SelectPhoneNumberDialog
+import cz.mts.phone.dialogs.SelectSendTargetDialog
 import cz.mts.phone.extensions.areMultipleSIMsAvailable
 import cz.mts.phone.extensions.shortcutManager
 import cz.mts.phone.extensions.startContactDetailsIntentID
@@ -49,7 +48,6 @@ import cz.mts.phone.models.SendTarget
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicInteger
 import cz.mts.base.extensions.baseConfig as config
-
 
 class ContactsAdapter(
     activity: SimpleActivity,
@@ -208,7 +206,7 @@ class ContactsAdapter(
 
             val phoneLines = contact.phoneNumbers.joinToString("\n") { phone ->
                 val formatted = numberForRecents(phone.value, formatPhoneNumbers)
-                val label = mtsGlobalAll.getNumberTypeLabel2(activity, phone.type)
+                val label = activity.getPhoneNumberTypeText(phone.type, phone.label).lowercase()
                 "$formatted ($label)"
             }
 
@@ -237,8 +235,8 @@ class ContactsAdapter(
     }
 
     private fun askConfirmBlock(contact: Contact, callback: (Boolean) -> Unit) {
-        val baseString = R.string.block_confirmation
-        val question = String.format(resources.getString(baseString), contact.getNameToDisplay())
+        val baseString = resources.getString(R.string.block_confirmation)
+        val question = baseString.formatWithBold(contact.getNameToDisplay())
 
         ConfirmationDialog(activity, question) {
             val contactBlocked = activity.blockContact(contact)
@@ -276,7 +274,7 @@ class ContactsAdapter(
     private fun sendSMSorEmail() {
         resolveSmsRecipients(
             contacts = getSelectedItems(),
-            showPicker = { items, onConfirm -> showSelectNumbersDialog(items, onConfirm) },
+            showPicker = { items, onConfirm -> SelectSendTargetDialog(activity, items, onConfirm) },
             onResolved = { target ->
                 when (target) {
                     is SendTarget.Numbers ->
@@ -305,79 +303,7 @@ class ContactsAdapter(
         else -> activity.getString(cz.mts.base.R.string.other)
     }
 
-    private fun showSelectNumbersDialog(
-        items: List<PhonePickerItem>,
-        onConfirm: (SendTarget) -> Unit
-    ) {
-        val numberItems = items.filterIsInstance<PhonePickerItem.Number>()
-        val emailItems = items.filterIsInstance<PhonePickerItem.Email>()
-        val hasEmails = emailItems.isNotEmpty()
 
-        fun targetFromSelection(): SendTarget? {
-            // e-mail a číslo se nikdy nemíchají, e-mail je jen u jednoho kontaktu
-            emailItems.firstOrNull { it.isSelected }?.let {
-                return SendTarget.EmailAddress(it.address)
-            }
-            val numbers = numberItems
-                .filter { it.isSelected }
-                .mapNotNull { it.phone.normalizedNumber }
-                .distinct()
-            return if (numbers.isNotEmpty()) SendTarget.Numbers(numbers) else null
-        }
-
-        // dialog je potřeba jen pokud má některý kontakt víc než jednu možnost (číslo/e-mail)
-        val needsChoice = (numberItems.map { it.contactId } + emailItems.map { it.contactId })
-            .groupingBy { it }
-            .eachCount()
-            .any { it.value > 1 }
-
-        if (!needsChoice) {
-            targetFromSelection()?.let(onConfirm)
-            return
-        }
-
-        val inflater = LayoutInflater.from(activity)
-        val view = inflater.inflate(R.layout.dialog_select_numbers, null)
-
-        val recyclerView = view.findViewById<MyRecyclerView>(R.id.mtsRecyclerView)
-        recyclerView.setHasFixedSize(true)
-
-        // s e-maily (= jeden kontakt) smí být vybraná právě jedna možnost
-        val adapter = SelectNumbersAdapter(
-            items,
-            allowMultipleNumbersPerContact = !hasEmails
-        )
-        recyclerView.adapter = adapter
-
-        val roundedBackground = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 64f
-            setColor(activity.getProperBackgroundColor())
-        }
-
-        val sendLabel = if (hasEmails) R.string.send_message else R.string.send_sms
-
-        val dialog = AlertDialog.Builder(activity)
-            .setView(view)
-            .setNeutralButton(sendLabel) { _, _ ->
-                targetFromSelection()?.let(onConfirm)
-            }
-            .setPositiveButton(android.R.string.cancel, null)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(roundedBackground)
-        dialog.show()
-
-        // getButton() je dostupné až po show()
-        val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        val neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
-        positiveButton?.setTextColor(activity.getProperPrimaryColor())
-        neutralButton?.setTextColor(activity.getProperPrimaryColor())
-        positiveButton?.isAllCaps = false
-        neutralButton?.isAllCaps = false
-        positiveButton?.setTypeface(positiveButton.typeface, Typeface.BOLD)
-        neutralButton?.setTypeface(neutralButton.typeface, Typeface.BOLD)
-    }
 
     fun resolveSmsRecipients(
         contacts: List<Contact>,
@@ -433,7 +359,7 @@ class ContactsAdapter(
                     phone = phone,
                     type = PhoneTypeUi(
                         rawType = phone.type,
-                        label = activity.getPhoneNumberTypeText(phone.type, " ")
+                        label = " - " + activity.getPhoneNumberTypeText(phone.type, phone.label)
                     ),
                     isSelected = isSelected
                 )
@@ -464,20 +390,19 @@ class ContactsAdapter(
         val mainActivity = activity as? MainActivity ?: return
         mainActivity.showContactCallHistory(contact.getNameToDisplay(), contact.photoUri)
         //finishActMode()
-
     }
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
         val firstItem = getSelectedItems().firstOrNull() ?: return
-        val items = if (itemsCnt == 1) {
-            "\"${firstItem.getNameToDisplay()}\""
-        } else {
-            resources.getQuantityString(R.plurals.delete_contacts, itemsCnt, itemsCnt)
-        }
+        val baseString = resources.getString(R.string.deletion_confirmation)
 
-        val baseString = R.string.deletion_confirmation
-        val question = String.format(resources.getString(baseString), items)
+        val question: CharSequence = if (itemsCnt == 1) {
+            baseString.formatWithBold(firstItem.getNameToDisplay())
+        } else {
+            val items = resources.getQuantityString(R.plurals.delete_contacts, itemsCnt, itemsCnt)
+            String.format(baseString, items)
+        }
 
         ConfirmationDialog(activity, question) {
             activity.handlePermission(PERMISSION_WRITE_CONTACTS) {
@@ -578,7 +503,8 @@ class ContactsAdapter(
         val manager = activity.shortcutManager
         if (manager.isRequestPinShortcutSupported) {
             if (contact.phoneNumbers.size > 1) {
-                showNumberPickerDialog(contact) { selectedNumber ->
+                SelectPhoneNumberDialog(activity, contact) { item ->
+                    val selectedNumber = item.phone.value
                     proceedWithShortcutCreation(contact, selectedNumber)
                 }
             } else {
@@ -609,83 +535,6 @@ class ContactsAdapter(
             }
         }
     }
-
-    private fun showNumberPickerDialog(contact: Contact, onNumberSelected: (String) -> Unit) {
-        val items = buildPhonePickerItems(contact)
-        val view = LayoutInflater.from(activity).inflate(R.layout.dialog_select_numbers, null)
-        view.findViewById<MyRecyclerView>(R.id.mtsRecyclerView).apply {
-            setHasFixedSize(true)
-            adapter = SelectNumbersAdapter(
-                items,
-                allowMultipleNumbersPerContact = false
-            )
-        }
-        val dialog = AlertDialog.Builder(activity)
-            .setView(view)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                val selected = items
-                    .filterIsInstance<PhonePickerItem.Number>()
-                    .firstOrNull { it.isSelected }
-                selected?.let { numberItem ->
-                    onNumberSelected(numberItem.phone.value)
-                }
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-
-        dialog.window?.setBackgroundDrawable(
-            GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                cornerRadius = 64f
-                setColor(activity.getProperBackgroundColor())
-            }
-        )
-        dialog.show()
-
-        val primaryColor = activity.getProperPrimaryColor()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.apply {
-            setTextColor(primaryColor)
-            setTypeface(typeface, Typeface.BOLD)
-        }
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.apply {
-            setTextColor(primaryColor)
-            setTypeface(typeface, Typeface.BOLD)
-        }
-    }
-
-    /**
-     * Sestaví seznam položek pro dialog výběru čísla.
-     * Poznámka: tato metoda se volá jen při size > 1,
-     */
-    private fun buildPhonePickerItems(contact: Contact): List<PhonePickerItem> {
-        val items = mutableListOf<PhonePickerItem>()
-
-        items += PhonePickerItem.Header(
-            contactId = contact.id,
-            contactName = contact.getNameToDisplay()
-        )
-
-        var primaryAlreadyUsed = false
-
-        contact.phoneNumbers.forEach { phone ->
-            val isSelected = phone.isPrimary && !primaryAlreadyUsed
-            if (isSelected) primaryAlreadyUsed = true
-
-            items += PhonePickerItem.Number(
-                contactId = contact.id,
-                contactName = contact.getNameToDisplay(),
-                phone = phone,
-                type = PhoneTypeUi(
-                    rawType = phone.type,
-                    label = activity.getPhoneNumberTypeText(phone.type, " ")
-                ),
-                isSelected = isSelected
-            )
-        }
-
-        return items
-    }
-
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)

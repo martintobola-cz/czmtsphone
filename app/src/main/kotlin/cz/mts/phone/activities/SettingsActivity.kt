@@ -18,6 +18,7 @@ import cz.mts.base.helpers.FastPhoneNumberFormatter.invalidateRegionCache
 import cz.mts.base.models.RadioItem
 import cz.mts.phone.R
 import cz.mts.phone.databinding.ActivitySettingsBinding
+import cz.mts.phone.dialogs.EditShakeCallTextDialog
 import cz.mts.phone.dialogs.ManageVisibleTabsDialog
 import cz.mts.phone.extensions.canLaunchAccountsConfiguration
 import cz.mts.phone.extensions.launchAccountsConfiguration
@@ -242,21 +243,26 @@ class SettingsActivity : SimpleActivity() {
             )
 
             RadioGroupDialog(
-                     activity = this,
-                     items    = items,
-                     checkedItemId = config.fontSize,
-                     itemTextSize = { item ->
-                         when (item.id) {
-                             FONT_SIZE_SMALL  -> pxToSp(resources.getDimension(R.dimen.smaller_text_size))
-                             FONT_SIZE_MEDIUM -> pxToSp(resources.getDimension(R.dimen.bigger_text_size))
-                             FONT_SIZE_LARGE  -> pxToSp(resources.getDimension(R.dimen.big_text_size))
-                             else             -> pxToSp(resources.getDimension(R.dimen.extra_big_text_size))
-                         }
-                         }
-                     ) { 
-                         config.fontSize = it as Int
-                         binding.settingsFontSize.text = getFontSizeText()
-                       }
+                activity = this,
+                items = items,
+                checkedItemId = config.fontSize,
+                checkboxChecked = config.boldDialogButtons,
+                onCheckboxChanged = { config.boldDialogButtons = it },
+                confirmButtons = true,
+                checkboxLivePreview = true,
+                checkboxTextId = R.string.bold_dialog_buttons,
+                itemTextSize = { item ->
+                    when (item.id) {
+                        FONT_SIZE_SMALL  -> pxToSp(resources.getDimension(R.dimen.smaller_text_size))
+                        FONT_SIZE_MEDIUM -> pxToSp(resources.getDimension(R.dimen.bigger_text_size))
+                        FONT_SIZE_LARGE  -> pxToSp(resources.getDimension(R.dimen.big_text_size))
+                        else             -> pxToSp(resources.getDimension(R.dimen.extra_big_text_size))
+                    }
+                }
+            ) {
+                config.fontSize = it as Int
+                binding.settingsFontSize.text = getFontSizeText()
+            }
         }
     }
 
@@ -281,7 +287,7 @@ class SettingsActivity : SimpleActivity() {
                 RadioItem(TAB_CALL_HISTORY, getString(R.string.call_history_tab)),
                 RadioItem(TAB_LAST_USED, getString(R.string.last_used_tab))
             )
-            RadioGroupDialog(this, items, config.defaultTab) {
+            RadioGroupDialog(this, items, config.defaultTab, confirmButtons = true) {
                 config.defaultTab = it as Int
                 binding.settingsDefaultTab.text = getDefaultTabText()
             }
@@ -498,11 +504,19 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupShakeEffect() {
-        binding.settingsShakeCallEffectHolder.setOnClickListener {
-            binding.settingsShakeCallEffect.toggle()
-            config.shakeEffectConfirmingCall = binding.settingsShakeCallEffect.isChecked
+        binding.settingsShakeCallEffectHolder.apply {
+            setOnClickListener {
+                binding.settingsShakeCallEffect.toggle()
+                config.shakeEffectConfirmingCall = binding.settingsShakeCallEffect.isChecked
+                toast(R.string.shake_effect_long_press_hint)
+            }
+            setOnLongClickListener {
+                EditShakeCallTextDialog(this@SettingsActivity)
+                true // událost je zpracovaná, nespustí se navíc normální click
+            }
         }
     }
+
 
     private fun setupHideNumberForSavedContact() {
         binding.settingsHideNumberForSavedContactHolder.setOnClickListener {

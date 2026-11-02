@@ -122,16 +122,17 @@ class ContactCallHistoryAdapter(
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                 }
 
-                val iBlocked = (call.type == 6)
-                val shouldShowDuration = ((iCallType != Calls.MISSED_TYPE &&
-                    iCallType != Calls.REJECTED_TYPE &&
-                    call.duration > 0) || (iBlocked))
+                val isMissed = iCallType == Calls.MISSED_TYPE
+                val isBlocked = iCallType == Calls.BLOCKED_TYPE
+
+                val shouldShowDuration = ((iCallType != Calls.REJECTED_TYPE && call.duration > 0 ) || (isBlocked))
 
                 historyRowDuration.apply {
                     beVisibleIf(shouldShowDuration)
-
-                    text = if (!iBlocked) activity.formatSecondsToShortTimeString(call.duration)
-                           else activity.getString(R.string.number_type3_mts)
+                    val formatted = context.formatSecondsToShortTimeString(call.duration)
+                    text = if (isBlocked) activity.getString(R.string.number_type3_mts)
+                           else if (isMissed) context.getString(R.string.ring_duration, formatted)
+                           else formatted
                     setTextColor(textColor)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize2)
                 }

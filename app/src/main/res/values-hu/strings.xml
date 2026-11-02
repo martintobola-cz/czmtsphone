@@ -2,8 +2,39 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="ring_duration">%1$s ideig csengett</string>
+<string name="bold_dialog_buttons">Félkövér gombok a párbeszédablakokban</string>
+
+    <string name="default_reset">Alapértelmezett</string>
+    <string name="reported_spam_numbers">Jelentett spamszámok</string>
+    <string name="no_reported_spam_numbers">Még nem jelentett be egyetlen számot sem spamként.</string>
+    <string name="avatar_settings">🎭 Avatarok</string>
+    <string name="avatar_default_title">Alapértelmezett avatarok:</string>
+    <string name="avatar_custom_title">Egyéni avatarok:</string>
+    <string name="avatar_unknown_contact">Ismeretlen névjegy</string>
+    <string name="avatar_blocked_call">Letiltott hívás</string>
+    <string name="avatar_remove">Eltávolítás</string>
+
+    <string name="remove_confirmation_single">Biztosan törölni szeretné ezt a bejegyzést?\n%s</string>
+
+    <string name="report_spam">Jelentés spamként</string>
+    <string name="spam_report_question">Szeretné spamhívásként jelenteni a(z) %1$s számot?</string>
+    <string name="spam_report_comment_hint">Az Ön megjegyzése...</string>
+    <string name="spam_category_scam">🎣 Csalás</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Néma (robot) hívás</string>
+    <string name="spam_category_financial_services">💰 Pénzügyi szolgáltatások</string>
+    <string name="spam_category_debt_collection">🥊 Behajtás</string>
+    <string name="spam_category_business">🏢 Üzleti</string>
+    <string name="spam_category_retail">🛒 Kiskereskedelem</string>
+    <string name="spam_category_other">⛔ Egyéb</string>
+
+    <string name="shake_effect_long_press_hint">Hosszan nyomja meg egyéni szöveg beállításához...</string>
+
     <string name="privacy_policy_section">Adatvédelmi irányelvek</string>
-    <string name="revoke_consent">Hozzájárulás visszavonása</string>
+<string name="privacy_agree">Elfogadom</string>
+<string name="privacy_decline">Elutasítom</string>
+<string name="revoke_consent">Hozzájárulás visszavonása</string>
 
 <string name="recents_still_loading">Várja meg, amíg a teljes híváselőzmény betöltődik...</string>
 <string name="is_spam_call">Gyanús spam</string>
@@ -43,7 +74,7 @@
 <string name="send_message">Üzenet küldése</string>
 <string name="hide_number_for_saved_contact">Ne jelenítse meg a telefonszámot hívás közben, ha a szám mentett névjegyhez tartozik</string>
 <string name="privacy_acknowledge">Tudomásul veszem</string>
-<string name="block_confirmation">Biztosan le szeretné tiltani a következőt: \"%s\"?</string>
+<string name="block_confirmation">Biztosan le szeretné tiltani a következőt: %s?</string>
 <string name="block_unknown_calls">A névjegyek között nem szereplő számokról érkező hívások letiltása</string>
 <string name="block_hidden_calls">Rejtett számokról érkező hívások letiltása</string>
 <string name="block_unknown_messages">A névjegyek között nem szereplő számokról érkező üzenetek letiltása</string>

@@ -24,9 +24,9 @@ import cz.mts.base.extensions.*
 import cz.mts.base.extensions.baseConfig
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
-import cz.mts.base.helpers.PhoneNumberHelper.getLocationSafeForUI
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
+import cz.mts.base.helpers.PhoneNumberHelper.toE164OrNull
 import cz.mts.base.models.contacts.Contact
 import cz.mts.base.views.MyRecyclerView
 import cz.mts.phone.R
@@ -36,9 +36,11 @@ import cz.mts.phone.activities.mtsGlobalAll
 import cz.mts.phone.databinding.ItemRecentCallBinding
 import cz.mts.phone.databinding.ItemRecentsDateBinding
 import cz.mts.phone.dialogs.ShowGroupedCallsDialog
+import cz.mts.phone.dialogs.SpamReportDialog
 import cz.mts.phone.extensions.areMultipleSIMsAvailable
 import cz.mts.phone.extensions.startContactDetailsIntentY
 import cz.mts.phone.helpers.*
+import cz.mts.phone.helpers.CacheContacts.bSpamChecking
 import cz.mts.phone.models.CallLogItem
 import cz.mts.phone.models.RecentCall
 import java.time.Instant
@@ -79,7 +81,6 @@ class RecentCallsAdapter(
     private var secondaryTextColor = textColor.adjustAlpha(0.6f)
     private var textToHighlight = ""
     private var durationPadding = resources.getDimension(R.dimen.normal_margin).toInt()
-    private val cachedSimColors = HashMap<Pair<Int,Int>, Int>()
     private var todayCode: String = LocalDate.now().toDayCode()
     private var yesterdayCode: String = LocalDate.now().minusDays(1).toDayCode()
 
@@ -97,7 +98,7 @@ class RecentCallsAdapter(
     override fun getActionMenuId() = R.menu.cab_recent_calls
 
     override fun prepareActionMode(menu: Menu) {
-        val hasMultipleSIMs = activity.areMultipleSIMsAvailable()
+        //val hasMultipleSIMs = activity.areMultipleSIMsAvailable()
         val selectedItems = getSelectedItems()
         val isOneItemSelected = selectedItems.size == 1
         val contact = if (isOneItemSelected) CacheContacts.findContactByCall(selectedItems.first())
@@ -107,13 +108,15 @@ class RecentCallsAdapter(
         menu.apply {
             findItem(R.id.cab_show_call_details).isVisible = isOneItemSelected
             findItem(R.id.cab_view_recents).isVisible = isOneItemSelected
-            findItem(R.id.cab_call_sim_1).isVisible = hasMultipleSIMs && isOneItemSelected
-            findItem(R.id.cab_call_sim_2).isVisible = hasMultipleSIMs && isOneItemSelected
+            findItem(R.id.cab_send_sms).isVisible = true
+            findItem(R.id.cab_call_sim_1).isVisible = false //hasMultipleSIMs && isOneItemSelected
+            findItem(R.id.cab_call_sim_2).isVisible = false //hasMultipleSIMs && isOneItemSelected
             findItem(R.id.cab_remove_default_sim).isVisible = false //isOneItemSelected && (activity.config.getCustomSIM(selectedNumber) ?: "") != ""
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
             findItem(R.id.cab_add_number).isVisible = isOneItemSelected && contact == null
-            findItem(R.id.cab_copy_number).isVisible = true
             findItem(R.id.cab_view_details).isVisible = isOneItemSelected && contact != null
+            findItem(R.id.cab_copy_number).isVisible = true
+            findItem(R.id.cab_report_spam).isVisible = bSpamChecking && contact == null  && isOneItemSelected
         }
     }
 
@@ -139,6 +142,7 @@ class RecentCallsAdapter(
             R.id.cab_send_sms -> sendSMS()
             R.id.cab_copy_number -> copyNumber()
             R.id.cab_remove -> askConfirmRemove()
+            R.id.cab_report_spam -> reportSpam()
 //            R.id.cab_select_all -> toggleSelectAll()
             R.id.cab_view_details -> launchContactDetailsIntent(getSelectedItems().first())
         }
@@ -179,6 +183,69 @@ class RecentCallsAdapter(
                     )
 
                 }
+        }
+    }
+
+    private fun reportSpam() {
+        val recentCall = getSelectedItems().firstOrNull() ?: return
+        val isEnabledForReport = iSaveDebugMode == 1 || recentCall.type == Calls.INCOMING_TYPE || recentCall.type == Calls.REJECTED_TYPE || recentCall.type == Calls.BLOCKED_TYPE
+//        INCOMING_TYPE   - an incoming call which the user answered.
+//        OUTGOING_TYPE   - an outgoing call which was placed by the user.
+//        MISSED_TYPE   - a call that rang without the user answering it.
+//        VOICEMAIL_TYPE   - a call log entry associated with voicemail.
+//        REJECTED_TYPE   - an incoming call rejected by the user.
+//        BLOCKED_TYPE   - the call was blocked by a CallScreeningService or the system block list.
+//        ANSWERED_EXTERNALLY_TYPE   - used for SIM twinning scenarios where a call may have
+
+        if (!isEnabledForReport) return
+
+        val phoneNumber = getSelectedPhoneNumber() ?: return
+
+        val inputISO = MySIMcountryISO.getISO(recentCall.simID)
+        val inputRegion = inputISO.takeIf { it.length == 2 }
+
+        val e164phoneNumber = toE164OrNull(phoneNumber, inputRegion) ?: return
+        val callDateTime = recentCall.startTS
+
+        SpamReportDialog.show(activity, phoneNumber, object : SpamReportDialog.SpamReportDialogCallback {
+            override fun onConfirmed(subject: String, comment: String) {
+                val subjectForApi = if (subject == "Silent_call") "Other" else subject
+                val robocall = (subject == "Silent_call")
+                sendSpamReport(e164phoneNumber, subjectForApi, comment, callDateTime, robocall)
+            }
+        })
+    }
+    private fun sendSpamReport(e164phoneNumber: String, subject: String, comment: String, callDateTime: Long, robocall : Boolean) {
+        val region = ""
+        val start = System.nanoTime()
+
+            reportSpamNumber(activity.applicationContext, e164phoneNumber, subject, robocall, comment, callDateTime, region ) { r ->
+            val durationMs = (System.nanoTime() - start) / 1_000_000
+
+                var sResult = r.toString().replaceFirst("SpamReportResult(", "")
+                sResult = sResult.replace(", ", "\n")
+                sResult = sResult.replace(")", "")
+
+            val sText = (if (r.ok) "✅ OK\n" else "❌ Error\n") +
+                "\nIN:\n" +
+                "phone_number: " + e164phoneNumber + "\n" +
+                "subject: " + subject + "\n" +
+                "robocall: " + robocall + "\n" +
+                "comment: " + comment + "\n" +
+                "violation_time_ms: " + callDateTime + "\n" +
+                "consumer_state: " + region + "\n" +
+                "\nOUT:\n" + sResult + "\n\nDuration:\n" + durationMs + " ms"
+
+            // callback běží na pomocném vlákně, dialog musí na UI
+            activity.runOnUiThread {
+                mtsGlobalAll.showMyAlertDialog(
+                    activity,
+                    sText,
+                    "",
+                    false,
+                    0
+                )
+            }
         }
     }
 
@@ -329,34 +396,82 @@ class RecentCallsAdapter(
         }
     }
 
+    private fun tryBlocking() = tryBlocking(getSelectedItems())
 
-    private fun tryBlocking() {
-            val phoneNumber = getSelectedPhoneNumber() ?: return
-            askConfirmBlock()
+    private fun tryBlocking(items: List<RecentCall>) {
+        if (items.isEmpty()) return
+        askConfirmBlock(items)
     }
 
-    private fun askConfirmBlock() {
-        val numbers = TextUtils.join(", ", getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber })
-        val baseString = R.string.block_confirmation
-        val question = String.format(resources.getString(baseString), numbers)
+    private fun askConfirmBlock(items: List<RecentCall>) {
+        val numbers = items
+            .distinctBy { it.phoneNumber }
+            .joinToString(", ") { it.phoneNumber }
+        val baseString = resources.getString(R.string.block_confirmation)
+        val question = baseString.formatWithBold(numbers)
 
         ConfirmationDialog(activity, question) {
-            blockNumbers()
+            blockNumbers(items)
         }
     }
 
-    private fun blockNumbers() {
-        if (selectedKeys.isEmpty()) {
-            return
-        }
+    private fun blockNumbers(callsToBlock: List<RecentCall>) {
+        if (callsToBlock.isEmpty()) return
 
-        val callsToBlock = getSelectedItems()
         ensureBackgroundThread {
             callsToBlock.map { it.phoneNumber }.forEach { number ->
                 activity.addBlockedNumber(number)
             }
         }
     }
+
+    private fun askConfirmRemove() = askConfirmRemove(getSelectedItems())
+
+    private fun askConfirmRemove(items: List<RecentCall>) {
+        if (items.isEmpty()) return
+
+        val question = if (items.size == 1) {
+            val call = items.first()
+            val label = call.name.ifBlank { call.phoneNumber }
+            val groupSuffix = call.groupedCalls?.let { " (${it.size})" } ?: ""
+            activity.getString(R.string.remove_confirmation_single)
+                .formatWithBold(label + groupSuffix)
+        } else {
+            activity.getString(R.string.remove_confirmation)
+        }
+
+        ConfirmationDialog(activity, question) {
+            activity.handlePermission(PERMISSION_WRITE_CALL_LOG) {
+                removeRecents(items)
+            }
+        }
+    }
+
+    private fun removeRecents(callsToRemove: List<RecentCall>) {
+        if (callsToRemove.isEmpty()) return
+
+        val idsToRemove = HashSet<Int>()
+        callsToRemove.forEach { call ->
+            idsToRemove.add(call.id)
+            call.groupedCalls?.forEach { grouped -> idsToRemove.add(grouped.id) }
+        }
+
+        val newList = currentList.filterNot { item ->
+            item is RecentCall && idsToRemove.contains(item.id)
+        }
+
+        finishActMode()
+
+        RecentsQueryLimits.recentcount -= idsToRemove.size
+
+        RecentsHelper(activity).removeRecentCalls(idsToRemove.toList()) {
+            activity.runOnUiThread {
+                submitList(newList)
+                itemDelete(callsToRemove)
+            }
+        }
+    }
+
 
     private fun addNumberToContact() {
         val phoneNumber = getSelectedPhoneNumber() ?: return
@@ -412,50 +527,6 @@ class RecentCallsAdapter(
 
         activity.copyToClipboard(numbers)
         //finishActMode()
-    }
-
-    private fun askConfirmRemove() {
-        ConfirmationDialog(activity, activity.getString(R.string.remove_confirmation)) {
-            activity.handlePermission(PERMISSION_WRITE_CALL_LOG) {
-                removeRecents()
-            }
-        }
-    }
-
-    private fun removeRecents() {
-        if (selectedKeys.isEmpty()) {
-            return
-        }
-
-        val callsToRemove = getSelectedItems()
-        val idsToRemove = HashSet<Int>()
-
-        callsToRemove.forEach { call ->
-            idsToRemove.add(call.id)
-            call.groupedCalls?.forEach { grouped ->
-                idsToRemove.add(grouped.id)
-            }
-        }
-
-        val newList = currentList.filterNot { item ->
-            when (item) {
-                is RecentCall -> {
-                    idsToRemove.contains(item.id)
-                }
-                else -> false
-            }
-        }
-
-        finishActMode()
-
-        RecentsQueryLimits.recentcount -= idsToRemove.size //číselník načtených recents v UI
-
-        RecentsHelper(activity).removeRecentCalls(idsToRemove.toList()) {
-            activity.runOnUiThread {
-                submitList(newList)
-                itemDelete(callsToRemove)
-            }
-        }
     }
 
     private fun launchContactDetailsIntent(recent: RecentCall?) {
@@ -519,22 +590,25 @@ class RecentCallsAdapter(
         val contextTheme = ContextThemeWrapper(activity, theme)
         val contact = CacheContacts.findContactByCall(call)
       //  val selectedNumber = "tel:${call.phoneNumber}"
+        val isEnabledForReport = iSaveDebugMode == 1 || call.type == Calls.INCOMING_TYPE || call.type == Calls.REJECTED_TYPE || call.type == Calls.BLOCKED_TYPE
+
 
         PopupMenu(contextTheme, view, Gravity.END).apply {
             inflate(R.menu.menu_recent_item_options)
             menu.apply {
-                val areMultipleSIMsAvailable = activity.areMultipleSIMsAvailable()
-                findItem(R.id.cab_call).isVisible = !areMultipleSIMsAvailable && !call.isUnknownNumber
-                findItem(R.id.cab_show_call_details).isVisible
+                //val areMultipleSIMsAvailable = activity.areMultipleSIMsAvailable()
+                findItem(R.id.cab_call).isVisible = false //!areMultipleSIMsAvailable && !call.isUnknownNumber
+                findItem(R.id.cab_show_call_details).isVisible = true
                 findItem(R.id.cab_view_recents).isVisible = true
-                findItem(R.id.cab_call_sim_1).isVisible = areMultipleSIMsAvailable && !call.isUnknownNumber
-                findItem(R.id.cab_call_sim_2).isVisible = areMultipleSIMsAvailable && !call.isUnknownNumber
+                findItem(R.id.cab_call_sim_1).isVisible = false //areMultipleSIMsAvailable && !call.isUnknownNumber
+                findItem(R.id.cab_call_sim_2).isVisible = false //areMultipleSIMsAvailable && !call.isUnknownNumber
                 findItem(R.id.cab_send_sms).isVisible = !call.isUnknownNumber
                 findItem(R.id.cab_view_details).isVisible = contact != null && !call.isUnknownNumber
                 findItem(R.id.cab_add_number).isVisible = contact == null && !call.isUnknownNumber //getRecentCallValues(activity, call, true)
                 findItem(R.id.cab_copy_number).isVisible = !call.isUnknownNumber
                 findItem(R.id.cab_block_number).isVisible = isNougatPlus() && !call.isUnknownNumber
-                findItem(R.id.cab_check_spam).isVisible = iSaveDebugMode != 0
+                findItem(R.id.cab_check_spam).isVisible = bSpamChecking && iSaveDebugMode == 1
+                findItem(R.id.cab_report_spam).isVisible = isEnabledForReport && bSpamChecking && !call.isUnknownNumber && contact == null
                 findItem(R.id.cab_remove_default_sim).isVisible = false //(activity.config.getCustomSIM(selectedNumber) ?: "") != "" && !call.isUnknownNumber
             }
 
@@ -596,15 +670,9 @@ class RecentCallsAdapter(
                         }
                     }
 
-                    R.id.cab_block_number -> {
-                        selectedKeys.add(callId)
-                        tryBlocking()
-                    }
+                    R.id.cab_block_number -> tryBlocking(listOf(call))
 
-                    R.id.cab_remove -> {
-                        selectedKeys.add(callId)
-                        askConfirmRemove()
-                    }
+                    R.id.cab_remove -> askConfirmRemove(listOf(call))
 
                     R.id.cab_copy_number -> {
                         executeItemMenuOperation(callId) {
@@ -615,6 +683,12 @@ class RecentCallsAdapter(
                     R.id.cab_check_spam -> {
                         executeItemMenuOperation(callId) {
                             checkForSpam()
+                        }
+                    }
+
+                    R.id.cab_report_spam -> {
+                        executeItemMenuOperation(callId) {
+                            reportSpam()
                         }
                     }
 
@@ -634,9 +708,13 @@ class RecentCallsAdapter(
     }
 
     private fun executeItemMenuOperation(callId: Int, callback: () -> Unit) {
+        selectedKeys.clear()
         selectedKeys.add(callId)
-        callback()
-        selectedKeys.remove(callId)
+        try {
+            callback()
+        } finally {
+            selectedKeys.clear()
+        }
     }
 
 
@@ -780,22 +858,24 @@ class RecentCallsAdapter(
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                 }
 
+                val isMissed = iCallType == Calls.MISSED_TYPE
+
                 val shouldShowDuration =
-                    iCallType != Calls.MISSED_TYPE &&
-                        iCallType != Calls.REJECTED_TYPE &&
-                        call.duration > 0
+                    iCallType != Calls.REJECTED_TYPE &&
+                        call.duration > 0          // MISSED teď taky: duration = doba vyzvánění
 
                 itemRecentsDateTimeDurationSeparator.apply {
                     beVisibleIf(shouldShowDuration)
                     text = "•"
-                    setTextColor(textColorInt)
+                    setTextColor(if (isMissed) missedColor else textColorInt)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                 }
 
                 itemRecentsDuration.apply {
                     beVisibleIf(shouldShowDuration)
-                    text = context.formatSecondsToShortTimeString(call.duration)
-                    setTextColor(textColorInt)
+                    val formatted = context.formatSecondsToShortTimeString(call.duration)
+                    text = if (isMissed) context.getString(R.string.ring_duration, formatted) else formatted
+                    setTextColor(if (isMissed) missedColor else textColorInt)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                     if (!showOverflowMenu) {
                         setPadding(0, 0, durationPadding, 0)
@@ -881,17 +961,6 @@ class RecentCallsAdapter(
                 itemRecentsSmsIcon.apply {
                     if (smsRecord != null) {
                         isVisible = true
-                        setOnClickListener { context.toast(smsRecord.message) }
-                    } else {
-                        isVisible = false
-                        setOnClickListener(null)
-                    }
-                }
-
-
-                itemRecentsSmsIcon.apply {
-                    if (smsRecord != null) {
-                        isVisible = true
                       //  applyColorFilter(secondaryColorInt)
                         setOnClickListener { context.toast(smsRecord.message)}
                     } else {
@@ -931,13 +1000,6 @@ class RecentCallsAdapter(
                     text = call.simID.toString()
                 }
             }
-        }
-    }
-
-
-    private fun getAdjustedSimColor(simColor: Int): Int {
-        return cachedSimColors.getOrPut(simColor to backgroundColor) {
-            simColor.adjustForContrast(backgroundColor)
         }
     }
 

@@ -329,6 +329,7 @@ class ContactsHelper(val context: Context) {
         val phoneNumbers = SparseArray<ArrayList<PhoneNumber>>()
         val uri = CommonDataKinds.Phone.CONTENT_URI
         val projection = arrayOf(
+            Data._ID,
             Data.RAW_CONTACT_ID,
             CommonDataKinds.Phone.NUMBER,
             CommonDataKinds.Phone.NORMALIZED_NUMBER,
@@ -341,6 +342,7 @@ class ContactsHelper(val context: Context) {
         val selectionArgs = if (contactId == null) getSourcesSelectionArgs() else arrayOf(contactId.toString())
 
         context.queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+            val dataIdRaw = cursor.getLongValue(Data._ID)
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val number = cursor.getStringValue(CommonDataKinds.Phone.NUMBER) ?: return@queryCursor
             val normalizedNumber = cursor.getStringValue(CommonDataKinds.Phone.NORMALIZED_NUMBER) ?: normalizeDigitsOnly(number)
@@ -352,7 +354,7 @@ class ContactsHelper(val context: Context) {
                 phoneNumbers.put(id, ArrayList())
             }
 
-            val phoneNumber = PhoneNumber(number, type, label, normalizedNumber, isPrimary)
+            val phoneNumber = PhoneNumber(number, type, label, normalizedNumber, isPrimary, dataIdRaw)
             phoneNumbers[id].add(phoneNumber)
         }
 

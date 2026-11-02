@@ -22,6 +22,7 @@ import cz.mts.base.R
 import cz.mts.base.databinding.DialogTitleBinding
 import cz.mts.base.helpers.isOnMainThread
 import cz.mts.base.views.MyTextView
+import android.graphics.drawable.Drawable
 
 fun Activity.appLaunched(appId: String) {
     baseConfig.internalStoragePath = getInternalStoragePath()
@@ -104,6 +105,23 @@ fun Activity.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
+fun Activity.getDialogBackgroundDrawable(): Drawable? = when {
+    isBlackAndWhiteTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.black_dialog_background, theme)
+    isDynamicTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.dialog_you_background, theme)
+    else -> resources.getColoredDrawableWithColor(R.drawable.dialog_bg, getProperBackgroundColor())
+}
+
+/** Pozadí + tlačítka pro dialogy mimo setupDialogStuff. Volat až po show(). */
+//fun Activity.styleDialog(dialog: android.app.AlertDialog) {
+//    dialog.window?.setBackgroundDrawable(getDialogBackgroundDrawable())
+//    styleDialogButtons(dialog)
+//}
+
+fun Activity.styleDialog(dialog: androidx.appcompat.app.AlertDialog) {
+    dialog.window?.setBackgroundDrawable(getDialogBackgroundDrawable())
+    styleDialogButtons(dialog)
+}
+
 fun Activity.getAlertDialogBuilder() =  AlertDialog.Builder(this)
 
 fun Activity.setupDialogStuff(
@@ -140,37 +158,19 @@ fun Activity.setupDialogStuff(
             }
         }
 
-        // if we use the same primary and background color, use the text color for dialog confirmation buttons
-        val dialogButtonColor = if (primaryColor == backgroundColor) {
-            textColor
-        } else {
-            primaryColor
+    dialog.create().apply {
+        setView(view)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setCustomTitle(title?.root)
+        setCanceledOnTouchOutside(cancelOnTouchOutside)
+        if (!isFinishing) {
+            show()
         }
+        styleDialogButtons(this)
 
-        dialog.create().apply {
-            setView(view)
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCustomTitle(title?.root)
-            setCanceledOnTouchOutside(cancelOnTouchOutside)
-            if (!isFinishing) {
-                show()
-            }
-            getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(dialogButtonColor)
-            getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(dialogButtonColor)
-            getButton(AlertDialog.BUTTON_NEUTRAL)?.setTextColor(dialogButtonColor)
-
-            val bgDrawable = when {
-                isBlackAndWhiteTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.black_dialog_background, theme)
-                isDynamicTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.dialog_you_background, theme)
-                else -> resources.getColoredDrawableWithColor(
-                    R.drawable.dialog_bg,
-                    backgroundColor.adjustColor(8, true)  //aby když je pozadí černé, nesplýval dialog s pozadím
-                )
-            }
-
-            window?.setBackgroundDrawable(bgDrawable)
-            callback?.invoke(this)
-        }
+        window?.setBackgroundDrawable(getDialogBackgroundDrawable())
+        callback?.invoke(this)
+    }
 
 }
 

@@ -254,6 +254,7 @@ class MainActivity : SimpleActivity() {
             //clearRecetCallsCache()  //zbytečné protože CacheContacts.bInvalidateCache = true
         }
 
+        RingDurationWriter.onWritten = { getRecentsFragment()?.refreshItems { refreshSearch() } }
         refreshItems(true)
 
         if (openedFromMissedPermNotification) {
@@ -266,6 +267,7 @@ class MainActivity : SimpleActivity() {
 
     override fun onPause() {
         super.onPause()
+        RingDurationWriter.onWritten = null
         storedSorting = config.sorting
         storedVisibleTabs = visibleTabs
         storedGroupingCalls = config.groupSubsequentCalls

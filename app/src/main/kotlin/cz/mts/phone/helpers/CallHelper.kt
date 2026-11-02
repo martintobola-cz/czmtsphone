@@ -13,7 +13,6 @@ import android.telecom.TelecomManager
 import android.telephony.PhoneNumberUtils
 import android.telephony.SubscriptionManager
 import cz.mts.base.activities.BaseSimpleActivity
-import cz.mts.base.compose.extensions.config
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PERMISSION_CALL_PHONE
@@ -37,6 +36,7 @@ import cz.mts.phone.activities.mtsGlobalAll.sActiveSimSlotPhoneNumber
 import cz.mts.phone.activities.mtsGlobalAll.showMyAlertDialog
 import cz.mts.phone.extensions.telecomManager2
 import cz.mts.phone.extensions.telephonyService
+import cz.mts.base.extensions.baseConfig as config
 
 /**
  * Pomocná třída pro vytáčení: tísňová čísla, MMI/USSD kódy, IMEI a běžné hovory.

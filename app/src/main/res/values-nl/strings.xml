@@ -2,8 +2,39 @@
 <resources>
 <string name="app_launcher_name">MTS Dialer</string>
 
+<string name="ring_duration">ging %1$s over</string>
+<string name="bold_dialog_buttons">Vetgedrukte knoppen in dialoogvensters</string>
+
+    <string name="default_reset">Standaard</string>
+    <string name="reported_spam_numbers">Gemelde spamnummers</string>
+    <string name="no_reported_spam_numbers">U heeft nog geen nummers als spam gemeld.</string>
+    <string name="avatar_settings">🎭 Avatars</string>
+    <string name="avatar_default_title">Standaardavatars:</string>
+    <string name="avatar_custom_title">Eigen avatars:</string>
+    <string name="avatar_unknown_contact">Onbekend contact</string>
+    <string name="avatar_blocked_call">Geblokkeerd gesprek</string>
+    <string name="avatar_remove">Verwijderen</string>
+
+    <string name="remove_confirmation_single">Wilt u dit item echt verwijderen?\n%s</string>
+
+    <string name="report_spam">Melden als spam</string>
+    <string name="spam_report_question">Wilt u het nummer %1$s als spamoproep melden?</string>
+    <string name="spam_report_comment_hint">Uw opmerking...</string>
+    <string name="spam_category_scam">🎣 Oplichting</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Stil gesprek (robot)</string>
+    <string name="spam_category_financial_services">💰 Financiële diensten</string>
+    <string name="spam_category_debt_collection">🥊 Incasso</string>
+    <string name="spam_category_business">🏢 Zakelijk</string>
+    <string name="spam_category_retail">🛒 Detailhandel</string>
+    <string name="spam_category_other">⛔ Overig</string>
+
+    <string name="shake_effect_long_press_hint">Houd lang ingedrukt om een eigen tekst in te stellen...</string>
+
     <string name="privacy_policy_section">Privacybeleid</string>
-    <string name="revoke_consent">Toestemming intrekken</string>
+<string name="privacy_agree">Akkoord</string>
+<string name="privacy_decline">Weigeren</string>
+<string name="revoke_consent">Toestemming intrekken</string>
 
 <string name="recents_still_loading">Wacht tot de volledige oproepgeschiedenis is geladen...</string>
 <string name="is_spam_call">Vermoedelijke spam</string>
@@ -45,7 +76,7 @@
 <string name="send_message">Bericht versturen</string>
 <string name="hide_number_for_saved_contact">Telefoonnummer niet weergeven tijdens een gesprek als het een opgeslagen contact is</string>
 <string name="privacy_acknowledge">Ik neem hiervan kennis</string>
-    <string name="block_confirmation">Weet je zeker dat je \"%s\" wilt blokkeren?</string>
+    <string name="block_confirmation">Weet je zeker dat je %s wilt blokkeren?</string>
     <string name="block_unknown_calls">Gesprekken blokkeren van nummers die niet in contacten staan</string>
     <string name="block_hidden_calls">Gesprekken blokkeren van verborgen nummers</string>
     <string name="block_unknown_messages">Berichten blokkeren van nummers die niet in contacten staan</string>

@@ -3,12 +3,13 @@ package cz.mts.phone.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import cz.mts.base.extensions.getDialogButtonColor
+import cz.mts.base.extensions.getProperBackgroundColor
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
-import cz.mts.base.views.MyTextView
+import cz.mts.base.views.MyAppCompatCheckbox
 import cz.mts.phone.R
 import cz.mts.phone.models.PhonePickerItem
 import cz.mts.base.extensions.baseConfig as config
@@ -73,6 +74,9 @@ class SelectNumbersAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val context = holder.itemView.context
         val textColor = context.getProperTextColor()
+        val backgroundColor = context.getProperBackgroundColor()
+        // při primary == background vrátí barvu textu, stejně jako tlačítka dialogu
+        val accentColor = context.getDialogButtonColor()
         val format = context.config.formatPhoneNumbers
 
         when (val item = items[position]) {
@@ -82,11 +86,11 @@ class SelectNumbersAdapter(
             }
 
             is PhonePickerItem.Number -> {
-                (holder as NumberViewHolder).bind(item, textColor, format)
+                (holder as NumberViewHolder).bind(item, textColor, accentColor, backgroundColor, format)
             }
 
             is PhonePickerItem.Email -> {
-                (holder as EmailViewHolder).bind(item, textColor)
+                (holder as EmailViewHolder).bind(item, textColor, accentColor, backgroundColor)
             }
         }
     }
@@ -105,18 +109,23 @@ class SelectNumbersAdapter(
 
     private inner class NumberViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val checkBox: CheckBox = view.findViewById(R.id.checkbox)
+        val checkBox: MyAppCompatCheckbox = view.findViewById(R.id.checkbox)
         val phoneType: TextView = view.findViewById(R.id.phoneType)
         val phoneNumber: TextView = view.findViewById(R.id.phoneNumber)
-        val phoneSeparator: MyTextView = view.findViewById(R.id.phoneSeparator)
 
-        fun bind(item: PhonePickerItem.Number, textColor: Int, format : Boolean) {
+        fun bind(
+            item: PhonePickerItem.Number,
+            textColor: Int,
+            accentColor: Int,
+            backgroundColor: Int,
+            format: Boolean
+        ) {
 
             phoneType.text = item.type.label
             phoneNumber.text = numberForRecents(item.phone.value, format)
             phoneType.setTextColor(textColor)
             phoneNumber.setTextColor(textColor)
-            phoneSeparator.setTextColor(textColor)
+            checkBox.setColors(textColor, accentColor, backgroundColor)
 
             // nutné kvůli recyclingu
             checkBox.setOnCheckedChangeListener(null)
@@ -148,18 +157,22 @@ class SelectNumbersAdapter(
 
     private inner class EmailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val checkBox: CheckBox = view.findViewById(R.id.checkbox)
+        val checkBox: MyAppCompatCheckbox = view.findViewById(R.id.checkbox)
         val typeText: TextView = view.findViewById(R.id.phoneType)
         val addressText: TextView = view.findViewById(R.id.phoneNumber)
-        val separator: MyTextView = view.findViewById(R.id.phoneSeparator)
 
-        fun bind(item: PhonePickerItem.Email, textColor: Int) {
+        fun bind(
+            item: PhonePickerItem.Email,
+            textColor: Int,
+            accentColor: Int,
+            backgroundColor: Int
+        ) {
             // u e-mailu se zobrazuje jen adresa, typ (domů/práce...) a oddělovač se skryjí;
             // hodnota item.typeLabel zůstává v modelu pro budoucí použití
-            typeText.visibility = View.GONE
-            separator.visibility = View.GONE
+            typeText.visibility = View.INVISIBLE
             addressText.text = item.address
             addressText.setTextColor(textColor)
+            checkBox.setColors(textColor, accentColor, backgroundColor)
 
             // nutné kvůli recyclingu
             checkBox.setOnCheckedChangeListener(null)

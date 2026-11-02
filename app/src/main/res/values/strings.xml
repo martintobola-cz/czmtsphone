@@ -2,8 +2,41 @@
 <resources>
 <string name="app_launcher_name">MTS Dialer</string>
 
+<string name="ring_duration">rang for %1$s</string>
+<string name="bold_dialog_buttons">Bold buttons in dialogs</string>
+
+<string name="last_update_info">You can now report unsolicited incoming calls to the spam database. And if you\’re tired of the default avatar 🎭 for unknown contacts, you can replace it with your own image 💪. I\’d also appreciate it if you could rate the app on the Google Play Store.</string>
+
+<string name="default_reset">Default</string>
+<string name="reported_spam_numbers">Reported spam numbers</string>
+<string name="no_reported_spam_numbers">You haven\'t reported any numbers as spam yet.</string>
+<string name="avatar_settings">🎭 Avatars</string>
+<string name="avatar_default_title">Default avatars:</string>
+<string name="avatar_custom_title">Custom avatars:</string>
+<string name="avatar_unknown_contact">Unknown contact</string>
+<string name="avatar_blocked_call">Blocked call</string>
+<string name="avatar_remove">Remove</string>
+
+<string name="remove_confirmation_single">Do you really want to delete this record?\n%s</string>
+
+<string name="report_spam">Report as spam</string>
+    <string name="spam_report_question">Do you want to report number %1$s as spam call?</string>
+    <string name="spam_report_comment_hint">Your comment...</string>
+    <string name="spam_category_scam">🎣 Scam</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Silent (robot) call</string>
+    <string name="spam_category_financial_services">💰 Financial services</string>
+    <string name="spam_category_debt_collection">🥊 Debt collection</string>
+    <string name="spam_category_business">🏢 Business</string>
+    <string name="spam_category_retail">🛒 Retail</string>
+    <string name="spam_category_other">⛔ Other</string>
+
+<string name="shake_effect_long_press_hint">Long-press to set custom text...</string>
+
 <string name="privacy_policy_section">Privacy policy</string>
-<string name="revoke_consent">Withdraw consent</string>
+<string name="privacy_agree">Agree</string>
+<string name="privacy_decline">Decline</string>
+<string name="revoke_consent">Revoke consent</string>
 
 <string name="recents_still_loading">Please wait until the entire call history has loaded...</string>
 <string name="is_spam_call">Probably a spam call</string>
@@ -45,7 +78,7 @@
 <string name="send_message">Send message</string>
 <string name="hide_number_for_saved_contact">Do not display phone number during a call if it is a saved contact</string>
 <string name="privacy_acknowledge">I acknowledge this</string>
-    <string name="block_confirmation">Are you sure you want to block \"%s\"?</string>
+    <string name="block_confirmation">Are you sure you want to block %s?</string>
     <string name="block_unknown_calls">Block calls from numbers not in contacts</string>
     <string name="block_hidden_calls">Block calls from hidden numbers</string>
     <string name="block_unknown_messages">Block messages from numbers not in contacts</string>
@@ -57,17 +90,6 @@
     <string name="unblock_contact">Unblock contact</string>
     <string name="unblock_contact_success">Contact unblocked</string>
     <string name="unblock_contact_fail">Contact could not be unblocked</string>
-
-<string name="last_update_info">New rules to block all incoming international calls. And how about arranging the bottom tabs 🗂️ just the way you like? Or what about recording 🎙️ an ongoing call — wouldn\'t that come in handy? 😁 Fixed duplicate system notification for missed calls.</string>
-
-<string name="last_update_info960">How about arranging the bottom tabs 🗂️ just the way you like? And what about recording 🎙️ an ongoing call — wouldn\'t that come in handy? 😁</string>
-<string name="last_update_info932">Minor changes to colors and font sizes, harmonization of the graphical UI, some new values in the action menu(s). New settings option \"Do not display phone number during a call if it is a saved contact\"</string>
-<string name="last_update_info911">⌚ jméno volajícího\n🌐 www s hodnocením čísla\n🗣️ poslední volané číslo\n🐞 oprava pádů aplikace</string>
-<string name="last_update_info902">🐞 Fixes for possible application crashes in call history</string>
-<string name="last_update_info897">⌚ From now on, the caller\'s name will also be displayed on your smartwatch. Another new feature is the ability to tap on the number that is calling you, and if you have spam testing turned on, a website with reviews of that number will open. Please support the app by rating it in the store, it costs nothing and you will help others with their choice. Every ⭐ counts!</string>
-<string name="last_update_info894">🐞 Fixed an issue where the call history was not displaying fully on certain phone models. Please support the app by rating it in the store, it costs nothing and helps others make their choice. Every ⭐ counts!</string>
-<string name="last_update_info885">In this new version, the graphical appearance of notifications has been completely redesigned. If you have multiple SIMs, you will also see a SIM note in the notification.</string>
-<string name="last_update_info853">In this new version you have the option to connect to applications that check unknown numbers for spam. Thanks to the emoji 🎣🤖🗣️🥊💰🛒🏢📓 displayed right next to the number, you will know if it is spam! More info on my website...</string>
 
 <string name="update_done">Updated to v</string>
 <string name="not_permissions_info">The application does not have the necessary permissions and may not function properly.</string>

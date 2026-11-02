@@ -2,8 +2,40 @@
 <resources>
     <string name="app_launcher_name">Telefón</string>
 
+<string name="ring_duration">zvonilo %1$s</string>
+<string name="bold_dialog_buttons">Tučné tlačidlá v dialógoch</string>
+
+    <string name="default_reset">Predvolené</string>
+    <string name="reported_spam_numbers">Nahlásené spamové čísla</string>
+    <string name="no_reported_spam_numbers">Zatiaľ ste nenahlásili žiadne čísla ako spam.</string>
+    <string name="avatar_settings">🎭 Avatary</string>
+    <string name="avatar_default_title">Predvolené avatary:</string>
+    <string name="avatar_custom_title">Vlastné avatary:</string>
+    <string name="avatar_unknown_contact">Neznámy kontakt</string>
+    <string name="avatar_blocked_call">Blokovaný hovor</string>
+    <string name="avatar_remove">Odstrániť</string>
+
+    <string name="remove_confirmation_single">Naozaj chcete odstrániť tento záznam?\n%s</string>
+
+    <string name="report_spam">Nahlásiť ako spam</string>
+    <string name="spam_report_question">Chcete nahlásiť číslo %1$s ako spamový hovor?</string>
+    <string name="spam_report_comment_hint">Váš komentár...</string>
+    <string name="spam_category_scam">🎣 Podvod</string>
+    <string name="spam_category_telemarketing">🗣️ Telemarketing</string>
+    <string name="spam_category_silent_call">🤖 Tichý (robotický) hovor</string>
+    <string name="spam_category_financial_services">💰 Finančné služby</string>
+    <string name="spam_category_debt_collection">🥊 Vymáhanie dlhov</string>
+    <string name="spam_category_business">🏢 Firma</string>
+    <string name="spam_category_retail">🛒 Obchod</string>
+    <string name="spam_category_other">⛔ Iné</string>
+
+    <string name="shake_effect_long_press_hint">Dlhým stlačením nastavíte vlastný text...</string>
+
+
 <string name="privacy_policy_section">Zásady ochrany osobných údajov</string>
-    <string name="revoke_consent">Odobrať súhlas</string>
+<string name="privacy_agree">Súhlasím</string>
+<string name="privacy_decline">Nesúhlasím</string>
+<string name="revoke_consent">Odvolať súhlas</string>
 
 <string name="recents_still_loading">Počkajte, kým sa načíta celá história...</string>
 <string name="is_spam_call">Podozrenie na spam</string>
@@ -43,7 +75,7 @@
 <string name="send_message">Poslať správu</string>
 <string name="hide_number_for_saved_contact">Počas hovoru nezobrazovať telefónne číslo, ak ide o uložený kontakt</string>
 <string name="privacy_acknowledge">Beriem na vedomie</string>
-<string name="block_confirmation">Naozaj chcete zablokovať \"%s\"?</string>
+<string name="block_confirmation">Naozaj chcete zablokovať %s?</string>
 <string name="block_unknown_calls">Blokovať hovory z neznámych čísel (volať teda môžu iba uložené kontakty)</string>
 <string name="block_hidden_calls">Blokovať hovory zo skrytých čísel</string>
 <string name="block_unknown_messages">Blokovať správy z neznámych čísel</string>

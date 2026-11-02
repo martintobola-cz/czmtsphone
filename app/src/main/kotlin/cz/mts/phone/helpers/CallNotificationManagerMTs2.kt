@@ -459,7 +459,7 @@ class CallNotificationManagerMTs2(private val context: Context) {
             val callContactAvatar = if (isConfenerce) fakeAvatar(context, R.drawable.conferenceavatar)
                                     else if (iSaveDebugMode == 2) fakeAvatar(context, R.drawable.karlavatar)
                                     else if (isUnknown) fakeAvatar(context, R.drawable.anonymousavatar)
-                                    else callContactAvatarHelper.getCallContactAvatar(callContact, false) ?: fakeAvatar(context, R.drawable.fakeavatar)
+                                    else callContactAvatarHelper.getCallContactAvatar(callContact, false) ?: AvatarSource.bitmap(context, AvatarSource.Kind.FAKE) //fakeAvatar(context, R.drawable.fakeavatar)
             setImageViewBitmap(
                 R.id.notification_thumbnail,
                 SimpleContactsAvatarHelper.getCircularBitmap(callContactAvatar)

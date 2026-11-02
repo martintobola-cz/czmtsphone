@@ -39,5 +39,8 @@
  <item
         android:id="@+id/cab_check_spam"
         android:title="Callfilter check" />
+ <item
+        android:id="@+id/cab_report_spam"
+        android:title="@string/report_spam" />
 
 </menu>

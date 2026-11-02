@@ -40,7 +40,7 @@ class ManageVisibleTabsDialog(
         updateArrows()
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok) { _, _ -> dialogConfirmed() }
+            .setPositiveButton(R.string.save) { _, _ -> dialogConfirmed() }
             .setNegativeButton(R.string.cancel, null)
             .apply { activity.setupDialogStuff(binding.root, this) }
     }

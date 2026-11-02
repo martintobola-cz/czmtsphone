@@ -126,12 +126,17 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
+    
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="?android:attr/listDivider" />
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginStart="@dimen/activity_margin"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:background="@color/divider_grey" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contact_history_list"

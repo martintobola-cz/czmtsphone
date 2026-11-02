@@ -53,54 +53,67 @@ class DialpadActivity : SimpleActivity() {
 
     // ── Lokalizace ──────────────────────────────────────────────────────────
 
-    private var hasRussianLocale = false
-    private var hasUkrainianLocale = false
-
     /**
-     * T9 mapa pro ruskou cyrilici.
-     * Ruská abeceda: а–я + ё, ъ, ы, э (písmena chybějící v ukrajinštině).
+     * Cyrilické rozložení klávesnice. Jediný zdroj pravdy:
+     *  - [letters] = písmena zobrazená pod číslicí (velká písmena),
+     *  - [charsMap] = T9 mapa znak → číslice, odvozená automaticky z [letters].
+     * Popisky kláves a T9 filtrování se tak nemohou rozjet.
      */
-    private val russianCharsMap by lazy {
-        hashMapOf(
-            'а' to 2, 'б' to 2, 'в' to 2, 'г' to 2,
-            'д' to 3, 'е' to 3, 'ё' to 3, 'ж' to 3, 'з' to 3,
-            'и' to 4, 'й' to 4, 'к' to 4, 'л' to 4,
-            'м' to 5, 'н' to 5, 'о' to 5, 'п' to 5,
-            'р' to 6, 'с' to 6, 'т' to 6, 'у' to 6,
-            'ф' to 7, 'х' to 7, 'ц' to 7, 'ч' to 7,
-            'ш' to 8, 'щ' to 8, 'ъ' to 8, 'ы' to 8,
-            'ь' to 9, 'э' to 9, 'ю' to 9, 'я' to 9
-        )
+    private class CyrillicLayout(val letters: Map<Int, String>) {
+        val charsMap: Map<Char, Int> = HashMap<Char, Int>().also { map ->
+            letters.forEach { (digit, chars) ->
+                chars.forEach { map[it.lowercaseChar()] = digit }
+            }
+        }
     }
 
-    /**
-     * T9 mapa pro ukrajinskou cyrilici.
-     *
-     * Oproti ruštině:
-     *  - CHYBÍ: ё, ъ, ы, э
-     *  - PŘIBÝVÁ: є (varianta е), і (samostatné і), ї (і s přehláskou), ґ (tvrdé г)
-     *
-     * Mapování:
-     *  2 → а б в г ґ
-     *  3 → д е є ж з
-     *  4 → и і ї й к л
-     *  5 → м н о п
-     *  6 → р с т у
-     *  7 → ф х ц ч
-     *  8 → ш щ ь ю
-     *  9 → я
-     */
-    private val ukrainianCharsMap by lazy {
-        hashMapOf(
-            'а' to 2, 'б' to 2, 'в' to 2, 'г' to 2, 'ґ' to 2,
-            'д' to 3, 'е' to 3, 'є' to 3, 'ж' to 3, 'з' to 3,
-            'и' to 4, 'і' to 4, 'ї' to 4, 'й' to 4, 'к' to 4, 'л' to 4,
-            'м' to 5, 'н' to 5, 'о' to 5, 'п' to 5,
-            'р' to 6, 'с' to 6, 'т' to 6, 'у' to 6,
-            'ф' to 7, 'х' to 7, 'ц' to 7, 'ч' to 7,
-            'ш' to 8, 'щ' to 8, 'ь' to 8, 'ю' to 8,
-            'я' to 9
+    private val cyrillicLayouts = mapOf(
+        "ru" to CyrillicLayout(
+            mapOf(
+                2 to "АБВГ",
+                3 to "ДЕЁЖЗ",
+                4 to "ИЙКЛ",
+                5 to "МНОП",
+                6 to "РСТУ",
+                7 to "ФХЦЧ",
+                8 to "ШЩЪЫ",
+                9 to "ЬЭЮЯ"
+            )
+        ),
+        "uk" to CyrillicLayout(
+            mapOf(
+                2 to "АБВГҐ",
+                3 to "ДЕЄЖЗ",
+                4 to "ИІЇЙКЛ",
+                5 to "МНОП",
+                6 to "РСТУ",
+                7 to "ФХЦЧ",
+                8 to "ШЩ",
+                9 to "ЮЯЬ"
+            )
+        ),
+        "sr" to CyrillicLayout(
+            mapOf(
+                2 to "АБЦЧЋ",
+                3 to "ДЕФЂ",
+                4 to "ГХИ",
+                5 to "ЈКЛ",
+                6 to "МНО",
+                7 to "ПЉРСШ",
+                8 to "ТУВ",
+                9 to "ЊЏЗЖ"
+            )
         )
+    )
+
+    /** Aktivní rozložení podle jazyka systému; null = žádná cyrilice. */
+    private var cyrillicLayout: CyrillicLayout? = null
+
+    private fun resolveCyrillicLayout(): CyrillicLayout? {
+        val locale = Locale.getDefault()
+        // Srbská latinka (sr-Latn) cyrilické popisky nepotřebuje
+        if (locale.language == "sr" && locale.script == "Latn") return null
+        return cyrillicLayouts[locale.language]
     }
 
     // ────────────────────────────────────────────────────────────────────────
@@ -117,8 +130,7 @@ class DialpadActivity : SimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        hasRussianLocale = Locale.getDefault().language == "ru"
-        hasUkrainianLocale = Locale.getDefault().language == "uk"
+        cyrillicLayout = resolveCyrillicLayout()
 
         binding.apply {
             setupEdgeToEdge(padBottomImeAndSystem = listOf(dialpadList, dialpadHolder))
@@ -217,33 +229,10 @@ class DialpadActivity : SimpleActivity() {
     }
 
     /**
-     * Přidá písmena cyrilice pod číslice klávesnice.
-     * Ruština a Ukrajinština mají odlišná písmena – viz komentáře u map výše.
+     * Přidá písmena cyrilice pod číslice klávesnice podle aktivního rozložení.
      */
     private fun setupCyrillicLabels() {
-        val (locale, labelsMap) = when {
-            hasRussianLocale -> "ru" to mapOf(
-                2 to "\nАБВГ",
-                3 to "\nДЕЁЖЗ",
-                4 to "\nИЙКЛ",
-                5 to "\nМНОП",
-                6 to "\nРСТУ",
-                7 to "\nФХЦЧ",
-                8 to "\nШЩЪЫ",
-                9 to "\nЬЭЮЯ"
-            )
-            hasUkrainianLocale -> "uk" to mapOf(
-                2 to "\nАБВГҐ",
-                3 to "\nДЕЄЖЗ",
-                4 to "\nИІЇЙКЛ",
-                5 to "\nМНОП",
-                6 to "\nРСТУ",
-                7 to "\nФХЦЧ",
-                8 to "\nШЩЬЮ",
-                9 to "\nЯ"
-            )
-            else -> return  // Žádná cyrilice – nic nepřidáváme
-        }
+        val layout = cyrillicLayout ?: return  // Žádná cyrilice – nic nepřidáváme
 
         binding.dialpadWrapper.apply {
             val digitViews = mapOf(
@@ -253,11 +242,11 @@ class DialpadActivity : SimpleActivity() {
                 8 to dialpad8Letters, 9 to dialpad9Letters
             )
 
-            labelsMap.forEach { (digit, label) ->
-                digitViews[digit]?.append(label)
+            layout.letters.forEach { (digit, letters) ->
+                digitViews[digit]?.append("\n$letters")
             }
 
-            // Ukrajinskych písmen na klávese 4 je více – zmenšíme font i pro ruštinu
+            // Cyrilických písmen na klávese je více – zmenšíme font
             val fontSize = resources.getDimension(R.dimen.small_text_size)
             digitViews.values.forEach {
                 it.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
@@ -409,25 +398,22 @@ class DialpadActivity : SimpleActivity() {
     }
 
     /**
-     * T9 filtrování – podporuje ruskou i ukrajinskou cyrilici.
-     * Každá lokalizace má vlastní mapu znaků → číslic.
+     * T9 filtrování – podporuje cyrilici podle aktivního rozložení (ru / uk / sr).
+     * Latinka se převádí přes KeypadHelper, cyrilické znaky přes mapu rozložení.
      */
     private fun filterContactsT9(text: String): List<Contact> {
+        val layout = cyrillicLayout
         return allContacts.filter { contact ->
             var convertedName = KeypadHelper.convertKeypadLettersToDigits(
                 contact.getNameToDisplay().normalizeString()
             ).filterNot { it.isWhitespace() }
 
-            when {
-                hasRussianLocale -> {
-                    convertedName = convertedName.lowercase(Locale.getDefault())
-                        .map { char -> russianCharsMap.getOrElse(char) { char } }
-                        .joinToString("")
-                }
-                hasUkrainianLocale -> {
-                    convertedName = convertedName.lowercase(Locale.getDefault())
-                        .map { char -> ukrainianCharsMap.getOrElse(char) { char } }
-                        .joinToString("")
+            if (layout != null) {
+                convertedName = buildString {
+                    convertedName.lowercase(Locale.getDefault()).forEach { char ->
+                        val digit = layout.charsMap[char]
+                        if (digit != null) append(digit) else append(char)
+                    }
                 }
             }
 

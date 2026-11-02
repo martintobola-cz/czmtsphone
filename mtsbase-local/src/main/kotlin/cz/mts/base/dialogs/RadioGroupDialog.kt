@@ -1,48 +1,21 @@
 package cz.mts.base.dialogs
 
-import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BasicAlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import cz.mts.base.R
-import cz.mts.base.compose.alert_dialog.AlertDialogState
-import cz.mts.base.compose.alert_dialog.DialogSurface
-import cz.mts.base.compose.alert_dialog.dialogTextColor
-import cz.mts.base.compose.alert_dialog.rememberAlertDialogState
-import cz.mts.base.compose.components.RadioGroupDialogComponent
-import cz.mts.base.compose.extensions.BooleanPreviewParameterProvider
-import cz.mts.base.compose.extensions.MyDevices
-import cz.mts.base.compose.theme.AppThemeSurface
-import cz.mts.base.compose.theme.SimpleTheme
+import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.databinding.DialogRadioGroupBinding
 import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.onGlobalLayout
 import cz.mts.base.extensions.setupDialogStuff
+import cz.mts.base.extensions.styleDialogButtons
 import cz.mts.base.models.RadioItem
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 class RadioGroupDialog(
-    private val activity: Activity,
+    private val activity: BaseSimpleActivity,
     private val items: ArrayList<RadioItem>,
     private val checkedItemId: Int = -1,
     private val titleId: Int = 0,
@@ -58,23 +31,51 @@ class RadioGroupDialog(
      *     activity = this,
      *     items    = items,
      *     checkedItemId = config.fontSize,
+     *     titleId = R.string.dialog_font_size_title,
+     *     checkboxTextId = R.string.bold_dialog_buttons,
+     *     checkboxChecked = config.boldDialogButtons,
+     *     onCheckboxChanged = { config.boldDialogButtons = it },
+     *     checkboxLivePreview = true,
+     *     confirmButtons = true,
      *     itemTextSize = { item ->
      *         when (item.id) {
-     *             FONT_SIZE_SMALL       -> resources.getDimension(R.dimen.smaller_text_size)  / resources.displayMetrics.scaledDensity
-     *             FONT_SIZE_MEDIUM      -> resources.getDimension(R.dimen.bigger_text_size)   / resources.displayMetrics.scaledDensity
-     *             FONT_SIZE_LARGE       -> resources.getDimension(R.dimen.big_text_size)      / resources.displayMetrics.scaledDensity
-     *             else                  -> resources.getDimension(R.dimen.extra_big_text_size) / resources.displayMetrics.scaledDensity
+     *             FONT_SIZE_SMALL  -> pxToSp(resources.getDimension(R.dimen.smaller_text_size))
+     *             FONT_SIZE_MEDIUM -> pxToSp(resources.getDimension(R.dimen.bigger_text_size))
+     *             FONT_SIZE_LARGE  -> pxToSp(resources.getDimension(R.dimen.big_text_size))
+     *             else             -> pxToSp(resources.getDimension(R.dimen.extra_big_text_size))
      *         }
      *     }
      * ) { config.fontSize = it as Int }
      * ```
      */
     private val itemTextSize: ((RadioItem) -> Float)? = null,
+    /**
+     * Volitelný checkbox pod seznamem položek (odděleno čárou).
+     * [checkboxTextId] = 0 znamená bez checkboxu.
+     * Bez [confirmButtons] se [onCheckboxChanged] volá okamžitě při přepnutí
+     * (klik na položku dialog hned zavře). S [confirmButtons] se volá až po „Uložit“,
+     * pokud není zapnuto [checkboxLivePreview].
+     */
+    private val checkboxTextId: Int = 0,
+    private val checkboxChecked: Boolean = false,
+    private val onCheckboxChanged: ((Boolean) -> Unit)? = null,
+    /**
+     * true = při přepnutí checkboxu se hned zavolá [onCheckboxChanged] a znovu se
+     * ostylují tlačítka dialogu (obarvení / tučnost). S [confirmButtons] se při „Zrušit“
+     * (i zpětném gestu a kliku mimo dialog) vrátí původní hodnota [checkboxChecked].
+     */
+    private val checkboxLivePreview: Boolean = false,
+    /**
+     * true = tlačítka Uložit / Zrušit. Klik na položku ji jen vybere,
+     * hodnoty (položka i checkbox) se předají až po „Uložit“.
+     */
+    private val confirmButtons: Boolean = false,
     private val callback: (newValue: Any) -> Unit
 ) {
     private var dialog: AlertDialog? = null
     private var wasInit = false
     private var selectedItemId = -1
+    private var checkboxValue = checkboxChecked
 
     init {
         val view = DialogRadioGroupBinding.inflate(activity.layoutInflater, null, false)
@@ -89,7 +90,13 @@ class RadioGroupDialog(
                     // Nastav velikost textu pokud ji volající definoval
                     itemTextSize?.invoke(item)?.let { textSize = it }
 
-                    setOnClickListener { itemSelected(i) }
+                    setOnClickListener {
+                        if (confirmButtons) {
+                            selectedItemId = i
+                        } else {
+                            itemSelected(i)
+                        }
+                    }
                 }
 
                 if (item.id == checkedItemId) {
@@ -103,10 +110,44 @@ class RadioGroupDialog(
             }
         }
 
-        val builder = activity.getAlertDialogBuilder()
-            .setOnCancelListener { cancelCallback?.invoke() }
+        // Volitelný checkbox s čárou nad ním
+        if (checkboxTextId != 0) {
+            view.dialogRadioExtraHolder.visibility = View.VISIBLE
+            view.dialogRadioCheckbox.apply {
+                setText(checkboxTextId)
+                isChecked = checkboxChecked
+                setOnCheckedChangeListener { _, checked ->
+                    checkboxValue = checked
+                    if (!confirmButtons || checkboxLivePreview) {
+                        onCheckboxChanged?.invoke(checked)
+                    }
+                    if (checkboxLivePreview) {
+                        dialog?.let { activity.styleDialogButtons(it, checkboxValue) }
+                    }
+                }
+            }
+        }
 
-        if (selectedItemId != -1 && showOKButton) {
+        val builder = activity.getAlertDialogBuilder()
+            .setOnCancelListener {
+                revertCheckbox()
+                cancelCallback?.invoke()
+            }
+
+        if (confirmButtons) {
+            builder.setPositiveButton(R.string.save) { _, _ ->
+                if (checkboxTextId != 0 && !checkboxLivePreview) {
+                    onCheckboxChanged?.invoke(checkboxValue)
+                }
+                if (selectedItemId != -1) {
+                    itemSelected(selectedItemId)
+                }
+            }
+            builder.setNegativeButton(R.string.cancel) { _, _ ->
+                revertCheckbox()
+                cancelCallback?.invoke()
+            }
+        } else if (selectedItemId != -1 && showOKButton) {
             builder.setPositiveButton(R.string.ok) { _, _ -> itemSelected(selectedItemId) }
         }
 
@@ -127,115 +168,17 @@ class RadioGroupDialog(
         wasInit = true
     }
 
+    /** Vrátí původní hodnotu checkboxu, pokud byla při živém náhledu změněna a dialog se zrušil. */
+    private fun revertCheckbox() {
+        if (confirmButtons && checkboxLivePreview && checkboxTextId != 0 && checkboxValue != checkboxChecked) {
+            onCheckboxChanged?.invoke(checkboxChecked)
+        }
+    }
+
     private fun itemSelected(checkedId: Int) {
         if (wasInit) {
             callback(items[checkedId].value)
             dialog?.dismiss()
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RadioGroupAlertDialog(
-    alertDialogState: AlertDialogState,
-    items: ImmutableList<RadioItem>,
-    modifier: Modifier = Modifier,
-    selectedItemId: Int = -1,
-    titleId: Int = 0,
-    showOKButton: Boolean = false,
-    cancelCallback: (() -> Unit)? = null,
-    callback: (newValue: Any) -> Unit
-) {
-    val groupTitles by remember {
-        derivedStateOf { items.map { it.title } }
-    }
-    val (selected, setSelected) = remember {
-        mutableStateOf(items.firstOrNull { it.id == selectedItemId }?.title)
-    }
-    val shouldShowOkButton = selectedItemId != -1 && showOKButton
-
-    BasicAlertDialog(
-        onDismissRequest = {
-            cancelCallback?.invoke()
-            alertDialogState.hide()
-        }
-    ) {
-        DialogSurface {
-            Box {
-                Column(
-                    modifier = modifier
-                        .padding(bottom = if (shouldShowOkButton) 64.dp else 18.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    if (titleId != 0) {
-                        Text(
-                            text = stringResource(id = titleId),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 24.dp, bottom = SimpleTheme.dimens.padding.medium)
-                                .padding(horizontal = 24.dp),
-                            color = dialogTextColor,
-                            fontSize = 21.sp
-                        )
-                    }
-                    RadioGroupDialogComponent(
-                        items = groupTitles,
-                        selected = selected,
-                        setSelected = { selectedTitle ->
-                            setSelected(selectedTitle)
-                            callback(getSelectedValue(items, selectedTitle))
-                            alertDialogState.hide()
-                        },
-                        modifier = Modifier.padding(
-                            vertical = SimpleTheme.dimens.padding.extraLarge,
-                        )
-                    )
-                }
-                if (shouldShowOkButton) {
-                    TextButton(
-                        onClick = {
-                            callback(getSelectedValue(items, selected))
-                            alertDialogState.hide()
-                        },
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(
-                                top = SimpleTheme.dimens.padding.extraLarge,
-                                bottom = SimpleTheme.dimens.padding.extraLarge,
-                                end = SimpleTheme.dimens.padding.extraLarge
-                            )
-                    ) {
-                        Text(text = stringResource(id = R.string.ok))
-                    }
-                }
-            }
-        }
-    }
-}
-
-private fun getSelectedValue(
-    items: ImmutableList<RadioItem>,
-    selected: String?
-) = items.first { it.title == selected }.value
-
-@Composable
-@MyDevices
-private fun RadioGroupDialogAlertDialogPreview(
-    @PreviewParameter(BooleanPreviewParameterProvider::class) showOKButton: Boolean
-) {
-    AppThemeSurface {
-        RadioGroupAlertDialog(
-            alertDialogState = rememberAlertDialogState(),
-            items = listOf(
-                RadioItem(1, "Test"),
-                RadioItem(2, "Test 2"),
-                RadioItem(3, "Test 3"),
-            ).toImmutableList(),
-            selectedItemId = 1,
-            titleId = R.string.title,
-            showOKButton = showOKButton,
-            cancelCallback = {}
-        ) {}
     }
 }

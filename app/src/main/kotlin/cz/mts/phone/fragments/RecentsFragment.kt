@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.InsetDrawable
 import android.os.Handler
 import android.os.Looper
+import android.provider.CallLog
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -365,6 +366,8 @@ class RecentsFragment(
         recentsHelper.loadRecentsSince(anchorTs - 1) { newCalls ->
 
             onFirstRecentsLoaded?.invoke()
+
+            patchRingDurations(newCalls)
 
             val validNewCallsCount = newCalls.count { nc ->
                 allItems.none { it is RecentCall && it.id == nc.id }
@@ -767,6 +770,41 @@ class RecentsFragment(
             (layoutManager as? LinearLayoutManager)
                 ?.scrollToPositionWithOffset(0, 0)
                 ?: scrollToPosition(0)
+        }
+    }
+
+    private fun patchRingDurations(newCalls: List<RecentCall>) {
+        val fresh = newCalls
+            .filter { it.type == CallLog.Calls.MISSED_TYPE && it.duration > 0 }
+            .associateBy { it.id }
+        if (fresh.isEmpty()) return
+
+        mainHandler.post {
+            var changed = false
+
+            fun RecentCall.patched(): RecentCall {
+                val newDur = fresh[id]?.duration?.takeIf { it != duration }
+                val newGroup = groupedCalls?.map { c ->
+                    fresh[c.id]?.takeIf { it.duration != c.duration }
+                        ?.let { c.copy(duration = it.duration) } ?: c
+                }
+                val groupChanged = newGroup != null &&
+                    newGroup.indices.any { newGroup[it] !== groupedCalls!![it] }
+                if (newDur == null && !groupChanged) return this
+                changed = true
+                return copy(
+                    duration = newDur ?: duration,
+                    groupedCalls = if (groupChanged) newGroup!!.toMutableList() else groupedCalls
+                )
+            }
+
+            val patched = allItems.map { if (it is RecentCall) it.patched() else it }
+            if (changed) {
+                allItems = patched
+                updateKnownContactCalls()
+                if (searchQuery.isNullOrBlank()) adapter?.updateItems(allItems)
+                else applySearch()
+            }
         }
     }
 

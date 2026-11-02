@@ -7,7 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.telecom.*
-import cz.mts.base.compose.extensions.config
+import cz.mts.base.extensions.baseConfig as config
 import cz.mts.base.extensions.isAppInstalled
 import cz.mts.base.helpers.DIALPAD_TONE_LENGTH_MS
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
@@ -17,6 +17,7 @@ import cz.mts.phone.extensions.getStateCompat
 import cz.mts.phone.extensions.hasCapability
 import cz.mts.phone.extensions.isIncoming
 import cz.mts.phone.models.AudioRoute
+import cz.mts.phone.models.CallContact
 import java.util.UUID
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -32,7 +33,8 @@ data class CallEntry(
     val spamCheck : Boolean = false,  // spamcheck je pro tento hovor aktivní (příchozí + bSpamChecking), určuje rozložení řádků na displeji
     val verificationStatus : Int = 0, // STIR/SHAKEN Call.Details.callerNumberVerificationStatus (API 30+), zatím se nepoužívá
     val ringStartMs: Long = 0L,  // elapsedRealtime při začátku vyzvánění, 0 = neznámo
-    val ringEndMs: Long = 0L     // elapsedRealtime při opuštění RINGING, 0 = ještě zvoní
+    val ringEndMs: Long = 0L,   // elapsedRealtime při opuštění RINGING, 0 = ještě zvoní
+    val callContact: CallContact? = null   // výsledek getCallContact, null = ještě nenalezen
 )
 
 
@@ -124,6 +126,24 @@ class CallManager {
             }
         }
 
+        // callback z getCallContact běží u hovorů na bg vlákně, ale callIds se jinak mění jen na main threadu
+        // (a read-modify-write z bg by mohlo přepsat třeba markRingEnd), proto zápis vždy přes main
+        fun setCallContact(call: Call, callContact: CallContact) {
+            val action = Runnable {
+                val existing = callIds[call] ?: return@Runnable   // hovor už neexistuje (smazal ho onCallRemoved)
+                callIds[call] = existing.copy(callContact = callContact)
+            }
+            if (Looper.myLooper() == Looper.getMainLooper()) action.run()
+            else Handler(Looper.getMainLooper()).post(action)
+        }
+
+        fun getCallContactByCall(call: Call?): CallContact? =
+            if (call == null) null else callIds[call]?.callContact
+
+        fun getCallContactByCallId(callId: String): CallContact? {
+            if (callId.isBlank()) return null
+            return callIds.entries.firstOrNull { it.value.id == callId }?.value?.callContact
+        }
 
         fun getCallById(callId: String): Call? {
             return if (callId.isNotEmpty()) callIds.entries.firstOrNull { it.value.id == callId }?.key
@@ -351,6 +371,7 @@ class CallManager {
 
                 //vyhledat a nakešovat kontakt
                 getCallContact(context, call) { callContact ->
+                    setCallContact(call, callContact)
                     val isUnknownContact = callContact.id.toInt() == 0
                     //pokud je příchozí a nemáme ho jako uložený kontakt, tak ihned zjistit spam status
                     if (isIncoming && isUnknownContact && CacheContacts.bSpamChecking) {
@@ -616,6 +637,10 @@ class CallManager {
             setNotificationDone(call, value)
         }
 
+        //1 = startovací notifikace bez kontaktu / callNotificationManager.startNotificationAsync
+        //2 = update notifikace po delay 300L pokud se neprovede následující 3 / callNotificationManager.updateNotificationWithContact
+        //3 = update notifikace po delay 300L /callNotificationManager.doNotification
+        //4 = žadná notifikace, je více živých hovorů a tento hovor se právě přidal
         fun getNotificationDone(callId: String): Int {
             return callIds.entries
                 .firstOrNull { it.value.id == callId }

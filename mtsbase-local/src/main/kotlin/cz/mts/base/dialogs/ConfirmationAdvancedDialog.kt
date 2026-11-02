@@ -1,26 +1,15 @@
 package cz.mts.base.dialogs
 
-import android.app.Activity
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import cz.mts.base.R
-import cz.mts.base.compose.alert_dialog.*
-import cz.mts.base.compose.extensions.MyDevices
-import cz.mts.base.compose.theme.AppThemeSurface
+import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.databinding.DialogMessageBinding
 import cz.mts.base.extensions.getAlertDialogBuilder
 import cz.mts.base.extensions.setupDialogStuff
 
 // similar fo ConfirmationDialog, but has a callback for negative button too
 class ConfirmationAdvancedDialog(
-    activity: Activity, message: String = "", messageId: Int = R.string.proceed_with_deletion, positive: Int = R.string.yes,
+    activity: BaseSimpleActivity, message: String = "", messageId: Int = R.string.proceed_with_deletion, positive: Int = R.string.yes,
     negative: Int = R.string.no, val cancelOnTouchOutside: Boolean = true, val callback: (result: Boolean) -> Unit
 ) {
     private var dialog: AlertDialog? = null
@@ -55,69 +44,5 @@ class ConfirmationAdvancedDialog(
     private fun negativePressed() {
         dialog?.dismiss()
         callback(false)
-    }
-}
-
-@Composable
-fun ConfirmationAdvancedAlertDialog(
-    alertDialogState: AlertDialogState,
-    modifier: Modifier = Modifier,
-    message: String = "",
-    messageId: Int? = R.string.proceed_with_deletion,
-    positive: Int? = R.string.yes,
-    negative: Int? = R.string.no,
-    cancelOnTouchOutside: Boolean = true,
-    callback: (result: Boolean) -> Unit
-) {
-
-    androidx.compose.material3.AlertDialog(
-        containerColor = dialogContainerColor,
-        modifier = modifier
-            .dialogBorder,
-        properties = DialogProperties(dismissOnClickOutside = cancelOnTouchOutside),
-        onDismissRequest = {
-            alertDialogState.hide()
-            callback(false)
-        },
-        shape = dialogShape,
-        tonalElevation = dialogElevation,
-        dismissButton = {
-            if (negative != null) {
-                TextButton(onClick = {
-                    alertDialogState.hide()
-                    callback(false)
-                }) {
-                    Text(text = stringResource(id = negative))
-                }
-            }
-        },
-        confirmButton = {
-            if (positive != null) {
-                TextButton(onClick = {
-                    alertDialogState.hide()
-                    callback(true)
-                }) {
-                    Text(text = stringResource(id = positive))
-                }
-            }
-        },
-        text = {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = message.ifEmpty { messageId?.let { stringResource(id = it) }.orEmpty() },
-                fontSize = 16.sp,
-                color = dialogTextColor,
-            )
-        }
-    )
-}
-
-@Composable
-@MyDevices
-private fun ConfirmationAdvancedAlertDialogPreview() {
-    AppThemeSurface {
-        ConfirmationAdvancedAlertDialog(
-            alertDialogState = rememberAlertDialogState()
-        ) {}
     }
 }

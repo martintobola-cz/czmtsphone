@@ -687,7 +687,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                     if (isConference) setImageResource(R.drawable.conferenceavatar)
                     else if (iSaveDebugMode == 2) setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.karlavatar))
                     else if (isHiddenNumber) setImageResource(R.drawable.anonymousavatar) //setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.anonymousavatar))
-                    else setImageResource(R.drawable.fakeavatar)
+                    else setImageDrawable(AvatarSource.drawable(this@CallActivity, AvatarSource.Kind.FAKE)) //setImageResource(R.drawable.fakeavatar)
                     setPadding(resources.getDimensionPixelSize(R.dimen.activity_margin))
                     //  applyColorFilter(bgColor.getContrastColor())
                     //  background.applyColorFilter(bgColor)
@@ -1019,7 +1019,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                             val callContactAvatar = if (CallManager.isConference(call)) fakeAvatar(this@CallActivity, R.drawable.conferenceavatar)
                             else if (iSaveDebugMode == 2) fakeAvatar(this@CallActivity, R.drawable.karlavatar)
                             else if (isUnknown) fakeAvatar(this@CallActivity, R.drawable.anonymousavatar)
-                            else callContactAvatarHelper.getCallContactAvatar(contact, false) ?: fakeAvatar(this@CallActivity, R.drawable.fakeavatar)
+                            else callContactAvatarHelper.getCallContactAvatar(contact, false) ?: AvatarSource.bitmap(this@CallActivity, AvatarSource.Kind.FAKE) //fakeAvatar(this@CallActivity, R.drawable.fakeavatar)
                             callNotification.notificationThumbnail.setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmap(callContactAvatar))
 
                             val openOverlayClick = View.OnClickListener {
@@ -1064,10 +1064,11 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         }
     }
 
-    private fun changeNotification(call : Call) {
+    private fun changeNotification(call : Call?) {
+        if (call == null) return
         val stateNow = call.getStateCompat()
         if (!isFinishing && !isDestroyed && stateNow != Call.STATE_DISCONNECTING && stateNow != Call.STATE_DISCONNECTED) {
-            val canBeAccepted = stateNow == Call.STATE_RINGING || stateNow == Call.STATE_SIMULATED_RINGING
+            val canBeAccepted = stateNow == Call.STATE_RINGING
             callNotificationManager.doNotification(call, false, false, false, canBeAccepted)
         }
     }
@@ -1280,12 +1281,14 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             )
         }
 
-        // Pokusíme se dismissnout keyguard (pokud je API dostupné)
-        try {
-            if (isOreoPlus()) {
-                keyguardManager.requestDismissKeyguard(this, null)
+        if (!isUpsideDownCakePlus()) { //novým API vadí a nedovolí zobrazit přes zamknutou obrazovku fullscreen
+            // Pokusíme se dismissnout keyguard (pokud je API dostupné)
+            try {
+                if (isOreoPlus()) {
+                    keyguardManager.requestDismissKeyguard(this, null)
+                }
+            } catch (ignored: Exception) {
             }
-        } catch (ignored: Exception) {
         }
 
         // krátké držení wake locku, aby se obrazovka rozsvítila
@@ -1415,6 +1418,10 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         if (sUUIDcall.isBlank()) return
         //hovor z intentu
         sIntentUUIDcall = sUUIDcall
+
+        //pokud jdeme do fullscreenu z kliku na notifikaci, tak notifikaci musíme degradovat jinak bude překrývat fullscreen
+        if (iIntentType == 11 || iIntentType == 12 || iIntentType == 13)
+            changeNotification(CallManager.getCallById(sIntentUUIDcall))
 
     }
 
