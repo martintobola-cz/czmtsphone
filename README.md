@@ -28,6 +28,7 @@ __Translations:__ (if you need another language, let me know and I'll add it)
 🇭🇰 HK (zh-HK)  
 🇹🇼 TW (zh-TW)
 🇳🇱 NL (nl-NL)
+🇷🇸 SR (Cyrl-RS)
 ```
 <a href='https://play.google.com/store/apps/details?id=cz.mts.phone' target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=80/></a> <a href="https://f-droid.org/packages/cz.mts.phone/" target="_blank"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a> <a href='https://appgallery.huawei.com/app/C118955915' target="_blank"><img alt='Get it on AppGallery' src='https://mts.speccy.cz/pictures/appgallery-logo.png' height=80/></a> 
 ```
@@ -84,6 +85,8 @@ I would appreciate any reviews or ideas for improvement. Just please 🙏 keep t
 🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj
 
 ☕ <a href='https://buymeacoffee.com/cz.mts.phone'>buymeacoffee.com/cz.mts.phone</a>
+
+🌐 <a href='https://paypal.me/czmtsphone'>paypal.me/czmtsphone</a>
   
 <br><br> 
 <div>
