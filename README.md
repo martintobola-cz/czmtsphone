@@ -41,7 +41,7 @@ You’ve found it right now 🧭 !
 2b548a77088dae64c347f28344b6ee239bf4e07d9357c2cb213dc56ea2be6c8e (Google store)  
 ```  
 <a id="features"></a>
-## Why you’ll love this app? ❤️
+## Why you’ll love my app? ❤️
 
 🎨 Customizable colors:  
 Set the colors exactly to your liking.
