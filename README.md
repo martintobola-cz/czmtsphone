@@ -3,12 +3,12 @@
   
 __Phone app (calling, blocking, contacts) that you’ll love !__  
 Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
-You’ve just found it.  
+You’ve found it right now 👀!  
 
 <a href='https://mts.speccy.cz/mtsphone-news.htm'>Release history</a><br>
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
   
-__Translations:__ (if you need another language, let me know and I'll add it)
+__Translations:__ (if you need another language, let me know and I'll add it asap 💪)
 
 ```
 🇨🇿 CZ (cs-CZ)  
@@ -59,7 +59,7 @@ No pop-ups, no annoyances.
 Logical and intuitive - anyone can use it. You can even search for contacts directly via the dialer using T9.
 
 👨‍👩‍👧 No more unwanted calls:  
-Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors. Or you can set soft possibility - unknown numbers rated via an app <a href='https://play.google.com/store/apps/details?id=callfilter.app'>Callfilter.app</a> (how it works is described in detail on my <a href='https://mts.speccy.cz/mtsphone.htm#callfilter'>website</a>, including images showing two possible ways to use it).
+Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors. Or you can set soft possibility - unknown numbers rated via an app <a href='https://play.google.com/store/apps/details?id=callfilter.app'>Callfilter.app</a> (how it works is described <a href='https://github.com/martintobola-cz/czmtsphone/issues/11'>here</a>, including images showing two possible ways to use it).
 
 🎙️ Call recording:  
 Although the latest versions of Android strictly prohibit call recording for non-system apps, call recording will work with this phone app when used in conjunction with Shizuku.
@@ -68,7 +68,8 @@ Although the latest versions of Android strictly prohibit call recording for non
 You can download the code from this site and review it at any time.
 <br><br>
   
-__The app's story 🛠️__
+<a id="appstory"></a>
+## The app's story 🛠️
 
 The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 😁. The original code underwent a major overhaul and refactoring. I completely rewrote it. 💪
 <br><br>
