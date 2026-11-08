@@ -1,9 +1,10 @@
 # MTs Dialer – Phone You Love  (cz.mts.phone)
 <img alt="Logo" src="https://mts.speccy.cz/pictures/czmtsphone.png"/>
   
-__Phone app (calling, blocking, contacts) that you’ll love !__  
+<a id="top"></a>
+## Phone app (calling, blocking, contacts) that you’ll love
 Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
-You’ve found it 🔎 right now !  
+You’ve found it right now 🎯 !  
 
 <a href='https://mts.speccy.cz/mtsphone-news.htm'>Release history</a><br>
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
