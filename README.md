@@ -83,8 +83,7 @@ The original app was created by Slovak developer <a href='https://github.com/Sim
 
 I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!  
   
-  
-<img alt="Logo" src="https://mts.speccy.cz/pictures/donate3.png?v=2" width="100">
+🤝 ⭐⭐⭐⭐⭐
   
 💙 If you enjoy using this app and would like to see it continue to improve, please consider supporting its development. __Every contribution, no matter how small, makes a real difference and helps keep the project alive and moving forward.__
 
