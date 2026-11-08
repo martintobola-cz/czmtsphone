@@ -3,12 +3,14 @@
   
 __Phone app (calling, blocking, contacts) that you’ll love !__  
 Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
-You’ve found it right now 👀!  
+You’ve found it 🔎 right now !  
 
 <a href='https://mts.speccy.cz/mtsphone-news.htm'>Release history</a><br>
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
   
-__Translations:__ (if you need another language, let me know and I'll add it asap 💪)
+<a id="translations"></a>
+## Translations:
+(if you need another language, let me know and I'll add it asap 🦾)
 
 ```
 🇨🇿 CZ (cs-CZ)  
@@ -37,7 +39,8 @@ __Translations:__ (if you need another language, let me know and I'll add it asa
 9b0209216bf0484be60b2fe1e5b08b9e7bd8e946ccf6fd5eb40f8203e6ff689b (Huawei, F-droid, GitHub)  
 2b548a77088dae64c347f28344b6ee239bf4e07d9357c2cb213dc56ea2be6c8e (Google store)  
 ```  
-__Why you’ll love this app? ❤️__
+<a id="features"></a>
+## Why you’ll love this app? ❤️
 
 🎨 Customizable colors:  
 Set the colors exactly to your liking.
