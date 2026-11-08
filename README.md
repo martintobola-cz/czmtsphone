@@ -4,7 +4,7 @@
 <a id="top"></a>
 ## Phone app (calling, blocking, contacts) that you’ll love
 Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
-You’ve found it right now 🎯 !  
+You’ve found it right now 🧭 !  
 
 <a href='https://mts.speccy.cz/mtsphone-news.htm'>Release history</a><br>
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
@@ -75,7 +75,7 @@ You can download the code from this site and review it at any time.
 <a id="appstory"></a>
 ## The app's story 🛠️
 
-The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 😁. The original code underwent a major overhaul and refactoring. I completely rewrote it. 💪
+The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 😁. The original code underwent a major overhaul and refactoring. I completely rewrote it ✍️.
 <br><br>
 
 <a id="donate"></a>
