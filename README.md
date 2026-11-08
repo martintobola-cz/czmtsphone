@@ -85,7 +85,7 @@ I would appreciate any reviews or ideas for improvement. Just please 🙏 keep t
   
 🤝 __Donate__ ⭐⭐⭐⭐⭐
   
-💙 If you enjoy using this app and would like to see it continue to improve, please consider supporting its development. __Every contribution, no matter how small, makes a real difference and helps keep the project alive and moving forward.__
+If you enjoy 💙 using this app and would like to see it continue to improve, please consider supporting its development. __Every contribution, no matter how small, makes a real difference and helps keep the project alive and moving forward.__
 
   
 🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj
