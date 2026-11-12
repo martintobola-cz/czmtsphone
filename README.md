@@ -78,12 +78,13 @@ You can download the code from this site and review it at any time.
 The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 😁. The original code underwent a major overhaul and refactoring. I completely rewrote it ✍️.
 <br><br>
 
-<a id="donate"></a>
-## Help the app grow 🔝
+<a id="grow"></a>
+## Help the app grow 🚀
 
 I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!  
   
-__Donate__ ღ
+<a id="donate"></a>
+## Donate ღ
   
 If you enjoy 💙 using this app and would like to see it continue to improve, please consider supporting its development. __Every contribution, no matter how small, makes a real difference and helps keep the project alive and moving forward.__
 
