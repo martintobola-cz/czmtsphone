@@ -1,4 +1,4 @@
-# MTs Dialer 📞 – Phone You Love  (cz.mts.phone)
+# MTs Dialer 📞 ⁝ Phone You Love ⁝ (cz.mts.phone)
 <img alt="Logo" src="https://mts.speccy.cz/pictures/czmtsphone.png"/>
   
 <a id="top"></a>
@@ -41,7 +41,7 @@ You’ve found it right now 🧭 !
 2b548a77088dae64c347f28344b6ee239bf4e07d9357c2cb213dc56ea2be6c8e (Google store)  
 ```  
 <a id="features"></a>
-## Why you’ll love my app? ❤️
+## Why you’ll love my app? 💙
 
 🎨 Customizable colors:  
 Set the colors exactly to your liking.
@@ -79,11 +79,11 @@ The original app was created by Slovak developer <a href='https://github.com/Sim
 <br><br>
 
 <a id="donate"></a>
-## Help the app grow 🚀
+## Help the app grow 🔝
 
 I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!  
   
-🤝 __Donate__ ⭐⭐⭐⭐⭐
+__Donate__ ღ
   
 If you enjoy 💙 using this app and would like to see it continue to improve, please consider supporting its development. __Every contribution, no matter how small, makes a real difference and helps keep the project alive and moving forward.__
 
