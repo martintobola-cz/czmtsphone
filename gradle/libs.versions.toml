@@ -43,16 +43,15 @@ autofitTextView = "0.2.1"
 ezVcard = "0.12.2"
 gson = "2.15.0"
 indicatorFastScroll = "c7873f7168"
-libphonenumber = "9.0.42"
-libphonenumberGeocoder = "3.42"
+libphonenumber = "9.0.43"
+libphonenumberGeocoder = "3.43"
 recyclerviewFastscroller = "1.0.0"
 rtlViewpager = "2.0.2"
 shizuku = "13.1.5"
 
-# scrcpy-server (binary stahovaný při buildu, ne Maven závislost)
-# Verze MUSÍ zůstat 4.0 - ScrcpyClient.kt parsuje binární protokol specifický pro tuhle verzi.
-# Při změně verze aktualizuj i SHA256 v app/build.gradle.kts.
-scrcpy = "4.0"
+# scrcpy-server (binary stahovaný při buildu, ne Maven závislost!!!)
+# Při změně verze aktualizuj i SHA256 v app/build.gradle.kts a zkontroluj zda stále sedí třídy a metody v Phone-main\app\src\main\kotlin\cz\mts\phone\recorder\.
+scrcpy = "5.0.1"
 
 # Gradle / build
 gradlePlugins-agp = "8.13.2"

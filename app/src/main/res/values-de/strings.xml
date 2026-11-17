@@ -2,6 +2,13 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="scrcpy_missing_title">scrcpy-server fehlt</string>
+<string name="scrcpy_missing_message">Zum Aufzeichnen von Anrufen verwendet diese App scrcpy-server-v%1$s von GitHub. Verwenden Sie die Schaltfläche Herunterladen, um die benötigte Datei herunterzuladen, und anschließend Importieren. Früher war diese Datei Teil der App, aber die F-Droid-Richtlinien verbieten das Herunterladen und Hinzufügen von Binärdateien aus dem Internet während des Builds.</string>
+<string name="scrcpy_missing_message_snack_bar">Die Anrufaufzeichnung ist aktiviert, funktioniert aber nicht, da die Datei scrcpy-server.jar fehlt</string>
+<string name="scrcpy_pick_file">Importieren</string>
+<string name="scrcpy_download">Herunterladen</string>
+<string name="scrcpy_sucess">scrcpy-server wurde erfolgreich importiert</string>
+<string name="scrcpy_error">Die Prüfsumme von scrcpy-server stimmt nicht überein</string>
 <string name="ring_duration">klingelte %1$s</string>
 <string name="bold_dialog_buttons">Fette Schaltflächen in Dialogen</string>
 

@@ -10,6 +10,7 @@ import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.phone.R
+import cz.mts.phone.activities.mtsGlobalAll.showMyAlertDialog
 import cz.mts.phone.databinding.ActivityTransferBinding
 import cz.mts.phone.dialogs.FilterContactSourceDialogMTs
 import cz.mts.phone.dialogs.NameTypeDialog
@@ -129,7 +130,7 @@ class TransferActivity : SimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBar(binding.transferAppbar, NavigationIcon.Arrow)
         updateTextColors(binding.transferHolder)
@@ -209,7 +210,7 @@ class TransferActivity : SimpleActivity() {
             }
 
             if (choices.isEmpty()) {
-                toast(R.string.transfer_no_active_sim)
+                showMyAlertDialog(this, getString(R.string.transfer_no_active_sim),"⚠️",true, 1 )
             } else {
                 // dialog se ukáže vždy, i když je jen jedna SIM
                 SelectSimDialog(this, choices) { subIds -> startSimImport(subIds) }

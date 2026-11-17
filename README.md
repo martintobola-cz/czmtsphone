@@ -1,14 +1,17 @@
-# MTs Dialer – Phone You Love  (cz.mts.phone)
+# MTs Dialer 📱 ⁝ Phone You Love ⁝ cz.mts.phone
 <img alt="Logo" src="https://mts.speccy.cz/pictures/czmtsphone.png"/>
   
-__Phone app (calling, blocking, contacts) that you’ll love !__  
+<a id="top"></a>
+## Phone app (calling, blocking, contacts) that you’ll love
 Are you looking for a safe, simple, and reliable calling app that won't bother you with ads or collect your data? 📱✨
-You’ve just found it.  
+You’ve found it right now 🪩 !  
 
 <a href='https://mts.speccy.cz/mtsphone-news.htm'>Release history</a><br>
 <a href='https://mts.speccy.cz/mtsphone.htm'>Home page</a>
   
-__Translations:__ (if you need another language, let me know and I'll add it)
+<a id="translations"></a>
+## Translations:
+(if you need another language, let me know and I'll add it asap 🦾)
 
 ```
 🇨🇿 CZ (cs-CZ)  
@@ -28,6 +31,8 @@ __Translations:__ (if you need another language, let me know and I'll add it)
 🇭🇰 HK (zh-HK)  
 🇹🇼 TW (zh-TW)
 🇳🇱 NL (nl-NL)
+🇷🇸 SR (Cyrl-RS)
+🇯🇵 JA (ja-JP)
 ```
 <a href='https://play.google.com/store/apps/details?id=cz.mts.phone' target="_blank"><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=80/></a> <a href="https://f-droid.org/packages/cz.mts.phone/" target="_blank"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a> <a href='https://appgallery.huawei.com/app/C118955915' target="_blank"><img alt='Get it on AppGallery' src='https://mts.speccy.cz/pictures/appgallery-logo.png' height=80/></a> 
 ```
@@ -35,10 +40,11 @@ __Translations:__ (if you need another language, let me know and I'll add it)
 9b0209216bf0484be60b2fe1e5b08b9e7bd8e946ccf6fd5eb40f8203e6ff689b (Huawei, F-droid, GitHub)  
 2b548a77088dae64c347f28344b6ee239bf4e07d9357c2cb213dc56ea2be6c8e (Google store)  
 ```  
-__Why you’ll love this app? ❤️__
+<a id="features"></a>
+## Why you’ll love my app?
 
 🎨 Customizable colors:  
-Set the colors exactly to your liking.
+Set the colors exactly you want.
 
 💸 100% free:  
 No fees, no limits - all features are available.
@@ -57,7 +63,7 @@ No pop-ups, no annoyances.
 Logical and intuitive - anyone can use it. You can even search for contacts directly via the dialer using T9.
 
 👨‍👩‍👧 No more unwanted calls:  
-Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors. Or you can set soft possibility - unknown numbers rated via an app <a href='https://play.google.com/store/apps/details?id=callfilter.app'>Callfilter.app</a> (how it works is described in detail on my <a href='https://mts.speccy.cz/mtsphone.htm#callfilter'>website</a>, including images showing two possible ways to use it).
+Check a single box to allow calls only from your saved contacts (blocking spam, scams, and annoying call centers). Perfect for 👶 children and 👵 seniors. Or you can set soft possibility - unknown numbers rated via an app <a href='https://play.google.com/store/apps/details?id=callfilter.app'>Callfilter.app</a> (how it works is described <a href='https://github.com/martintobola-cz/czmtsphone/issues/11'>here</a>, including images showing two possible ways to use it).
 
 🎙️ Call recording:  
 Although the latest versions of Android strictly prohibit call recording for non-system apps, call recording will work with this phone app when used in conjunction with Shizuku.
@@ -66,24 +72,28 @@ Although the latest versions of Android strictly prohibit call recording for non
 You can download the code from this site and review it at any time.
 <br><br>
   
-__The app's story 🛠️__
+<a id="appstory"></a>
+## The app's story 📚
 
-The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 😁. The original code underwent a major overhaul and refactoring. I completely rewrote it. 💪
+The original app was created by Slovak developer <a href='https://github.com/SimpleMobileTools/Simple-Dialer'>Tibor Kaputa (Simple Mobile Tools)</a>. Unfortunately, he sold it, and the new Israeli company immediately introduced an overpriced subscription model and ads. Naturally, this led to the creation of a new branch - first the Indian fork <a href='https://github.com/FossifyOrg/Phone'>"Fossify"</a> and subsequently this Czech fork of mine, which gets the app back on the right track and responds quickly to your feedback 😁. The original code underwent a major overhaul and refactoring. I completely rewrote it ✍️.
 <br><br>
 
-__Help the app grow 🚀__
+<a id="grow"></a>
+## Help the app grow 🚀
 
-I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!  
+I would appreciate any reviews or ideas for improvement. Just please 🙏 keep the core philosophy in mind: simplicity and functionality!
   
+<a id="donate"></a>
+## Donate ღ
   
-<img alt="Logo" src="https://mts.speccy.cz/pictures/donate3.png?v=2" width="100">
-  
-💙 If you enjoy using this app and would like to see it continue to improve, please consider supporting its development. __Every contribution, no matter how small, makes a real difference and helps keep the project alive and moving forward.__
+If you enjoy using this app and would like to see it continue to improve 💫, please consider supporting its development. __Every contribution, no matter how small 🤏, makes a real difference and helps keep the project alive and moving forward.__
 
   
 🪙 BTC: 14b8S8D98xBx4G5DCkt4XYsU3X4QQ7nivj
 
 ☕ <a href='https://buymeacoffee.com/cz.mts.phone'>buymeacoffee.com/cz.mts.phone</a>
+
+🌐 <a href='https://paypal.me/czmtsphone'>paypal.me/czmtsphone</a>
   
 <br><br> 
 <div>

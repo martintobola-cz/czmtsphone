@@ -101,13 +101,16 @@ data class RatingResult(val text: String, val isSpam: Boolean)
         }
     }
 
-    fun openSpamNumberWeb (activity : BaseSimpleActivity, sPhoneNumber : String)
-    {
-        val url = "https://www.muzutozvednout.cz/search?q=" + URLEncoder.encode(sPhoneNumber.filter { it.isDigit() || it == '+' }, StandardCharsets.UTF_8.toString())
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            activity.startActivity(intent)
-        } catch (e: Exception) {
-            activity.toast(e.message.toString())
-        }
+fun openSpamNumberWeb (activity : BaseSimpleActivity, iUrl: Int = -1, sPhoneNumber : String)
+{
+    if (sPhoneNumber.isBlank()) return
+
+    val url = if (iUrl == 1) "https://www.muzutozvednout.cz/search?q=" + URLEncoder.encode(sPhoneNumber.filter { it.isDigit() || it == '+' }, StandardCharsets.UTF_8.toString())
+              else "https://callfilter.app/" + normalizeDigitsOnly(sPhoneNumber, false)
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        if (!activity.isFinishing && !activity.isDestroyed)  activity.startActivity(intent)
+    } catch (e: Exception) {
+        activity.toast(e.message.toString())
     }
+}

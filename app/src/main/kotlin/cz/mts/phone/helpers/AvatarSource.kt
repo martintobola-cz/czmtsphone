@@ -8,8 +8,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import cz.mts.base.helpers.SimpleContactsHelper
 import cz.mts.base.extensions.baseConfig
+import cz.mts.base.helpers.SimpleContactsHelper
 import cz.mts.phone.R
 import java.io.File
 

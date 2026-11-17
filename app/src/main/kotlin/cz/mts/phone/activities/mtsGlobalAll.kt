@@ -1,6 +1,6 @@
 package cz.mts.phone.activities
 
-import androidx.appcompat.app.AlertDialog
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
@@ -20,6 +20,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import cz.mts.base.activities.BaseSimpleActivity
@@ -71,7 +72,7 @@ object mtsGlobalAll {
     var bitmapAvatar: Bitmap? = null
     var listPhoneNumber: List<PhoneNumber>? = null
 
-    private val SIM_LABEL_REGEX = """^(.*?)\s*\((.*?)\)\s*$""".toRegex()
+    val SIM_LABEL_REGEX = """^(.*?)\s*\((.*?)\)\s*$""".toRegex()
     private val DIACRITICS_REMOVAL = "\\p{M}+".toRegex()
     private val NON_LETTER_NUMBER_SPACE = "[^\\p{L}\\p{N}\\s]".toRegex()
 
@@ -153,7 +154,7 @@ object mtsGlobalAll {
 
     fun showMyAlertDialog(
         context: Context,
-        sMytext: String,
+        sMyText: String,
         sMyTitle: String,
         bShowTitle: Boolean,
         iButtonText: Int,
@@ -165,17 +166,19 @@ object mtsGlobalAll {
         }
 
         val builder = AlertDialog.Builder(context)
-            .setMessage(sMytext)
+            .setMessage(sMyText)
             .setPositiveButton(sButtontext) { dialog, _ ->
                 dialog.dismiss()
                 onOk?.invoke()
             }
         if (bShowTitle) builder.setTitle(sMyTitle)
-        builder.show()
+
+        val dialog = builder.create()
+        dialog.show()
+        context.styleDialogButtons(dialog)   // barva + tučnost tlačítek podle motivu
     }
 
     //zde pokud v iSimSlot bude 1 nebo 2 jde o funkcionalitu "volej poslední volané číslo z dialeru" a jde o číslo SIM
-    //MTSXXXXX
     fun mtsSwhoDetailDialer(activity: BaseSimpleActivity, sDialText: String, bForceDialog: Boolean, iSimLastOutgoingCall: Int, onDismiss: (() -> Unit)? = null) {
 
         resetVars()
@@ -670,7 +673,7 @@ object mtsGlobalAll {
                             spamrating.text = sSpamPin.text
                             spamrating.visibility = View.VISIBLE
                             spamrating.setOnClickListener {
-                                openSpamNumberWeb(activity, mtsGlobalAll.sSaveNumber)
+                                FakeActivity.start(activity, mtsGlobalAll.sSaveNumber)
                             }
                         }
                     }
@@ -1004,7 +1007,8 @@ object mtsGlobalAll {
      //   }
 
         mtsGlobalAll.bitmapAvatar = getBitmapFromUri(activity, recentCall.photoUri)
-            ?: AvatarSource.bitmap(activity, AvatarSource.Kind.FAKE) //fakeAvatar(activity, R.drawable.fakeavatar)
+            ?: SimpleContactsHelper(activity).getContactLetterIcon(mtsGlobalAll.sSaveName)
+            //AvatarSource.bitmap(activity, AvatarSource.Kind.FAKE) //fakeAvatar(activity, R.drawable.fakeavatar)
     }
 
     fun setHelpTextForCall(activity : BaseSimpleActivity, iForceSavedSim : Int = -1, areOperatorSame : Boolean = false) : Boolean {

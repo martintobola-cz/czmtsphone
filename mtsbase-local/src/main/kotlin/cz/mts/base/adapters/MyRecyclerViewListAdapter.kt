@@ -106,8 +106,8 @@ abstract class MyRecyclerViewListAdapter<T>(
                                        else if (colorizerEnabled) properPrimaryColor //{ activity.baseConfig.popupMenuBackgroundColor }
                                        else {resources.getColor(R.color.dark_grey, activity.theme)}
 
-                val actionModeTopTextColor = if (!isDynamicTheme) getContrastingColor(properPrimaryColor)
-                                        else getContrastingColor(actionModeTopBgColor)
+                val actionModeTopTextColor = if (!isDynamicTheme) properPrimaryColor.getContrastColor()
+                                        else actionModeTopBgColor.getContrastColor()
 
                 actBarTextView!!.setTextColor(actionModeTopTextColor)
 

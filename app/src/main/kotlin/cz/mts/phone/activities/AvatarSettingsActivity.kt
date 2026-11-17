@@ -3,7 +3,6 @@ package cz.mts.phone.activities
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import cz.mts.base.extensions.*
@@ -67,7 +66,7 @@ class AvatarSettingsActivity : SimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBar(
             topAppBar = b.avatarSettingsAppbar,

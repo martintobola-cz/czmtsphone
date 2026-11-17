@@ -2,6 +2,16 @@
 <resources>
     <string name="app_launcher_name">Телефон</string>
 
+<string name="scrcpy_missing_title">Отсутствует scrcpy-server</string>
+<string name="scrcpy_missing_message">Для записи звонков это приложение использует scrcpy-server-v%1$s с GitHub. Нажмите кнопку «Скачать», чтобы загрузить нужный файл, затем «Импорт». Ранее этот файл входил в состав приложения, но правила F-Droid запрещают загружать и добавлять бинарные файлы из интернета во время сборки.</string>
+<string name="scrcpy_missing_message_snack_bar">Запись звонков включена, но работать не будет, так как отсутствует файл scrcpy-server.jar</string>
+<string name="scrcpy_pick_file">Импорт</string>
+<string name="scrcpy_download">Скачать</string>
+<string name="scrcpy_sucess">scrcpy-server успешно импортирован</string>
+<string name="scrcpy_error">Контрольная сумма scrcpy-server не совпадает</string>
+
+<string name="last_update_info">💙 Разработка продолжается: я постоянно работаю над новыми функциями, улучшениями и исправлениями 💪. Если вы пользуетесь приложением, пожалуйста, поддержите его развитие финансовым вкладом — даже сумма, эквивалентная стоимости одной чашки кофе 🥤, очень поможет! Любой вклад имеет значение!</string>
+
 <string name="ring_duration">звонил %1$s</string>
 <string name="bold_dialog_buttons">Жирные кнопки в диалогах</string>
 

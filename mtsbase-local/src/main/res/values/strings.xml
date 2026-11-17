@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+<string name="url_emoji">🌐</string>
+
 <string name="use_dynamic_theme">Dynamic (You) colors</string>
 <string name="theme_restart_required">OK button closes the application, this is necessary for the color changes you just made to take effect.</string>
 <string name="customization_popup_menu_background_color_label">PopupMenu background color</string>

@@ -79,7 +79,8 @@ class RecentsFragment(
         knownContactCalls = allItems
             .filterIsInstance<RecentCall>()
             .flatMap { it.groupedCalls ?: listOf(it) } // pro tento pohled vždy negroupovaně
-            .filter { !it.isUnknownNumber && it.name != it.phoneNumber && it.name != it.specificNumber }
+            //toto vyhazovalo všechny řádky, krotmě těch, které měly konkrétní kontakt, nově ale vracíme všechno a umožňujeme tak historii i pro nekontaktní :)
+            //.filter { !it.isUnknownNumber && it.name != it.phoneNumber && it.name != it.specificNumber }
             .distinctBy { it.id }
             .sortedByDescending { it.startTS }
         onKnownContactCallsChanged?.invoke()

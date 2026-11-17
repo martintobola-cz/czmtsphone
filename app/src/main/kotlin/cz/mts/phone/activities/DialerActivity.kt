@@ -75,7 +75,7 @@ class DialerActivity : SimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
     }
 

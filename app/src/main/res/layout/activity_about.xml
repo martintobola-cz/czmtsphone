@@ -112,7 +112,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="false"
                     android:gravity="center"
-                    android:text="🌐" />
+                    android:text="🇨🇿"/>
                 <cz.mts.base.views.MyTextView
                     android:id="@+id/about_home_label"
                     style="@style/SettingsTextLabelStyle"

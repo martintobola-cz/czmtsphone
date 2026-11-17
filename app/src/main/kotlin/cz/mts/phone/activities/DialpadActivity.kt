@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
-import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -18,6 +17,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
+import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.models.SpeedDial
 import cz.mts.base.models.contacts.Contact
@@ -67,7 +67,7 @@ class DialpadActivity : SimpleActivity() {
         }
     }
 
-    private val cyrillicLayouts = mapOf(
+    private val cyrillicLayouts = mapOf( //ruština
         "ru" to CyrillicLayout(
             mapOf(
                 2 to "АБВГ",
@@ -80,7 +80,7 @@ class DialpadActivity : SimpleActivity() {
                 9 to "ЬЭЮЯ"
             )
         ),
-        "uk" to CyrillicLayout(
+        "uk" to CyrillicLayout( //ukrajinština
             mapOf(
                 2 to "АБВГҐ",
                 3 to "ДЕЄЖЗ",
@@ -92,7 +92,7 @@ class DialpadActivity : SimpleActivity() {
                 9 to "ЮЯЬ"
             )
         ),
-        "sr" to CyrillicLayout(
+        "sr" to CyrillicLayout( //srbština
             mapOf(
                 2 to "АБЦЧЋ",
                 3 to "ДЕФЂ",
@@ -182,7 +182,7 @@ class DialpadActivity : SimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         updateTextColors(binding.dialpadHolder)
         binding.dialpadClearChar.applyColorFilter(getProperTextColor())
@@ -229,10 +229,10 @@ class DialpadActivity : SimpleActivity() {
     }
 
     /**
-     * Přidá písmena cyrilice pod číslice klávesnice podle aktivního rozložení.
+     * Nahradí latinské popisky pod číslicemi cyrilicí podle aktivního rozložení.
      */
     private fun setupCyrillicLabels() {
-        val layout = cyrillicLayout ?: return  // Žádná cyrilice – nic nepřidáváme
+        val layout = cyrillicLayout ?: return  // Žádná cyrilice – popisky zůstanou latinské
 
         binding.dialpadWrapper.apply {
             val digitViews = mapOf(
@@ -243,14 +243,14 @@ class DialpadActivity : SimpleActivity() {
             )
 
             layout.letters.forEach { (digit, letters) ->
-                digitViews[digit]?.append("\n$letters")
+                digitViews[digit]?.text = letters  // nahradí latinské ABC (místo append)
             }
 
-            // Cyrilických písmen na klávese je více – zmenšíme font
-            val fontSize = resources.getDimension(R.dimen.small_text_size)
-            digitViews.values.forEach {
-                it.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-            }
+            // Cyrilických písmen na klávese je více než latinských – zmenšíme font
+            //val fontSize = resources.getDimension(R.dimen.small_text_size)
+            //digitViews.values.forEach {
+            //    it.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            //}
         }
     }
 
@@ -380,7 +380,7 @@ class DialpadActivity : SimpleActivity() {
                 recyclerView = binding.dialpadList,
                 highlightText = text,
                 itemClick = {
-                    mtsGlobalAll.showNumberPickerDialog(this, it as Contact, -2, onDismiss = { finish() })
+                    mtsGlobalAll.showNumberPickerDialog(this, it as Contact, -2, onDismiss = { finishDialpadActivity() })
                     clearInputWithDelay()
                 },
                 profileIconClick = {
@@ -497,23 +497,30 @@ class DialpadActivity : SimpleActivity() {
             return
         }
 
-        when {
-            number == "*" || number == "#" -> {
+        when (number) {
+            "*", "#" -> {
                 bLastOutgoingNumber = true
-                mtsGlobalAll.mtsSwhoDetailDialer(this, sNumberForCall, bLongClick, config.lastOutgoingCallNumberSim, onDismiss = { finish() })
+                mtsGlobalAll.mtsSwhoDetailDialer(this, sNumberForCall, bLongClick, config.lastOutgoingCallNumberSim, onDismiss = { finishDialpadActivity() })
                 clearInputWithDelay()
             }
-            number == "*#06#" -> {
+            "*#06#" -> {
                 CallHelper.showIMEIDialog(this)
+                clearInputWithDelay()
                 return
             }
             else -> {
                 val iSimSlot = if (number == sNumberForCall) config.lastOutgoingCallNumberSim
-                               else 0
-                mtsGlobalAll.mtsSwhoDetailDialer(this, number, bLongClick, iSimSlot, onDismiss = { finish() })
+                else 0
+                mtsGlobalAll.mtsSwhoDetailDialer(this, number, bLongClick, iSimSlot, onDismiss = { finishDialpadActivity() })
                 clearInputWithDelay()
             }
         }
+    }
+
+    private fun finishDialpadActivity() {
+        if (iSaveDebugMode == 1) return
+        if (config.noFinishDialPadActivity) return
+        finish()
     }
 
     private fun initCallWithSimSelector(): Boolean {

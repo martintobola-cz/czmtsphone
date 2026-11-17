@@ -1,6 +1,6 @@
 package cz.mts.base.helpers
 
-//vrátí ISO 3166-1 alpha-2 země SIM karty, fallback CZ
+//vrátí ISO 3166-1 alpha-2 země SIM karty
 
 object MySIMcountryISO {
     private var sISO = Array(2) { "" }

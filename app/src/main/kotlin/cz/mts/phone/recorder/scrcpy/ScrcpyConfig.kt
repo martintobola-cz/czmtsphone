@@ -23,6 +23,9 @@ object ScrcpyConfig {
     /** Očekávaný SHA-256 hash scrcpy-server.jar, pro ověření integrity před spuštěním. */
     const val EXPECTED_SERVER_SHA256: String = BuildConfig.SCRCPY_SERVER_SHA256
 
+    /** URL, odkud se scrcpy-server stahuje při buildu (a ručně v external variantě). */
+    const val SERVER_DOWNLOAD_URL: String = BuildConfig.SCRCPY_SERVER_URL
+
     /**
      * Vrací absolutní cestu, kam se má scrcpy-server.jar uložit/hledat.
      *
@@ -30,10 +33,10 @@ object ScrcpyConfig {
      * sdílené úložiště (/storage/emulated/0/Android/data/<pkg>/...), proto external
      * files dir - jediné místo zapisovatelné appkou A čitelné shellem bez rootu.
      */
-    fun getServerPath(context: Context): String {
+    fun getServerPath(context: Context): String? {
         val folder = context.getExternalFilesDir(null)
             ?: context.externalCacheDir
-            ?: throw IllegalStateException("Sdílené úložiště není dostupné.")
+        if (folder == null) return null
         return folder.absolutePath + "/scrcpy-${SCRCPY_VERSION}-server.jar"
     }
 

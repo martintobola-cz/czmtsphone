@@ -1,7 +1,7 @@
 package cz.mts.phone.dialogs
 
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
+import androidx.appcompat.app.AlertDialog
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.extensions.isValidNegativeBlockedNumberRule

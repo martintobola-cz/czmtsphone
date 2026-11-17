@@ -60,6 +60,14 @@ object CallHelper {
     fun callNumber(activity: BaseSimpleActivity, sNumber: String, name: String, iSimSlot: Int) {
 
         resetVars()
+        val numberOfReadySim = numberOfReadySim(activity)
+
+        //DEBUG MODE?
+        if (iSaveDebugMode == 1) {
+            showDebugDialog(activity, sNumber, iSimSlot)
+            return
+        }
+
 
         // 1) TÍSŇOVÁ ČÍSLA – vždy první
         if (isEmergency(activity, sNumber)) {
@@ -73,22 +81,28 @@ object CallHelper {
             return
         }
 
+        // pokud je reálné ID mé výchozí záporné číslo tak se zahlásí, že není SIM
+        if (iSimSlot in 0..1 && iActiveSimSlotIDreal[iSimSlot] == -123456789) {
+            showNoSimDialog(activity)
+            return
+        }
+
         // 3) základní validace
         if (sNumber.isEmpty()) {
             val sBody = activity.getString(R.string.call_error1_number_mts) + " " +
                     activity.getString(R.string.call_empty_string_mts)
-            showMyAlertDialog(activity, sBody, "Error", true, 0)
+            showMyAlertDialog(activity, sBody, "⚠️", true, 0)
             return
         }
 
         if (iSimSlot > 1) {
-            showMyAlertDialog(activity, "index_call_ID > 1 ", "SIM error", true, 0)
+            showMyAlertDialog(activity, "SIM index_call_ID > 1 ", "⚠️", true, 0)
             return
         }
 
         // 4) MMI kódy – žádná normalizace, žádná blokace, žádné numberForRecents
         if (isMmiCode(sNumber)) {
-            if (numberOfReadySim(activity) <= 0) {
+            if (numberOfReadySim <= 0) {
                 showNoSimDialog(activity)
                 return
             }
@@ -97,7 +111,7 @@ object CallHelper {
             } else null
 
             if (handle == null) {
-                showMyAlertDialog(activity, "index_call_ID $iSimSlot not ready !", "Error", true, 0)
+                showMyAlertDialog(activity, "SIM index_call_ID $iSimSlot not ready, handle is null !", "⚠️", true, 0)
                 return
             }
             placeMmiCall(activity, sNumber, handle)
@@ -108,25 +122,25 @@ object CallHelper {
         val number = sNumber // sem případně přijde normalizace (jen pro běžná čísla)
         val region = activity.getCallRegion(handleActiveSimSlot.getOrNull(iSimSlot))
         if (activity.isNumberBlocked(number, activity.getBlockedNumbers(), region = region, includeNegativeRules = false)) {
-            val sTitle = activity.getString(R.string.call_error1_title_mts)
-            val sBody = activity.getString(R.string.call_error1_text_mts)
+            val sTitle = "⛔"
             showMyAlertDialog(
                 activity,
-                "\n" + activity.getString(R.string.call_error1_number_mts) + " " +
-                        numberForRecents(number, activity.config.formatPhoneNumbers) + " " + sBody,
+                "\n" +
+                          activity.getString(R.string.call_error1_number_mts) + " " +
+                          numberForRecents(number, activity.config.formatPhoneNumbers) + " " +
+                          activity.getString(R.string.call_error1_text_mts),
                 sTitle, true, 0
             )
             return
         }
 
-        if (numberOfReadySim(activity) > 0 && iSimSlot >= 0) {
+        if (numberOfReadySim > 0 && iSimSlot >= 0) {
             val handleForCall = handleActiveSimSlot[iSimSlot]
 
             if (iActiveSimSlot[iSimSlot] == 1 && handleForCall != null) {
-                if (iSaveDebugMode == 1) showDebugDialog(activity, number, iSimSlot)
                 activity.launchCallIntentNew(number, handleForCall)
             } else {
-                showMyAlertDialog(activity, "index_call_ID $iSimSlot not ready !", "Error", true, 0)
+                showMyAlertDialog(activity, "SIM index_call_ID $iSimSlot not ready !", "⚠️", true, 0)
             }
         } else {
             showNoSimDialog(activity)
@@ -141,7 +155,7 @@ object CallHelper {
         showMyAlertDialog(
             activity,
             activity.getString(R.string.none_simslot_mts),
-            "SIM", true, 0
+            "⚠️", true, 0
         ) {
             if (!activity.isDefaultDialer()) {
                 activity.launchSetDefaultDialerIntent { granted ->
@@ -183,12 +197,12 @@ object CallHelper {
             if (imeiList.isEmpty()) {
                 imeiList.add(context.getString(R.string.none_simslot2_mts))
             }
-            showMyAlertDialog(context, imeiList.joinToString("\n"), "IMEI", true, 0)
+            showMyAlertDialog(context, imeiList.joinToString("\n"), "📟", true, 0)
         } catch (e: SecurityException) {
             // chybí READ_PHONE_STATE nebo systém IMEI nevydá – zkus aspoň nastavení
             openDeviceInfoSettings(context)
         } catch (e: Exception) {
-            showMyAlertDialog(context, e.message.toString(), "IMEI", true, 0)
+            showMyAlertDialog(context, e.message.toString(), "⚠️", true, 0)
         }
     }
 
@@ -252,7 +266,7 @@ object CallHelper {
                 Intent(Intent.ACTION_DIAL, uri).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             )
         } catch (e: Exception) {
-            showMyAlertDialog(activity, "Cannot place emergency call", "Error", true, 0)
+            showMyAlertDialog(activity, "Cannot place emergency call", "⚠️", true, 0)
         }
     }
 
@@ -277,9 +291,9 @@ object CallHelper {
         try {
             activity.telecomManager2.placeCall(uri, extras)
         } catch (e: SecurityException) {
-            showMyAlertDialog(activity, "Missing CALL_PHONE permission", "Error", true, 0)
+            showMyAlertDialog(activity, "Missing CALL_PHONE permission", "⚠️", true, 0)
         } catch (e: Exception) {
-            showMyAlertDialog(activity, e.message ?: "MMI error", "Error", true, 0)
+            showMyAlertDialog(activity, e.message ?: "MMI/USSD error", "⚠️", true, 0)
         }
     }
 
@@ -295,9 +309,9 @@ object CallHelper {
             }
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            showMyAlertDialog(context, e.message.toString(), "IMEI", true, 0)
+            return //showMyAlertDialog(context, e.message.toString(), "IMEI", true, 0)
         } catch (e: Exception) {
-            showMyAlertDialog(context, e.message.toString(), "IMEI", true, 0)
+            showMyAlertDialog(context, e.message.toString(), "⚠️", true, 0)
         }
     }
 
@@ -351,7 +365,7 @@ object CallHelper {
         val activity = this
         handlePermission(PERMISSION_CALL_PHONE) { granted ->
             if (!granted) {
-                showMyAlertDialog(activity, "Missing CALL_PHONE permission", "Error", true, 0)
+                showMyAlertDialog(activity, "Missing CALL_PHONE permission", "⚠️", true, 0)
                 return@handlePermission
             }
 

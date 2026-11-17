@@ -205,6 +205,7 @@ open class BaseConfig(val context: Context) {
     var usePopupMenuColorizer: Boolean
         get() = prefs.getBoolean(USE_POPUPMENU_COLORIZER, true)
         set(usePopupMenuColorizer) = prefs.edit().putBoolean(USE_POPUPMENU_COLORIZER, usePopupMenuColorizer).apply()
+
     var themeChanged: Boolean
         get() = prefs.getBoolean(THEME_CHANGED, false)
         set(themeChanged) = prefs.edit().putBoolean(THEME_CHANGED, themeChanged).apply()
@@ -221,18 +222,6 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(CUSTOM_SIM_ICON_COLOR, false)
         set(useCustomSimColor) = prefs.edit().putBoolean(CUSTOM_SIM_ICON_COLOR, useCustomSimColor).apply()
 
-    var isAppPasswordProtectionOn: Boolean
-        get() = prefs.getBoolean(APP_PASSWORD_PROTECTION, false)
-        set(isAppPasswordProtectionOn) = prefs.edit().putBoolean(APP_PASSWORD_PROTECTION, isAppPasswordProtectionOn).apply()
-
-    var lastUnlockTimestampMs: Long
-        get() = prefs.getLong(LAST_UNLOCK_TIMESTAMP_MS, 0L)
-        set(value) = prefs.edit().putLong(LAST_UNLOCK_TIMESTAMP_MS, value).apply()
-
-    var unlockTimeoutDurationMs: Long
-        get() = prefs.getLong(UNLOCK_TIMEOUT_DURATION_MS, DEFAULT_UNLOCK_TIMEOUT_DURATION)
-        set(value) = prefs.edit().putLong(UNLOCK_TIMEOUT_DURATION_MS, value).apply()
-
     var highlightCallButtons: Boolean
         get() = prefs.getBoolean(HIGHLIGHT_CALL_FULSCREEN_BUTTONS, false)
         set(value) = prefs.edit().putBoolean(HIGHLIGHT_CALL_FULSCREEN_BUTTONS, value).apply()
@@ -244,6 +233,7 @@ open class BaseConfig(val context: Context) {
     var callNowMtsText: String
         get() = prefs.getString(CALL_NOW_MTS_TEXT, "").orEmpty()
         set(value) = prefs.edit().putString(CALL_NOW_MTS_TEXT, value).apply()
+
     var useEnglish: Boolean
         get() = prefs.getBoolean(USE_ENGLISH, false)
         set(useEnglish) {
@@ -308,25 +298,13 @@ open class BaseConfig(val context: Context) {
         }
     }
 
-    var lastExportedSettingsFolder: String
-        get() = prefs.getString(LAST_EXPORTED_SETTINGS_FOLDER, "")!!
-        set(lastExportedSettingsFolder) = prefs.edit().putString(LAST_EXPORTED_SETTINGS_FOLDER, lastExportedSettingsFolder).apply()
-
-    var lastBlockedNumbersExportPath: String
-        get() = prefs.getString(LAST_BLOCKED_NUMBERS_EXPORT_PATH, "")!!
-        set(lastBlockedNumbersExportPath) = prefs.edit().putString(LAST_BLOCKED_NUMBERS_EXPORT_PATH, lastBlockedNumbersExportPath).apply()
-
     var blockUnknownNumbers: Boolean
         get() = prefs.getBoolean(BLOCK_UNKNOWN_NUMBERS, false)
         set(blockUnknownNumbers) = prefs.edit().putBoolean(BLOCK_UNKNOWN_NUMBERS, blockUnknownNumbers).apply()
 
-    val isBlockingUnknownNumbers: Flow<Boolean> = ::blockUnknownNumbers.asFlowNonNull()
-
     var blockHiddenNumbers: Boolean
         get() = prefs.getBoolean(BLOCK_HIDDEN_NUMBERS, false)
         set(blockHiddenNumbers) = prefs.edit().putBoolean(BLOCK_HIDDEN_NUMBERS, blockHiddenNumbers).apply()
-
-    val isBlockingHiddenNumbers: Flow<Boolean> = ::blockHiddenNumbers.asFlowNonNull()
 
     var fontSize: Int
         get() = prefs.getInt(FONT_SIZE, context.resources.getInteger(R.integer.default_font_size))
@@ -382,21 +360,9 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getBoolean(WAS_LOCAL_ACCOUNT_INITIALIZED, false)
         set(wasLocalAccountInitialized) = prefs.edit().putBoolean(WAS_LOCAL_ACCOUNT_INITIALIZED, wasLocalAccountInitialized).apply()
 
-    var lastExportPath: String
-        get() = prefs.getString(LAST_EXPORT_PATH, "")!!
-        set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
-
     var speedDial: String
         get() = prefs.getString(SPEED_DIAL, "")!!
         set(speedDial) = prefs.edit().putString(SPEED_DIAL, speedDial).apply()
-
-    var showPrivateContacts: Boolean
-        get() = prefs.getBoolean(SHOW_PRIVATE_CONTACTS, true)
-        set(showPrivateContacts) = prefs.edit().putBoolean(SHOW_PRIVATE_CONTACTS, showPrivateContacts).apply()
-
-    var mergeDuplicateContacts: Boolean
-        get() = prefs.getBoolean(MERGE_DUPLICATE_CONTACTS, false)
-        set(mergeDuplicateContacts) = prefs.edit().putBoolean(MERGE_DUPLICATE_CONTACTS, mergeDuplicateContacts).apply()
 
     var favoritesContactsOrder: String
         get() = prefs.getString(FAVORITES_CONTACTS_ORDER, "")!!
@@ -427,8 +393,6 @@ open class BaseConfig(val context: Context) {
     var showCheckmarksOnSwitches: Boolean
         get() = prefs.getBoolean(SHOW_CHECKMARKS_ON_SWITCHES, false)
         set(showCheckmarksOnSwitches) = prefs.edit().putBoolean(SHOW_CHECKMARKS_ON_SWITCHES, showCheckmarksOnSwitches).apply()
-
-    var showCheckmarksOnSwitchesFlow = ::showCheckmarksOnSwitches.asFlowNonNull()
 
     // ─── přesunuto z Config ──────────────────────────────────────────────────
 
@@ -482,6 +446,26 @@ open class BaseConfig(val context: Context) {
     var allowRecordCalls: Boolean
         get() = prefs.getBoolean(ALLOW_RECORD_CALLS, false)
         set(allowRecordCalls) = prefs.edit().putBoolean(ALLOW_RECORD_CALLS, allowRecordCalls).apply()
+
+    var noFinishDialPadActivity: Boolean
+        get() = prefs.getBoolean(NO_FINISH_DIALPAD_ACTIVITY, false)
+        set(noFinishDialPadActivity) = prefs.edit().putBoolean(NO_FINISH_DIALPAD_ACTIVITY, noFinishDialPadActivity).apply()
+
+    var afterCallClearSearchAndSetDefaultTab: Boolean
+        get() = prefs.getBoolean(AFTER_CALL_CLEAR_SEARCH_AND_SET_DEFAULT_TAB, false)
+        set(afterCallClearSearchAndSetDefaultTab) = prefs.edit().putBoolean(AFTER_CALL_CLEAR_SEARCH_AND_SET_DEFAULT_TAB, afterCallClearSearchAndSetDefaultTab).apply()
+
+    var vibrateOnAcceptCall: Boolean
+        get() = prefs.getBoolean(VIBRATE_ON_ACCEPT_CALL, true)
+        set(vibrateOnAcceptCall) = prefs.edit().putBoolean(VIBRATE_ON_ACCEPT_CALL, vibrateOnAcceptCall).apply()
+
+    var vibrateOnEndCall: Boolean
+        get() = prefs.getBoolean(VIBRATE_ON_END_CALL, true)
+        set(vibrateOnEndCall) = prefs.edit().putBoolean(VIBRATE_ON_END_CALL, vibrateOnEndCall).apply()
+
+    var allowScreenOn: Boolean
+        get() = prefs.getBoolean(ALLOW_KEEP_SCREEN_ON, false)
+        set(allowScreenOn) = prefs.edit().putBoolean(ALLOW_KEEP_SCREEN_ON, allowScreenOn).apply()
 
     var tabsOrder: String
         get() = prefs.getString(TABS_ORDER, "") ?: ""
@@ -582,10 +566,6 @@ open class BaseConfig(val context: Context) {
     var lastOutgoingCallNumberSim: Int
         get() = prefs.getInt(LAST_OUTGOING_CALL_NUMBER_SIM, 0)
         set(value) = prefs.edit().putInt(LAST_OUTGOING_CALL_NUMBER_SIM, value).apply()
-
-    var hadThankYouInstalled: Boolean
-        get() = prefs.getBoolean(HAD_THANK_YOU_INSTALLED, true)
-        set(value) = prefs.edit().putBoolean(HAD_THANK_YOU_INSTALLED, value).apply()
 
     // ─── helpers ─────────────────────────────────────────────────────────────
 

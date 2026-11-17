@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.core.graphics.ColorUtils
-import cz.mts.base.helpers.DARK_GREY
-import cz.mts.base.helpers.WCAG_AA_NORMAL
-import java.text.DecimalFormat
 import java.util.Locale
+
 
 fun Int.getContrastColor(): Int {
     val luminance = ColorUtils.calculateLuminance(this)
-    return if (luminance > 0.5) DARK_GREY else Color.WHITE
+    return if (luminance > 0.5) Color.BLACK else Color.WHITE
 }
 
 fun Int.toHex() = String.format("#%06X", 0xFFFFFF and this).uppercase(Locale.getDefault())
@@ -41,15 +39,6 @@ fun Int.getFormattedDuration(forceShowHours: Boolean = false): String {
     return sb.toString()
 }
 
-fun Int.formatSize(): String {
-    if (this <= 0) {
-        return "0 B"
-    }
-
-    val units = arrayOf("B", "kB", "MB", "GB", "TB")
-    val digitGroups = (Math.log10(toDouble()) / Math.log10(1024.0)).toInt()
-    return "${DecimalFormat("#,##0.#").format(this / Math.pow(1024.0, digitGroups.toDouble()))} ${units[digitGroups]}"
-}
 
 @Deprecated(
     message = "Broken due to the Year 2038 problem. Use Long.formatDate() instead (but note that it uses milliseconds, not seconds).",
@@ -67,7 +56,6 @@ fun Int.formatDateOrTime(context: Context, hideTimeAtOtherDays: Boolean, showYea
     return (this * 1000L).formatDateOrTime(context, hideTimeAtOtherDays, showYearEvenIfCurrent)
 }
 
-// TODO: how to do "bits & ~bit" in kotlin?
 
 fun Int.isNearBlackBlack(): Boolean {
     val r = Color.red(this)
@@ -114,38 +102,7 @@ fun Int.adjustColor(factor: Int = 8, dialog: Boolean = false): Int {
     hsv = hsl2hsv(hsl)
     return Color.HSVToColor(hsv)
 }
-// taken from https://stackoverflow.com/a/40964456/1967672
-fun Int.darkenColor(factor: Int = 8): Int {
-    if (this == Color.WHITE || this == Color.BLACK) {
-        return this
-    }
 
-    val DARK_FACTOR = factor
-    var hsv = FloatArray(3)
-    Color.colorToHSV(this, hsv)
-    val hsl = hsv2hsl(hsv)
-    hsl[2] -= DARK_FACTOR / 100f
-    if (hsl[2] < 0)
-        hsl[2] = 0f
-    hsv = hsl2hsv(hsl)
-    return Color.HSVToColor(hsv)
-}
-
-fun Int.lightenColor(factor: Int = 8): Int {
-    if (this == Color.WHITE || this == Color.BLACK) {
-        return this
-    }
-
-    val LIGHT_FACTOR = factor
-    var hsv = FloatArray(3)
-    Color.colorToHSV(this, hsv)
-    val hsl = hsv2hsl(hsv)
-    hsl[2] += LIGHT_FACTOR / 100f
-    if (hsl[2] < 0)
-        hsl[2] = 0f
-    hsv = hsl2hsv(hsl)
-    return Color.HSVToColor(hsv)
-}
 
 private fun hsl2hsv(hsl: FloatArray): FloatArray {
     val hue = hsl[0]
@@ -179,22 +136,3 @@ fun Int.getColorStateList(): ColorStateList {
     return ColorStateList(states, colors)
 }
 
-fun Int.adjustForContrast(
-    background: Int,
-    minContrast: Double = WCAG_AA_NORMAL,
-): Int {
-    var color = this
-    var alpha = 0f
-    val target = if (ColorUtils.calculateLuminance(background) < 0.5) {
-        Color.WHITE
-    } else {
-        Color.BLACK
-    }
-
-    while (ColorUtils.calculateContrast(color, background) < minContrast && alpha < 1f) {
-        alpha += 0.05f
-        color = ColorUtils.blendARGB(this, target, alpha)
-    }
-
-    return color
-}

@@ -8,6 +8,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.ContactsContract
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.view.View
 import androidx.core.net.toUri
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
@@ -18,11 +24,17 @@ import cz.mts.phone.extensions.appVersionName
 
 private const val URL_SCHEME = "https://"
 private const val URL_CHANGELOG = "${URL_SCHEME}mts.speccy.cz/mtsphone-news.htm#v"
-private const val URL_PRIVACY = "${URL_SCHEME}mts.speccy.cz/privacy-policy(czmtsphone).html"
-private const val TEXT_PRIVACY = "mts.speccy.cz/privacy-policy"
+private const val TEXT_WHATS_NEW = "See what\'s new..."
+private const val TEXT_PRIVACY = "Privacy policy for this app is simple :)"
 private const val URL_SOURCE = "${URL_SCHEME}github.com/martintobola-cz/czmtsphone"
 private const val URL_HOME = "${URL_SCHEME}mts.speccy.cz/mtsphone.htm"
-private const val URL_DONATE = "${URL_SCHEME}buymeacoffee.com/cz.mts.phone"
+private const val URL_DONATE_1 = "${URL_SCHEME}buymeacoffee.com/cz.mts.phone"
+private const val URL_DONATE_2 = "${URL_SCHEME}paypal.me/czmtsphone"
+
+private const val TEXT_DONATE_INTRO =
+    "If you enjoy using this app and would like to see it continue to improve, " +
+        "please consider supporting its development. Every contribution, no matter how small, " +
+        "makes a real difference and helps keep the project alive and moving forward."
 
 private const val URL_THANKS_1 = "${URL_SCHEME}github.com/SimpleMobileTools/Simple-Dialer"
 private const val URL_THANKS_2 = "${URL_SCHEME}github.com/FossifyOrg/Phone"
@@ -65,15 +77,17 @@ class AboutActivity : SimpleActivity() {
 
     override fun onResume() {
         // barva pozadí je uživatelsky nastavitelná → přepočítat barvu ikon nav baru
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBar(binding.aboutAppbar, NavigationIcon.Arrow)
         updateTextColors(binding.aboutHolder)
+        // až po updateTextColors, aby barvu odkazů nic nepřepsalo
+        binding.aboutDonateValue.setLinkTextColor(getProperPrimaryColor())
     }
 
     private fun setupTexts() = binding.apply {
         aboutVersionLabel.text = "cz.mts.phone $appVersionName"
-        aboutVersionValue.text = changelogUrl.withoutScheme
+        aboutVersionValue.text = TEXT_WHATS_NEW
 
         aboutSourceLabel.text = "Source code"
         aboutSourceValue.text = URL_SOURCE.withoutScheme
@@ -88,11 +102,8 @@ class AboutActivity : SimpleActivity() {
         aboutPrivacyValue.text = TEXT_PRIVACY
 
         aboutDonateLabel.text = "Donate"
-        aboutDonateValue.text = "If you enjoy using this app and would like to see it continue to improve, " +
-            "please consider supporting its development. Every contribution, no matter how small, " +
-            "makes a real difference and helps keep the project alive and moving forward.\n\n" +
-            "☕ - ${URL_DONATE.withoutScheme}\n" +
-            "\uD83E\uDE99 - $BTC_ADDRESS"
+        aboutDonateValue.text = buildDonateText()
+        aboutDonateValue.movementMethod = LinkMovementMethod.getInstance()
 
         aboutHistoryLabel.text = "History"
         aboutHistoryValue.text = "The original app was created by Slovak developer Tibor Kaputa \uD83C\uDDF8\uD83C\uDDF0 (Simple Mobile Tools). " +
@@ -106,6 +117,34 @@ class AboutActivity : SimpleActivity() {
 
         aboutEmailLabel.text = "Send email to author"
         aboutEmailValue.text = AUTHOR_EMAIL + "\n\n"
+    }
+
+    private fun buildDonateText(): CharSequence = SpannableStringBuilder().apply {
+        append(TEXT_DONATE_INTRO)
+        append("\n\n")
+        appendLink("☕ ${URL_DONATE_1.withoutScheme}") { openUrl(URL_DONATE_1) }
+        append("\n\n")
+        appendLink("🌐 ${URL_DONATE_2.withoutScheme}") { openUrl(URL_DONATE_2) }
+        append("\n\n")
+        appendLink("\uD83E\uDE99 $BTC_ADDRESS") {
+            copyToClipboard(BTC_ADDRESS, false, "BTC address")
+        }
+    }
+
+    private fun SpannableStringBuilder.appendLink(text: String, action: () -> Unit) {
+        val start = length
+        append(text)
+        setSpan(
+            object : ClickableSpan() {
+                override fun onClick(widget: View) = action()
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.isUnderlineText = false
+                }
+            },
+            start, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 
     private fun thanksLinks() = binding.run {
@@ -122,7 +161,6 @@ class AboutActivity : SimpleActivity() {
         aboutVersionHolder.setOnClickListener { openUrl(changelogUrl) }
         aboutSourceHolder.setOnClickListener { openUrl(URL_SOURCE) }
         aboutHomeHolder.setOnClickListener { openUrl(URL_HOME) }
-        aboutDonateHolder.setOnClickListener { onDonateClick() }
         aboutEmailHolder.setOnClickListener { onEmailClick() }
         aboutHistoryHolder.setOnClickListener { onHistoryClick() }
         thanksLinks().forEach { (view, url) -> view.setOnClickListener { openUrl(url) } }
@@ -133,11 +171,6 @@ class AboutActivity : SimpleActivity() {
                     .putExtra(PrivacyPolicyActivity.EXTRA_FROM_ABOUT, true)
             )
         }
-    }
-
-    private fun onDonateClick() {
-        copyToClipboard(BTC_ADDRESS, false, "BTC address")
-        openUrl(URL_DONATE)
     }
 
     private fun onEmailClick() {
@@ -162,7 +195,6 @@ class AboutActivity : SimpleActivity() {
             if (iSaveDebugMode == 1) {
                 ownContactDebug()
             }
-
         }
     }
 

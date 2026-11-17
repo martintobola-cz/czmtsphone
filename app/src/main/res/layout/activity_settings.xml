@@ -329,21 +329,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/settings_disable_proximity_sensor_holder"
-                style="@style/SettingsHolderSwitchStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyMaterialSwitch
-                    android:id="@+id/settings_disable_proximity_sensor"
-                    style="@style/SettingsSwitchStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/disable_proximity_sensor" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/settings_disable_swipe_to_answer_holder"
                 style="@style/SettingsHolderSwitchStyle"
                 android:layout_width="match_parent"
@@ -388,20 +373,6 @@
 
             </RelativeLayout>
 
-<RelativeLayout
-    android:id="@+id/settings_highlight_call_buttons_holder"
-    style="@style/SettingsHolderSwitchStyle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <cz.mts.base.views.MyMaterialSwitch
-        android:id="@+id/settings_highlight_call_buttons"
-        style="@style/SettingsSwitchStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/highlight_call_buttons" />
-</RelativeLayout>
-
             <RelativeLayout
                 android:id="@+id/settings_swhow_decline_and_sms_button_holder"
                 style="@style/SettingsHolderSwitchStyle"
@@ -430,21 +401,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_sms_templates" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/settings_hide_number_for_saved_contact_holder"
-                style="@style/SettingsHolderSwitchStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cz.mts.base.views.MyMaterialSwitch
-                    android:id="@+id/settings_hide_number_for_saved_contact"
-                    style="@style/SettingsSwitchStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hide_number_for_saved_contact" />
 
             </RelativeLayout>
 
@@ -589,6 +545,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/transfer_export" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/settings_call_behavior_divider"
+                layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/settings_call_behavior_section_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advanced_settings" />
+
+            <RelativeLayout
+                android:id="@+id/settings_call_behavior_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyTextView
+                    android:id="@+id/settings_call_behavior_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/advanced_settings" />
 
             </RelativeLayout>
 

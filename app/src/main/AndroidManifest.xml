@@ -84,6 +84,21 @@
             android:label="@string/avatar_settings"
             android:parentActivityName=".activities.MainActivity" />
 
+        <activity android:name=".activities.FakeActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.Transparent" />
+
+        <activity
+            android:name=".activities.SettingsAdvancedActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:label="@string/advanced_settings"
+            android:parentActivityName=".activities.SettingsActivity"
+            tools:replace="android:label" />
+
         <activity
             android:name=".activities.RecordedFilesActivity"
             android:configChanges="orientation"

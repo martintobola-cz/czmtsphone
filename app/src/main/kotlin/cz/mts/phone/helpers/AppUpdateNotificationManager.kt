@@ -138,7 +138,8 @@ class AppUpdateNotificationManager(private val context: Context) {
                 PendingIntent.getActivity(context, OPEN_STORE_PENDING_CODE, resolvedIntent, pendingIntentFlags)
             }
             ClickAction.OPEN_MY_WEB -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mts.speccy.cz/mtsphone-news.htm#v" + context.appVersionCode.toInt().toString())).apply {
+                //val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://mts.speccy.cz/mtsphone-news.htm#v" + context.appVersionCode.toInt().toString())).apply {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/martintobola-cz/czmtsphone#donate")).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 PendingIntent.getActivity(context, OPEN_WEB_PENDING_CODE, intent, pendingIntentFlags)

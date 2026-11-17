@@ -5,12 +5,12 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getColoredDrawableWithColor
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.extensions.getTextSize
 import cz.mts.base.extensions.styleDialog
 import cz.mts.base.helpers.*
+import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.phone.R
 import cz.mts.phone.activities.SimpleActivity
 import cz.mts.phone.adapters.ContactCallHistoryAdapter
@@ -28,7 +28,8 @@ class ContactCallHistoryDialog(
     private val activity: SimpleActivity,
     private val recentsFragment: RecentsFragment,
     private val contactName: String,
-    private val sUri : String?
+    private val sUri : String?,
+    private val bContact: Boolean
 ) {
 
     private val binding = DialogContactCallHistoryBinding.inflate(LayoutInflater.from(activity))
@@ -40,7 +41,8 @@ class ContactCallHistoryDialog(
         binding.contactHistoryList.adapter = adapter
 
         binding.contactHistoryName.apply {
-            text = contactName
+            text = if (bContact) contactName
+                   else numberForRecents(contactName, format = activity.config.formatPhoneNumbers)
             setTextColor(activity.getProperTextColor())
             setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.getTextSize() * 1.1f)
         }
@@ -128,7 +130,6 @@ class ContactCallHistoryDialog(
         }
 
         // photoUri prázdné => loadContactImage sám spadne na fallback ikonu (viz SimpleContactsHelper)
-        SimpleContactsHelper(activity).loadContactImage(photoUri, binding.contactHistoryAvatar, contactName, null, false
-        )
+        SimpleContactsHelper(activity).loadContactImage(photoUri, binding.contactHistoryAvatar, contactName, null, false)
     }
 }

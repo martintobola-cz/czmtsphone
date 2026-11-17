@@ -198,7 +198,7 @@ class ConferenceCallsAdapter(
     private fun showTooltip(view: View) {
         view.contentDescription?.toString()
             ?.takeIf { it.isNotEmpty() }
-            ?.let { view.context.toast(it) }
+            ?.let { view.context.toast("F1\uD83D\uDCA1: " + it) }
     }
 
     /** Zruší pending runnable pro dané view a odstraní ho z mapy. */

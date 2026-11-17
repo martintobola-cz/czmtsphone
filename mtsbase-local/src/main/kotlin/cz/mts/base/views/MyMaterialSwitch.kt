@@ -17,25 +17,35 @@ open class MyMaterialSwitch : MaterialSwitch {
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
+    private var showCheckmark = false
+    private var iconApplied = false
+    private var ready = false   // false během konstruktoru nadřídy
+
     init {
+        ready = true
         setShowCheckmark(context.baseConfig.showCheckmarksOnSwitches)
     }
 
     fun setShowCheckmark(showCheckmark: Boolean) {
-        if (showCheckmark) {
-            setOnCheckedChangeListener { _, isChecked ->
-                setThumbIconDrawable(
-                    if (isChecked) {
-                        AppCompatResources.getDrawable(context, R.drawable.ic_check_vector)
-                    } else {
-                        null
-                    }
-                )
-            }
-        } else {
-            setOnCheckedChangeListener(null)
+        this.showCheckmark = showCheckmark
+        updateThumbIcon()
+    }
+
+    override fun setChecked(checked: Boolean) {
+        super.setChecked(checked)
+        if (ready) updateThumbIcon()
+    }
+
+    private fun updateThumbIcon() {
+        if (showCheckmark && isChecked) {
+            thumbIconDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_check_vector)
+            iconApplied = true
+        } else if (iconApplied) {
+            thumbIconDrawable = null
+            iconApplied = false
         }
     }
+
 
     fun setColors(textColor: Int, accentColor: Int, backgroundColor: Int) {
         val onPrimary = accentColor.getContrastColor()

@@ -116,9 +116,15 @@ object CallRecordingManager {
                     fail(context, connMgr, "Failed to connect to ShellService: ${e.javaClass.simpleName}: ${e.message}", onResult)
                     return@launch
                 }
+
                 shellService = service
 
                 val serverPath = ScrcpyConfig.getServerPath(context)
+                if (serverPath == null) {
+                    fail(context, connMgr, "scrcpy-server.jar path is null", onResult)
+                    return@launch
+                }
+
                 val serverReady = withContext(Dispatchers.IO) { ServerExtractor.ensureServerFile(context, serverPath) }
                 if (!serverReady) {
                     fail(context, connMgr, "scrcpy-server.jar is missing or its SHA-256 does not match", onResult)
@@ -152,6 +158,11 @@ object CallRecordingManager {
                 muxer.initialize(HARDCODED_CODEC)
                 scrcpyMuxer = muxer
 
+                // Potvrzeni uspechu az po prvnim skutecnem audio paketu.
+                // Callbacky ScrcpyClient bezi synchronne na vlakne client.start().
+                var firstAudioPacketReceived = false
+                var streamError: String? = null
+
                 val client = ScrcpyClient(
                     inputPfd = pipeReadEnd,
                     expectedCodec = HARDCODED_CODEC,
@@ -161,23 +172,44 @@ object CallRecordingManager {
                         }
                         override fun onAudioPacket(packet: ScrcpyClient.AudioPacket) {
                             muxer.writePacket(packet, HARDCODED_CODEC)
+                            // CONFIG paket jeste neobsahuje zaznamenany zvuk.
+                            // writePacket musi probehnout bez vyjimky pred potvrzenim.
+                            if (!packet.isConfigPacket && !firstAudioPacketReceived) {
+                                firstAudioPacketReceived = true
+                                recordingActive = true
+                                RecorderLog.i(TAG, "Recording started - first audio packet written")
+                                mainHandler.post { onResult(true) }
+                            }
                         }
                         override fun onStreamEnd(error: String?) {
+                            streamError = error
                             if (error != null) RecorderLog.w(TAG, "Audio stream ended with error: $error")
                         }
                     }
                 )
                 scrcpyClient = client
-                recordingActive = true
-                RecorderLog.i(TAG, "Recording started")
-                mainHandler.post { onResult(true) }
 
-                // Blokující čtecí smyčka - běží po celou dobu nahrávání, dokud
-                // nepřijde EOF (viz stopRecording) nebo chyba.
+                // Blokujici cteci smycka. Po EOF/chybe se vrati.
                 client.start()
 
+                if (!firstAudioPacketReceived) {
+                    fail(context, connMgr,
+                        "Audio stream ended before the first audio packet" +
+                            (streamError?.let { ": $it" } ?: " (EOF)"), onResult)
+                } else if (recordingActive) {
+                    // Neocekavany konec po zahajeni: uklid a finalizace souboru.
+                    if (streamError != null) lastError = streamError
+                    stopRecording()
+                }
+
             } catch (e: Throwable) {
-                fail(context, connMgr, "Unexpected error during start: ${e.javaClass.simpleName}: ${e.message}", onResult)
+                if (recordingActive) {
+                    lastError = "Recording interrupted: ${e.javaClass.simpleName}: ${e.message}"
+                    RecorderLog.e(TAG, lastError!!)
+                    stopRecording()
+                } else {
+                    fail(context, connMgr, "Unexpected error during start: ${e.javaClass.simpleName}: ${e.message}", onResult)
+                }
             }
         }
 
@@ -238,7 +270,9 @@ object CallRecordingManager {
         runCatching { connMgr.unbind() }
         ShizukuConnectionManager.stopServer(context, authKeyInUse)
         shellService = null
+        runCatching { scrcpyClient?.close() }
         scrcpyClient = null
+        runCatching { scrcpyMuxer?.close() }
         scrcpyMuxer = null
         runCatching { outputPfd?.close() }
         outputPfd = null

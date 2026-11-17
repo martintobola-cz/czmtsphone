@@ -17,10 +17,11 @@ import cz.mts.base.views.*
 
 
 fun Context.isBlackAndWhiteTheme() = baseConfig.themeIdSaved == 4
-
-fun Context.isDynamicTheme(useDynamicTheme: Boolean = baseConfig.useDynamicTheme) = isSPlus() && baseConfig.themeIdSaved == 7 && useDynamicTheme
-
 fun Context.isWhiteTheme() = baseConfig.themeIdSaved == 6
+fun Context.isSystemTheme() = baseConfig.themeIdSaved == 7
+
+fun Context.isDynamicTheme(useDynamicTheme: Boolean = baseConfig.useDynamicTheme) =
+    isSPlus() && isSystemTheme() && useDynamicTheme
 
 //fun Context.isSystemInDarkModeOLD() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
 
@@ -29,35 +30,23 @@ fun Context.isSystemInDarkMode(): Boolean {
     return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
 }
 
-fun Context.getDynamicTextColors(useDynamicTheme: Boolean = baseConfig.useDynamicTheme): Int {
-    return if (isSPlus() && useDynamicTheme) {
-        R.color.you_neutral_text_color
-    } else {
-        val isDarkTheme = isSystemInDarkMode()
-        if (isDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color
-    }
+fun Context.getDynamicTextColors(useDynamicTheme: Boolean = baseConfig.useDynamicTheme) = when {
+    isSPlus() && useDynamicTheme -> R.color.you_neutral_text_color
+    isSystemInDarkMode() -> R.color.theme_dark_text_color
+    else -> R.color.theme_light_text_color
 }
 
-fun Context.getDynamicBackgroundColors(useDynamicTheme: Boolean = baseConfig.useDynamicTheme): Int {
-    return if (isSPlus() && useDynamicTheme) {
-        R.color.you_background_color
-    } else {
-        val isDarkTheme = isSystemInDarkMode()
-        if (isDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color
-    }
+fun Context.getDynamicBackgroundColors(useDynamicTheme: Boolean = baseConfig.useDynamicTheme) = when {
+    isSPlus() && useDynamicTheme -> R.color.you_background_color
+    isSystemInDarkMode() -> R.color.theme_dark_background_color
+    else -> R.color.theme_light_background_color
 }
 
-fun Context.isAutoTheme() = !isSPlus() && baseConfig.themeIdSaved == 7
+fun Context.getProperTextColor() =
+    if (isSystemTheme()) getColor(getDynamicTextColors()) else baseConfig.textColor
 
-fun Context.getProperTextColor() = when {
-    isDynamicTheme() -> resources.getColor(R.color.you_neutral_text_color, theme)
-    else -> baseConfig.textColor
-}
-
-fun Context.getProperBackgroundColor() = when {
-    isDynamicTheme() -> resources.getColor(R.color.you_background_color, theme)
-    else -> baseConfig.backgroundColor
-}
+fun Context.getProperBackgroundColor() =
+    if (isSystemTheme()) getColor(getDynamicBackgroundColors()) else baseConfig.backgroundColor
 
 fun Context.getProperSelectedItemBackgroundColor(): Int {
     return blendColors(getProperBackgroundColor(), ContextCompat.getColor(this, R.color.activated_item_foreground))
@@ -92,11 +81,18 @@ fun Context.getColoredMaterialStatusBarColor(): Int {
 //}
 
 /** Barva kruhu za tlačítky na obrazovce hovoru. OFF = plně průhledná. */
-fun Context.getCallButtonCircleColor(active: Boolean): Int {
+fun Context.getCallButtonCircleColorOLD(active: Boolean): Int {
     if (!baseConfig.highlightCallButtons) return Color.TRANSPARENT
     return if (active) getProperPrimaryColor().adjustAlpha(0.25f)
     else getProperTextColor().adjustAlpha(0.10f)
 }
+
+fun Context.getCallButtonCircleColor(active: Boolean): Int = when {
+    !active -> getProperTextColor().adjustAlpha(0.10f)
+    baseConfig.highlightCallButtons -> getProperPrimaryColor()
+    else -> getProperPrimaryColor().adjustAlpha(0.25f)
+}
+
 
 fun Context.updateTextColors(viewGroup: ViewGroup) {
     val textColor = getProperTextColor()

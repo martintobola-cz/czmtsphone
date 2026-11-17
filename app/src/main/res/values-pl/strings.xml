@@ -3,6 +3,13 @@
 
 <string name="app_launcher_name">Telefon</string>
 
+<string name="scrcpy_missing_title">Brak scrcpy-server</string>
+<string name="scrcpy_missing_message">Do nagrywania rozmów ta aplikacja używa scrcpy-server-v%1$s z GitHuba. Użyj przycisku Pobierz, aby pobrać wymagany plik, a następnie Importuj. Wcześniej ten plik był częścią aplikacji, ale zasady F-Droid zabraniają pobierania i dodawania plików binarnych z internetu podczas kompilacji.</string>
+<string name="scrcpy_missing_message_snack_bar">Nagrywanie rozmów jest włączone, ale nie będzie działać, ponieważ brakuje pliku scrcpy-server.jar</string>
+<string name="scrcpy_pick_file">Importuj</string>
+<string name="scrcpy_download">Pobierz</string>
+<string name="scrcpy_sucess">Pomyślnie zaimportowano scrcpy-server</string>
+<string name="scrcpy_error">Suma kontrolna scrcpy-server nie zgadza się</string>
 <string name="ring_duration">dzwoniło %1$s</string>
 <string name="bold_dialog_buttons">Pogrubione przyciski w oknach dialogowych</string>
 

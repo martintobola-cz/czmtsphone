@@ -2,10 +2,27 @@
 <resources>
 <string name="app_launcher_name">MTS Dialer</string>
 
+<string name="advanced_settings">Advanced settings</string>
+<string name="allow_keep_screen_on">Always SCREEN_ON during CallActivity</string>
+<string name="no_finish_dialpad_activity">Do not close DialpadActivity after call initiation </string>
+<string name="vibrate_on_accept_call">Vibrate when an outgoing call is answered</string>
+<string name="vibrate_on_end_call">Vibrate when the call ends</string>
+<string name="after_call_clear_search_and_set_default_tab">Clear searchbar and set the default tab in MainActivity after an outgoing call ends</string>
+<string name="use_popup_menu_colorizer">Menu colorizer</string>
+<string name="show_checkmarks_on_switches">Show checkmarks on switches</string>
+
+<string name="scrcpy_missing_title">scrcpy-server missing</string>
+<string name="scrcpy_missing_message">To record calls, this app uses scrcpy-server-v%1$s from GitHub. Use the Download button to download the required file, then Import. This file used to be bundled with the app, but F-Droid\'s rules prohibit downloading and adding binary files from the internet during the build.</string>
+<string name="scrcpy_missing_message_snack_bar">Call recording is enabled, but it won\'t work because the scrcpy-server.jar file is missing</string>
+<string name="scrcpy_pick_file">Import</string>
+<string name="scrcpy_download">Download</string>
+<string name="scrcpy_sucess">scrcpy-server was imported successfully</string>
+<string name="scrcpy_error">The scrcpy-server checksum does not match</string>
+
 <string name="ring_duration">rang for %1$s</string>
 <string name="bold_dialog_buttons">Bold buttons in dialogs</string>
 
-<string name="last_update_info">You can now report unsolicited incoming calls to the spam database. And if you\’re tired of the default avatar 🎭 for unknown contacts, you can replace it with your own image 💪. I\’d also appreciate it if you could rate the app on the Google Play Store.</string>
+<string name="last_update_info">💙 Development never stops! I continuously work on new features, improvements and fixes. If you enjoy this app, please consider supporting its development with a donation (see About app). Your contribution helps me keep improving it. Thank you.</string>
 
 <string name="default_reset">Default</string>
 <string name="reported_spam_numbers">Reported spam numbers</string>
@@ -93,7 +110,7 @@
 
 <string name="update_done">Updated to v</string>
 <string name="not_permissions_info">The application does not have the necessary permissions and may not function properly.</string>
-<string name="edit_sms_templates"> 🔤 Edit SMS templates</string>
+<string name="edit_sms_templates"> ✍️ Edit SMS templates</string>
 <string name="sms_edit_hint_double_tap">Double-tap or long-press to edit</string>
 <string name="sms_add_new_template">+ Add new template</string>
 <string name="could_not_send_sms">You have the function to reject a call with SMS enabled, but the application does not have permission to send SMS...</string>

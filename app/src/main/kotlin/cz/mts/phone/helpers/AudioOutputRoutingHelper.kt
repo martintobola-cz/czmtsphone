@@ -1,6 +1,5 @@
 package cz.mts.phone.helpers
 
-import androidx.appcompat.app.AlertDialog
 import android.graphics.Typeface
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import cz.mts.base.activities.BaseSimpleActivity
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.extensions.styleDialog

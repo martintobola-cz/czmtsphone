@@ -9,8 +9,7 @@
         android:id="@+id/selectSimMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:textSize="16sp" />
+        android:paddingBottom="12dp" />
 
     <LinearLayout
         android:id="@+id/selectSimList"

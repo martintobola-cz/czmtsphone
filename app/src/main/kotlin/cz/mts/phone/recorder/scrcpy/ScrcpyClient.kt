@@ -80,7 +80,18 @@ class ScrcpyClient(
         )
         try {
             val receivedFourCC = inputStream.readInt()
+
+            when (receivedFourCC) {
+                0 -> throw IOException(
+                    "scrcpy-server: Audio capture unavailable"
+                )
+                1 -> throw IOException(
+                    "scrcpy-server: Audio initialization failed"
+                )
+            }
+
             val resolvedCodec = ScrcpyAudioCodec.fromFourCC(receivedFourCC)
+
             RecorderLog.d(TAG, "Codec FourCC: received=0x${receivedFourCC.toString(16)} resolved=${resolvedCodec.cliKey} expected=${expectedCodec.cliKey}")
 
             if (resolvedCodec != expectedCodec) {

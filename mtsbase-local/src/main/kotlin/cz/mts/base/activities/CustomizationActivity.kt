@@ -82,7 +82,7 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     override fun onResume() {
         // ikony navbaru podle aktuálního (neuloženého) pozadí
-        customNavBarLightIcons = shouldUseLightIcons(getCurrentBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getCurrentBackgroundColor()) //true pokud je pozadí světlý
         super.onResume()
 
         val accent = getCurrentAccentOrPrimaryColor()
@@ -103,22 +103,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateDynamicThemeVisibility() // přebarví switche a náhled dynamických barev
     }
 
- //   override fun onResume() {
- //       customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
- //       super.onResume()
- //       setTheme(getThemeId(getCurrentAccentOrPrimaryColor()))
-
- //       if (!isDynamicTheme()) {
- //           updateBackgroundColor(getCurrentBackgroundColor())
- //       }
-
- //       curPrimaryLineColorPicker?.getSpecificColor()?.apply {
- //           setTheme(getThemeId(this))
- //       }
-
-//        setupTopAppBarWithBackPrompt(getColoredMaterialStatusBarColor())
-//        updateDynamicColorsPreview()
-//    }
 
     /**
      * Wrapper kolem setupTopAppBar, co vždy zapojí naši promptSaveDiscard logiku na šipku zpět.
@@ -570,7 +554,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         notSavedThemeId = savedThemeId
         initColorVariables()
         setupColorsPickers()
-        updateBackgroundColor(baseConfig.backgroundColor)
+        updateBackgroundColor(getCurrentBackgroundColor())
         // MTSX updateActionbarColor()
         refreshMenuItems()
         updateLabelColors(getCurrentTextColor())

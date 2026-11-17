@@ -21,7 +21,7 @@ fun Window.setCustomNavigationBar(
 
 //nastaví horní statusbar a dolní navigační bar
 fun Window.setSystemBarsAppearance(backgroundColorStatus: Int, customNavBarLightIcons : Boolean?) {
-    val isLightBackground = shouldUseLightIcons(backgroundColorStatus)
+    val isLightBackground = isLightBackground(backgroundColorStatus)
     val isLightBackgroundNavigation = customNavBarLightIcons ?: isLightBackground
     insetsController().apply {
         isAppearanceLightStatusBars = isLightBackground

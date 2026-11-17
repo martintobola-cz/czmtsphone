@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-<string name="app_launcher_name">MTS Dialer</string>
+<string name="app_launcher_name">Телефон</string>
+
+<string name="scrcpy_missing_title">Недостаје scrcpy-server</string>
+<string name="scrcpy_missing_message">За снимање позива ова апликација користи scrcpy-server-v%1$s са GitHub-а. Користите дугме „Преузми“ да преузмете потребну датотеку, а затим „Увези“. Раније је ова датотека била део апликације, али правила F-Droid-а забрањују преузимање и додавање бинарних датотека са интернета током изградње.</string>
+<string name="scrcpy_missing_message_snack_bar">Снимање позива је омогућено, али неће радити јер недостаје датотека scrcpy-server.jar</string>
+<string name="scrcpy_pick_file">Увези</string>
+<string name="scrcpy_download">Преузми</string>
+<string name="scrcpy_sucess">scrcpy-server је успешно увезен</string>
+<string name="scrcpy_error">Контролна сума за scrcpy-server се не поклапа</string>
 
 <string name="ring_duration">звонило %1$s</string>
 <string name="bold_dialog_buttons">Подебљана дугмад у дијалозима</string>
@@ -39,7 +47,7 @@
 <string name="recents_still_loading">Сачекајте док се цела историја позива не учита...</string>
 <string name="is_spam_call">Вероватно спам позив</string>
 <string name="blocked_calls_mts">Блокирани позиви</string>
-<string name="add_blocked_number_helper_text">Унесите тачан број или шаблон са * или ? (нпр. *333*, +1*8888, +42?607*) да бисте блокирали све позиве са одговарајућих бројева. Звездица * представља било који број знакова, док упитник ? представља тачно један знак. Сада је могуће применити и негативно правило помоћу знака !; на пример, !+420* блокираће све бројеве који не одговарају шаблону +420* (тако да се сви међународни позиви могу лако блокирати негативним правилом са позивним бројем ваше државе)</string>
+<string name="add_blocked_number_helper_text">Унесите тачан број или шаблон са * или ? (нпр. *333*, +1*8888, +42?607*) да бисте блокирали све позиве са одговарајућих бројева. Звездица * представља било који број знакова, док упитник ? представља тачно један знак. Сада је могуће применити и негативно правило помоћу знака !; на пример, !+381* блокираће све бројеве који не одговарају шаблону +381* (тако да се сви међународни позиви могу лако блокирати негативним правилом са позивним бројем ваше државе)</string>
 <string name="block_error_string_value">Овај шаблон није дозвољен</string>
 
 <string name="transfers">Пренос података</string>
@@ -91,7 +99,7 @@
 
 <string name="update_done">Ажурирано на v</string>
 <string name="not_permissions_info">Апликација нема потребне дозволе и можда неће радити исправно.</string>
-<string name="edit_sms_templates"> 🔤 Уреди SMS шаблоне</string>
+<string name="edit_sms_templates"> ✍️ Уреди SMS шаблоне</string>
 <string name="sms_edit_hint_double_tap">Двапут додирните или дуго притисните за измену</string>
 <string name="sms_add_new_template">+ Додај нови шаблон</string>
 <string name="could_not_send_sms">Имате укључену функцију одбијања позива помоћу SMS-а, али апликација нема дозволу за слање SMS порука...</string>

@@ -1,6 +1,7 @@
 package cz.mts.phone.activities
 
 import android.Manifest
+import android.bluetooth.le.AdvertiseSettings
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -72,7 +73,7 @@ class SettingsActivity : SimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBar(binding.settingsAppbar, NavigationIcon.Arrow)
 
@@ -89,6 +90,7 @@ class SettingsActivity : SimpleActivity() {
                 settingsCallsLabel,
                 settingsDialpadSectionLabel,
                 settingsTransfersSectionLabel,
+                settingsCallBehaviorSectionLabel,
                 settingsPrivacyPolicySectionLabel
             ).forEach { it.setTextColor(getProperPrimaryColor()) }
         }
@@ -128,14 +130,11 @@ class SettingsActivity : SimpleActivity() {
             settingsHideDialpadNumbers.isChecked = config.hideDialpadNumbers
             settingsDialpadBeeps.isChecked = config.dialpadBeeps
             settingsShowCallConfirmation.isChecked = config.showCallConfirmation
-            settingsDisableProximitySensor.isChecked = config.disableProximitySensor
             settingsDisableSwipeToAnswer.isChecked = config.disableSwipeToAnswer
             settingsAlwaysShowFullscreen.isChecked = config.alwaysShowFullscreen
             settingsSwhowDeclineAndSmsButton.isChecked = config.swhowDeclineAndSMSbutton
             settingsShakeCallEffect.isChecked = config.shakeEffectConfirmingCall
-            settingsHideNumberForSavedContact.isChecked = config.hideNumberForSavedContact
             settingsAllowRecordCalls.isChecked = config.allowRecordCalls
-            settingsHighlightCallButtons.isChecked = config.highlightCallButtons
             settingsCallingAccountsHolder.beVisibleIf(canLaunchAccountsConfiguration())
         }
     }
@@ -162,15 +161,13 @@ class SettingsActivity : SimpleActivity() {
         setupDialpadNumbers()
         setupDialpadBeeps()
         setupShowCallConfirmation()
-        setupDisableProximitySensor()
         setupDisableSwipeToAnswer()
         setupAlwaysShowFullscreen()
         setupSwhowDeclineAndSMSbutton()
         setupShakeEffect()
-        setupHideNumberForSavedContact()
         setupTransfers()
+        setupCallBehavior()
         setupPrivacyPolicy()
-        setupHighlightCallButtons()
         setupCallingAccounts()
 
     }
@@ -178,12 +175,6 @@ class SettingsActivity : SimpleActivity() {
     private fun setupCallingAccounts() {
         binding.settingsCallingAccountsHolder.setOnClickListener {
             launchAccountsConfiguration()
-        }
-    }
-    private fun setupHighlightCallButtons() {
-        binding.settingsHighlightCallButtonsHolder.setOnClickListener {
-            binding.settingsHighlightCallButtons.toggle()
-            config.highlightCallButtons = binding.settingsHighlightCallButtons.isChecked
         }
     }
 
@@ -216,6 +207,12 @@ class SettingsActivity : SimpleActivity() {
             Intent(this, ManageBlockedNumbersActivity::class.java).apply {
                 startActivity(this)
             }
+        }
+    }
+
+    private fun setupCallBehavior() {
+        binding.settingsCallBehaviorHolder.setOnClickListener {
+            startActivity(Intent(this, SettingsAdvancedActivity::class.java))
         }
     }
 
@@ -374,13 +371,6 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    private fun setupDisableProximitySensor() {
-        binding.settingsDisableProximitySensorHolder.setOnClickListener {
-            binding.settingsDisableProximitySensor.toggle()
-            config.disableProximitySensor = binding.settingsDisableProximitySensor.isChecked
-        }
-    }
-
     private fun setupDisableSwipeToAnswer() {
         binding.settingsDisableSwipeToAnswerHolder.setOnClickListener {
             binding.settingsDisableSwipeToAnswer.toggle()
@@ -517,13 +507,6 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-
-    private fun setupHideNumberForSavedContact() {
-        binding.settingsHideNumberForSavedContactHolder.setOnClickListener {
-            binding.settingsHideNumberForSavedContact.toggle()
-            config.hideNumberForSavedContact = binding.settingsHideNumberForSavedContact.isChecked
-        }
-    }
 
     // ── Přenosy (import / export) – vlastní obrazovka ────────────────────────
 

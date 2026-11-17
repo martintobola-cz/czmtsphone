@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.telecom.*
-import cz.mts.base.extensions.baseConfig as config
 import cz.mts.base.extensions.isAppInstalled
 import cz.mts.base.helpers.DIALPAD_TONE_LENGTH_MS
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
@@ -20,6 +19,7 @@ import cz.mts.phone.models.AudioRoute
 import cz.mts.phone.models.CallContact
 import java.util.UUID
 import java.util.concurrent.CopyOnWriteArraySet
+import cz.mts.base.extensions.baseConfig as config
 
 data class CallEntry(
     val id: String,
@@ -34,6 +34,7 @@ data class CallEntry(
     val verificationStatus : Int = 0, // STIR/SHAKEN Call.Details.callerNumberVerificationStatus (API 30+), zatím se nepoužívá
     val ringStartMs: Long = 0L,  // elapsedRealtime při začátku vyzvánění, 0 = neznámo
     val ringEndMs: Long = 0L,   // elapsedRealtime při opuštění RINGING, 0 = ještě zvoní
+    val answeredMs: Long = 0L,  // elapsedRealtime při prvním přechodu do ACTIVE, 0 = hovor nebyl nikdy spojen
     val callContact: CallContact? = null   // výsledek getCallContact, null = ještě nenalezen
 )
 
@@ -665,6 +666,21 @@ class CallManager {
             if (e.ringStartMs == 0L) return -1
             val end = if (e.ringEndMs != 0L) e.ringEndMs else SystemClock.elapsedRealtime()
             return ((end - e.ringStartMs + 500) / 1000).toInt()
+        }
+
+        fun markAnswered(call: Call) {
+            val e = callIds[call] ?: return
+            if (e.answeredMs == 0L) callIds[call] = e.copy(answeredMs = SystemClock.elapsedRealtime())
+        }
+
+        fun wasAnswered(call: Call?): Boolean =
+            (call?.let { callIds[it]?.answeredMs } ?: 0L) > 0L
+
+        // -1 = hovor nebyl nikdy spojen
+        fun getTalkSeconds(call: Call?): Int {
+            val start = call?.let { callIds[it]?.answeredMs } ?: 0L
+            if (start == 0L) return -1
+            return ((SystemClock.elapsedRealtime() - start + 500) / 1000).toInt()
         }
 
     }

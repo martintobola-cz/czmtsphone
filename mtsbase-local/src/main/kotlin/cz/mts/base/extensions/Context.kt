@@ -8,6 +8,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.database.Cursor
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,7 @@ import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -30,20 +32,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import cz.mts.base.R
 import cz.mts.base.helpers.*
+import cz.mts.base.helpers.PhoneNumberHelper.areSamePhoneNumber
 import cz.mts.base.helpers.PhoneNumberHelper.isPhoneNumber
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeNumberE164
 import cz.mts.base.helpers.PhoneNumberHelper.toE164OrNull
 import cz.mts.base.models.BlockedNumber
+import cz.mts.base.models.contacts.Contact
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import android.content.DialogInterface
-import android.graphics.Typeface
-import android.widget.Button
-import cz.mts.base.helpers.PhoneNumberHelper.areSamePhoneNumber
-import cz.mts.base.models.contacts.Contact
 
 
 fun Context.getSharedPrefs() = getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
@@ -232,17 +231,11 @@ fun Button.applyDialogButtonStyle(color: Int, bold: Boolean) {
     isAllCaps = false
 }
 
-fun Button.applyDialogButtonStyleOLD(color: Int, bold: Boolean) {
-    setTextColor(color)
-    setTypeface(typeface, if (bold) Typeface.BOLD else Typeface.NORMAL)
-    isAllCaps = false
-}
-
 //fun Context.styleDialogButtons(dialog: android.app.AlertDialog, bold : Boolean? = null) =
 //    applyDialogButtons(bold) { dialog.getButton(it) }
 
 fun Context.styleDialogButtons(dialog: androidx.appcompat.app.AlertDialog, bold : Boolean? = null) =
-    applyDialogButtons(bold) { dialog.getButton(it) }
+   applyDialogButtons(bold) { dialog.getButton(it) }
 
 private fun Context.applyDialogButtons(bold : Boolean?, getButton: (Int) -> Button?) {
     val color = getDialogButtonColor()

@@ -107,7 +107,7 @@ class RecordedFilesActivity : SimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBarWithBackHandling()
         updateTextColors(binding.recordedFilesCoordinator)

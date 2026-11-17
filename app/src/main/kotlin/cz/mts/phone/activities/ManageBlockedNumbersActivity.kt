@@ -93,7 +93,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBarWithBackHandling()
 
@@ -137,7 +137,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
 
         showMyAlertDialog(
             context = this,
-            sMytext = getString(R.string.error_default_app_mts),
+            sMyText = getString(R.string.error_default_app_mts),
             sMyTitle = "",
             bShowTitle = false,
             iButtonText = 0
@@ -299,6 +299,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
                     manageBlockedNumbersPlaceholderHolder.beVisible()
                     manageBlockedNumbersPlaceholder.setText(R.string.must_make_default_dialer)
                     manageBlockedNumbersPlaceholderButton.setText(R.string.set_as_default)
+                    manageBlockedNumbersPlaceholderButton.setTextColor(getProperPrimaryColor())
                     manageBlockedNumbersPlaceholderButton.setOnClickListener { maybeSetDefaultCallerIdApp() }
                 }
 
@@ -307,6 +308,7 @@ class ManageBlockedNumbersActivity : BaseSimpleActivity() {
                     manageBlockedNumbersPlaceholderHolder.beVisible()
                     manageBlockedNumbersPlaceholder.setText(R.string.not_blocking_anyone)
                     manageBlockedNumbersPlaceholderButton.setText(R.string.add_a_blocked_number)
+                    manageBlockedNumbersPlaceholderButton.setTextColor(getProperPrimaryColor())
                     manageBlockedNumbersPlaceholderButton.setOnClickListener { openAddBlockedNumberDialog(null) }
                 }
 

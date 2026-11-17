@@ -19,6 +19,13 @@ const val TABS_ORDER = "tabs_order"
 
 // shared prefs
 const val ALLOW_RECORD_CALLS = "allow_record_calls"
+const val ALLOW_KEEP_SCREEN_ON = "allow_keep_screen_on"
+const val NO_FINISH_DIALPAD_ACTIVITY = "no_finish_dialPad_activity"
+const val AFTER_CALL_CLEAR_SEARCH_AND_SET_DEFAULT_TAB = "after_call_clear_search_and_set_default_tab"
+const val VIBRATE_ON_ACCEPT_CALL = "vibrate_on_accept_call"
+
+const val VIBRATE_ON_END_CALL = "vibrate_on_end_call"
+
 const val REMEMBER_SIM_PREFIX = "remember_sim_"
 const val GROUP_SUBSEQUENT_CALLS = "group_subsequent_calls"
 const val OPEN_DIAL_PAD_AT_LAUNCH = "open_dial_pad_at_launch"
@@ -53,7 +60,7 @@ private const val PATH = "cz.mts.phone.action."
 const val ACCEPT_CALL = PATH + "ACCEPT_CALL"
 const val DECLINE_CALL = PATH + "DECLINE_CALL"
 
-const val DIALPAD_TONE_LENGTH_MS = 150L // The length of DTMF tones in milliseconds
+const val DIALPAD_TONE_LENGTH_MS = 300L // The length of DTMF tones in milliseconds
 
 const val EXTERNAL_STORAGE_PROVIDER_AUTHORITY = "com.android.externalstorage.documents"
 

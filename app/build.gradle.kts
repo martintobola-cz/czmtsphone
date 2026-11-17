@@ -25,12 +25,11 @@ fun hasSigningVars(): Boolean {
             && providers.environmentVariable("SIGNING_STORE_PASSWORD").orNull != null
 }
 
-// --- scrcpy-server: staženo a ověřeno při buildu, stejně jako v ShizuCallRecorder ---
-// Verze je v libs.versions.toml a MUSÍ zůstat 4.0 - ScrcpyClient.kt parsuje binární
-// protokol specifický pro tuhle verzi. Při změně verze aktualizuj i SHA256 níže.
+// Verze je v libs.versions.toml a MUSÍ zůstat 5.0.1 - ScrcpyClient.kt parsuje binární
+// protokol specifický pro tuhle verzi. Při změně verze aktualizuj i SHA256 !
 val scrcpyVersion = libs.versions.scrcpy.get()
 val scrcpyServerUrl = "https://github.com/Genymobile/scrcpy/releases/download/v$scrcpyVersion/scrcpy-server-v$scrcpyVersion"
-val scrcpyServerSha256 = "84924bd564a1eb6089c872c7521f968058977f91f5ff02514a8c74aff3210f3a"
+val scrcpyServerSha256 = "764eb6f79811d5211fe9df341120882ba9994c7a61b897d7bf3fb662e53bc536"
 val scrcpyServerAssetName = "scrcpy-server"
 val scrcpyDownloadDir = layout.buildDirectory.dir("generated/scrcpy/assets")
 
@@ -52,12 +51,12 @@ abstract class DownloadAssetTask : DefaultTask() {
         val targetFile = outputDir.get().file(assetName.get()).asFile
 
         if (targetFile.exists() && calculateSha256(targetFile).equals(sha256.get(), ignoreCase = true)) {
-            logger.info("${assetName.get()} je už aktuální.")
+            logger.info("${assetName.get()} is already current.")
             return
         }
 
         targetFile.parentFile.mkdirs()
-        logger.lifecycle("Stahuji ${assetName.get()}...")
+        logger.lifecycle("Downloading ${assetName.get()}...")
 
         URI(url.get()).toURL().openStream().use { input ->
             targetFile.outputStream().use { output ->
@@ -68,7 +67,7 @@ abstract class DownloadAssetTask : DefaultTask() {
         val actualHash = calculateSha256(targetFile)
         if (!actualHash.equals(sha256.get(), ignoreCase = true)) {
             targetFile.delete()
-            throw GradleException("SHA256 nesedí! Očekáváno ${sha256.get()} ale je $actualHash")
+            throw GradleException("SHA256 error! Expected ${sha256.get()} but received $actualHash")
         }
     }
 
@@ -109,6 +108,7 @@ android {
         buildConfigField("String", "SCRCPY_VERSION", "\"$scrcpyVersion\"")
         buildConfigField("String", "SCRCPY_SERVER_SHA256", "\"$scrcpyServerSha256\"")
         buildConfigField("String", "SCRCPY_SERVER_ASSET_NAME", "\"$scrcpyServerAssetName\"")
+        buildConfigField("String", "SCRCPY_SERVER_URL", "\"$scrcpyServerUrl\"")
     }
 
     signingConfigs {
@@ -203,13 +203,16 @@ tasks.withType<KotlinCompile> {
 }
 
 // Zaregistruje vygenerovanou scrcpy-server assets složku pro každý build variant,
-// stejně jako to dělá ShizuCallRecorder.
+val bundleScrcpy = providers.gradleProperty("bundleScrcpy").orNull != "false"
+
 androidComponents {
     onVariants { variant ->
-        variant.sources.assets?.addGeneratedSourceDirectory(
-            downloadScrcpyServer,
-            DownloadAssetTask::outputDir
-        )
+        if (bundleScrcpy) {
+            variant.sources.assets?.addGeneratedSourceDirectory(
+                downloadScrcpyServer,
+                DownloadAssetTask::outputDir
+            )
+        }
     }
 }
 
@@ -226,7 +229,7 @@ dependencies {
     implementation(libs.bundles.shizuku)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.compose.ui.graphics)
+//    implementation(libs.compose.ui.graphics)
     implementation(libs.indicator.fast.scroll)
     implementation(libs.autofit.text.view)
 }

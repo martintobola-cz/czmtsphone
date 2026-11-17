@@ -3,11 +3,7 @@ package cz.mts.base.extensions
 import android.content.Context
 import android.graphics.Typeface
 import android.icu.text.BreakIterator
-import android.text.Html
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.Spanned
+import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.widget.TextView

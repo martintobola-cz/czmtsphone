@@ -2,6 +2,14 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="scrcpy_missing_title">Hiányzik a scrcpy-server</string>
+<string name="scrcpy_missing_message">A hívásrögzítéshez ez az alkalmazás a GitHubról származó scrcpy-server-v%1$s fájlt használja. A szükséges fájl letöltéséhez használja a Letöltés gombot, majd az Importálás gombot. Korábban ez a fájl az alkalmazás része volt, de az F-Droid szabályai tiltják bináris fájlok internetről történő letöltését és hozzáadását a fordítás során.</string>
+<string name="scrcpy_missing_message_snack_bar">A hívásrögzítés engedélyezve van, de nem fog működni, mert hiányzik a scrcpy-server.jar fájl</string>
+<string name="scrcpy_pick_file">Importálás</string>
+<string name="scrcpy_download">Letöltés</string>
+<string name="scrcpy_sucess">A scrcpy-server importálása sikeres volt</string>
+<string name="scrcpy_error">A scrcpy-server ellenőrző összege nem egyezik</string>
+
 <string name="ring_duration">%1$s ideig csengett</string>
 <string name="bold_dialog_buttons">Félkövér gombok a párbeszédablakokban</string>
 

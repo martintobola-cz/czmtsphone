@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
-import android.media.AudioManager
 import android.os.*
 import android.telecom.Call
 import android.telephony.SmsManager
@@ -32,9 +31,13 @@ import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import cz.mts.base.extensions.*
+import cz.mts.base.extensions.baseConfig
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.PopupMenuColorizer.blendColors
 import cz.mts.phone.R
+import cz.mts.phone.activities.mtsGlobalAll.SIM_LABEL_REGEX
+import cz.mts.phone.activities.mtsGlobalAll.buildSimInfo
 import cz.mts.phone.activities.mtsGlobalAll.fakeAvatar
 import cz.mts.phone.databinding.ActivityCallBinding
 import cz.mts.phone.extensions.*
@@ -69,6 +72,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     private var dialingVisibleDots = 0
     private var dialingBaseText = ""
     private val dialingDots = "..."
+    private var recordingStarting = false
 
 
     // ── NOVÉ: implementace CallSwipeHandler.Host ──────────────────────────────
@@ -100,7 +104,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     private var bIsUpdating = false
     private val sConferenceFragmentTag = "ConferenceFragment"
     private var updating = false
-    private var bVibrateIsDone = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,7 +163,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         CallActivityUI.markVisible()
         onResumedUiSafe()
@@ -185,13 +188,11 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         smsOverlay?.dismiss()
         smsOverlay = null
 
-        if (!isDndActive) zavibruj(true) //aby člověk poznal, že mu to někdo položil
-
         disableProximitySensor()
-        try {
-            audioManager.mode = AudioManager.MODE_NORMAL
-        } catch (_: Exception) {
-        }
+//        try {
+//            audioManager.mode = AudioManager.MODE_NORMAL
+//        } catch (_: Exception) {
+//        }
         try {
             if (screenOnWakeLock?.isHeld == true) {
                 screenOnWakeLock?.release()
@@ -334,15 +335,15 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             }
         }
 
-        // Nastavení barev a pozadí
-        dialpadWrapper.setBackgroundColor(
-            if (isSystemInDarkMode()) {
-                getProperBackgroundColor().lightenColor(2)
-            } else {
-                getProperBackgroundColor()
-            }
-
-        )
+        // Nastavení barev a pozadí u klávesnice dialpadu
+        dialpadWrapper.setBackgroundColor(getProperBackgroundColor())
+//            if (isSystemInDarkMode()) {
+//                getProperBackgroundColor().lightenColor(2)
+//            } else {
+//                getProperBackgroundColor()
+//            }
+//
+//        )
 
         arrayOf(dialpadClose, callSimImage, dialpadClearChar).forEach {
             it.applyColorFilter(getProperTextColor())
@@ -470,11 +471,10 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             toggleButtonColor(binding.callToggleSpeaker, enabled = isSpeakerOn)
             //createOrUpdateAudioRouteChooser(supportedAudioRoutes, create = false)
 
-            if (isSpeakerOn) {
-                disableProximitySensor()
-            } else {
-                enableProximitySensor()
-            }
+            updateProximity()
+            //if (isSpeakerOn) disableProximitySensor()
+            //else enableProximitySensor()
+
         }
     }
 
@@ -504,8 +504,12 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
     private fun startRecordingNow() {
         val number = CallManager.getCallById(sMyUUIDcall)?.details?.handle?.schemeSpecificPart.orEmpty()
+        recordingStarting = true
+        binding.callRecord.isEnabled = false
         CallRecordingManager.startRecording(number.ifBlank { "call" }) { started ->
             runOnUiThread {
+                recordingStarting = false
+                binding.callRecord.isEnabled = true
                 if (!started) reportRecordingFailure()
                 updateRecordButton()
             }
@@ -522,6 +526,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
     private fun toggleRecording() {
         if (!config.allowRecordCalls) return
+        if (recordingStarting) return
 
         if (CallRecordingManager.isRecording()) {
             CallRecordingManager.stopRecording()
@@ -548,22 +553,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         renderRecordIcon(recording)
         binding.callRecord.contentDescription =
             getString(if (recording) R.string.stop_call_recording else R.string.start_call_recording)
-    }
-
-    private fun updateRecordButtonOLD() {
-        val allowRecording = config.allowRecordCalls
-        binding.callRecord.beVisibleIf(allowRecording)
-
-        if (!allowRecording) {
-            if (CallRecordingManager.isRecording()) {
-                CallRecordingManager.stopRecording()
-            }
-            return
-        }
-
-        val recording = CallRecordingManager.isRecording()
-        toggleButtonColor(binding.callRecord, recording)
-        binding.callRecord.contentDescription = getString(if (recording) R.string.stop_call_recording else R.string.start_call_recording)
     }
 
     private fun toggleDialpadVisibility() {
@@ -662,12 +651,11 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
                 callerNumber.beVisible()
                 if (display.numberClickable) {
                     callerNumber.isClickable = true
-                    callerNumber.setOnClickListener { openSpamNumberWeb(this@CallActivity, display.webNumber) }
+                    callerNumber.setOnClickListener { FakeActivity.start(applicationContext, display.webNumber)  }
                 }
             } else {
                 callerNumber.beGone()
             }
-
             //pokud je jméno hodně dlouhé, tak zmenšíme font a dáme tučný
             //sice callerNameLabel může být na dva řádky, ale u dlouhého jména původní text  ve velikosti "caller_name_text_size" vypadá hnusně
 //            if (callerNameLabel.text.length > 16) {
@@ -682,15 +670,11 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             callerAvatar.beVisible()
             callerAvatar.apply {
                 if (avatarUri.isNullOrEmpty()) {
-                    //val bgColor = getProperPrimaryColor()
-                    // setBackgroundResource(R.drawable.circle_background)
                     if (isConference) setImageResource(R.drawable.conferenceavatar)
                     else if (iSaveDebugMode == 2) setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.karlavatar))
                     else if (isHiddenNumber) setImageResource(R.drawable.anonymousavatar) //setImageBitmap(SimpleContactsHelper(this@CallActivity.baseContext).getCircularBitmapFromRID(R.drawable.anonymousavatar))
                     else setImageDrawable(AvatarSource.drawable(this@CallActivity, AvatarSource.Kind.FAKE)) //setImageResource(R.drawable.fakeavatar)
                     setPadding(resources.getDimensionPixelSize(R.dimen.activity_margin))
-                    //  applyColorFilter(bgColor.getContrastColor())
-                    //  background.applyColorFilter(bgColor)
                 } else {
                     if (!isFinishing && !isDestroyed) {
                         Glide.with(this)
@@ -717,11 +701,6 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             putExtra("start_tab", TAB_CONTACTS)
         }
         startActivity(intent)
-    }
-
-        // Akce po dvojkliku na avatar volajícího.
-    private var onAvatarDoubleTapOLD: (CallContact) -> Unit = { contact ->
-        startContactDetailsIntentID(contact.id, contact.source)
     }
 
     private var lastAvatarContact: CallContact? = null
@@ -788,6 +767,9 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             binding.callSimId.setTextColor(getProperBackgroundColor())
             binding.callSimImage.applyColorFilter(simColor)
         }
+        //toast s infem o simce
+        binding.callSimImage.setOnClickListener {simInfoToast(index)}
+        binding.callSimId.setOnClickListener {simInfoToast(index)}
 
         try {
             val rippleBg = resources.getDrawable(R.drawable.ic_call_accept, theme) as RippleDrawable
@@ -797,15 +779,27 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         } catch (_: Exception) {}
     }
 
+    private fun simInfoToast(simIndex : Int) {
+        getAvailableSIMCardLabels()
+            .sortedBy { it.indexid }
+            .take(2)
+            .forEachIndexed { index, simAccount ->
+                if (index == simIndex) {
+                    val match = SIM_LABEL_REGEX.find(simAccount.label)
+                    val operator = match?.groups?.get(1)?.value ?: simAccount.label
+                    val label = match?.groups?.get(2)?.value ?: ""
+                    if (operator.isNotBlank() || label.isNotBlank())
+                        toast(buildSimInfo(operator, label, true))
+                }
+            }
+    }
 
     private fun updateCallState(call: Call) {
         val state = call.getStateCompat()
 
         when (state) {
-            Call.STATE_RINGING -> callRinging()
-            Call.STATE_SIMULATED_RINGING -> callRinging()
-            Call.STATE_ACTIVE -> callStartedOrHolded(call)
-            Call.STATE_HOLDING -> callStartedOrHolded(call)
+            Call.STATE_RINGING, Call.STATE_SIMULATED_RINGING -> callRinging()
+            Call.STATE_ACTIVE, Call.STATE_HOLDING -> callStartedOrHolded(call)
             Call.STATE_DISCONNECTED -> endCall()
             Call.STATE_CONNECTING, Call.STATE_DIALING -> initOutgoingCallUI()
             //TODO       Call.STATE_SELECT_PHONE_ACCOUNT -> showPhoneAccountPicker()
@@ -813,8 +807,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
         // Nastavení status textu
         val statusTextId = when (state) {
-            Call.STATE_SIMULATED_RINGING -> R.string.is_calling
-            Call.STATE_RINGING -> R.string.is_calling
+            Call.STATE_RINGING, Call.STATE_SIMULATED_RINGING -> R.string.is_calling
             Call.STATE_CONNECTING, Call.STATE_DIALING -> R.string.dialing
             // Call.STATE_HOLDING -> R.string.call_on_hold řeší se na jiném (holdStatusLabel)
             else -> null
@@ -852,8 +845,8 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             callSwap.beVisibleIf(isHoldAndActiveCalls)
             callMerge.beVisibleIf(isHoldAndActiveCalls)
 
-            // Tlačítko na odeslání SMS je vidět jen když hovor aktivně probíhá (ne při ringing/holding/dialing)
-            val isCallActive = false //MTSX TODO//!isActivityEnded && state == Call.STATE_ACTIVE
+            // zatím zakázáno během aktivního hovoru zobrazit // Tlačítko na odeslání SMS je vidět jen když hovor aktivně probíhá (ne při ringing/holding/dialing)
+            val isCallActive = false                          //MTSX TODO//!isActivityEnded && state == Call.STATE_ACTIVE
             callSendSms.beVisibleIf(isCallActive)
             setActionButtonEnabled(callSendSms, isCallActive)
 
@@ -945,11 +938,13 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
                             val bCanBeAccepted = callstate == Call.STATE_HOLDING || callstate == Call.STATE_RINGING || callstate == Call.STATE_SIMULATED_RINGING
 
-                            val contentTextId = if (callstate == Call.STATE_RINGING || callstate == Call.STATE_SIMULATED_RINGING) R.string.call_type1_mts
-                            else if (callstate == Call.STATE_HOLDING) R.string.call_on_hold
-                            else if (callstate == Call.STATE_CONNECTING || callstate == Call.STATE_DIALING) R.string.dialing
-                            else if (callstate == Call.STATE_ACTIVE) R.string.mts_active_call
-                            else R.string.mts_none
+                            val contentTextId = when (callstate) {
+                                Call.STATE_RINGING, Call.STATE_SIMULATED_RINGING -> R.string.call_type1_mts
+                                Call.STATE_HOLDING -> R.string.call_on_hold
+                                Call.STATE_CONNECTING, Call.STATE_DIALING -> R.string.dialing
+                                Call.STATE_ACTIVE -> R.string.mts_active_call
+                                else -> R.string.mts_none
+                            }
 
                             callNotification.notificationPageLeft.beVisibleIf(sMyListPosition > 1)
                             callNotification.notificationPageRight.beVisibleIf(sMyListPosition != callsOverlayCount)
@@ -1068,7 +1063,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         if (call == null) return
         val stateNow = call.getStateCompat()
         if (!isFinishing && !isDestroyed && stateNow != Call.STATE_DISCONNECTING && stateNow != Call.STATE_DISCONNECTED) {
-            val canBeAccepted = stateNow == Call.STATE_RINGING
+            val canBeAccepted = stateNow == Call.STATE_RINGING || stateNow == Call.STATE_SIMULATED_RINGING
             callNotificationManager.doNotification(call, false, false, false, canBeAccepted)
         }
     }
@@ -1091,7 +1086,7 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
 
 
     private fun initOutgoingCallUI() {
-        enableProximitySensor()
+        updateProximity()//enableProximitySensor()
         binding.incomingCallHolder.beGone()
         binding.ongoingCallHolder.beVisible()
         binding.callEnd.beVisible()
@@ -1117,32 +1112,10 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     }
 
     private fun callStartedOrHolded(call: Call) {
-        if (call.isOutgoing() && call.getStateCompat() == Call.STATE_ACTIVE) {zavibruj()}
-        enableProximitySensor()
+        updateProximity()//enableProximitySensor()
         binding.incomingCallHolder.beGone()
         binding.ongoingCallHolder.beVisible()
         binding.callEnd.beVisible()
-    }
-
-    // Vibrátorek
-    private fun zavibruj(bFinish : Boolean = false) {
-
-        if (!bFinish) {
-            if (bVibrateIsDone) return
-        }
-
-
-        val v = vibrator ?: return
-        if (!v.hasVibrator()) return
-
-        val effect = VibrationEffect.createOneShot(
-            400,
-            VibrationEffect.DEFAULT_AMPLITUDE
-        )
-
-        v.vibrate(effect)
-
-        bVibrateIsDone = true
     }
 
     private fun startCallDurationUpdates() {
@@ -1298,6 +1271,30 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         }
     }
 
+    private fun updateProximity() {
+        updateScreenPolicy()
+        val r = CallManager.getCallAudioRoute() ?: return
+        if (r == AudioRoute.EARPIECE && !isCurrentCallRinging()) enableProximitySensor()
+        else disableProximitySensor()
+    }
+
+    private fun isCurrentCallRinging(): Boolean = isRinging(sMyUUIDcall)
+
+    private fun isAnyCallRinging(): Boolean =
+        isRinging(sMyUUIDcall) || sMyUUIDcallOverlayList.any { isRinging(it) }
+
+    private fun isRinging(callId: String): Boolean {
+        val state = CallManager.getCallById(callId)?.getStateCompat()
+        return state == Call.STATE_RINGING || state == Call.STATE_SIMULATED_RINGING
+    }
+
+    private fun updateScreenPolicy() {
+        if (config.allowScreenOn) return
+        val keepOn = isAnyCallRinging() || CallManager.getCallAudioRoute() == AudioRoute.SPEAKER
+        if (keepOn) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
     private fun enableProximitySensor() {
         if (config.disableProximitySensor) return
 
@@ -1335,42 +1332,25 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
         }
     }
 
-    private fun getActiveButtonColor() = getProperPrimaryColor()
-
-    private fun getInactiveButtonColor() = getProperTextColor().adjustAlpha(0.10f)
-
-
-    private fun toggleButtonColor(view: ImageView, enabled: Boolean) {
-        view.background.applyColorFilter(getCallButtonCircleColor(enabled))
-        view.applyColorFilter(
-            if (enabled) getProperPrimaryColor()
-            else getProperBackgroundColor().getContrastColor()
-        )
+    private fun realBgButtonColor(enabled: Boolean): Int {
+        val screenBg = getProperBackgroundColor()
+        val circleColor = getCallButtonCircleColor(enabled)
+        //skutečná barva co vidí uživatel dána splynutím barvy v popředí, pozadí a průhlednosti
+        return  blendColors(screenBg, circleColor)
     }
 
-    private fun toggleButtonColorOLD(view: ImageView, enabled: Boolean) {
-        if (enabled) {
-            val color = getActiveButtonColor()
-            view.background.applyColorFilter(color)
-            val iconColor = getProperPrimaryColor() //if (isSystemInDarkMode()) color.getContrastColor() else getProperPrimaryColor()
-            view.applyColorFilter(iconColor)
-        } else {
-            view.background.applyColorFilter(getInactiveButtonColor())
-            view.applyColorFilter(getProperBackgroundColor().getContrastColor())
-        }
+    private fun toggleButtonColor(view: ImageView, enabled: Boolean) {
+        val realBgColor = realBgButtonColor(enabled)
+        view.background.applyColorFilter(getCallButtonCircleColor(enabled))
+        val iconColor = if (enabled && !baseConfig.highlightCallButtons) getProperPrimaryColor()
+                        else realBgColor.getContrastColor() //toto vlastně odpovídá barvě ikon v action menu
+        view.applyColorFilter(iconColor)
     }
 
     private fun clearChar(view: View) {
         binding.dialpadInput.dispatchKeyEvent(getKeyEvent(KeyEvent.KEYCODE_DEL))
     }
 
-    private fun clearCharNewBetter(view: View) {
-        binding.dialpadInput.text?.let {
-            if (it.isNotEmpty()) {
-                it.delete(it.length - 1, it.length)
-            }
-        }
-    }
 
     private fun clearInput(): Boolean {
         binding.dialpadInput.setText("")
@@ -1428,10 +1408,26 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
     private fun initUI() = binding.apply {
         updateTextColors(binding.callHolder)
         initButtons()
-        audioManager.mode = AudioManager.MODE_IN_CALL
+//        audioManager.mode = AudioManager.MODE_IN_CALL
+    }
+
+    private fun restoreButtonsUnderDialpad() {
+        viewsUnderDialpad.forEach { (v, a) ->
+            v.animate().cancel()
+            v.scaleX = 1f
+            v.scaleY = 1f
+            v.alpha = a
+            v.visibility = View.VISIBLE
+        }
+        viewsUnderDialpad.clear()
+        binding.dialpadWrapper.animate().cancel()
+        binding.dialpadWrapper.alpha = 1f
+        binding.dialpadWrapper.translationY = 0f
     }
 
     private fun resetUiState(conferenceIsOn : Boolean = false) = binding.apply {
+        dialpadInput.setText("")
+        restoreButtonsUnderDialpad()
         if (conferenceIsOn) conferenceOverlayFragment.beVisible()
         else conferenceOverlayFragment.beGone()
         // Incoming / ongoing
@@ -1573,7 +1569,9 @@ class CallActivity : SimpleActivity(), CallSwipeHandler.Host {
             val frame = AppCompatResources.getDrawable(this, R.drawable.ic_call_rec_vector)?.mutate()
             val back = AppCompatResources.getDrawable(this, R.drawable.ic_call_rec_blink_vector)?.mutate()
             if (frame != null && back != null) {
-                frame.setTint(getProperPrimaryColor())
+                val iconColor = if (!baseConfig.highlightCallButtons) getProperPrimaryColor()
+                                else realBgButtonColor(true).getContrastColor()
+                frame.setTint(iconColor)
                 back.setTint(if (recBlinkRed) Color.RED else Color.WHITE)
                 btn.clearColorFilter()   // jinak by filtr přebarvil i spodní vrstvu
                 btn.setImageDrawable(LayerDrawable(arrayOf(back, frame)))

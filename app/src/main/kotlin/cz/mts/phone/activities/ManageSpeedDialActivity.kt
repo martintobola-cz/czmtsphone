@@ -3,7 +3,7 @@ package cz.mts.phone.activities
 import android.os.Bundle
 import com.google.gson.Gson
 import cz.mts.base.extensions.getProperBackgroundColor
-import cz.mts.base.extensions.shouldUseLightIcons
+import cz.mts.base.extensions.isLightBackground
 import cz.mts.base.extensions.updateTextColors
 import cz.mts.base.extensions.viewBinding
 import cz.mts.base.helpers.ContactsHelper
@@ -50,7 +50,7 @@ class ManageSpeedDialActivity : SimpleActivity(), RemoveSpeedDialListener {
     }
 
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         setupTopAppBar(binding.manageSpeedDialAppbar, NavigationIcon.Arrow)
     }

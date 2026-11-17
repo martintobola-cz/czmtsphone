@@ -2,6 +2,14 @@
 <resources>
     <string name="app_launcher_name">MTS 撥號器</string>
 
+<string name="scrcpy_missing_title">缺少 scrcpy-server</string>
+<string name="scrcpy_missing_message">為了錄製通話，此應用程式使用來自 GitHub 的 scrcpy-server-v%1$s。請點選「下載」按鈕下載所需檔案，然後點選「匯入」。此檔案先前包含在應用程式中，但 F-Droid 的規則禁止在建置期間從網際網路下載及新增二進位檔案。</string>
+<string name="scrcpy_missing_message_snack_bar">您已啟用通話錄音，但由於缺少 scrcpy-server.jar 檔案，該功能將無法運作</string>
+<string name="scrcpy_pick_file">匯入</string>
+<string name="scrcpy_download">下載</string>
+<string name="scrcpy_sucess">scrcpy-server 匯入成功</string>
+<string name="scrcpy_error">scrcpy-server 檢查碼不符</string>
+
 <string name="ring_duration">響鈴 %1$s</string>
 <string name="bold_dialog_buttons">對話方塊按鈕加粗</string>
 
@@ -87,7 +95,7 @@
 <string name="unblock_contact_success">聯絡人已解除封鎖</string>
 <string name="unblock_contact_fail">無法解除封鎖聯絡人</string>
 
-<string name="edit_sms_templates"> 🔤 編輯簡訊範本</string>
+<string name="edit_sms_templates"> ✍️ 編輯簡訊範本</string>
 <string name="sms_edit_hint_double_tap">長按或點兩下以編輯文字</string>
 <string name="sms_add_new_template">+ 新增新範本</string>
 <string name="could_not_send_sms">您已啟用拒絕來電並傳送簡訊功能，但應用程式沒有傳送簡訊的權限。</string>

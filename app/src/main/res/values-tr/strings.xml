@@ -2,6 +2,14 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="scrcpy_missing_title">scrcpy-server eksik</string>
+<string name="scrcpy_missing_message">Çağrı kaydı için bu uygulama GitHub\'daki scrcpy-server-v%1$s dosyasını kullanır. Gerekli dosyayı indirmek için İndir düğmesini, ardından İçe aktar düğmesini kullanın. Bu dosya daha önce uygulamanın bir parçasıydı, ancak F-Droid kuralları derleme sırasında internetten ikili dosya indirmeyi ve eklemeyi yasaklıyor.</string>
+<string name="scrcpy_missing_message_snack_bar">Çağrı kaydı etkin, ancak scrcpy-server.jar dosyası eksik olduğu için çalışmayacak</string>
+<string name="scrcpy_pick_file">İçe aktar</string>
+<string name="scrcpy_download">İndir</string>
+<string name="scrcpy_sucess">scrcpy-server başarıyla içe aktarıldı</string>
+<string name="scrcpy_error">scrcpy-server sağlama toplamı eşleşmiyor</string>
+
 <string name="ring_duration">%1$s boyunca çaldı</string>
 <string name="bold_dialog_buttons">Diyaloglarda kalın düğmeler</string>
 

@@ -29,8 +29,8 @@ import cz.mts.base.extensions.getProperPrimaryColor
 import cz.mts.base.extensions.getProperTextColor
 import cz.mts.base.extensions.hideKeyboard
 import cz.mts.base.extensions.insetsController
+import cz.mts.base.extensions.isLightBackground
 import cz.mts.base.extensions.onGlobalLayout
-import cz.mts.base.extensions.shouldUseLightIcons
 import cz.mts.base.extensions.showErrorToast
 import cz.mts.base.extensions.showKeyboard
 import cz.mts.base.extensions.toast
@@ -113,7 +113,7 @@ class EditLocalContactActivity : SimpleActivity() {
     // Lifecycle
     // ─────────────────────────────────────────────────────────────────────────
     override fun onResume() {
-        customNavBarLightIcons = shouldUseLightIcons(getProperBackgroundColor())
+        customNavBarLightIcons = isLightBackground(getProperBackgroundColor())
         super.onResume()
         window.insetsController().isAppearanceLightStatusBars = false
     }

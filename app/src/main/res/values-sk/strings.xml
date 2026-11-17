@@ -2,6 +2,14 @@
 <resources>
     <string name="app_launcher_name">Telefón</string>
 
+<string name="scrcpy_missing_title">Chýba scrcpy-server</string>
+<string name="scrcpy_missing_message">Na nahrávanie hovorov táto aplikácia používa scrcpy-server-v%1$s z GitHubu. Použite tlačidlo Stiahnuť na stiahnutie potrebného súboru a potom Importovať. Predtým bol tento súbor súčasťou aplikácie, ale pravidlá F-Droidu zakazujú sťahovanie a pridávanie binárnych súborov z internetu počas zostavovania.</string>
+<string name="scrcpy_missing_message_snack_bar">Máte povolené nahrávanie hovorov, ale nebude fungovať, pretože chýba súbor scrcpy-server.jar</string>
+<string name="scrcpy_pick_file">Importovať</string>
+<string name="scrcpy_download">Stiahnuť</string>
+<string name="scrcpy_sucess">scrcpy-server bol úspešne importovaný</string>
+<string name="scrcpy_error">Kontrolný súčet scrcpy-server nesedí</string>
+
 <string name="ring_duration">zvonilo %1$s</string>
 <string name="bold_dialog_buttons">Tučné tlačidlá v dialógoch</string>
 

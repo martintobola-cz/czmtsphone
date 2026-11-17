@@ -115,15 +115,14 @@ class ContactCallHistoryAdapter(
                     showDayIfUserWant = true
                 )
                 val timeOnly = call.startTS.formatTime(activity)
+                val isMissed = iCallType == Calls.MISSED_TYPE
+                val isBlocked = iCallType == Calls.BLOCKED_TYPE
 
                 historyRowDate.apply {
                     text = dateOnly
-                    setTextColor(if (iCallType == Calls.MISSED_TYPE) missedCallColor else textColor)
+                    setTextColor(if (isMissed) missedCallColor else textColor)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                 }
-
-                val isMissed = iCallType == Calls.MISSED_TYPE
-                val isBlocked = iCallType == Calls.BLOCKED_TYPE
 
                 val shouldShowDuration = ((iCallType != Calls.REJECTED_TYPE && call.duration > 0 ) || (isBlocked))
 
@@ -133,7 +132,8 @@ class ContactCallHistoryAdapter(
                     text = if (isBlocked) activity.getString(R.string.number_type3_mts)
                            else if (isMissed) context.getString(R.string.ring_duration, formatted)
                            else formatted
-                    setTextColor(textColor)
+                    alpha = if (isMissed) 1f else 0.6f
+                    setTextColor(if (isMissed) missedCallColor else textColor)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize2)
                 }
 
@@ -146,7 +146,7 @@ class ContactCallHistoryAdapter(
 
                 val displayNumber = call.specificNumber.ifBlank { call.phoneNumber }
                 val numberText = if (cfg.formatPhoneNumbers) {
-                    numberForRecents(displayNumber, true) ?: displayNumber
+                    numberForRecents(displayNumber, true)
                 } else {
                     displayNumber
                 }

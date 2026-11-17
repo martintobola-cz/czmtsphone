@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+<string name="use_dynamic_theme">ダイナミックカラー（Material You）</string>
+<string name="theme_restart_required">［OK］を押すとアプリが終了します。変更した色を反映するために必要な動作です。</string>
+<string name="customization_popup_menu_background_color_label">ポップアップメニューの背景色</string>
+<string name="customization_popup_menu_text_color_label">ポップアップメニューの文字色</string>
+
+<string name="callfilter_info">不明な番号の評価を表示（callfilter.app、cz.mts.callfilter を使用）</string>
+<string name="more_info">詳細</string>
+<string name="tmobile_theme">T-Mobile</string>
+<string name="kaktus_theme">Kaktus</string>
+<string name="use_custom_sim_color">SIMの色をカスタマイズ</string>
+<string name="customization_sim1_color_label">SIM1の色</string>
+<string name="customization_sim2_color_label">SIM2の色</string>
+<string name="use_dayofweek_in_time_format">曜日を表示</string>
+<string name="invalid_target_for_import">対象は1つだけ選択してください（カスタムを作成する場合は選択なし）！</string>
+<string name="invalid_name_or_type">名前または種類が無効です！</string>
+<string name="view_all_call_history">更新</string>
+<string name="search_all_fields">すべての項目を検索</string>
+<string name="other">その他</string>
+<string name="about">アプリについて</string>
+<string name="customization_navbar_color_label">ナビゲーションバーの色</string>
+<string name="ok">OK</string>
+<string name="cancel">キャンセル</string>
+<string name="close">閉じる</string>
+<string name="back">戻る</string>
+<plurals name="files_saved">
+    <item quantity="other">ファイルを保存しました</item>
+</plurals>
+<string name="invalid_file_format">ファイル形式が無効です</string>
+<string name="error">エラー: %s</string>
+<string name="no_app_found">対応するアプリが見つかりません</string>
+<string name="copy_number_to_clipboard">番号をクリップボードにコピー</string>
+<string name="value_copied_to_clipboard_show">クリップボードにコピーしました</string>
+<string name="unknown">不明</string>
+<string name="previous">前へ</string>
+<string name="next">次へ</string>
+<string name="number">番号</string>
+<string name="no_contacts_found">連絡先が見つかりません</string>
+<string name="zero">0</string>
+<string name="one">1</string>
+<string name="two">2</string>
+<string name="three">3</string>
+<string name="four">4</string>
+<string name="five">5</string>
+<string name="six">6</string>
+<string name="seven">7</string>
+<string name="eight">8</string>
+<string name="nine">9</string>
+<string name="value">値</string>
+<string name="create_new_contact">新しい連絡先を作成</string>
+<string name="disclaimer">免責事項</string>
+<string name="choose_contact">連絡先を選択</string>
+<string name="record_audio">音声を録音</string>
+<string name="record_video">動画を録画</string>
+<string name="phone_storage">端末ストレージ</string>
+<string name="phone_storage_hidden">端末ストレージ（他のアプリからは見えません）</string>
+<string name="home">自宅</string>
+<string name="work">勤務先</string>
+
+
+<string name="mobile">携帯</string>
+<string name="main_number">代表</string>
+<string name="work_fax">勤務先FAX</string>
+<string name="home_fax">自宅FAX</string>
+<string name="pager">ポケットベル</string>
+<string name="change_view_type">表示形式を変更</string>
+<string name="grid">グリッド</string>
+<string name="list">リスト</string>
+<string name="column_count">列数</string>
+<plurals name="column_counts">
+    <item quantity="other">%d列</item>
+</plurals>
+<plurals name="row_counts">
+    <item quantity="other">%d行</item>
+</plurals>
+
+
+<string name="manage_blocked_numbers">⛔ 着信拒否番号</string>
+<string name="blocked_numbers_title">⛔ 着信拒否</string>
+
+<string name="not_blocking_anyone">着信拒否に設定している番号はありません。</string>
+<string name="add_a_blocked_number">着信拒否番号を追加</string>
+<string name="block_number">番号を着信拒否</string>
+<string name="blocked_numbers">着信拒否番号</string>
+<string name="export_blocked_numbers">着信拒否番号をエクスポート</string>
+<string name="import_blocked_numbers">着信拒否番号をインポート</string>
+<string name="must_make_default_dialer">着信拒否機能を使用するには、このアプリを既定の電話アプリに設定する必要があります。</string>
+<string name="set_as_default">既定に設定</string>
+
+
+<string name="favorites">お気に入り</string>
+<string name="search">検索</string>
+<string name="search_contacts">連絡先を検索</string>
+<string name="filter">連絡先のソース</string>
+<string name="no_items_found">項目が見つかりません。</string>
+<string name="allow_notifications_incoming_calls">アプリの通知表示を許可してください。許可しないと着信を表示できません。</string>
+<string name="allow_full_screen_notifications_incoming_calls">アプリの全画面通知を許可してください。許可しないと、一部の着信に気付けない場合があります。</string>
+<string name="grant_permission">権限を許可</string>
+<string name="permission_required">権限が必要です</string>
+
+
+<string name="filename_cannot_be_empty">ファイル名を入力してください</string>
+<string name="filename_invalid_characters">ファイル名に使用できない文字が含まれています</string>
+<string name="prepend_filenames">ファイル名の前にテキストを追加</string>
+<string name="append_filenames">ファイル名の後にテキストを追加</string>
+<string name="simple_renaming">簡易リネーム</string>
+<string name="pattern_renaming">パターン</string>
+<string name="string_to_add">追加するテキスト</string>
+<string name="rename_date_time_pattern">%Y - 年\n%M - 月\n%D - 日\n%h - 時\n%m - 分\n%s - 秒\n%i - 1から始まる連番</string>
+<string name="filename_without_ext">拡張子なしのファイル名</string>
+<string name="copy">コピー</string>
+<string name="please_select_destination">保存先を選択してください</string>
+<string name="could_not_create_folder">フォルダ %s を作成できませんでした</string>
+<string name="could_not_create_file">ファイル %s を作成できませんでした</string>
+<string name="system_service_disabled">ファイルとフォルダを選択するシステムサービスが利用できません</string>
+
+
+<string name="folder">フォルダ</string>
+<string name="create_new_folder">新しいフォルダを作成</string>
+<string name="name_taken">同じ名前のファイルまたはフォルダがすでに存在します</string>
+<string name="invalid_name">名前に使用できない文字が含まれています</string>
+<string name="empty_name">名前を入力してください</string>
+<string name="unknown_error_occurred">不明なエラーが発生しました</string>
+
+
+<string name="file_already_exists">ファイル「%s」はすでに存在します</string>
+<string name="file_already_exists_overwrite">ファイル「%s」はすでに存在します。上書きしますか？</string>
+<string name="folder_already_exists">フォルダ「%s」はすでに存在します</string>
+<string name="merge">統合</string>
+<string name="keep_both">両方を残す</string>
+<string name="overwrite">上書き</string>
+<string name="skip">スキップ</string>
+<string name="apply_to_all">すべてに適用</string>
+<string name="system_folder_restriction">システムの制限により、このフォルダでは操作できません。別のフォルダを選択してください</string>
+<string name="select_folder">フォルダを選択</string>
+<string name="select_file">ファイルを選択</string>
+<string name="confirm_storage_access_title">外部ストレージへのアクセスを確認</string>
+<string name="confirm_folder_access_title">フォルダへのアクセスを確認</string>
+<string name="confirm_storage_access_text">書き込み権限を付与するため、次の画面でSDカードの最上位フォルダを選択してください</string>
+<string name="confirm_storage_access_text_sd">SDカードが表示されない場合は、こちらをお試しください</string>
+<string name="confirm_storage_access_android_text_specific">次の画面で、下部の「&lt;b&gt;このフォルダを使用&lt;/b&gt;」を押して「&lt;b&gt;%s&lt;/b&gt;」へのアクセスを許可してください。</string>
+<string name="confirm_create_doc_for_new_folder_text">新しいフォルダを作成するには、次の画面の下部にある「&lt;b&gt;保存&lt;/b&gt;」を押してください。</string>
+<string name="loading">読み込み中…</string>
+<plurals name="items">
+    <item quantity="other">%d件</item>
+</plurals>
+
+
+<plurals name="delete_items">
+    <item quantity="other">%d件</item>
+</plurals>
+
+<plurals name="deleting_items">
+    <item quantity="other">%d件を削除しています</item>
+</plurals>
+
+
+<plurals name="delete_contacts">
+    <item quantity="other">%d件の連絡先</item>
+</plurals>
+
+
+<string name="select_storage">ストレージを選択</string>
+<string name="internal">内部</string>
+<string name="sd_card">SDカード</string>
+<string name="root">ルート</string>
+<string name="wrong_root_selected">選択したフォルダが正しくありません。SDカードのメインフォルダを選択してください</string>
+<string name="sd_card_usb_same">SDカードとUSBデバイスのパスを同じにすることはできません</string>
+<string name="wrong_folder_selected">選択したフォルダが正しくありません。パス「%s」を選択してください</string>
+
+
+<string name="path">パス</string>
+<string name="background_color">背景色</string>
+<string name="text_color">文字色</string>
+<string name="primary_color">プライマリカラー</string>
+<string name="accent_color_white">ホワイトテーマのアクセントカラー</string>
+<string name="accent_color_black_and_white">白黒テーマのアクセントカラー</string>
+<string name="app_icon_color">アプリアイコンの色</string>
+<string name="default_color">デフォルト</string>
+<string name="theme">テーマ</string>
+<string name="changing_color_description">ここで変更できるのはアプリアイコンの色のみです。それ以外の色を変更すると、テーマがカスタムに切り替わります。</string>
+<string name="save">保存</string>
+<string name="discard">破棄</string>
+<string name="cannot_be_undone">この操作は元に戻せません。</string>
+<string name="save_before_closing">保存されていない変更があります。終了前に保存しますか？</string>
+<string name="app_icon_color_warning">注意: ランチャーによっては、アプリアイコンのカスタマイズが正しく処理されない場合があります。アイコンが消えた場合は、Google Playまたはウィジェット（利用可能な場合）からアプリを起動してください。
+        起動後、アイコンの色をデフォルトの緑（#106D1F）に戻してください。最悪の場合、アプリの再インストールが必要になることがあります。</string>
+<string name="light_theme">ライト</string>
+<string name="dark_theme">ダーク</string>
+<string name="auto_light_dark_theme">ライト/ダークを自動切替</string>
+<string name="dark_red">ダークレッド</string>
+<string name="white">ホワイト</string>
+<string name="black_white">白黒</string>
+<string name="custom">カスタム</string>
+<string name="system_default">Androidシステム</string>
+
+
+<string name="whats_new_disclaimer">※ ここには大きな更新のみを記載しています。このほかにも、小さな改善が常に行われています</string>
+
+
+<string name="delete">削除</string>
+<string name="remove">削除</string>
+<string name="select_all">すべて選択</string>
+<string name="create_shortcut">ホーム画面にピン留め</string>
+<string name="add_number_to_contact">番号を連絡先に追加</string>
+<string name="view_contact_details">連絡先の詳細を表示</string>
+<string name="call_from_sim_1">SIM 1で発信</string>
+<string name="call_from_sim_2">SIM 2で発信</string>
+<string name="send_sms">SMSを送信</string>
+<string name="call">発信</string>
+<string name="unblock">着信拒否を解除</string>
+
+
+<string name="sort_by">並べ替え</string>
+<string name="date_created">作成日</string>
+<string name="date_taken">撮影日</string>
+<string name="title">タイトル</string>
+<string name="extension">拡張子</string>
+<string name="ascending">昇順</string>
+<string name="descending">降順</string>
+<string name="first_name">名</string>
+<string name="middle_name">ミドルネーム</string>
+<string name="surname">姓</string>
+<string name="full_name">氏名</string>
+<string name="more_options">その他のオプション</string>
+<string name="proceed_with_deletion">削除を実行してもよろしいですか？</string>
+<string name="deletion_confirmation">%s を削除してもよろしいですか？</string>
+<string name="yes">はい</string>
+<string name="no">いいえ</string>
+<plurals name="delete_warning">
+    <item quantity="other">警告: %d個のフォルダを削除しようとしています</item>
+</plurals>
+
+
+<string name="pin">PIN</string>
+<string name="pattern">パターン</string>
+<string name="go_to_settings">設定を開く</string>
+<string name="lock_folder_notice">この保護はこのアプリ内でのみ有効です。システム全体のフォルダ暗号化の代わりにはなりません。</string>
+<string name="enter_password">パスワードを入力</string>
+<string name="password">パスワード</string>
+<string name="empty_password">パスワードを入力してください</string>
+<string name="yesterday">昨日</string>
+<string name="today">今日</string>
+<string name="seconds_raw">秒</string>
+<string name="minutes_raw">分</string>
+<string name="hours_raw">時間</string>
+<string name="days_raw">日</string>
+<string name="seconds_letter">%d秒</string>
+<string name="minutes_letter">%d分</string>
+<string name="hours_letter">%d時間</string>
+<string name="days_letter">%d日</string>
+<plurals name="seconds">
+    <item quantity="other">%d秒</item>
+</plurals>
+<plurals name="minutes">
+    <item quantity="other">%d分</item>
+</plurals>
+<plurals name="hours">
+    <item quantity="other">%d時間</item>
+</plurals>
+<plurals name="days">
+    <item quantity="other">%d日</item>
+</plurals>
+<plurals name="weeks">
+    <item quantity="other">%d週間</item>
+</plurals>
+<plurals name="months">
+    <item quantity="other">%dか月</item>
+</plurals>
+<plurals name="years">
+    <item quantity="other">%d年</item>
+</plurals>
+
+
+<plurals name="in_seconds">
+    <item quantity="other">%d秒</item>
+</plurals>
+<plurals name="in_minutes">
+    <item quantity="other">%d分</item>
+</plurals>
+<plurals name="in_hours">
+    <item quantity="other">%d時間</item>
+</plurals>
+<plurals name="in_days">
+    <item quantity="other">%d日</item>
+</plurals>
+<plurals name="in_weeks">
+    <item quantity="other">%d週間</item>
+</plurals>
+<plurals name="in_months">
+    <item quantity="other">%dか月</item>
+</plurals>
+<plurals name="in_years">
+    <item quantity="other">%d年</item>
+</plurals>
+
+
+<plurals name="seconds_before">
+    <item quantity="other">%d秒前</item>
+</plurals>
+<plurals name="minutes_before">
+    <item quantity="other">%d分前</item>
+</plurals>
+<plurals name="hours_before">
+    <item quantity="other">%d時間前</item>
+</plurals>
+<plurals name="days_before">
+    <item quantity="other">%d日前</item>
+</plurals>
+<plurals name="weeks_before">
+    <item quantity="other">%d週間前</item>
+</plurals>
+<plurals name="months_before">
+    <item quantity="other">%dか月前</item>
+</plurals>
+<plurals name="years_before">
+    <item quantity="other">%d年前</item>
+</plurals>
+
+
+<plurals name="by_seconds">
+    <item quantity="other">%d秒</item>
+</plurals>
+<plurals name="by_minutes">
+    <item quantity="other">%d分</item>
+</plurals>
+<plurals name="by_hours">
+    <item quantity="other">%d時間</item>
+</plurals>
+<plurals name="by_days">
+    <item quantity="other">%d日</item>
+</plurals>
+<plurals name="by_weeks">
+    <item quantity="other">%d週間</item>
+</plurals>
+<plurals name="by_months">
+    <item quantity="other">%dか月</item>
+</plurals>
+<plurals name="by_years">
+    <item quantity="other">%d年</item>
+</plurals>
+
+
+<string name="system_sounds">システム音</string>
+<string name="your_sounds">ユーザーの音</string>
+<string name="settings">設定</string>
+<string name="general_settings">一般</string>
+<string name="color_customization">色のカスタマイズ</string>
+<string name="customize_colors">🎨 色をカスタマイズ</string>
+<string name="theme_and_colors">テーマと色</string>
+<string name="feature_locked">ロック中</string>
+<string name="use_english_language">英語を使用</string>
+<string name="language">🌏 言語</string>
+<string name="font_size">🅰️ 文字サイズ</string>
+<string name="small">小</string>
+<string name="medium">中</string>
+<string name="large">大</string>
+<string name="extra_large">特大</string>
+<string name="use_24_hour_time_format">24時間表記を使用</string>
+<string name="change_date_and_time_format">🕒 日付と時刻の形式</string>
+<string name="export_settings">設定をエクスポート</string>
+<string name="settings_exported_successfully">設定をエクスポートしました</string>
+<string name="start_name_with_surname">姓を先に表示</string>
+<string name="show_call_confirmation_dialog">発信前に確認ダイアログを表示</string>
+<string name="format_phone_numbers">電話番号を整形して表示</string>
+<string name="show_only_contacts_with_numbers">電話番号のある連絡先のみ表示</string>
+<string name="startup">起動時の設定</string>
+<string name="migrating">移行中 📦</string>
+<string name="manage_shown_tabs">🗂️ タブを管理</string>
+<string name="calling_accounts">🔑 通話アカウント</string>
+<string name="default_tab_to_open">起動時に開くタブ</string>
+<string name="contacts_tab">連絡先</string>
+<string name="favorites_tab">お気に入り</string>
+<string name="call_history_tab">通話履歴</string>
+<string name="last_used_tab">最後に使用したタブ</string>
+<plurals name="moving_items_into_bin">
+    <item quantity="other">%d件をごみ箱に移動しています</item>
+</plurals>
+
+
+<string name="importing">インポート中…</string>
+<string name="exporting">エクスポート中…</string>
+<string name="importing_successful">インポートが完了しました</string>
+<string name="exporting_successful">エクスポートが完了しました</string>
+<string name="exporting_failed">エクスポートに失敗しました</string>
+<string name="no_entries_for_importing">インポートできるデータが見つかりませんでした</string>
+<string name="no_entries_for_exporting">エクスポートできるデータが見つかりませんでした</string>
+<string name="usb">USB</string>
+<string name="confirm_usb_storage_access_text">アクセスを許可するため、次の画面でUSBデバイスの最上位フォルダを選択してください</string>
+<string name="wrong_root_selected_usb">選択したフォルダが正しくありません。USBデバイスのメインフォルダを選択してください</string>
+<string name="translation_english">English</string>
+</resources>

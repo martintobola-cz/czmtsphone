@@ -1,10 +1,13 @@
 package cz.mts.base.extensions
 
+
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -16,13 +19,11 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowInsetsCompat
 import cz.mts.base.R
 import cz.mts.base.databinding.DialogTitleBinding
 import cz.mts.base.helpers.isOnMainThread
 import cz.mts.base.views.MyTextView
-import android.graphics.drawable.Drawable
 
 fun Activity.appLaunched(appId: String) {
     baseConfig.internalStoragePath = getInternalStoragePath()
@@ -105,19 +106,31 @@ fun Activity.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Activity.getDialogBackgroundDrawable(): Drawable? = when {
-    isBlackAndWhiteTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.black_dialog_background, theme)
-    isDynamicTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.dialog_you_background, theme)
-    else -> resources.getColoredDrawableWithColor(R.drawable.dialog_bg, getProperBackgroundColor())
-}
-
-/** Pozadí + tlačítka pro dialogy mimo setupDialogStuff. Volat až po show(). */
-//fun Activity.styleDialog(dialog: android.app.AlertDialog) {
-//    dialog.window?.setBackgroundDrawable(getDialogBackgroundDrawable())
-//    styleDialogButtons(dialog)
+//fun Activity.getDialogBackgroundDrawable(): Drawable? = when {
+//    isBlackAndWhiteTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.black_dialog_background, theme)
+// aby pozadí dialogu i dynamic tématu bylo stejné jako barva pozadí, tak jsem zakomentoval následující řádek...
+//    isDynamicTheme() -> ResourcesCompat.getDrawable(resources, R.drawable.dialog_you_background, theme)
+//    else -> resources.getColoredDrawableWithColor(R.drawable.dialog_bg, getProperBackgroundColor())
 //}
 
-fun Activity.styleDialog(dialog: androidx.appcompat.app.AlertDialog) {
+//barva pozadí pro všechny dialogy
+fun Activity.getDialogBackgroundDrawable(): Drawable {
+    var backgroundColor = getProperBackgroundColor()
+
+    // tmavé pozadí -> dialog trochu zesvětlit, aby se odlišil od podkladu
+    if (!isLightBackground(backgroundColor)) {
+        backgroundColor = backgroundColor.adjustColor(8,true)
+    }
+
+    return GradientDrawable().apply {
+        shape = GradientDrawable.RECTANGLE
+        cornerRadius = dpToPx(16).toFloat()  //zakulacení
+        setColor(backgroundColor)
+        setStroke(dpToPx(1), getProperTextColor().adjustAlpha(0.2f))
+    }
+}
+
+fun Activity.styleDialog(dialog: AlertDialog) {
     dialog.window?.setBackgroundDrawable(getDialogBackgroundDrawable())
     styleDialogButtons(dialog)
 }

@@ -7,6 +7,7 @@ import com.google.i18n.phonenumbers.Phonenumber
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
 import cz.mts.base.helpers.FastPhoneNumberFormatter.format
 import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
 
 object PhoneNumberHelper {
 
@@ -19,8 +20,64 @@ object PhoneNumberHelper {
     private val defaultRegion: String get() = Locale.getDefault().country
     private val parseCache = LruCache<String, Phonenumber.PhoneNumber>(200)
     private const val NONE = "\u0000"
+    private const val GLOBE = "🌐"                                   // NOVÉ
     private val locationCache = LruCache<String, String>(200)
+    private val flagCache = LruCache<String, String>(300)           // NOVÉ
     private val phoneCache = LruCache<String, String>(100)
+
+    // ---------------------------------------------------------------------------------------------
+    // NOVÉ: rychlý filtr "je číslo mezinárodní?" (bez libphonenumber)
+    // ---------------------------------------------------------------------------------------------
+
+    private class HomeInfo(val plusPrefix: String, val unique: Boolean, val exitPrefix: String)
+
+    private val homeInfoCache = ConcurrentHashMap<String, HomeInfo>()
+
+    // Mezinárodní výstupní prefix (libphonenumber pro něj nemá veřejné API). Default "00".
+    private val exitPrefixes = mapOf(
+        "US" to "011", "CA" to "011",
+        "JP" to "010",
+        "AU" to "0011",
+        "RU" to "810", "KZ" to "810"
+    )
+
+    private fun homeInfo(region: String): HomeInfo? {
+        homeInfoCache[region]?.let { return it }
+        val cc = phoneUtil.getCountryCodeForRegion(region)
+        if (cc <= 0) return null
+        val info = HomeInfo(
+            plusPrefix = "+$cc",
+            unique = phoneUtil.getRegionCodesForCountryCode(cc).size == 1,
+            exitPrefix = exitPrefixes[region] ?: "00"
+        )
+        homeInfoCache[region] = info
+        return info
+    }
+
+    /**
+     * Vrátí číslo ve tvaru "+<kód><číslo>", POUZE pokud jde potenciálně o zahraniční číslo.
+     * null = lokální (národní formát nebo domácí předvolba), servisní kód, příliš krátké nebo nepoužitelné.
+     * Nepoužívá libphonenumber parser, takže je levné.
+     */
+    private fun toInternationalOrNull(number: String?, simRegion: String): String? {
+        if (number.isNullOrBlank()) return null
+        val raw = number.trim()
+        if (raw.any { it == '*' || it == '#' }) return null
+
+        val home = homeInfo(simRegion) ?: return null
+        val cleaned = normalizeDigitsOnly(raw)          // zachová + jen na začátku
+
+        val intl = when {
+            cleaned.startsWith("+") -> cleaned
+            cleaned.startsWith(home.exitPrefix) -> "+" + cleaned.substring(home.exitPrefix.length)
+            else -> return null                          // národní formát = lokální
+        }
+        if (intl.length < 5) return null
+        if (home.unique && intl.startsWith(home.plusPrefix)) return null   // domácí předvolba
+        return intl
+    }
+
+    // ---------------------------------------------------------------------------------------------
 
     private fun parseNumber(number: String?, region: String? = null): Phonenumber.PhoneNumber? {
         if (number.isNullOrBlank()) return null
@@ -59,10 +116,48 @@ object PhoneNumberHelper {
     }
 
     private fun regionToFlag(code: String): String {
-        if (code.length != 2) return ""
+        if (code.length != 2 || !code.all { it.uppercaseChar() in 'A'..'Z' }) return ""   // ZMĚNA: kontrola písmen A–Z
         val c1 = Character.toChars(code[0].uppercaseChar() - 'A' + 0x1F1E6)
         val c2 = Character.toChars(code[1].uppercaseChar() - 'A' + 0x1F1E6)
         return String(c1) + String(c2)
+    }
+
+    /**
+     * NOVÉ: vlajka země čísla pro UI (recent calls apod.).
+     * Vrací "" pro: lokální čísla (dle SIM), servisní kódy, neplatná a nerozpoznatelná čísla.
+     * Vrací 🌐 pro negeografická čísla (+800, +882...), jinak vlajku země.
+     */
+    fun getFlagForUI(number: String?, simIndex: Int): String {
+        val simRegion = normalizeRegionOrNull(MySIMcountryISO.getISO(simIndex)) ?: return ""
+
+        // 1) levný textový filtr, drtivá většina (lokálních) čísel skončí tady
+        val intl = toInternationalOrNull(number, simRegion) ?: return ""
+
+        // 2) cache; výsledek závisí na regionu SIM (sdílené předvolby +1, +44...), proto je v klíči
+        val cacheKey = "$intl|$simRegion"
+        flagCache.get(cacheKey)?.let { return if (it == NONE) "" else it }
+
+        // 3) pomalá cesta
+        val flag = computeFlag(intl, simRegion)
+        flagCache.put(cacheKey, flag.ifEmpty { NONE })
+        return flag
+    }
+
+    private fun computeFlag(intl: String, simRegion: String): String {
+        val parsed = try {
+            phoneUtil.parse(intl, simRegion)
+        } catch (_: NumberParseException) {
+            return ""
+        }
+        // u předvolby s jediným regionem vrací getRegionCodeForNumber region i pro nesmyslné číslo
+        if (!phoneUtil.isValidNumber(parsed)) return ""
+
+        val region = phoneUtil.getRegionCodeForNumber(parsed) ?: return ""
+        return when {
+            region.equals(simRegion, ignoreCase = true) -> ""
+            region == "001" -> GLOBE
+            else -> regionToFlag(region)
+        }
     }
 
     // 2) Normalizace – pouze čísla a + na začátku pokud bylo
@@ -187,15 +282,19 @@ object PhoneNumberHelper {
     }
 
     /** 4) Bezpečná geolokace pro UI */
-
     fun getLocationSafeForUI(number: String?, simIndex: Int): String {
         if (number.isNullOrBlank()) return ""
 
         val inputISO = MySIMcountryISO.getISO(simIndex)
-        val inputRegion = inputISO.takeIf { it.length == 2 } ?: defaultRegion
+        val inputRegion = inputISO.takeIf { it.length == 2 } //?: defaultRegion
+        if (inputRegion == null) return ""
 
         val normalized = normalizeDigitsOnly(number)
         if (normalized.isBlank() || normalized.length < 4) return ""
+
+        // NOVÉ: levný filtr, lokální čísla skončí bez parseru a bez cache
+        val simRegion = normalizeRegionOrNull(inputRegion) ?: return ""
+        if (toInternationalOrNull(normalized, simRegion) == null) return ""
 
         val cacheKey = "$normalized|$inputRegion|${locale.toLanguageTag()}"
         locationCache.get(cacheKey)?.let { return if (it == NONE) "" else it }

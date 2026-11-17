@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/call_behavior_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cz.mts.base.views.MyAppBarLayout
+        android:id="@+id/call_behavior_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/call_behavior_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:title="@string/advanced_settings"
+            app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
+
+    </cz.mts.base.views.MyAppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/call_behavior_nested_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/call_behavior_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/call_behavior_section_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advanced_settings" />
+
+            <RelativeLayout
+                android:id="@+id/settings_hide_number_for_saved_contact_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/settings_hide_number_for_saved_contact"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hide_number_for_saved_contact" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_disable_proximity_sensor_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/settings_disable_proximity_sensor"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/disable_proximity_sensor" />
+
+            </RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/settings_highlight_call_buttons_holder"
+    style="@style/SettingsHolderSwitchStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <cz.mts.base.views.MyMaterialSwitch
+        android:id="@+id/settings_highlight_call_buttons"
+        style="@style/SettingsSwitchStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/highlight_call_buttons" />
+</RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/call_behavior_allow_screen_on_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/call_behavior_allow_screen_on"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/allow_keep_screen_on" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/call_behavior_no_finish_dialpad_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/call_behavior_no_finish_dialpad"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_finish_dialpad_activity" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/call_behavior_vibrate_on_accept_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/call_behavior_vibrate_on_accept"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vibrate_on_accept_call" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/call_behavior_vibrate_on_end_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/call_behavior_vibrate_on_end"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vibrate_on_end_call" />
+
+            </RelativeLayout>
+
+<RelativeLayout
+                android:id="@+id/call_behavior_after_call_clear_search_and_set_default_tab_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/call_behavior_after_call_clear_search_and_set_default_tab"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/after_call_clear_search_and_set_default_tab" />
+
+            </RelativeLayout>
+
+<RelativeLayout
+                android:id="@+id/use_popup_menu_colorizer_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/use_popup_menu_colorizer_tab"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/use_popup_menu_colorizer" />
+
+            </RelativeLayout>
+
+<RelativeLayout
+                android:id="@+id/show_checkmarks_on_switches_holder"
+                style="@style/SettingsHolderSwitchStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cz.mts.base.views.MyMaterialSwitch
+                    android:id="@+id/show_checkmarks_on_switches"
+                    style="@style/SettingsSwitchStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_checkmarks_on_switches" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

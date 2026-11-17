@@ -6,11 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.mts.base.activities.BaseSimpleActivity
-import cz.mts.base.extensions.beVisibleIf
-import cz.mts.base.extensions.copyToClipboard
-import cz.mts.base.extensions.getAlertDialogBuilder
-import cz.mts.base.extensions.getProperTextColor
-import cz.mts.base.extensions.setupDialogStuff
+import cz.mts.base.extensions.*
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.helpers.ensureBackgroundThread
 import cz.mts.phone.R

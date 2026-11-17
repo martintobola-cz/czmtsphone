@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-<string name="app_launcher_name">MTS Dialer</string>
+<string name="app_launcher_name">Telefoon</string>
+
+<string name="scrcpy_missing_title">scrcpy-server ontbreekt</string>
+<string name="scrcpy_missing_message">Om gesprekken op te nemen gebruikt deze app scrcpy-server-v%1$s van GitHub. Gebruik de knop Downloaden om het benodigde bestand te downloaden en vervolgens Importeren. Voorheen maakte dit bestand deel uit van de app, maar de regels van F-Droid verbieden het downloaden en toevoegen van binaire bestanden van internet tijdens het bouwen.</string>
+<string name="scrcpy_missing_message_snack_bar">Gespreksopname is ingeschakeld, maar werkt niet omdat het bestand scrcpy-server.jar ontbreekt</string>
+<string name="scrcpy_pick_file">Importeren</string>
+<string name="scrcpy_download">Downloaden</string>
+<string name="scrcpy_sucess">scrcpy-server is succesvol geïmporteerd</string>
+<string name="scrcpy_error">De controlesom van scrcpy-server komt niet overeen</string>
 
 <string name="ring_duration">ging %1$s over</string>
 <string name="bold_dialog_buttons">Vetgedrukte knoppen in dialoogvensters</string>
@@ -91,7 +99,7 @@
 
 <string name="update_done">Bijgewerkt naar v</string>
 <string name="not_permissions_info">De applicatie beschikt niet over de benodigde machtigingen en werkt mogelijk niet correct.</string>
-<string name="edit_sms_templates"> 🔤 Sms-sjablonen bewerken</string>
+<string name="edit_sms_templates"> ✍️ Sms-sjablonen bewerken</string>
 <string name="sms_edit_hint_double_tap">Dubbeltik of houd lang ingedrukt om te bewerken</string>
 <string name="sms_add_new_template">+ Nieuw sjabloon toevoegen</string>
 <string name="could_not_send_sms">Je hebt de functie om een gesprek met een sms te weigeren ingeschakeld, maar de applicatie heeft geen toestemming om sms-berichten te versturen...</string>

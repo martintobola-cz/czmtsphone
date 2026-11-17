@@ -2,6 +2,23 @@
 <resources>
     <string name="app_launcher_name">Telefon</string>
 
+<string name="advanced_settings">Pokročilá nastavení</string>
+<string name="allow_keep_screen_on">Ponechat obrazovku zapnutou během hovoru</string>
+<string name="no_finish_dialpad_activity">Nezavírat obrazovku číselníku po zahájení hovoru</string>
+<string name="vibrate_on_accept_call">Vibrovat při přijetí odchozího hovoru</string>
+<string name="vibrate_on_end_call">Vibrovat při ukončení hovoru</string>
+<string name="after_call_clear_search_and_set_default_tab">Po ukončení odchozího hovoru vymazat vyhledávací pole a nastavit výchozí záložku</string>
+
+<string name="scrcpy_missing_title">Chybí scrcpy-server</string>
+<string name="scrcpy_missing_message">Pro nahrávání hovorů tato aplikace využívá scrcpy-server-v%1$s z GitHubu. Použijte tlačítko Stáhnout pro stažení potřebného souboru a následně Import. Dříve byl tento soubor součástí aplikace, ale pravidla F-droidu zakazují stahování a přidávání binárních souborů z internetu během buildu.</string>
+<string name="scrcpy_missing_message_snack_bar">Máte povoleno nahrávání hovorů, ale to nebude fungovat, protože chybí soubor scrcpy-server.jar</string>
+<string name="scrcpy_pick_file">Import</string>
+<string name="scrcpy_download">Stáhnout</string>
+<string name="scrcpy_sucess">scrcpy-server byl úspěšně naimportován</string>
+<string name="scrcpy_error">Kontrolní hash scrcpy-server nesouhlasí</string>
+
+<string name="last_update_info">✨ Vývoj pokračuje, neustále pracuji na nových funkcích, vylepšeních a opravách. Pokud aplikaci používáte, zvažte prosím její podporu finančním příspěvkem 💳, byť třeba jen na jedno kafe 🥤, i malá částka posouvá kupředu! Odkazy najdete po kliknutí na tuto notifikaci anebo v menu O aplikaci...</string>
+
 <string name="ring_duration">zvonilo %1$s</string>
 <string name="bold_dialog_buttons">Tučné písmo u tlačítek dialogů</string>
 
@@ -85,8 +102,6 @@
     <string name="unblock_contact">Odblokovat kontakt</string>
     <string name="unblock_contact_success">Kontakt odblokován</string>
     <string name="unblock_contact_fail">Kontakt se nepodařilo odblokovat</string>
-
-<string name="last_update_info">Nově můžete nahlásit nevyžádané příchozí hovory do databáze spamu. A pokud už vás omrzel avatar 🎭 neznámého kontaktu, tak si ho můžete změnit za vlastní obrázek 💪. A budu rád, když aplikaci ohodnotíte v obchodě google.</string>
 
 <string name="edit_sms_templates"> ✍️ Upravit SMS texty</string>
 <string name="sms_edit_hint_double_tap">Dlouhým stiskem anebo dvojím ťuknutím vyvoláte editaci textu</string>

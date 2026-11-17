@@ -4,9 +4,11 @@ import android.content.Context
 import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
 import android.telecom.*
 import android.telephony.SubscriptionManager
 import cz.mts.base.extensions.hasPermission
+import cz.mts.base.helpers.DebugFlag.isLastCallOutgoing
 import cz.mts.base.helpers.PERMISSION_POST_NOTIFICATIONS
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.helpers.RingDurationWriter
@@ -43,7 +45,7 @@ class CallService : InCallService(), CallManagerListener {
             val iNotificationDone = CallManager.getNotificationDone(sIDCALL)
             //pokud spamcheck byl rychlejší než notifikace 2 nebo 3 tak to můžeme ignorovat, protože 2 a 3 to zobrazí sama
             if (iNotificationDone <= 1) return@post
-            val bCanBeAccepted = state == Call.STATE_RINGING
+            val bCanBeAccepted = state == Call.STATE_RINGING || state == Call.STATE_SIMULATED_RINGING
             if (CallActivityUI.sUUIDonUI.isBlank()) { //není žádný hovor na UI CallActivity
                 //vysoká priorita
                 callNotificationManager.doNotification(call, bFullscreenUI, true, bCanBeAccepted, bCanBeAccepted)
@@ -72,6 +74,8 @@ class CallService : InCallService(), CallManagerListener {
             }
 
             if (state == Call.STATE_ACTIVE) {
+                if (call.isOutgoing() && applicationContext.config.vibrateOnAcceptCall) zavibruj()
+                CallManager.markAnswered(call)
                 restoreRingerMode()
                 callNotificationManager.doNotification(call,false, false, false, false)
                 showUI(false, true, "from_incall_service_high_priority", call)
@@ -146,7 +150,7 @@ class CallService : InCallService(), CallManagerListener {
         PauseWaiter.waitUntil(
             intervalMs = 20,
             maxAttempts = 45, // ~900ms
-            condition = { forceRinging || isOutgoing || call.getStateCompat() == Call.STATE_RINGING }
+            condition = { forceRinging || isOutgoing || call.getStateCompat() == Call.STATE_RINGING || call.getStateCompat() == Call.STATE_SIMULATED_RINGING }
         ) {
             // abort if call gone
             val state = call.getStateCompat()
@@ -339,6 +343,7 @@ class CallService : InCallService(), CallManagerListener {
 
         val sCallRemovedId = CallManager.getIdByCall(call) ?: ""
         val isIncoming = call.isIncoming()
+        isLastCallOutgoing = call.isOutgoing()
         val disconnectCause = call.details?.disconnectCause
         val handle = call.details?.handle
 
@@ -359,6 +364,8 @@ class CallService : InCallService(), CallManagerListener {
                 iRingSec
             )
         }
+
+        if (applicationContext.config.vibrateOnEndCall && CallManager.getTalkSeconds(call) >= 2) zavibruj()
 
         callCallbacks.remove(call)?.let { callback ->
             call.unregisterCallback(callback)
@@ -394,7 +401,7 @@ class CallService : InCallService(), CallManagerListener {
             return
         }
         // aktualizace notifikace + UI
-        val canBeAccepted = callForUI.getStateCompat() == Call.STATE_RINGING //|| callForUI.getStateCompat() == Call.STATE_SIMULATED_RINGING
+        val canBeAccepted = callForUI.getStateCompat() == Call.STATE_RINGING || callForUI.getStateCompat() == Call.STATE_SIMULATED_RINGING
         callNotificationManager.doNotification(callForUI, false, false, false, canBeAccepted)
         CallActivityUIstart.showInCallUI(applicationContext,"from_incall_service_remove", callForUI)
     }
@@ -471,4 +478,13 @@ private fun restoreRingerMode() {
     }
 }
 
+    private fun zavibruj() {
+        val v = vibrator ?: return
+        if (!v.hasVibrator()) return
+        val effect = VibrationEffect.createOneShot(
+            400,
+            VibrationEffect.DEFAULT_AMPLITUDE
+        )
+        v.vibrate(effect)
+    }
 }

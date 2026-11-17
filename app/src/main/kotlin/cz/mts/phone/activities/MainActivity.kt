@@ -36,6 +36,7 @@ import cz.mts.base.dialogs.RadioGroupDialog
 import cz.mts.base.extensions.*
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.DebugFlag.isLastCallOutgoing
 import cz.mts.base.helpers.PopupMenuColorizer.setOneTitleColor
 import cz.mts.base.models.RadioItem
 import cz.mts.base.models.contacts.Contact
@@ -51,6 +52,8 @@ import cz.mts.phone.fragments.FavoritesFragment
 import cz.mts.phone.fragments.MyViewPagerFragment
 import cz.mts.phone.fragments.RecentsFragment
 import cz.mts.phone.helpers.*
+import cz.mts.phone.recorder.scrcpy.ScrcpyConfig
+import cz.mts.phone.recorder.scrcpy.ServerExtractor.isServerAvailableNoHashControl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -255,12 +258,19 @@ class MainActivity : SimpleActivity() {
         }
 
         RingDurationWriter.onWritten = { getRecentsFragment()?.refreshItems { refreshSearch() } }
-        refreshItems(true)
+        if (config.afterCallClearSearchAndSetDefaultTab && isLastCallOutgoing) {
+            if (binding.mainMenu.isSearchOpen) binding.mainMenu.closeSearch()
+            refreshItems(false)
+        }
+        else {
+            refreshItems(true)
+        }
 
         if (openedFromMissedPermNotification) {
             checkPerm(true, false)
         }
 
+        isLastCallOutgoing = false
         openedFromMissedCallNotification = false
         openedFromMissedPermNotification = false
     }
@@ -770,6 +780,7 @@ class MainActivity : SimpleActivity() {
                     refreshFragments()
                 }
             } else {
+                if (!openLastTab) viewPager.setCurrentItem(getDefaultTab(), false)
                 refreshFragments()
             }
         }
@@ -809,7 +820,8 @@ class MainActivity : SimpleActivity() {
         }
     }
 
-
+//stará vyhledávací metoda, která vepíše jméno/číslo do vyhledávacího pole
+// nyní řeší nový dialog showContactCallHistory()
     fun viewContactInRecents(contactName: String) {
         if (config.showTabs and TAB_CALL_HISTORY == 0) return
         val recentsIndex = getIndexForTabType(TAB_CALL_HISTORY)
@@ -820,10 +832,11 @@ class MainActivity : SimpleActivity() {
         binding.mainMenu.binding.topToolbarSearch.setText(contactName)
     }
 
-    fun showContactCallHistory(contactName: String, sUri : String? = null) {
+    fun showContactCallHistory(contactName: String, sUri: String? = null,  bContact: Boolean = true) {
         if (config.showTabs and TAB_CALL_HISTORY == 0) return
         val fragment = getRecentsFragment() ?: return
-        ContactCallHistoryDialog(this, fragment, contactName, sUri)
+        // viz. RecentsFragment.updateKnownContactCalls
+        ContactCallHistoryDialog(this, fragment, contactName, sUri, bContact)
     }
 
     private fun getCurrentFragment(): MyViewPagerFragment<*>? = getAllFragments().getOrNull(binding.viewPager.currentItem)
@@ -897,14 +910,14 @@ class MainActivity : SimpleActivity() {
 
     //pojistka kdyby byla černá na černé, nebo bílá na bílé, tak ať je menu vidět
     if ((itheme != 5) && (areColorsTooSimilarInt(getProperTextColor(), baseConfigbackgroundColor)))
-        baseConfigbackgroundColor = getContrastingColor(baseConfigbackgroundColor)
+        baseConfigbackgroundColor = baseConfigbackgroundColor.getContrastColor()
 
     //nyní problém pokud navbar a primarní barva jsou stejné, protože pak není vidět na čem stojíme :)
     //to ale musíme ošetřit až při samotném přepínání tabu... Context.updateBottomTabItemColors()
-    customNavBarLightIcons = shouldUseLightIcons(baseConfigbackgroundColor)
+    customNavBarLightIcons = isLightBackground(baseConfigbackgroundColor)
     applyNavigationBar(
       color = baseConfigbackgroundColor,
-      lightIcons = shouldUseLightIcons(baseConfigbackgroundColor) ,  //MTSX true/false na základě té barvy
+      lightIcons = customNavBarLightIcons!!
     )
     }
 
@@ -942,6 +955,7 @@ class MainActivity : SimpleActivity() {
             return mode == AppOpsManager.MODE_ALLOWED
         } else return false
    }
+
 
 
     private fun checkPerm(bForce : Boolean = false, bInvisibleCheck : Boolean = false, bCheckContactDuplicity : Boolean = false) : Boolean {
@@ -1028,6 +1042,14 @@ class MainActivity : SimpleActivity() {
             }
         }
 
+        if (config.allowRecordCalls) {
+            val hasRecordServer = isServerAvailableNoHashControl(this)
+            if (!hasRecordServer)
+            {
+                if (!bInvisibleCheck) showSnackBar(getString(R.string.scrcpy_missing_message_snack_bar), 11, bAllOK)
+                bAllOK = false
+            }
+        }
 
         if (bAllOK && bCheckContactDuplicity) {
             bCheckContactDuplicityIsRunning = true
@@ -1056,12 +1078,7 @@ class MainActivity : SimpleActivity() {
 
         return bAllOK
     }
-
-    private fun isCzechOrSlovakLocale(): Boolean {
-        val locale = Locale.getDefault()
-        return locale.language in listOf("cs", "sk")
-    }
-
+    
     private fun showSnackBar(sMessage : String, iType : Int , bAllOK : Boolean) {
 
          if (!bAllOK) return
@@ -1116,6 +1133,10 @@ class MainActivity : SimpleActivity() {
             else if (iType == 10) {
                 bSnackBarOn = false
                 launchSettings() //tam je check na to a když tak vyvolá oprávnění
+            }
+            else if (iType == 11) {
+                bSnackBarOn = false
+                startActivity(Intent(this, ShizukuAuthKeyActivity::class.java))
             }
             else {bSnackBarOn = false} //99 = allOK
 

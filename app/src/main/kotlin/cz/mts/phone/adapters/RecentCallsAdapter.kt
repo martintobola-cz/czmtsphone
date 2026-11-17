@@ -24,6 +24,7 @@ import cz.mts.base.extensions.*
 import cz.mts.base.extensions.baseConfig
 import cz.mts.base.helpers.*
 import cz.mts.base.helpers.DebugFlag.iSaveDebugMode
+import cz.mts.base.helpers.PhoneNumberHelper.getFlagForUI
 import cz.mts.base.helpers.PhoneNumberHelper.normalizeDigitsOnly
 import cz.mts.base.helpers.PhoneNumberHelper.numberForRecents
 import cz.mts.base.helpers.PhoneNumberHelper.toE164OrNull
@@ -43,6 +44,8 @@ import cz.mts.phone.helpers.*
 import cz.mts.phone.helpers.CacheContacts.bSpamChecking
 import cz.mts.phone.models.CallLogItem
 import cz.mts.phone.models.RecentCall
+import cz.mts.phone.recorder.RecorderLog
+import java.lang.Math.abs
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -70,7 +73,7 @@ class RecentCallsAdapter(
     }
     fun getSmsRecord(callId: Int): SentSmsRecord? = smsRecordByCallId[callId]
     // Na úrovni adaptéru – načti jednou a spotřebovávej
-    private var availableSmsRecords = SmsHistoryManager.getAll(activity).toMutableList()
+//    private var availableSmsRecords = SmsHistoryManager.getAll(activity).toMutableList()
     private var smsRecordByCallId = HashMap<Int, SentSmsRecord>()
     private lateinit var outgoingCallIcon: Drawable
     private lateinit var incomingCallIcon: Drawable
@@ -83,6 +86,7 @@ class RecentCallsAdapter(
     private var durationPadding = resources.getDimension(R.dimen.normal_margin).toInt()
     private var todayCode: String = LocalDate.now().toDayCode()
     private var yesterdayCode: String = LocalDate.now().minusDays(1).toDayCode()
+    private var blockedtext = "• " + activity.getString(R.string.number_type3_mts)
 
 
 
@@ -159,8 +163,8 @@ class RecentCallsAdapter(
         val sNameOrNumber = if (recentCall.isUnknownNumber) recentCall.name
                             else contact?.getNameToDisplay() ?: recentCall.phoneNumber
         val mainActivity = activity as? MainActivity ?: return
-        if (contact != null) mainActivity.showContactCallHistory(sNameOrNumber, contact.photoUri) //jméno
-        else mainActivity.viewContactInRecents(sNameOrNumber) //číslo
+        if (contact != null) mainActivity.showContactCallHistory(sNameOrNumber, contact.photoUri) //známý kontakt
+                        else mainActivity.showContactCallHistory(sNameOrNumber, null, false) //kontakt nemáme uložený ; původně mainActivity.viewContactInRecents(sNameOrNumber) //číslo
     }
 
     private fun checkForSpam() {
@@ -174,11 +178,15 @@ class RecentCallsAdapter(
                     var sResult = result.toString().replaceFirst("CallFilterResult(", "")
                     sResult = sResult.replace(", ", "\n")
                     sResult = sResult.replace(")", "")
+                    val sText = (if (result.ok) "✅ OK\n" else "❌ Error\n") +
+                        "\nIN:\n" + sNumber +
+                        "\n\nOUT:\n" + sResult +
+                        "\n\nDuration:\n" + durationMs.toString() + " ms"
                     mtsGlobalAll.showMyAlertDialog(
                         activity,
-                        "IN:\n" + sNumber + "\n\nOUT:\n" + sResult + "\n\nDuration:\n" + durationMs.toString() + " ms",
-                        result.source,
-                        true,
+                        sText,
+                        "",
+                        false,
                         0
                     )
 
@@ -218,7 +226,6 @@ class RecentCallsAdapter(
     private fun sendSpamReport(e164phoneNumber: String, subject: String, comment: String, callDateTime: Long, robocall : Boolean) {
         val region = ""
         val start = System.nanoTime()
-
             reportSpamNumber(activity.applicationContext, e164phoneNumber, subject, robocall, comment, callDateTime, region ) { r ->
             val durationMs = (System.nanoTime() - start) / 1_000_000
 
@@ -381,6 +388,7 @@ class RecentCallsAdapter(
         val newYesterday = now.minusDays(1).toDayCode()
 
         if (todayCode != newToday || yesterdayCode != newYesterday) {
+            if (baseConfig.allowRecordCalls) RecorderLog.clear() //jednou za den vyčistit log z nahrávání hovorů
             todayCode = newToday
             yesterdayCode = newYesterday
             notifyItemRangeChanged(0, itemCount, PAYLOAD_DAY_CHANGE)
@@ -548,7 +556,7 @@ class RecentCallsAdapter(
                                else newHighlight != this.textToHighlight
         this.textToHighlight = newHighlight
 
-        availableSmsRecords = SmsHistoryManager.getAll(activity).toMutableList()
+        //availableSmsRecords = SmsHistoryManager.getAll(activity).toMutableList()
 //        if (mtsGlobalAll.iSaveDebugMode == 1) copyTextToClipboard(activity, "",availableSmsRecords.toString())
 
         rebuildSmsRecordMap(newItems)
@@ -847,18 +855,14 @@ class RecentCallsAdapter(
                                 else TextUtils.TruncateAt.END
                 }
 
+                val isMissed = iCallType == Calls.MISSED_TYPE
 
                 itemRecentsDateTime.apply {
                     text = call.startTS.formatTime(activity)
-
-                    setTextColor(
-                        if (iCallType == Calls.MISSED_TYPE) missedColor
-                        else secondaryColorInt
-                    )
+                    setTextColor(if (isMissed) missedColor else secondaryColorInt)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                 }
 
-                val isMissed = iCallType == Calls.MISSED_TYPE
 
                 val shouldShowDuration =
                     iCallType != Calls.REJECTED_TYPE &&
@@ -875,6 +879,7 @@ class RecentCallsAdapter(
                     beVisibleIf(shouldShowDuration)
                     val formatted = context.formatSecondsToShortTimeString(call.duration)
                     text = if (isMissed) context.getString(R.string.ring_duration, formatted) else formatted
+                    alpha = if (isMissed) 1f else 0.6f
                     setTextColor(if (isMissed) missedColor else textColorInt)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                     if (!showOverflowMenu) {
@@ -885,22 +890,19 @@ class RecentCallsAdapter(
                 if (iCallType == 6) {
                     itemRecentsDateTimeDurationSeparator.apply {
                         beVisibleIf(true)
-                        text = "• " + activity.getString(R.string.number_type3_mts)
+                        text = blockedtext
                         setTextColor(textColorInt)
                         setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                     }
                 }
-                else
-                {
-                itemRecentsLocation.beGone()
-                    //.apply {
-                    //MTSXX dočasně zakomentováno
-                    //val location = getLocationSafeForUI(call.phoneNumber, call.simID)
-                    //text = location
-                    //beVisibleIf(location.isNotBlank())
-                    //setTextColor(textColorInt)
-                    //setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
-                //}
+                itemRecentsLocation
+                    .apply {
+                    val location = getFlagForUI(call.phoneNumber, call.simID)
+                    text = location
+                    beVisibleIf(location.isNotBlank())
+                    setTextColor(textColorInt)
+//                    alpha = 0.85f
+                    setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize)
                 }
 
                 val hasSim = areMultipleSIMsAvailable && call.simID != -1
@@ -936,11 +938,12 @@ class RecentCallsAdapter(
                     }
                 }
 
-                itemRecentsImage.layoutParams = itemRecentsImage.layoutParams.apply {
-                    width = iconSizePx
-                    height = iconSizePx
-
-                    itemRecentsImage.requestLayout()
+                itemRecentsImage.layoutParams?.let { lp ->
+                    if (lp.width != iconSizePx || lp.height != iconSizePx) {
+                        lp.width = iconSizePx
+                        lp.height = iconSizePx
+                        itemRecentsImage.layoutParams = lp
+                    }
                 }
 
                 val icon = when (iCallType) {
@@ -951,7 +954,7 @@ class RecentCallsAdapter(
                 itemRecentsType.setImageDrawable(icon)
 
                 overflowMenuIcon.beVisibleIf(showOverflowMenu)
-                overflowMenuIcon.drawable.mutate().setTint(activity.getProperTextColor())
+                overflowMenuIcon.drawable?.mutate()?.setTint(textColor)
                 overflowMenuIcon.setOnClickListener {
                     showPopupMenu(overflowMenuAnchor, call)
                 }
@@ -1003,7 +1006,7 @@ class RecentCallsAdapter(
         }
     }
 
-    private fun rebuildSmsRecordMap(items: List<CallLogItem>) {
+    private fun rebuildSmsRecordMapOLD(items: List<CallLogItem>) {
         val available = SmsHistoryManager.getAll(activity).toMutableList()
         val result = HashMap<Int, SentSmsRecord>()
 
@@ -1020,6 +1023,25 @@ class RecentCallsAdapter(
                 }
             }
 
+        smsRecordByCallId = result
+    }
+
+    private fun rebuildSmsRecordMap(items: List<CallLogItem>) {
+        val all = SmsHistoryManager.getAll(activity)
+        if (all.isEmpty()) { smsRecordByCallId = HashMap(); return }
+
+        val byNumber = HashMap<String, MutableList<SentSmsRecord>>()
+        all.forEach { byNumber.getOrPut(normalizeDigitsOnly(it.phoneNumber)) { mutableListOf() }.add(it) }
+
+        val result = HashMap<Int, SentSmsRecord>()
+        for (item in items) {
+            if (item !is RecentCall) continue
+            if (item.type != Calls.INCOMING_TYPE && item.type != Calls.REJECTED_TYPE) continue
+            val list = byNumber[normalizeDigitsOnly(item.phoneNumber)] ?: continue
+            val match = list.firstOrNull { abs(it.timestamp - item.startTS) <= 30_000L } ?: continue
+            result[item.id] = match
+            list.remove(match)
+        }
         smsRecordByCallId = result
     }
 
